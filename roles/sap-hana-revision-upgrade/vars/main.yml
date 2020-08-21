@@ -1,0 +1,10 @@
+---
+nfs: "/tempfs"
+component_medium: "/tempfs/hana_software/HANAREV46/SAP_HANA_DATABASE"
+nfs_mount: "ampsv010bld0d.p1.saint-gobain.net:/data/REAR/bigfix"
+hana_sid: ""
+hana_sid_adm_usr: ""
+hana_instance_number: ""
+hana_db_system_user: "SYSTEM"
+hana_db_system_password: ""
+sap_sid: "00"

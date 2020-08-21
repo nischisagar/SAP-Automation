@@ -1,0 +1,5 @@
+---
+
+- import_tasks: hana_deploy.yml
+  when: not apply_license
+

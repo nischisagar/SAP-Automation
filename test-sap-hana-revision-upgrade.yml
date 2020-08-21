@@ -1,0 +1,39 @@
+---
+- name: Socks tunnel setup
+  hosts: "{{ sap_server }},{{ hana_server }}"
+  gather_facts: no
+  roles:
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Stop SAP before HANA Revision Upgrade
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+  - name : Run the SAP stop script
+    script: "/exploit/scripts/sap/{{sid}}_check_test.sh"
+    changed_when: False
+
+- name: Run SAP HANA Revision Upgrade
+  hosts: "{{ hana_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: test-sap-hana-revision-upgrade
+
+  - name: Start SAP after HANA Revision Upgrade
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+  - name : Run the RXE SAP start script
+    script: "/exploit/scripts/sap/{{sid}}_check_test1.sh"
+    changed_when: False
