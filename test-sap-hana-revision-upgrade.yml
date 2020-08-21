@@ -39,7 +39,7 @@
   roles:
   - role: test-sap-hana-revision-upgrade
 
-  - name: Start SAP after HANA Revision Upgrade
+- name: Start SAP after HANA Revision Upgrade
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
