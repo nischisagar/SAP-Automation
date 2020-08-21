@@ -17,7 +17,7 @@
   gather_facts: false
   tasks:
   - name : Run the SAP stop script
-    script: "/exploit/scripts/sap/{{sid}}_check_test.sh"
+    script: "/exploit/scripts/sap/{{sap_sid}}_check_test.sh"
     changed_when: False
 
 - name: Run SAP HANA Revision Upgrade
@@ -35,5 +35,5 @@
   gather_facts: false
   tasks:
   - name : Run the RXE SAP start script
-    script: "/exploit/scripts/sap/{{sid}}_check_test1.sh"
+    script: "/exploit/scripts/sap/{{sap_sid}}_check_test1.sh"
     changed_when: False
