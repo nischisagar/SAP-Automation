@@ -1,6 +1,6 @@
 ---
 - name: Set the nfs_use_reserved_ports value as 1
-  shell: nfso -o -p nfs_use_reserved_ports=1
+  shell: nfso -p -o nfs_use_reserved_ports=1
   notify: reset_nfs_use_reserved_ports
   register: nfs_use_reserved_ports
 
@@ -16,7 +16,7 @@
     . ~/.cshrc
     disp+work
   become_user: "{{ sap_sid_adm_usr }}"
-  become: nfso -o -p nfs_use_reserved_ports=1true
+  become: true
   register: check_sap_details
   changed_when: False
 
@@ -30,6 +30,6 @@
     state: absent
 
 - name: Set the nfs_use_reserved_ports value as 0
-  shell: nfso -o -p nfs_use_reserved_ports=0
+  shell: nfso -p -o nfs_use_reserved_ports=0
   when: nfs_use_reserved_ports.changed
   notify: reset_nfs_use_reserved_ports
