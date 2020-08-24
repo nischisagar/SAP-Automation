@@ -10,39 +10,18 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- name: Stop SAP before HANA Revision Upgrade
+- name: Get the SAP Details
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
   gather_facts: false
-  tasks:
-  - name : Run the SAP stop script
-    shell: "/exploit/scripts/sap/{{sap_sid}}_check_test.sh"
-    changed_when: False
+  roles:
+  - role: get-sap-details
 
-  - name: Get SAP HANA Database Status Before the Upgrade
-    shell: |
-      . ~/.bashrc
-      HDB info
-    become_user: "{{ hana_sid_adm_usr }}"
-    become: true
-    register: check_hdb_status
-    changed_when: False
-
-- name: Run SAP HANA Revision Upgrade
+- name: Get the HANA Details
   hosts: "{{ hana_server }}"
   become: yes
   become_method: sudo
   gather_facts: false
   roles:
-  - role: test-sap-hana-revision-upgrade
-
-- name: Start SAP after HANA Revision Upgrade
-  hosts: "{{ sap_server }}"
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-  - name : Run the RXE SAP start script
-    shell: "/exploit/scripts/sap/{{sap_sid}}_check_test1.sh"
-    changed_when: False
+  - role: get-hana-details

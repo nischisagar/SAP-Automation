@@ -1,0 +1,26 @@
+---
+- name: Mount the NFS share /tempfs
+  mount:
+    path: "{{ nfs }}"
+    src: "{{ nfs_mount }}"
+    fstype: nfs
+    state: mounted
+
+- name: Get the SAP Details
+  shell: |
+    . ~/.cshrc
+    disp+work
+  become_user: "{{ sap_sid_adm_usr }}"
+  become: true
+  register: check_sap_details
+  changed_when: False
+
+- debug:
+    msg: "{{ check_sap_details.stdout_lines }}"
+
+- name: Unmount the NFS share /tempfs
+  mount:
+    path: "{{ nfs }}"
+    src: "{{ nfs_mount }}"
+    fstype: nfs
+    state: absent
