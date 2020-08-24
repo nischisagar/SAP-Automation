@@ -11,7 +11,7 @@
     state: mounted
 
 - name: Get the SAP Details
-  shell: su - rxeadm -c disp+work
+  shell: "su - {{ sap_sid_adm_usr }} -c disp+work"
   register: check_sap_details
   changed_when: False
 
