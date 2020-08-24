@@ -20,6 +20,15 @@
     shell: "/exploit/scripts/sap/{{sap_sid}}_check_test.sh"
     changed_when: False
 
+  - name: Get SAP HANA Database Status Before the Upgrade
+    shell: |
+      . ~/.bashrc
+      HDB info
+    become_user: "{{ hana_sid_adm_usr }}"
+    become: true
+    register: check_hdb_status
+    changed_when: False
+
 - name: Run SAP HANA Revision Upgrade
   hosts: "{{ hana_server }}"
   become: yes
