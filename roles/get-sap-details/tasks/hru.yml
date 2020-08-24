@@ -1,9 +1,10 @@
 ---
-- name: Mount the NFS share /tempfs
-  mount:
-    path: "{{ nfs }}"
-    src: "{{ nfs_mount }}"
-    fstype: nfs
+
+- name: Mount the NFS share /tempfs_ansible
+  aix_filesystem:
+    device: /data/REAR/bigfix
+    nfs_server: ampsv010bld0d.p1.saint-gobain.net
+    filesystem: /tempfs_ansible
     state: mounted
 
 - name: Get the SAP Details
@@ -18,9 +19,8 @@
 - debug:
     msg: "{{ check_sap_details.stdout_lines }}"
 
-- name: Unmount the NFS share /tempfs
-  mount:
-    path: "{{ nfs }}"
-    src: "{{ nfs_mount }}"
-    fstype: nfs
+- name: Unmount the NFS share /tempfs_ansible
+  aix_filesystem:
+    filesystem: /tempfs_ansible
+    rm_mount_point: yes
     state: absent
