@@ -5,7 +5,7 @@
     device: /data/REAR/bigfix
     nfs_server: ampsv010bld0d.p1.saint-gobain.net
     filesystem: /tempfs_ansible
-    state: mounted
+    state: present
 
 - name: Get the SAP Details
   shell: |
