@@ -8,14 +8,10 @@
     device: /data/REAR/bigfix
     nfs_server: ampsv010bld0d.p1.saint-gobain.net
     filesystem: /tempfs_ansible
-    state: present
+    state: mounted
 
 - name: Get the SAP Details
-  shell: |
-    . ~/.cshrc
-    disp+work
-  become_user: "{{ sap_sid_adm_usr }}"
-  become: true
+  shell: su - rxeadm -c disp+work
   register: check_sap_details
   changed_when: False
 
