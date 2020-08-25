@@ -1,0 +1,43 @@
+---
+- name: Socks tunnel setup
+  hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
+  gather_facts: no
+  roles:
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Stop SAP
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: stop-sap-role
+
+- name: Run SAP HANA Revision Upgrade
+  hosts: "{{ hana_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: schedule-sap-hana-revision-51-upgrade
+
+- name: Upgrade the SAP Client
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: sap-client-upgrade-on-aix-role
+
+- name: Start SAP
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: start-sap-role

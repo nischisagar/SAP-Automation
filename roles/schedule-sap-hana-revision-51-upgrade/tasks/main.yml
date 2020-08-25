@@ -1,0 +1,3 @@
+---
+# tasks file for hana-revision-upgrade
+- import_tasks: hru.yml

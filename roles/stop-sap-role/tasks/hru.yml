@@ -1,0 +1,16 @@
+---
+- name: Get the SAP Details
+  shell: "su - {{ sap_sid_adm_usr }} -c {{ check_sap_command }}"
+  register: check_sap_details
+  changed_when: False
+
+- debug:
+    msg: "{{ check_sap_details.stdout_lines }}"
+
+- name: Stop the SAP
+  shell: "su - {{ sap_sid_adm_usr }} -c {{ stop_sap_command }}"
+  register: stop_sap_output
+  changed_when: False
+
+- debug:
+    msg: "{{ stop_sap_output.stdout_lines }}"

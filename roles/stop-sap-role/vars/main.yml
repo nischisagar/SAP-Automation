@@ -1,0 +1,3 @@
+---
+stop_sap_command: "stopsap r3"
+check_sap_command: "hdbsql -version"
