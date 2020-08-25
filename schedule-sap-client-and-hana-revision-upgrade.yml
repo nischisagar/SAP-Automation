@@ -26,6 +26,14 @@
   roles:
   - role: schedule-sap-hana-revision-upgrade
 
+- name: Upgrade the SAP Client
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: sap-client-upgrade-on-aix-role
+
 - name: Start SAP
   hosts: "{{ sap_server }}"
   become: yes

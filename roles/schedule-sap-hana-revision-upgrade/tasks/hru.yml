@@ -32,7 +32,7 @@
 
 - name: Upgrade the HANA Database revision
   command: /hana/shared/{{ hana_sid }}/hdblcm/hdblcm --action=update \
-         --components=server,client --sid={{ hana_sid }} --component_dirs={{ component_medium }} \
+         --components={{ list_of_comps }} --sid={{ hana_sid }} --component_dirs={{ component_medium }} \
          --system_user={{ hana_db_system_user }} \
          --system_user_password={{ hana_db_system_password }} -b
   args:
