@@ -24,7 +24,7 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: schedule-sap-hana-revision-51-upgrade
+  - role: schedule-sap-hana-revision-upgrade
 
 - name: Upgrade the SAP Client
   hosts: "{{ sap_server }}"
