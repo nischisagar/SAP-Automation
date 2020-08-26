@@ -2,7 +2,8 @@
 - name: Set the nfs_use_reserved_ports value as 1
   shell: "nfso -p -o nfs_use_reserved_ports=1"
   register: nfs_use_reserved_ports
-  
+  changed_when: False
+
 - name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
   aix_filesystem:
     device: /data/REAR/bigfix
@@ -23,11 +24,17 @@
 - debug:
     msg: "{{ check_sap_details.stdout_lines }}"
 
+- name: sleep for 120 seconds and continue with play
+  wait_for: timeout=120
+  
 - name: Unmount the NFS share /tempfs_ansible
   aix_filesystem:
     filesystem: /tempfs_ansible
     rm_mount_point: yes
     state: unmounted
+
+- name: sleep for 120 seconds and continue with play
+  wait_for: timeout=120
 
 - name: Remove the NFS share /tempfs_ansible entries from /etc/filesystems
   aix_filesystem:
@@ -36,6 +43,10 @@
     filesystem: /tempfs_ansible
     state: absent
 
+- name: sleep for 120 seconds and continue with play
+  wait_for: timeout=120
+
 - name: Set the nfs_use_reserved_ports value as 0
   shell: "nfso -p -o nfs_use_reserved_ports=0"
   when: nfs_use_reserved_ports.changed
+  changed_when: False
