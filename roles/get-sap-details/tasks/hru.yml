@@ -1,6 +1,6 @@
 ---
 - name: Set the nfs_use_reserved_ports value as 1
-  shell: nfso -p -o nfs_use_reserved_ports=1
+  shell: nfso -p -o nfs_use_reserved_ports = 1
   register: nfs_use_reserved_ports
 
 - name: Mount the NFS share /tempfs_ansible
@@ -11,7 +11,7 @@
     state: mounted
 
 - name: Get the SAP Details
-  shell: "su - {{ sap_sid_adm_usr }} -c disp+work"
+  shell: "su - {{ sap_sid_adm_usr }} -c {{ check_sap_command }}"
   register: check_sap_details
   changed_when: False
 
@@ -25,5 +25,5 @@
     state: absent
 
 - name: Set the nfs_use_reserved_ports value as 0
-  shell: nfso -p -o nfs_use_reserved_ports=0
+  shell: nfso -p -o nfs_use_reserved_ports = 0
   when: nfs_use_reserved_ports.changed
