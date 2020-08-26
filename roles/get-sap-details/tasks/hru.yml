@@ -21,10 +21,8 @@
   shell: "su - {{ sap_sid_adm_usr }} -c {{ check_sap_command }}"
   register: check_sap_details
   changed_when: False
-  args:
-        warn: false
-
-- debug:
+  
+  - debug:
     msg: "{{ check_sap_details.stdout_lines }}"
   
 - name: Unmount the NFS share /tempfs_ansible
