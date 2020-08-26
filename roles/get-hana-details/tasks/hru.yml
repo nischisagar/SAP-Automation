@@ -5,6 +5,8 @@
     src: "{{ nfs_mount }}"
     fstype: nfs
     state: mounted
+  args:
+        warn: false
 
 - name: Get SAP HANA Database Status
   shell: |

@@ -2,6 +2,8 @@
 - name: Set the nfs_use_reserved_ports value as 1
   command: "nfso -p -o nfs_use_reserved_ports=1"
   register: nfs_use_reserved_ports
+  args:
+        warn: false
   
 - name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
   aix_filesystem:
@@ -19,6 +21,8 @@
   shell: "su - {{ sap_sid_adm_usr }} -c {{ check_sap_command }}"
   register: check_sap_details
   changed_when: False
+  args:
+        warn: false
 
 - debug:
     msg: "{{ check_sap_details.stdout_lines }}"
