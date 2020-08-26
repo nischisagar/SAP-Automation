@@ -8,6 +8,11 @@
     device: /data/REAR/bigfix
     nfs_server: ampsv010bld0d.p1.saint-gobain.net
     filesystem: /tempfs_ansible
+    state: present
+
+- name: Mounting the NFS file system /tempfs_ansible
+  aix_filesystem:
+    filesystem: /tempfs_ansible
     state: mounted
 
 - name: Get the SAP Details
@@ -22,6 +27,13 @@
   aix_filesystem:
     filesystem: /tempfs_ansible
     rm_mount_point: yes
+    state: unmounted
+
+- name: Remove the NFS share /tempfs_ansible
+  aix_filesystem:
+    device: /data/REAR/bigfix
+    nfs_server: ampsv010bld0d.p1.saint-gobain.net
+    filesystem: /tempfs_ansible
     state: absent
 
 - name: Set the nfs_use_reserved_ports value as 0
