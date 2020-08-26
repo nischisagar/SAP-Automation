@@ -14,8 +14,9 @@
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
-  ansible_python_interpreter: /usr/bin/python
   gather_facts: false
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: get-sap-details
 
@@ -23,7 +24,8 @@
   hosts: "{{ hana_server }}"
   become: yes
   become_method: sudo
-  ansible_python_interpreter: /usr/bin/python
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
   gather_facts: false
   roles:
   - role: get-hana-details
