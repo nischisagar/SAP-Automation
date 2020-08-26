@@ -2,7 +2,7 @@
 - name: Set the nfs_use_reserved_ports value as 1
   shell: "nfso -p -o nfs_use_reserved_ports=1"
   register: nfs_use_reserved_ports
-
+  
 - name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
   aix_filesystem:
     device: /data/REAR/bigfix
