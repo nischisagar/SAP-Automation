@@ -18,7 +18,8 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: stop-sap-role
+  - role: get-the-version-of-hdbsql-on-aix
+  - role: stop-sap-on-aix
 
 - name: Run SAP HANA Revision Upgrade
   hosts: "{{ hana_server }}"
@@ -28,9 +29,13 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: schedule-sap-hana-revision-upgrade
+  - role: nfs-mount-on-linux
+  - role: get-hdb-status-and-version-of-hdb-on-linux
+  - role: upgrade-hana-revision-on-linux
+  - role: get-hdb-status-and-version-of-hdb-on-linux
+  - role: nfs-unmount-on-linux
 
-- name: Upgrade the SAP Client
+- name: Upgrade the HDB SQL Client
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
@@ -38,7 +43,9 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: sap-client-upgrade-on-aix-role
+  - role: nfs-mount-on-aix
+  - role: upgrade-the-version-of-hdbsql-on-aix
+  - role: nfs-unmount-on-aix
 
 - name: Start SAP
   hosts: "{{ sap_server }}"
@@ -48,4 +55,5 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: start-sap-role
+  - role: start-sap-on-aix
+  - role: get-the-version-of-hdbsql-on-aix
