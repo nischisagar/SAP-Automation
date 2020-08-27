@@ -1,6 +1,6 @@
 ---
 - name: List the content of HDBSQL installation directory
-  shell: "ls_hdblcm_software_list_command"
+  shell: "{{ ls_hdblcm_software_list_command }}"
   register: ls_hdblcm_software_list_command_output
   changed_when: False
 
@@ -8,7 +8,7 @@
     msg: "{{ ls_hdblcm_software_list_command_output.stdout_lines }}"  
 
 - name: List the location of HDBSQL installation file
-  shell: "ls_componenet_medium_path_command"
+  shell: "{{ ls_componenet_medium_path_command }}"
   register: ls_componenet_medium_path_command_output
   changed_when: False
 
@@ -16,7 +16,7 @@
     msg: "{{ ls_componenet_medium_path_command_output.stdout_lines }}"  
 
 - name: List the compontenfs of HDB
-  shell: "list_of_components"
+  shell: "{{ list_of_components }}"
   register: list_of_components_output
   changed_when: False
 
