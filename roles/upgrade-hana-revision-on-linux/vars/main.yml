@@ -1,4 +1,2 @@
 ---
-nfs: "/tempfs_ansible"
-component_medium: "/tempfs_ansible/hana_software/{{ Entity_No }}_{{ SAP_SID }}/SAP_HANA_DATABASE"
-nfs_mount: "ampsv010bld0d.p1.saint-gobain.net:/data/REAR/bigfix"
+component_medium: "/tempfs_ansible/hana_software/{{ Entity_No }}/SAP_HANA_DATABASE"

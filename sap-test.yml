@@ -19,6 +19,7 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: nfs-mount-on-aix
+  - role: list-nfs-mount-content-on-aix
   - role: get-the-version-of-hdbsql-on-aix
   - role: nfs-unmount-on-aix
 
@@ -31,5 +32,6 @@
   gather_facts: false
   roles:
   - role: nfs-mount-on-linux
+  - role: list-nfs-mount-content-on-linux
   - role: get-hdb-status-and-version-of-hdb-on-linux
   - role: nfs-unmount-on-linux
