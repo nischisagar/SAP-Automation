@@ -1,6 +1,6 @@
 ---
 - name: Get the version of HDBSQL
-  shell: "su - {{ sap_sid_adm_usr }} -c {{ hdbsql_version_check_command }}"
+  shell: "su - {{ sid_adm_usr }} -c {{ hdbsql_version_check_command }}"
   register: get_version_of_hdbsql_output
   changed_when: False
   args:
