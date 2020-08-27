@@ -1,11 +1,11 @@
 ---
-- name: Get the SAP Details
-  shell: "su - {{ sap_sid_adm_usr }} -c {{ check_sap_command }}"
-  register: check_sap_details
+- name: Get the version of HDBSQL
+  shell: "su - {{ sap_sid_adm_usr }} -c {{ hdbsql_version_check_command }}"
+  register: get_version_of_hdbsql_output
   changed_when: False
 
 - debug:
-    msg: "{{ check_sap_details.stdout_lines }}"
+    msg: "{{ get_version_of_hdbsql_output.stdout_lines }}"
 
 - name: Stop the SAP
   shell: "su - {{ sap_sid_adm_usr }} -c {{ stop_sap_command }}"

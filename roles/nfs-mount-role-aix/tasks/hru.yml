@@ -1,0 +1,18 @@
+---
+- name: Set the nfs_use_reserved_ports value as 1
+  command: "nfso -o nfs_use_reserved_ports=1"
+  register: nfs_use_reserved_ports
+  changed_when:
+    - '"Setting nfs_use_reserved_ports to 1" in nfs_use_reserved_ports.stdout'
+   
+- name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
+  aix_filesystem:
+    device: /data/REAR/bigfix
+    nfs_server: ampsv010bld0d.p1.saint-gobain.net
+    filesystem: /tempfs_ansible
+    state: present
+
+- name: Mount the NFS file system /tempfs_ansible
+  aix_filesystem:
+    filesystem: /tempfs_ansible
+    state: mounted

@@ -1,0 +1,7 @@
+---
+- name: Unmount the NFS share /tempfs_ansible
+  mount:
+    path: "{{ nfs }}"
+    src: "{{ nfs_mount }}"
+    fstype: nfs
+    state: absent

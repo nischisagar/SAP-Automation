@@ -1,0 +1,17 @@
+---
+- name: Unmount the NFS share /tempfs_ansible
+  aix_filesystem:
+    filesystem: /tempfs_ansible
+    rm_mount_point: yes
+    state: unmounted
+
+- name: Remove the NFS share /tempfs_ansible entries from /etc/filesystems
+  aix_filesystem:
+    device: /data/REAR/bigfix
+    nfs_server: ampsv010bld0d.p1.saint-gobain.net
+    filesystem: /tempfs_ansible
+    state: absent
+
+- name: Set the nfs_use_reserved_ports value as 0
+  command: "nfso -o nfs_use_reserved_ports=0"
+  when: nfs_use_reserved_ports.changed

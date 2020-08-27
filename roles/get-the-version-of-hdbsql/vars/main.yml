@@ -1,3 +1,2 @@
 ---
-start_sap_command: "startsap"
 hdbsql_version_check_command: "hdbsql -version"
