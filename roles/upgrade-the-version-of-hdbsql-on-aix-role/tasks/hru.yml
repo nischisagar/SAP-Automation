@@ -1,0 +1,10 @@
+---
+- name: Upgrade the the version of HDBSQL on AIX
+  shell: "hdbsql_upgrade_command"
+  register: hdbsql_upgrade_details
+  changed_when: False
+  args:
+    warn: false
+
+- debug:
+    msg: "{{ hdbsql_upgrade_details.stdout_lines }}"

@@ -1,2 +1,0 @@
----
-sap_upgrade_command: "/tempfs_ansible/sap_software/{{ Entity_No }}_{{ SAP_SID }}/SAP_HANA_CLIENT/hdbinst --path=/usr/sap/{{ SAP_SID }}/hdbclient"
