@@ -6,4 +6,8 @@
          --system_user_password={{ hana_db_system_password }} -b
   args:
     chdir: "{{ component_medium }}"
+  register: hdb_upgrade_output
   changed_when: False
+ 
+- debug:
+    msg: "{{ hdb_upgrade_output.stdout_lines }}"
