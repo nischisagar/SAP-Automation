@@ -18,9 +18,9 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: nfs-mount-role-aix
-  - role: get-the-version-of-hdbsql
-  - role: nfs-unmount-role-aix
+  - role: nfs-mount-on-aix
+  - role: get-the-version-of-hdbsql-on-aix
+  - role: nfs-unmount-on-aix
 
 - name: "Check NFS mount, HANA Status and Version of HANA DB"
   hosts: "{{ hana_server }}"
@@ -30,6 +30,6 @@
     ansible_python_interpreter: "/usr/bin/python"
   gather_facts: false
   roles:
-  - role: nfs-mount-role-linux
-  - role: get-hdb-status-and-version-of-hdb
-  - role: nfs-unmount-role-linux
+  - role: nfs-mount-on-linux
+  - role: get-hdb-status-and-version-of-hdb-on-linux
+  - role: nfs-unmount-on-linux
