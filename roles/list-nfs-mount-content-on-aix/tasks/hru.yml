@@ -1,6 +1,6 @@
 ---
 - name: List the content of HDBSQL installation directory
-  command: "ls_hdbsql_software_list_command"
+  shell: "ls_hdbsql_software_list_command"
   register: ls_hdbsql_software_list_command_output
   changed_when: False
 
@@ -8,7 +8,7 @@
     msg: "{{ ls_hdbsql_software_list_command_output.stdout_lines }}"  
 
 - name: List the location of HDBSQL installation file
-  command: "ls_hdbinst_path_command"
+  shell: "ls_hdbinst_path_command"
   register: ls_hdbinst_path_command_output
   changed_when: False
 
