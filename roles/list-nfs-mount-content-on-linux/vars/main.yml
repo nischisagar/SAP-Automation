@@ -1,4 +1,4 @@
 ---
-ls_hdblcm_software_list_command: "ls -ld /hana/shared/{{ SID }}/hdblcm/hdblcm"
-ls_componenet_medium_path_command: "ls -l /tempfs_ansible/hana_software/{{ Entity_No }}/SAP_HANA_DATABASE"
-list_of_components: "echo {{ list_of_components }}"
+ls_hdblcm_software_list_command: "ls -ld /hana/shared/{{SID}}/hdblcm/hdblcm"
+ls_componenet_medium_path_command: "ls -l /tempfs_ansible/hana_software/{{Entity_No}}/SAP_HANA_DATABASE"
+list_of_components: "echo {{list_of_components}}"
