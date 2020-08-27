@@ -1,2 +1,2 @@
 ---
-component_medium: "/tempfs_ansible/hana_software/{{ Entity_No }}/SAP_HANA_DATABASE"
+component_medium: "/tempfs_ansible/hana_software/{{Entity_No}}/SAP_HANA_DATABASE"
