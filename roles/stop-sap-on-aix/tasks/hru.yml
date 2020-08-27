@@ -1,6 +1,6 @@
 ---
 - name: Stop the SAP
-  shell: "su - {{ sap_sid_adm_usr }} -c {{ stop_sap_command }}"
+  shell: "su - {{ sid_adm_usr }} -c {{ stop_sap_command }}"
   register: stop_sap_output
   changed_when: False
   args:

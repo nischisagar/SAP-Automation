@@ -1,6 +1,6 @@
 ---
 - name: Start the SAP
-  shell: "su - {{ sap_sid_adm_usr }} -c {{ start_sap_command }}"
+  shell: "su - {{ sid_adm_usr }} -c {{ start_sap_command }}"
   register: start_sap_output
   changed_when: False
   args:
