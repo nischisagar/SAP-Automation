@@ -1,6 +1,6 @@
 ---
 - name: Upgrade the the version of HDBSQL on AIX
-  shell: "hdbsql_upgrade_command"
+  command: /tempfs_ansible/sap_software/{{ Entity_No }}/SAP_HANA_CLIENT/hdbinst --path=/usr/sap/{{ SID }}/hdbclient
   register: hdbsql_upgrade_details
   changed_when: False
   

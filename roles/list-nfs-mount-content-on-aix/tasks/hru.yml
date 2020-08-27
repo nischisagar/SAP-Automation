@@ -1,6 +1,6 @@
 ---
 - name: List the content of HDBSQL installation directory
-  shell: "{{ ls_hdbsql_software_list_command }}"
+  command: ls -ld /tempfs_ansible/sap_software/{{ Entity_No }}/SAP_HANA_CLIENT/
   register: ls_hdbsql_software_list_command_output
   changed_when: False
 
@@ -8,7 +8,7 @@
     msg: "{{ ls_hdbsql_software_list_command_output.stdout_lines }}"  
 
 - name: List the location of HDBSQL installation file
-  shell: "{{ ls_hdbinst_path_command }}"
+  shell: ls -ld /usr/sap/{{ SID }}/hdbclient
   register: ls_hdbinst_path_command_output
   changed_when: False
 
