@@ -15,6 +15,7 @@
   become: yes
   become_method: sudo
   gather_facts: false
+  serial: 1
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -49,6 +50,7 @@
   become: yes
   become_method: sudo
   gather_facts: false
+  serial: 1
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -56,11 +58,12 @@
   - role: upgrade-the-version-of-hdbsql-on-aix
   - role: nfs-unmount-on-aix
 
-- name: Start SAP
+- name: Start SAP and display the HDB SQL Client Version
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
   gather_facts: false
+  serial: 1
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
