@@ -11,7 +11,7 @@
       transaction_id: "{{ tower_job_id }}"
 
 - name: Stop SAP
-  hosts: "{{ sap_server }}"
+  hosts: "{{ sap_server_stop_sequence }}"
   become: yes
   become_method: sudo
   gather_facts: false
@@ -46,7 +46,7 @@
   - role: get-hdb-status-and-version-of-hdb-on-linux
 
 - name: Upgrade the HDB SQL Client
-  hosts: "{{ sap_server }}"
+  hosts: "{{ sap_server_start_sequence }}"
   become: yes
   become_method: sudo
   gather_facts: false
@@ -59,7 +59,7 @@
   - role: nfs-unmount-on-aix
 
 - name: Start SAP and display the HDB SQL Client Version
-  hosts: "{{ sap_server }}"
+  hosts: "{{ sap_server_start_sequence }}"
   become: yes
   become_method: sudo
   gather_facts: false
