@@ -1,0 +1,23 @@
+---
+- name: Socks tunnel setup
+  hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
+  gather_facts: no
+  roles:
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Collect the Number of SIDs from the SAP Server
+  hosts: "{{ sap_server }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: nfs-mount-on-aix
+  - role: check-number-of-sid-present-on-server
+  - role: nfs-unmount-on-aix

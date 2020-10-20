@@ -1,0 +1,8 @@
+---
+- name: Check the number of SIDs present on server
+  shell: "{{ check_sid }}"
+  register: check_number_of_sid
+  changed_when: False
+
+- debug:
+    msg: "{{ check_number_of_sid }}"
