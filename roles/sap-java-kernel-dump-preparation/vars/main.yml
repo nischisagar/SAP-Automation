@@ -1,0 +1,2 @@
+---
+script: "/tempfs_ansible/sap_kernel_dump_prep/scripts/kernel_dump_preparation_script.sh"

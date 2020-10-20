@@ -1,0 +1,8 @@
+---
+- name: Check the number of SIDs present on server
+  shell: "{{ script }}"
+  register: sap-java-kernel-dump-preparation
+  changed_when: False
+
+- debug:
+    msg: "{{ sap-java-kernel-dump-preparation }}"
