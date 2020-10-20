@@ -5,4 +5,4 @@
   changed_when: False
 
 - debug:
-    msg: "{{ check_number_of_sid }}"
+    msg: "{{ check_number_of_sid.stdout_lines }}"
