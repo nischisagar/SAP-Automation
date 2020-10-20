@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- name: Check NFS Mount and Version of HDBSQL
+- name: Collect the Number of SIDs from the SAP Server
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
@@ -19,19 +19,5 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: nfs-mount-on-aix
-  - role: list-nfs-mount-content-on-aix
-  - role: get-the-version-of-hdbsql-on-aix
+  - role: check-number-of-sid-present-on-server
   - role: nfs-unmount-on-aix
-
-- name: "Check NFS mount, HANA Status and Version of HANA DB"
-  hosts: "{{ hana_server }}"
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  gather_facts: false
-  roles:
-  - role: nfs-mount-on-linux
-  - role: list-nfs-mount-content-on-linux
-  - role: get-hdb-status-and-version-of-hdb-on-linux
-  - role: nfs-unmount-on-linux
