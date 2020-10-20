@@ -1,16 +1,5 @@
 ---
 
-- name: Socks tunnel setup
-  hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
-  gather_facts: no
-  roles:
-  - role: socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
 - name: Collect the Number of SIDs from the SAP Server
   hosts: "{{ sap_server }}"
   become: yes
