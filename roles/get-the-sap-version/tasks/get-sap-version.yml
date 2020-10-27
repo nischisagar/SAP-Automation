@@ -10,5 +10,5 @@
     warn: false
  
 - debug:
-    msg: "{{ get_version_of_sap_output.stdout_lines }}"
+    msg: "{{ get_version_of_sap_output }}"
 
