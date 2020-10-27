@@ -1,6 +1,5 @@
 ---
-
-- name: SAP Kernel Dump Preparation Playbook
+- name: Get the SAP version from the SAP Servers
   hosts: "{{ sap_server }}"
   become: yes
   become_method: sudo
@@ -9,5 +8,5 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: nfs-mount-on-aix
-  - role: sap-java-kernel-dump-preparation
+  - role: get-the-sap-version
   - role: nfs-unmount-on-aix

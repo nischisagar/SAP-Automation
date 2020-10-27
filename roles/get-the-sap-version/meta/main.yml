@@ -18,7 +18,8 @@ galaxy_info:
 
     - name: SAP
       versions:
-        - 2.0
+        - EHP 7.0
+        - ERP 6.0
 
   galaxy_tags:
     - sap
