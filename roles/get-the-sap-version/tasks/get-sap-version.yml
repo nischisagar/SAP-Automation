@@ -1,16 +1,18 @@
 ---
 - name: Get the SAP version 
-  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  shell: "su - {{ sid_adm_usr[0] }} -c {{ sap_version_check_script }}"
   register: get_version_of_sap_output
   changed_when: False
   args:
     warn: false
+  when: sid_adm_usr [0] is defined
  
 - debug:
     msg: "{{ get_version_of_sap_output.stdout_lines }}"
-  
-- name: Get the SAP version for second SID if exist on the server
-  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  when: sid_adm_usr [0] is defined
+
+- name: Get the SAP version for second SID application if installed
+  shell: "su - {{ sid_adm_usr[1] }} -c {{ sap_version_check_script }}"
   register: get_version_of_sap_output1
   changed_when: False
   args:
@@ -21,8 +23,8 @@
     msg: "{{ get_version_of_sap_output1.stdout_lines }}"
   when: sid_adm_usr [1] is defined
   
-- name: Get the SAP version for third SID if exist on the server
-  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+- name: Get the SAP version for third SID application if installed
+  shell: "su - {{ sid_adm_usr[2] }} -c {{ sap_version_check_script }}"
   register: get_version_of_sap_output2
   changed_when: False
   args:
