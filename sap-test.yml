@@ -7,6 +7,6 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: nfs-mount-on-aix
+  #- role: nfs-mount-on-aix
   - role: get-the-sap-version
-  - role: nfs-unmount-on-aix
+  #- role: nfs-unmount-on-aix
