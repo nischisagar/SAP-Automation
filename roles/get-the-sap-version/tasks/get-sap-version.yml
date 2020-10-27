@@ -5,7 +5,6 @@
   changed_when: False
   args:
     warn: false
-  include_vars: inventories\host_vars\ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com.yml
-
+  
 - debug:
     msg: "{{ get_version_of_sap_output.stdout_lines }}"
