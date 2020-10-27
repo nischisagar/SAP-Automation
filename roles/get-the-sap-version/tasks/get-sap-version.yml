@@ -1,8 +1,6 @@
 ---
 - name: Get the SAP version 
-  shell: "{{ sap_version_check_script }}"
-  become_user: "{{ sid_adm_usr }}"
-  become: true
+  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
   register: get_version_of_sap_output
   changed_when: False
   args:
