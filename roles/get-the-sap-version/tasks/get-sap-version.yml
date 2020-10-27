@@ -1,0 +1,10 @@
+---
+- name: Get the SAP version 
+  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  register: get_version_of_sap_output
+  changed_when: False
+  args:
+    warn: false
+
+- debug:
+    msg: "{{ get_version_of_sap_output.stdout_lines }}"
