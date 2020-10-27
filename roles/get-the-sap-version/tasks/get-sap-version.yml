@@ -1,7 +1,7 @@
 ---
 - name: Get the SAP version 
   shell: "echo {{ sid_adm_usr }}"
-  loop: "{{ mylist|default([]) }}"
+  loop: "{{ mylist }}"
   register: get_version_of_sap_output
   changed_when: False
   args:
