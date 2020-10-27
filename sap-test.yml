@@ -6,7 +6,6 @@
   gather_facts: false
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    include_vars: "roles\get-the-sap-version\inventories\host_vars\ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com.yml"
   roles:
   #- role: nfs-mount-on-aix
   - role: get-the-sap-version
