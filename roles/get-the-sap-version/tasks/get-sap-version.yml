@@ -11,7 +11,7 @@
 
 - name: Get the SAP version for Second SID if exists
   shell: "echo {{ sid_adm_usr[1] }}"
-  register: get_version_of_sap_output2
+  register: get_version_of_sap_output1
   changed_when: False
   args:
     warn: false
