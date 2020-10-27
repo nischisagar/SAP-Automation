@@ -1,6 +1,6 @@
 ---
 - name: Get the SAP version 
-  shell: "echo {{ item }}"
+  shell: "echo {{ sid_adm_usr }}"
   loop:
     - tkeadm
     - tksadm
