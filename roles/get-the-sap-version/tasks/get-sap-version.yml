@@ -5,6 +5,7 @@
   changed_when: False
   args:
     warn: false
+  loop: "{{  sid_adm_usr  }}"
   
 - debug:
     msg: "{{ get_version_of_sap_output.stdout_lines }}"
