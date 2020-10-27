@@ -10,5 +10,7 @@
     warn: false
  
 - debug:
-    msg: "{{ item }}"
-  loop: "{{ get_version_of_sap_output.stdout_lines }}"
+    msg: "{{ item.get_version_of_sap_output.stdout_lines }}"
+  loop:
+    - { sid_adm_usr: 'tkeadm'}
+    - { sid_adm_usr: 'tksadm'}
