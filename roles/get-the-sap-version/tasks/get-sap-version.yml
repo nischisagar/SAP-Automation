@@ -1,6 +1,6 @@
 ---
 - name: Get the SAP version 
-  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  shell: "echo {{ sid_adm_usr[] }} "
   register: get_version_of_sap_output
   changed_when: False
   args:
