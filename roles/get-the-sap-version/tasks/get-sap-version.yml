@@ -13,7 +13,7 @@
   shell: "echo {{ sid_adm_usr[1] }}"
   register: get_version_of_sap_output1
   changed_when: False
-  when: sid_adm_usr is defined
+  when: sid_adm_usr[1] is defined
   args:
     warn: false
 
@@ -24,7 +24,7 @@
   shell: "echo {{ sid_adm_usr[2] }}"
   register: get_version_of_sap_output2
   changed_when: False
-  when: sid_adm_usr is defined
+  when: sid_adm_usr[2] is defined
   args:
     warn: false
 
