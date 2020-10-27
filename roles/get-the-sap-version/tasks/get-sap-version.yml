@@ -31,4 +31,4 @@
  
 - debug:
     msg: "{{ get_version_of_sap_output2.stdout_lines }}"
-when: sid_adm_usr [2] is defined
+  when: sid_adm_usr [2] is defined
