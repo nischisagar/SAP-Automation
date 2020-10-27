@@ -1,6 +1,7 @@
 ---
 - name: Get the SAP version 
-  shell: "echo {{ sid_adm_usr[0] }}"
+  shell: "echo {{ sid_adm_usr }}"
+  loop: "{{ mylist|default([]) }}"
   register: get_version_of_sap_output
   changed_when: False
   args:
@@ -9,12 +10,3 @@
 - debug:
     msg: "{{ get_version_of_sap_output.stdout_lines }}"
 
-- name: Get the SAP version for Second SID if exists
-  shell: "echo {{ sid_adm_usr[1] }}"
-  register: get_version_of_sap_output1
-  changed_when: False
-  args:
-    warn: false
-
-- debug:
-    msg: "{{ get_version_of_sap_output1.stdout_lines }}"
