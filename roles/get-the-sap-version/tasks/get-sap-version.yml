@@ -1,9 +1,9 @@
 ---
 - name: Get the SAP version 
-  shell: "echo {{ sid_adm_usr }}"
+  shell: "echo {{ item.sid_adm_usr }}"
   loop:
-    - tkeadm
-    - tksadm
+    - { sid_adm_usr: 'tkeadm'}
+    - { sid_adm_usr: 'tksadm'}
   register: get_version_of_sap_output
   changed_when: False
   args:
