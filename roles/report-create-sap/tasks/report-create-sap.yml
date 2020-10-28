@@ -2,5 +2,5 @@
 - name: Add the server details in to the SAP Report File.
   lineinfile:
     dest: "{{ report_file }}"
-    line: '{{ ansible_fqdn }} {{ ansible_distribution }} {{ ansible_distribution_version }} {{ansible_default_ipv4.address }} {{ get_sid_output.stdout_lines }} {{ get_sap_version_output.stdout_lines }} {{ get_kernel_make_variant_output.stdout_lines }} {{ get_patch_number_output.stdout_lines }}'
+    line: '{{ ansible_fqdn }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sid_output.stdout_lines }},{{ get_sap_version_output.stdout_lines }},{{ get_kernel_make_variant_output.stdout_lines }},{{ get_patch_number_output.stdout_lines }}'
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
