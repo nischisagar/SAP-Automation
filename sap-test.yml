@@ -3,7 +3,6 @@
   hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
-  gather_facts: false
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: qkeadm
