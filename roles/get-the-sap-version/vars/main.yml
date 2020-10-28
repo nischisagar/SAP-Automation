@@ -1,2 +1,3 @@
 ---
 sap_version_check_script: "/tmp/sap-version-check.sh"
+sap_version_check_log: "/tmp/sap-version-check.log"

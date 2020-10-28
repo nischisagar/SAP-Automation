@@ -5,20 +5,54 @@
     dest: "{{ sap_version_check_script }}"
     owner: "{{ sid_adm_usr }}"
     mode: '0700'
+  when: sid_adm_usr is defined
 
-- name: Get the SAP version 
+- name: Run the SAP version check script
   shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
-  register: get_version_of_sap_output
+  register: run_script_output
   changed_when: False
   args:
     warn: false
   when: sid_adm_usr is defined
- 
+
 - debug:
-    msg: "{{ get_version_of_sap_output.stdout_lines }}"
+    msg: "{{ run_script_output.stdout_lines }}"
   when: sid_adm_usr is defined
+ 
+- name: Get the SID
+  shell: "cat {{ sap_version_check_log }}  | head -1"
+  register: get_sid_output
+
+- debug:
+    msg: "{{ get_sid_output.stdout_lines }}"
+
+- name: Get the SAP Version
+  shell: "cat {{ sap_version_check_log }}  | head -2 | tail -1"
+  register: get_sap_version_output
+
+- debug:
+    msg: "{{ get_sap_version_output.stdout_lines }}"
+
+- name: Get the Kernel make variant
+  shell: "cat {{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
+  register: get_kernel_make_variant_output
+
+- debug:
+    msg: "{{ get_kernel_make_variant_output.stdout_lines }}"
+
+- name: Get the Patch number
+  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
+  register: get_patch_number_output
+
+- debug:
+    msg: "{{ get_patch_number_output.stdout_lines }}"
 
 - name: Remove the script
   file:
     path: "{{ sap_version_check_script }}"
+    state: absent
+
+- name: Remove the log
+  file:
+    path: "{{ sap_version_check_log }}"
     state: absent
