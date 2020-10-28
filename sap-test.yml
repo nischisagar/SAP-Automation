@@ -1,11 +1,12 @@
 ---
 - name: Get the SAP version from the SAP Servers
-  hosts: "{{ sap_server }}"
+  hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: qkeadm
   roles:
   - role: nfs-mount-on-aix
   - role: get-the-sap-version
