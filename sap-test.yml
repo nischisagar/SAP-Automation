@@ -10,4 +10,5 @@
   roles:
   #- role: nfs-mount-on-aix
   - role: get-the-sap-version
+  - role: report-create-sap
   #- role: nfs-unmount-on-aix

@@ -1,0 +1,11 @@
+---
+- copy:
+    content: 'HostName OS-Name OS-Version IP-Address SAP-Version-Details'
+    dest: "{{ report_file }}"
+  run_once: yes
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+
+- lineinfile:
+    dest: "{{ report_file }}"
+    line: '{{ inventory_hostname }} {{ ansible_distribution }} {{ ansible_distribution_version }} {{ansible_default_ipv4.address }} {{ get_version_of_sap_output.stdout_lines }}'
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
