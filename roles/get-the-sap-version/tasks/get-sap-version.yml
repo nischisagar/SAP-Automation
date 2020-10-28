@@ -18,7 +18,7 @@
     msg: "{{ get_version_of_sap_output.stdout_lines }}"
   when: sid_adm_usr is defined
 
-- name: remove the script
+- name: Remove the script
   file:
     path: "{{ sap_version_check_script }}"
     state: absent
