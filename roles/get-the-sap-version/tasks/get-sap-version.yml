@@ -16,7 +16,7 @@
   when: sid_adm_usr is defined
 
 - debug:
-    msg: "{{ run_script_output.stdout_lines }}"
+    msg: "{{ run_script_output }}"
   when: sid_adm_usr is defined
  
 - name: Get the SID
@@ -24,28 +24,28 @@
   register: get_sid_output
 
 - debug:
-    msg: "{{ get_sid_output.stdout_lines }}"
+    msg: "{{ get_sid_output }}"
 
 - name: Get the SAP Version
   shell: "cat {{ sap_version_check_log }}  | head -2 | tail -1"
   register: get_sap_version_output
 
 - debug:
-    msg: "{{ get_sap_version_output.stdout_lines }}"
+    msg: "{{ get_sap_version_output }}"
 
 - name: Get the Kernel make variant
   shell: "cat {{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
   register: get_kernel_make_variant_output
 
 - debug:
-    msg: "{{ get_kernel_make_variant_output.stdout_lines }}"
+    msg: "{{ get_kernel_make_variant_output }}"
 
 - name: Get the Patch number
   shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
   register: get_patch_number_output
 
 - debug:
-    msg: "{{ get_patch_number_output.stdout_lines }}"
+    msg: "{{ get_patch_number_output }}"
 
 - name: Remove the script
   file:
