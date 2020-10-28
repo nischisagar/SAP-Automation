@@ -1,1 +1,0 @@
-sid_adm_usr: tkeadm
