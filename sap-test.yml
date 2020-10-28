@@ -9,6 +9,26 @@
   roles:
   - role: get-the-sap-version
 
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: tkeadm
+  roles:
+  - role: get-the-sap-version
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: tksadm
+  roles:
+  - role: get-the-sap-version
+
 - name: Add the title content in to SAP Version Details Report
   hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
