@@ -1,2 +1,2 @@
 ---
-sap_version_check_script: "/tempfs_ansible/sap-version-check/scripts/sap-version-check.sh"
+sap_version_check_script: "/tmp/sap-version-check.sh"
