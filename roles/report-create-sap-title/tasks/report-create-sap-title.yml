@@ -1,6 +1,6 @@
 ---
-- copy:
-    content: 'HostName OS-Name OS-Version IP-Address SAP-Version-Details'
+- name: Add the title content in to SAP Version Details Report
+  copy:
+    content: 'Host Name OS Name OS Version  IP Address  SAP Version Details'
     dest: "{{ report_file }}"
   run_once: yes
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
