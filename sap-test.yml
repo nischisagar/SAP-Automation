@@ -3,11 +3,13 @@
   hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
+  gather_facts: false
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: qkeadm
   roles:
-  #- role: nfs-mount-on-aix
+  - role: setup-for-gather-subset
   - role: get-the-sap-version
+  - role: report-create-sap-title
   - role: report-create-sap
-  #- role: nfs-unmount-on-aix
+

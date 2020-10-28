@@ -1,0 +1,5 @@
+---
+- name: Collect all subset facter
+  setup:
+    gather_subset:
+      - 'all'
