@@ -1,4 +1,12 @@
 ---
+- name: Add the title content in to SAP Version Details Report
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: report-create-sap-title
+
 - name: Get the SAP version from the SAP Servers
   hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
   become: yes
@@ -8,6 +16,7 @@
     sid_adm_usr: tksadm
   roles:
   - role: get-the-sap-version
+  - role: report-create-sap
 
 - name: Get the SAP version from the SAP Servers
   hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
@@ -18,7 +27,8 @@
     sid_adm_usr: qkeadm
   roles:
   - role: get-the-sap-version
-
+  - role: report-create-sap
+  
 - name: Get the SAP version from the SAP Servers
   hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
   become: yes
@@ -28,19 +38,4 @@
     sid_adm_usr: tkeadm
   roles:
   - role: get-the-sap-version
-
-- name: Add the title content in to SAP Version Details Report
-  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
-  - role: report-create-sap-title
-  
-- name: Generate the SAP Version Details Report
-  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com,ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com,ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
   - role: report-create-sap
