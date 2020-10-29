@@ -40,7 +40,7 @@
   - role: get-the-sap-version
   - role: report-create-sap
 
-- name: Add the title content in to SAP Version Details Report
+- name: Send e-mail
   hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
@@ -52,9 +52,17 @@
         port: 25
         subject: Ansible SAP version details report from DB2 servers
         body: Hello Team, Please find the attached SAP version details report from DB2 servers
-        from: root@saint-gobain.com
-        to: Poonjolai Govindasamy <pogovind@in.ibm.com>
-        cc: Poonjolai Govindasamy <pogovind@in.ibm.com>
-        attach: "{{ report_file }}"
-        headers: 'Reply-To=pogovind@in.ibm.com|X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."'
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+        - Swetha J <swethaj.iyer@in.ibm.com> 
+        cc: 
+        - Poonjolai Govindasamy <pogovind@in.ibm.com>
+        - Vignesh Rajendran <vigrajen@in.ibm.com>
+        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+        attach:
+        - "{{ report_file }}"
+        headers:
+        - Reply-To=pogovind@in.ibm.com
+        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
         charset: us-ascii
