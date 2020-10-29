@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to SAP Version Details Report
   copy:
-    content: 'Host Name,OS Name,OS Version,IP Address,SID,SAP Version,Kernel Make Variant,Patch Number'
+    content: 'Host Name,OS Name,OS Version,IP Address,SID,SAP Version,Kernel Make Variant,Patch Number,DB Level'
     dest: "{{ report_file }}"
   run_once: yes

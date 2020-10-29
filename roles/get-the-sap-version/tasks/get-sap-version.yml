@@ -40,12 +40,19 @@
 - debug:
     msg: "{{ get_kernel_make_variant_output }}"
 
-- name: Get the Patch number
-  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
+- name: Get the Kernel make variant
+  shell: "cat {{ sap_version_check_log }}  | head -4 | tail -1 | awk '{print $NF}'"
   register: get_patch_number_output
 
 - debug:
     msg: "{{ get_patch_number_output }}"
+
+- name: Get the DB Level
+  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
+  register: get_db_level_output
+
+- debug:
+    msg: "{{ get_db_level_output }}"
 
 - name: Remove the script
   file:

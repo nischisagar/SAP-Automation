@@ -48,7 +48,7 @@
   tasks:
     - name: Send e-mail to a bunch of users, attaching files
       mail:
-        host: 127.0.0.1
+        host: smtp.mail.saint-gobain.net
         port: 25
         subject: Ansible SAP version details report from DB2 servers
         body: Hello Team, Please find the attached SAP version details report from DB2 servers
