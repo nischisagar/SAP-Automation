@@ -48,7 +48,7 @@
     msg: "{{ get_patch_number_output }}"
 
 - name: Get the DB Level
-  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
+  shell: "cat {{ sap_version_check_log }}  | tail -1"
   register: get_db_level_output
 
 - debug:
