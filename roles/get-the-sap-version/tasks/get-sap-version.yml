@@ -1,7 +1,7 @@
 ---
 - name: Copy the script
   copy:
-    src: files/sap-version-check.sh
+    src: "{{ sap_version_check_script_source }}"
     dest: "{{ sap_version_check_script }}"
     owner: "{{ sid_adm_usr }}"
     mode: '0700'
