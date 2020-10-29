@@ -30,6 +30,50 @@
   - role: report-create-sap
 
 - name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: dkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ssm0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: ekeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc1i.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: rkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc0i.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: skeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
   hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
@@ -41,17 +85,48 @@
   - role: report-create-sap
 
 - name: Get the SAP version from the SAP Servers
-  hosts: ampsv017ecc0d.ux1.ibmfr.bluecare.ibm.com
+  hosts: ampsa017cecc0.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: dkeadm
+    sid_adm_usr: ckeadm
   roles:
   - role: get-the-sap-version
   - role: report-create-sap
 
-  
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: dmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: qmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: rmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
 
 - name: Send e-mail
   hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
