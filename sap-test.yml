@@ -52,7 +52,7 @@
         port: 25
         subject: Ansible SAP version details report from DB2 servers
         body: Hello Team, Please find the attached SAP version details report from DB2 servers
-        from: root@ampsv010bld0d.p1.saint-gobain.net (Ansible Tower)
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
         cc: Poonjolai Govindasamy <pogovind@in.ibm.com>
