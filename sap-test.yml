@@ -154,3 +154,8 @@
         - Reply-To=pogovind@in.ibm.com
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
         charset: us-ascii
+    
+    - name: Remove the report
+      file:
+        path: "{{ report_file }}"
+        state: absent
