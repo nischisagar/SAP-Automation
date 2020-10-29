@@ -1,0 +1,161 @@
+---
+- name: Add the title content in to SAP Version Details Report
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: report-create-sap-title
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: tksadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: tkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: dkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ssm0t.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: ekeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc1i.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: rkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc0i.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: skeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv017ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: qkeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsa017cecc0.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: ckeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: dmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: qmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: rmeadm
+  roles:
+  - role: get-the-sap-version
+  - role: report-create-sap
+
+- name: Send e-mail
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: Send e-mail to a bunch of users, attaching files
+      mail:
+        host: smtp.mail.saint-gobain.net
+        port: 25
+        subject: Ansible SAP version details report from DB2 servers
+        body: Hello Team, Please find the attached SAP version details report from DB2 servers
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+        - Swetha J <swethaj.iyer@in.ibm.com> 
+        cc: 
+        - Poonjolai Govindasamy <pogovind@in.ibm.com>
+        - Vignesh Rajendran <vigrajen@in.ibm.com>
+        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+        attach:
+        - "{{ report_file }}"
+        headers:
+        - Reply-To=pogovind@in.ibm.com
+        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
+        charset: us-ascii
+    
+    - name: Remove the report
+      file:
+        path: "{{ report_file }}"
+        state: absent
