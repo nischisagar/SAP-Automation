@@ -57,7 +57,7 @@
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
         cc: Poonjolai Govindasamy <pogovind@in.ibm.com>
         attach:
-        - /ansible/data/sap-version-report-from-db2-servers.csv
+        - "{{ report_file }}"
         headers:
         - Reply-To=pogovind@in.ibm.com
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
