@@ -45,10 +45,9 @@
   become: yes
   become_method: sudo
   gather_facts: false
-  
   tasks:
     - name: Send e-mail to a bunch of users, attaching files
-      community.general.mail:
+      mail:
         host: 127.0.0.1
         port: 25
         subject: Ansible SAP version details report from DB2 servers
