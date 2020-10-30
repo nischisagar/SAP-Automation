@@ -14,7 +14,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: tksadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -26,7 +26,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: tkeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -38,7 +38,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: dkeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -50,7 +50,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: ekeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -62,7 +62,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: rkeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -74,7 +74,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: skeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -86,7 +86,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: qkeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -98,7 +98,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: ckeadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -110,7 +110,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: dmeadm
-    entity_name: SABRE
+    entity_name: "034_SGBDNL"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -122,7 +122,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: qmeadm
-    entity_name: SABRE
+    entity_name: "034_SGBDNL"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
@@ -134,7 +134,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: rmeadm
-    entity_name: SABRE
+    entity_name: "034_SGBDNL"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
