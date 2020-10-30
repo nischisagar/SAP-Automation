@@ -149,8 +149,8 @@
       mail:
         host: smtp.mail.saint-gobain.net
         port: 25
-        subject: Ansible SAP version details report from DB2 servers
-        body: Hello Team, Please find the attached SAP version details report from DB2 servers
+        subject: Ansible Report - SAP and DB2 version
+        body: Hello Team, Please find the attached SAP and DB2 version details report from DB2 servers
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
