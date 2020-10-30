@@ -5,31 +5,19 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: report-create-sap-title-db2
+  - role: report-create-sap-title-oradb
 
 - name: Get the SAP version from the SAP Servers
-  hosts: ampsv017pjt0t.ux1.ibmfr.bluecare.ibm.com
+  hosts: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: tksadm
-    entity_name: "017_LAPEYRE (SITCOM)"
+    sid_adm_usr: te6adm
+    entity_name: "033_SABRE"
   roles:
-  - role: get-the-sap-version-db2
-  - role: report-create-sap-db2
-
-- name: Get the SAP version from the SAP Servers
-  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: rmeadm
-    entity_name: "034_SGBDNL"
-  roles:
-  - role: get-the-sap-version-db2
-  - role: report-create-sap-db2
+  - role: get-the-sap-version-oradb
+  - role: report-create-sap-oradb
 
 - name: Send e-mail
   hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
@@ -58,7 +46,7 @@
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
         charset: us-ascii
     
-    - name: Remove the DB2 report
+    - name: Remove the Oracle DB report
       file:
         path: "{{ report_file }}"
         state: absent
