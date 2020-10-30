@@ -1,0 +1,72 @@
+---
+- name: Copy the script
+  copy:
+    src: "{{ sap_version_check_script_source }}"
+    dest: "{{ sap_version_check_script }}"
+    owner: "{{ sid_adm_usr }}"
+    mode: '0700'
+  when: sid_adm_usr is defined
+
+- name: Run the SAP version check script
+  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  register: run_script_output
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr is defined
+
+- debug:
+    msg: "{{ run_script_output }}"
+  when: sid_adm_usr is defined
+ 
+- name: Get the SID
+  shell: "cat {{ sap_version_check_log }}  | head -1"
+  register: get_sid_output
+
+- debug:
+    msg: "{{ get_sid_output }}"
+
+- name: Get the SAP Version
+  shell: "cat {{ sap_version_check_log }}  | head -2 | tail -1"
+  register: get_sap_version_output
+
+- debug:
+    msg: "{{ get_sap_version_output }}"
+
+- name: Get the Kernel make variant
+  shell: "cat {{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
+  register: get_kernel_make_variant_output
+
+- debug:
+    msg: "{{ get_kernel_make_variant_output }}"
+
+- name: Get the Kernel make variant
+  shell: "cat {{ sap_version_check_log }}  | head -4 | tail -1 | awk '{print $NF}'"
+  register: get_patch_number_output
+
+- debug:
+    msg: "{{ get_patch_number_output }}"
+
+- name: Get the DB name
+  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $1}'"
+  register: get_db_name_output
+
+- debug:
+    msg: "{{ get_db_name_output }}"
+
+- name: Get the DB Version
+  shell: "cat {{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
+  register: get_db_version_output
+
+- debug:
+    msg: "{{ get_db_version_output }}"
+
+- name: Remove the script
+  file:
+    path: "{{ sap_version_check_script }}"
+    state: absent
+
+- name: Remove the log
+  file:
+    path: "{{ sap_version_check_log }}"
+    state: absent
