@@ -44,18 +44,6 @@
   - role: report-create-sap-oradb
 
 - name: Get the SAP version from the SAP Servers
-  hosts: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: tnjadm
-    entity_name: "033_SABRE"
-  roles:
-  - role: get-the-sap-version-oradb
-  - role: report-create-sap-oradb
-
-- name: Get the SAP version from the SAP Servers
   hosts: ampsv033bw0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
@@ -78,30 +66,6 @@
   roles:
   - role: get-the-sap-version-oradb
   - role: report-create-sap-oradb 
-
-- name: Get the SAP version from the SAP Servers
-  hosts: ampsv033bw0d.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: dn2adm
-    entity_name: "033_SABRE"
-  roles:
-  - role: get-the-sap-version-oradb
-  - role: report-create-sap-oradb 
-
-- name: Get the SAP version from the SAP Servers
-  hosts: ampsv033bw0d.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: qn2adm
-    entity_name: "033_SABRE"
-  roles:
-  - role: get-the-sap-version-oradb
-  - role: report-create-sap-oradb
 
 - name: Get the SAP version from the SAP Servers
   hosts: ampsv03357dev.ux1.ibmfr.bluecare.ibm.com
@@ -170,18 +134,6 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: qv2adm
-    entity_name: "018_TESIS"
-  roles:
-  - role: get-the-sap-version-oradb
-  - role: report-create-sap-oradb
-
-- name: Get the SAP version from the SAP Servers
-  hosts: a01830pj.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr: dvdadm
     entity_name: "018_TESIS"
   roles:
   - role: get-the-sap-version-oradb
