@@ -14,7 +14,19 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr: tksadm
-    entity_name: SITCOM
+    entity_name: "017_LAPEYRE (SITCOM)"
+  roles:
+  - role: get-the-sap-version-db2
+  - role: report-create-sap-db2
+
+- name: Get the SAP version from the SAP Servers
+  hosts: ampsv034ecc0q.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr: rmeadm
+    entity_name: "034_SGBDNL"
   roles:
   - role: get-the-sap-version-db2
   - role: report-create-sap-db2
