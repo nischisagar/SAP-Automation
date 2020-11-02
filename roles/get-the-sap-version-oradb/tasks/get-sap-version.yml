@@ -23,8 +23,9 @@
 
 - name: Set fact for SID 
   set_fact:
-    get_sid_output_fact: "{{ get_sid_output.stdout }}"
+    get_sid_output_fact: "{{ item.stdout }}"
     cacheable: yes
+  loop: "{{ get_sid_output.results }}"
 
 - name: Debug the output get_sid_output
   debug:
@@ -44,8 +45,9 @@
 
 - name: Set fact for Sap Version
   set_fact:
-    get_sap_version_output_fact: "{{ get_sap_version_output.stdout }} "
+    get_sap_version_output_fact: "{{ item.stdout }} "
     cacheable: yes
+  loop: "{{ get_sap_version_output.results }}"
 
 - name: Debug the output get_sap_version_output_fact
   debug:
