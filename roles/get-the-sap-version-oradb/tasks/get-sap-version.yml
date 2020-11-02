@@ -77,7 +77,5 @@
     line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.stdout[0] }}"
   loop: 
     - "{{ get_sid_output.results }}"
-  loop_control:
-    loop_var: outer_item
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
