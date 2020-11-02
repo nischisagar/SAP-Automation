@@ -24,8 +24,7 @@
 
 - name: Debug the output get_sid_output
   debug:
-    msg: "{{ get_sid_output }}"
-  loop: stdout
+    var: get_sid_output.rc
     
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
