@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  with_items: "{{ items }}"
+  with_items: "{{ ansible_loop.allitems }}"
   loop_control:
     extended: yes
  
