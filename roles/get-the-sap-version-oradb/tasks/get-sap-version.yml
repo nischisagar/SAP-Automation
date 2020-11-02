@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ item }}" 
-  loop: "{{ get_sid_output }}"
+  loop: "{{ get_sid_output.stdout }}"
   
     
 #- name: Get the SAP Version
