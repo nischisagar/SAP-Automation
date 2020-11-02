@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  with_items: "{{ get_sid_output.allitems }}"
+  loop: "{{ get_sid_output.allitems }}"
   loop_control:
     extended: yes
  
