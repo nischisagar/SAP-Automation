@@ -24,7 +24,7 @@
 
 - name: Debug the output get_sid_output
   debug:
-    var: get_sid_output.result[0]
+    msg: "{{ get_sid_output.result[0].stdout }}" 
   
     
 #- name: Get the SAP Version
