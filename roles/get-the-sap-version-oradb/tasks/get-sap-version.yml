@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  loop: "{{ get_sid_output.allitems }}"
+  loop: "{{ lookup('get_sid_output', 'all', wantlist=True)}}"
   loop_control:
     extended: yes
  
