@@ -24,8 +24,8 @@
 
 - name: Debug the output get_sid_output
   debug:
-    msg: "{{ get_sid_output.results.item.name.stdout }}" 
-  loop: "{{ sid_adm_usr_oradb }}" 
+    msg: "{{ get_sid_output.results[item].stdout }}" 
+  loop: "{{ ansible_loop.allitems }}" 
   
     
 #- name: Get the SAP Version
