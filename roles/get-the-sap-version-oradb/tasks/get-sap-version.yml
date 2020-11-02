@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  loop: sid_adm_usr_oradb.allitems
+  loop: "{{ sid_adm_usr_oradb.allitems }}"
   loop_control:
     extended: yes
  
