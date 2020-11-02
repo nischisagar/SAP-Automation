@@ -69,14 +69,14 @@
 - debug:
     msg: "{{ get_db_version_output }}"
 
-- name: Remove the script
-  file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_script }}"
-    state: absent
-loop: "{{ sid_adm_usr_oradb }}"
+#- name: Remove the script
+#  file:
+#    path: "/tmp/{{ item.name }}-{{ sap_version_check_script }}"
+#    state: absent
+#loop: "{{ sid_adm_usr_oradb }}"
 
-- name: Remove the log
-  file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_log }}"
-    state: absent
-  loop: "{{ sid_adm_usr_oradb }}"
+#- name: Remove the log
+#  file:
+#    path: "/tmp/{{ item.name }}-{{ sap_version_check_log }}"
+#    state: absent
+#  loop: "{{ sid_adm_usr_oradb }}"
