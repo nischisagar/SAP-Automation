@@ -73,7 +73,7 @@
   lineinfile:
     dest: "{{ report_file }}"
   #  line: "{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sap_version_output.stdout }},{{ get_kernel_make_variant_output.stdout }},{{ get_patch_number_output.stdout }},{{ get_db_name_output.stdout }},{{ get_db_version_output.stdout}}"
-    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.stdout }}"
+    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.stdout }},{{ item.stdout }}"
   loop: 
     - "{{ get_sid_output.results }}"
     - "{{ get_sap_version_output.results }}"
