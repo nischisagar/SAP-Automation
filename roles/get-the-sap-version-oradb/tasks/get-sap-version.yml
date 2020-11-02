@@ -25,7 +25,7 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  loop:  allitems
+  loop:  "{{ lookup('vars', ansible_loop_var) }}"
 
  
     
