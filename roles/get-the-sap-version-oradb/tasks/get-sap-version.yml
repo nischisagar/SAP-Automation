@@ -23,7 +23,7 @@
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_sid_output.stdout  }}"
+    msg: get_sid_output.stdout
     verbosity: 2
 
 #- name: Get the SAP Version
