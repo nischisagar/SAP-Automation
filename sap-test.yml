@@ -15,7 +15,7 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: get-the-sap-version-oradb
-  - role: report-create-sap-oradb
+  #- role: report-create-sap-oradb
 
 - name: Send e-mail
   hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
@@ -44,7 +44,7 @@
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
         charset: us-ascii
     
-    - name: Remove the Oracle DB report
-      file:
-        path: "{{ report_file }}"
-        state: absent
+    #- name: Remove the Oracle DB report
+    #  file:
+    #    path: "{{ report_file }}"
+    #    state: absent
