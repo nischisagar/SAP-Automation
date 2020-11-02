@@ -21,11 +21,6 @@
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
   register: "get_sid_output"
   loop: "{{ sid_adm_usr_oradb }}"
-  
-- name: Set fact for SID
-  set_fact:
-    sid_list: "{{ get_sid_output.stdout }}"
-  with_items: "sid_list"
 
 - name: Get the SAP Version
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
@@ -68,8 +63,6 @@
   lineinfile:
     dest: "{{ report_file }}"
   #  line: "{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sap_version_output.stdout }},{{ get_kernel_make_variant_output.stdout }},{{ get_patch_number_output.stdout }},{{ get_db_name_output.stdout }},{{ get_db_version_output.stdout}}"
-    line: "{{ entity_name }},{{ ansible_fqdn }},{{ sid_list }}"
-  #with_items:
-  #  - "{{ get_sid_output }}"
+    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid_output.stdout  }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   
