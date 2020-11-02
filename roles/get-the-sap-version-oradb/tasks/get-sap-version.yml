@@ -24,9 +24,9 @@
 
 - name: Debug the output get_sid_output
   debug:
-    msg: "{{ get_sid_output.results[item.name].stdout }}"
-  with_items: "{{ sid_adm_usr_oradb }}"
-   
+    msg: "{{ get_sid_output }}"
+  loop: stdout
+    
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
 #  register: "get_sap_version_output"
