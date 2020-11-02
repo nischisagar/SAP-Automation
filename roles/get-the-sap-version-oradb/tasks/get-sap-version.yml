@@ -19,8 +19,8 @@
 
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
-  register: "get_sid_output"
   loop: "{{ sid_adm_usr_oradb }}"
+  register: get_sid_output
 
 - name: Debug the output get_sid_output
   debug:
