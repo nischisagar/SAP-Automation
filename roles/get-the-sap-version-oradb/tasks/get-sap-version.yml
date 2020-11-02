@@ -8,14 +8,14 @@
 #  when: sid_adm_usr_oradb is defined
 #  loop: "{{ sid_adm_usr_oradb }}"
 
-- name: Run the SAP version check script
-  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script }}"
-  register: "run_script_output"
-  changed_when: False
-  args:
-    warn: false
-  when: sid_adm_usr_oradb is defined
-  loop: "{{ sid_adm_usr_oradb }}"
+#- name: Run the SAP version check script
+#  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script }}"
+#  register: "run_script_output"
+#  changed_when: False
+#  args:
+#    warn: false
+#  when: sid_adm_usr_oradb is defined
+#  loop: "{{ sid_adm_usr_oradb }}"
 
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
