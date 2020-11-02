@@ -10,7 +10,7 @@
 
 - name: Run the SAP version check script
   shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script }}"
-  register: run_script_output
+  register: "{{ item.name }}.run_script_output"
   changed_when: False
   args:
     warn: false
@@ -18,56 +18,63 @@
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ run_script_output }}"
+    msg: "{{ item.name }}.run_script_output"
   when: sid_adm_usr_oradb is defined
-  
+  loop: "{{ sid_adm_usr_oradb }}"
+
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
-  register: get_sid_output
+  register: "{{ item.name }}.get_sid_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_sid_output }}"
-
+    msg: "{{ item.name }}.get_sid_output"
+  loop: "{{ sid_adm_usr_oradb }}"
+  
 - name: Get the SAP Version
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
-  register: get_sap_version_output
+  register: "{{ item.name }}.get_sap_version_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_sap_version_output }}"
+    msg: "{{ item.name }}.get_sap_version_output"
+  loop: "{{ sid_adm_usr_oradb }}"
 
 - name: Get the Kernel make variant
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
-  register: get_kernel_make_variant_output
+  register: "{{ item.name }}.get_kernel_make_variant_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_kernel_make_variant_output }}"
+    msg: "{{ item.name }}.get_kernel_make_variant_output"
+  loop: "{{ sid_adm_usr_oradb }}"
 
 - name: Get the Kernel make variant
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -4 | tail -1 | awk '{print $NF}'"
-  register: get_patch_number_output
+  register: "{{ item.name }}.get_patch_number_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_patch_number_output }}"
+    msg: "{{ item.name }}.get_patch_number_output"
+  loop: "{{ sid_adm_usr_oradb }}"
 
 - name: Get the DB name
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -5 | tail -1"
-  register: get_db_name_output
+  register: "{{ item.name }}.get_db_name_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_db_name_output }}"
+    msg: "{{ item.name }}.get_db_name_output"
+  loop: "{{ sid_adm_usr_oradb }}"
 
 - name: Get the DB Version
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
-  register: get_db_version_output
+  register: "{{ item.name }}.get_db_version_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
 - debug:
-    msg: "{{ get_db_version_output }}"
+    msg: "{{ item.name }}.get_db_version_output"
+  loop: "{{ sid_adm_usr_oradb }}"
 
 #- name: Remove the script
 #  file:
@@ -80,3 +87,10 @@
 #    path: "/tmp/{{ item.name }}-{{ sap_version_check_log }}"
 #    state: absent
 #  loop: "{{ sid_adm_usr_oradb }}"
+
+- name: Add the server details in to the SAP Report File.
+  lineinfile:
+    dest: "{{ report_file }}"
+    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.name }}.{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.name }}.{{ get_sap_version_output.stdout }},{{ item.name }}.{{ get_kernel_make_variant_output.stdout }},{{ item.name }}.{{ get_patch_number_output.stdout }},{{ item.name }}.{{ get_db_name_output.stdout }},{{ item.name }}.{{ get_db_version_output.stdout}}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  loop: "{{ sid_adm_usr_oradb }}"

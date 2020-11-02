@@ -2,6 +2,6 @@
 - name: Add the server details in to the SAP Report File.
   lineinfile:
     dest: "{{ report_file }}"
-    line: '{{ entity_name }},{{ ansible_fqdn }},{{ item.name.get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.name.get_sap_version_output.stdout }},{{ item.name.get_kernel_make_variant_output.stdout }},{{ item.name.get_patch_number_output.stdout }},{{ item.name.get_db_name_output.stdout }},{{ item.name.get_db_version_output.stdout}}'
+    line: '{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout.item.name }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.name.get_sap_version_output.stdout }},{{ item.name.get_kernel_make_variant_output.stdout }},{{ item.name.get_patch_number_output.stdout }},{{ item.name.get_db_name_output.stdout }},{{ item.name.get_db_version_output.stdout}}'
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   loop: "{{ sid_adm_usr_oradb }}"
