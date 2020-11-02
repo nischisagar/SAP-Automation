@@ -1,11 +1,11 @@
 ---
-- name: Add the title content in to SAP Version Details Report
-  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
-  - role: report-create-sap-title-oradb
+#- name: Add the title content in to SAP Version Details Report
+#  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+#  become: yes
+#  become_method: sudo
+#  gather_facts: false
+#  roles:
+#  - role: report-create-sap-title-oradb
 
 - name: Get the SAP version from the SAP Servers
   hosts: "{{ sap_oradb_host_name }}"
