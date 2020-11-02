@@ -22,8 +22,8 @@
   register: "get_sid_output"
   loop: "{{ sid_adm_usr_oradb }}"
 
-
-- debug:
+- name: Debug the output
+  debug:
     msg: get_sid_output
     verbosity: 2
 
