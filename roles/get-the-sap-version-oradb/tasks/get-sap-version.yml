@@ -25,10 +25,8 @@
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sid_output.results[item].stdout }}"
-  with_items:
-    - 0
-    - 1
-  when: sid_adm_usr_oradb is defined 
+  with_items: "{{ sid_adm_usr_oradb }}"
+
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
 #  register: "get_sap_version_output"
