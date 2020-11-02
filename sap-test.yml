@@ -8,7 +8,7 @@
   - role: report-create-sap-title-oradb
 
 - name: Get the SAP version from the SAP Servers
-  hosts: ampsa033qecc0.ux1.ibmfr.bluecare.ibm.com
+  hosts: {{ sap_oradb_host_name }}
   become: yes
   become_method: sudo
   vars: 
