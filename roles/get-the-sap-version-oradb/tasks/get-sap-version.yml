@@ -21,21 +21,10 @@
   loop: "{{ sid_adm_usr_oradb }}"
   register: "get_sid_output"
 
-- name: Set fact for SID 
-  set_fact:
-    get_sid_output_fact: "{{ item.stdout }}"
-    cacheable: yes
-  loop: "{{ get_sid_output.results }}"
-
 - name: Debug the output get_sid_output
   debug:
-    msg: "{{ get_sid_output_fact }}"
- 
-
-#- name: Debug the output get_sid_output
-#  debug:
-#    msg: "{{ item.stdout }}"
-#  loop: "{{ get_sid_output.results }}"
+    msg: "{{ item.stdout }}"
+  loop: "{{ get_sid_output.results }}"
  
     
 - name: Get the SAP Version
@@ -43,20 +32,10 @@
   loop: "{{ sid_adm_usr_oradb }}"
   register: "get_sap_version_output"
 
-- name: Set fact for Sap Version
-  set_fact:
-    get_sap_version_output_fact: "{{ item.stdout }} "
-    cacheable: yes
-  loop: "{{ get_sap_version_output.results }}"
-
-- name: Debug the output get_sap_version_output_fact
+- name: Debug the output get_sid_output
   debug:
-    msg: "{{ get_sap_version_output_fact }}"
-
-#- name: Debug the output get_sid_output
-#  debug:
-#    msg: "{{ item.stdout }}"
-#  loop: "{{ get_sap_version_output.results }}"
+    msg: "{{ item.stdout }}"
+  loop: "{{ get_sap_version_output.results }}"
 
 #- name: Get the Kernel make variant
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
@@ -91,9 +70,10 @@
 #  loop: "{{ sid_adm_usr_oradb }}"
 
 
-#- name: Add the server details in to the SAP Report File.
-#  lineinfile:
-#    dest: "{{ report_file }}"
+- name: Add the server details in to the SAP Report File.
+  lineinfile:
+    dest: "{{ report_file }}"
   #  line: "{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sap_version_output.stdout }},{{ get_kernel_make_variant_output.stdout }},{{ get_patch_number_output.stdout }},{{ get_db_name_output.stdout }},{{ get_db_version_output.stdout}}"
-#    line: "{{ entity_name }},{{ ansible_fqdn }},{{ sid_adm_usr_oradb_fact }},{{ item.stdout[1] }}"
-#  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.stdout[0] }}"
+  loop: "{{ get_sap_version_output.results }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
