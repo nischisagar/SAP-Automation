@@ -3,21 +3,21 @@
   copy:
     src: "{{ sap_version_check_script_source }}"
     dest: "{{ sap_version_check_script }}"
-    owner: "{{ sid_adm_usr }}"
+    owner: "{{ sid_adm_usr_oradb }}"
     mode: '0700'
-  when: sid_adm_usr is defined
+  when: sid_adm_usr_oradb is defined
 
 - name: Run the SAP version check script
-  shell: "su - {{ sid_adm_usr }} -c {{ sap_version_check_script }}"
+  shell: "su - {{ sid_adm_usr_oradb }} -c {{ sap_version_check_script }}"
   register: run_script_output
   changed_when: False
   args:
     warn: false
-  when: sid_adm_usr is defined
+  when: sid_adm_usr_oradb is defined
 
 - debug:
     msg: "{{ run_script_output }}"
-  when: sid_adm_usr is defined
+  when: sid_adm_usr_oradb is defined
  
 - name: Get the SID
   shell: "cat {{ sap_version_check_log }}  | head -1"
