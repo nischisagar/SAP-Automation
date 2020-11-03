@@ -21,13 +21,10 @@
   loop: "{{ sid_adm_usr_oradb }}"
   register: "get_sid_output"
   
-
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ item.stdout }}"
   loop: "{{ get_sid_output.results }}"
-  loop_control:
-    loop_var: ansible_loop_var
   
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
