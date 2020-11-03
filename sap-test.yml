@@ -13,8 +13,11 @@
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr_db2_abap:
+      - dkeadm
+    entity_name: "017_LAPEYRE"
   roles:
-  - role: get-the-sap-version-oradb
+  - role: get-the-sap-version-db2-abap
   tasks:
     - name: Add the server details in to the SAP Report File.
       lineinfile:
@@ -35,8 +38,12 @@
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
+    sid_adm_usr_db2_abap:
+      - tkeadm
+      - tksadm
+    entity_name: "017_LAPEYRE"
   roles:
-  - role: get-the-sap-version-oradb
+  - role: get-the-sap-version-db2-abap
   tasks:
     - name: Add the server details in to the SAP Report File.
       lineinfile:
@@ -71,12 +78,13 @@
         body: Hello Team, Please find the attached SAP and Oracle DB version details report from Oracle DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
-        - Swetha J <swethaj.iyer@in.ibm.com> 
+        - Poonjolai Govindasamy <pogovind@in.ibm.com>
+ #       - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+ #       - Swetha J <swethaj.iyer@in.ibm.com> 
         cc: 
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
-        - Vignesh Rajendran <vigrajen@in.ibm.com>
-        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+ #       - Vignesh Rajendran <vigrajen@in.ibm.com>
+ #       - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:

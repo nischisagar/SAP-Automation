@@ -27,12 +27,12 @@
   register: "get_sap_version_output"
 
 - name: Get the Kernel make variant
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2-abap }}  | head -3 | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2-abap }}  | head -3 | tail -1 | awk '{print $1}'"
   loop: "{{ sid_adm_usr_db2_abap }}"
   register: "get_kernel_make_variant_output"
 
 - name: Get the Kernel Patch Number
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2-abap }}  | head -4 | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2-abap }}  | head -3 | tail -1 | awk '{print $NF}'"
   loop: "{{ sid_adm_usr_db2_abap }}"
   register: "get_patch_number_output"
 
