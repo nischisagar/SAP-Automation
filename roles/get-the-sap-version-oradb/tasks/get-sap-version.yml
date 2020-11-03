@@ -20,7 +20,7 @@
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
   loop: "{{ sid_adm_usr_oradb }}"
   register: "get_sid_output"
-  with_items: ""
+  
 
 - name: Debug the output get_sid_output
   debug:
@@ -35,8 +35,7 @@
   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
   loop: "{{ sid_adm_usr_oradb }}"
   register: "get_sap_version_output"
-  with_items: ""
-
+  
 - name: Debug the output get_sid_output
   debug:
     msg: "{{ get_sap_version_output.stdout }}"
