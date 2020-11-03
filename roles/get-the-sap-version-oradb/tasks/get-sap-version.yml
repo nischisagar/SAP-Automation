@@ -80,6 +80,5 @@
   #    get_sap: "{{ get_sap_version_output.results }}"
   loop_control:
     extended: yes
-  ansible_loop.allitems: get_sid
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
