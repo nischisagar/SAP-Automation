@@ -26,17 +26,16 @@
     msg: "{{ item.stdout }}"
   loop: "{{ get_sid_output.results | list }}"
 
-#- name: Get the SAP Version
-#  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
-#  loop: "{{ sid_adm_usr_oradb }}"
-#  register: "get_sap_version_output"
+- name: Get the SAP Version
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_oradb }}"
+  register: "get_sap_version_output"
   
-#- name: Debug the output get_sid_output
-#  debug:
-#    msg: "{{ item.stdout }}"
-#  loop: "{{ get_sap_version_output.results }}"
-#  loop_control:
-#    loop_var: ansible_loop_var
+- name: Debug the output get_sap_version_output
+  debug:
+    msg: "{{ item.stdout }}"
+  loop: "{{ get_sap_version_output.results | list }}"
+
   
 #- name: Get the Kernel make variant
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
@@ -71,13 +70,13 @@
 #  loop: "{{ sid_adm_usr_oradb }}"
 
 
-# - name: Add the server details in to the SAP Report File.
-#  lineinfile:
-#    dest: "{{ report_file }}"
+- name: Add the server details in to the SAP Report File.
+  lineinfile:
+    dest: "{{ report_file }}"
   #  line: "{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sap_version_output.stdout }},{{ get_kernel_make_variant_output.stdout }},{{ get_patch_number_output.stdout }},{{ get_db_name_output.stdout }},{{ get_db_version_output.stdout}}"
-#    line: "{{ entity_name }},{{ ansible_fqdn }},{{ var=get_sid.item.stdout }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ get_sap.item.stdout }}"
-#  loop: 
-#    - get_sid: "{{ get_sid_output.results }}"
-#      get_sap: "{{ get_sap_version_output.results }}"
-#  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+    line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid.stdout }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap.stdout }}"
+  loop: 
+    - get_sid: "{{ get_sid_output.results | list }}"
+      get_sap: "{{ get_sap_version_output.results | list }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
