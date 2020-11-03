@@ -5,7 +5,7 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: report-create-sap-title-oradb-db2-abap-jaja
+  - role: report-create-sap-title-oradb
 
 - name: Get the SAP version from the Oracle DB-SAP Servers(Single SID)
   hosts: "{{ sap_oradb_host_name_single_sid }}"
