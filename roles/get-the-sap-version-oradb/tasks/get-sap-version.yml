@@ -23,7 +23,7 @@
   
 - name: Debug the output get_sid_output
   debug:
-    var: item
+    var: item.stdout
   loop: "{{ get_sid_output.results }}"
   loop_control:
     loop_var: ansible_loop_var
