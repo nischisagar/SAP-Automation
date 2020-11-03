@@ -23,9 +23,8 @@
   
 - name: Debug the output get_sid_output
   debug:
-    var: item1
-    msg: item1.stdout
-  loop: "{{ get_sid_output.results }}"
+    var: item
+  loop: "{{ get_sid_output.results|select("changed")|map(attribute="shell")|list }}"
 
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
