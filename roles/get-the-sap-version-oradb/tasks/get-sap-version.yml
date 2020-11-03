@@ -22,9 +22,9 @@
   register: "get_sid_output"
   
 - name: Debug the output get_sid_output
-  debug:
-    var: item
-  loop: '{{ get_sid_output.results|select("changed")|map(attribute="shell")|list }}'
+  debug: 
+    msg: "{{ item.stdout }}"
+  loop: '{{ get_sid_output.results | dict2items }}"
 
 #- name: Get the SAP Version
 #  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
