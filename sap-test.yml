@@ -14,7 +14,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr_db2_abap:
-      - dkeadm
+      - name: dkeadm
     entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2-abap
@@ -39,8 +39,8 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
     sid_adm_usr_db2_abap:
-      - tkeadm
-      - tksadm
+      - name: tkeadm
+      - name: tksadm
     entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2-abap
