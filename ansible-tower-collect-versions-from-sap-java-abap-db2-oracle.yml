@@ -154,12 +154,12 @@
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
- #       - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
- #       - Swetha J <swethaj.iyer@in.ibm.com> 
+        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+        - Swetha J <swethaj.iyer@in.ibm.com> 
         cc: 
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
- #       - Vignesh Rajendran <vigrajen@in.ibm.com>
- #       - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+        - Vignesh Rajendran <vigrajen@in.ibm.com>
+        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:
