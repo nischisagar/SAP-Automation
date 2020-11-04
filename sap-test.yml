@@ -70,7 +70,7 @@
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_db2_abap:
+    sid_adm_usr_db2_java:
       - name: dkdadm
     entity_name: "017_LAPEYRE"
   roles:
