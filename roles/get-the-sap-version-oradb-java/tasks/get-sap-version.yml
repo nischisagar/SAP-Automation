@@ -1,60 +1,60 @@
 ---
 - name: Copy the script
   copy:
-    src: "{{ sap_version_check_script_source }}"
-    dest: "/tmp/{{ item.name }}-{{ sap_version_check_script }}"
+    src: "{{ sap_version_check_script_source_oradb_java }}"
+    dest: "/tmp/{{ item.name }}-{{ sap_version_check_script_oradb_java }}"
     owner: "{{  item.name }}"
     mode: '0700'
-  when: sid_adm_usr_oradb is defined
-  loop: "{{ sid_adm_usr_oradb }}"
+  when: sid_adm_usr_oradb_java is defined
+  loop: "{{ sid_adm_usr_oradb_java }}"
 
 - name: Run the SAP version check script
-  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script }}"
+  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script_oradb_java }}"
   changed_when: False
   args:
     warn: false
-  when: sid_adm_usr_oradb is defined
-  loop: "{{ sid_adm_usr_oradb }}"
+  when: sid_adm_usr_oradb_java is defined
+  loop: "{{ sid_adm_usr_oradb_java }}"
 
 - name: Get the SID
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }} | head -1"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }} | head -1"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_sid_output"
   
 - name: Get the SAP Version
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -2 | tail -1"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}  | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_sap_version_output"
   
 - name: Get the Kernel make variant
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -3 | tail -1 | awk '{print $NF}'"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}  | head -3 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_kernel_make_variant_output"
 
 - name: Get the Kernel Patch Number
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -4 | tail -1 | awk '{print $NF}'"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}  | head -4 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_patch_number_output"
 
 - name: Get the DB name
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | head -5 | tail -1"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}  | head -5 | tail -1"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_db_name_output"
   
 
 - name: Get the DB Version
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log }}  | tail -1 | awk '{print $NF}'"
-  loop: "{{ sid_adm_usr_oradb }}"
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}  | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_java }}"
   register: "get_db_version_output"
 
 - name: Remove the script
   file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_script }}"
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_oradb_java }}"
     state: absent
-  loop: "{{ sid_adm_usr_oradb }}"
+  loop: "{{ sid_adm_usr_oradb_java }}"
 
 - name: Remove the log
   file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_log }}"
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_oradb_java }}"
     state: absent
-  loop: "{{ sid_adm_usr_oradb }}"
+  loop: "{{ sid_adm_usr_oradb_java }}"
