@@ -24,4 +24,5 @@ kernellevel=`cat /tmp/ansible_kernelv.log|tail -1|awk '{print $1,$2}'`
 echo "$sid" > /tmp/$sidadm-sap-version-check-oradb-abap.log
 echo "$sversion" >> /tmp/$sidadm-sap-version-check-oradb-abap.log
 echo "$kernellevel" >> /tmp/$sidadm-sap-version-check-oradb-abap.log
-echo "$DBREL $DBVER" >> /tmp/$sidadm-sap-version-check-oradb-abap.log
+echo "$DBREL" >> /tmp/$sidadm-sap-version-check-oradb-abap.log
+echo "$DBVER" >> /tmp/$sidadm-sap-version-check-oradb-abap.log
