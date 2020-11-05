@@ -8,14 +8,11 @@
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
 - name: Get the SAP version from the SAP-DB2-ABAP Servers(Single SID)
-  hosts: "{{ sap_db2_abap_host_name_single_sid }}"
+  hosts: sap_db2_abap_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_db2_abap:
-      - name: dkeadm
-    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
@@ -33,15 +30,11 @@
       delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Get the SAP version from the SAP-DB2-ABAP Servers(Two SIDs)
-  hosts: "{{ sap_db2_abap_host_name_two_sid }}"
+  hosts: sap_db2_abap_host_name_two_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_db2_abap:
-      - name: tkeadm
-      - name: tksadm
-    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
@@ -65,14 +58,11 @@
       delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com  
 
 - name: Get the SAP version from the SAP-DB2-JAVA Servers(Single SID)
-  hosts: "{{ sap_db2_java_host_name_single_sid }}"
+  hosts: sap_db2_java_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_db2_java:
-      - name: tkjadm
-    entity_name: "017_LAPEYRE"
   roles:
   - role: get-the-sap-version-db2-java
   tasks:
@@ -90,14 +80,11 @@
       delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers(Single SID)
-  hosts: "{{ sap_oradb_abap_host_name_single_sid }}"
+  hosts: sap_oradb_abap_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_oradb_abap:
-      - name: qneadm
-    entity_name: "033_SABRE"
   roles:
   - role: get-the-sap-version-oradb-abap
   tasks:
@@ -115,14 +102,11 @@
       delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers(Single SID)
-  hosts: "{{ sap_oradb_java_host_name_single_sid }}"
+  hosts: sap_oradb_java_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    sid_adm_usr_oradb_java:
-      - name: tnjadm
-    entity_name: "033_SABRE"
   roles:
   - role: get-the-sap-version-oradb-java
   tasks:
