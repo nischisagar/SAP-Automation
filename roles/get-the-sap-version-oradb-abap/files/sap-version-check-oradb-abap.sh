@@ -13,7 +13,7 @@ spool off;
 set linesize 500;
 set pagesize 500;
 spool /tmp/ansible_kernelv.log;
-select SAPRELEASE,Trim(Leading '0' from patchno),timestamp from sapsr3.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc fetch  first 1 rows only;
+select SAPRELEASE,Trim(Leading '0' from patchno),timestamp from $schemaa.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc fetch  first 1 rows only;
 spool off;
 exit
 EOF
