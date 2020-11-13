@@ -8,7 +8,7 @@ set echo off;
 set feedback off;
 set heading off;
 select BANNER_FULL FROM v\$version;
-select distinct SAPRELEASE,SERVICELEVEL from $schemaa.bc_compvers where scname='ENGINEAPI';
+select distinct SAPRELEASE,SERVICELEVEL from $schemaa.bc_compvers where scname='CORE-TOOLS';
 spool off;
 exit
 EOF
@@ -17,7 +17,7 @@ jsp=`tail -1 /tmp/ansible_jsapvers.log|awk '{print $2}'`
 DBVER=`cat /tmp/ansible_jsapvers.log|grep -i version`
 DBREL=`cat /tmp/ansible_jsapvers.log|grep -i oracle`
 echo "$sid" > /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "Java NW $jversion SP $jsp " >> /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "Java NW $jversion SP $jsp" >> /tmp/$sidadm-sap-version-check-oradb-java.log
 disp+work|egrep -i 'variant|number' >> /tmp/$sidadm-sap-version-check-oradb-java.log
 echo "$DBREL" >> /tmp/$sidadm-sap-version-check-oradb-java.log
 echo "$DBVER" >> /tmp/$sidadm-sap-version-check-oradb-java.log
