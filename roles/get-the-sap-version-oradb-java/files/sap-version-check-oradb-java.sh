@@ -8,7 +8,7 @@ set echo off;
 set feedback off;
 set heading off;
 select BANNER_FULL FROM v\$version;
-select distinct SAPRELEASE,SERVICELEVEL from sapsr3db.bc_compvers where scname='ENGINEAPI';
+select distinct SAPRELEASE,SERVICELEVEL from $schemaa.bc_compvers where scname='ENGINEAPI';
 spool off;
 exit
 EOF
