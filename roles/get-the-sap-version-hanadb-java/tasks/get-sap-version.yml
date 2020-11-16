@@ -1,0 +1,60 @@
+---
+- name: Copy the script
+  copy:
+    src: "{{ sap_version_check_script_source_hanadb_java }}"
+    dest: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_java}}"
+    owner: "{{  item.name }}"
+    mode: '0700'
+  when: sid_adm_usr_hanadb_java is defined
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+
+- name: Run the SAP version check script
+  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_java }}"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_hanadb_java is defined
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+
+- name: Get the SID
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }} | head -1"
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_sid_output"
+  
+- name: Get the SAP Version
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }}  | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_sap_version_output"
+  
+- name: Get the Kernel make variant
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }}  | head -3 | tail -1 | awk '{print $1}'"
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_kernel_make_variant_output"
+
+- name: Get the Kernel Patch Number
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }}  | head -3 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_patch_number_output"
+
+- name: Get the DB name
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java}} | tail -1 | awk '{print $1}'
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_db_name_output"
+  
+
+- name: Get the DB Version
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }}  | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+  register: "get_db_version_output"
+
+- name: Remove the script
+  file:
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_java }}"
+    state: absent
+  loop: "{{ sid_adm_usr_hanadb_java }}"
+
+- name: Remove the log
+  file:
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_java }}"
+    state: absent
+  loop: "{{ sid_adm_usr_hanadb_java}}"

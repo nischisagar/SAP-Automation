@@ -7,20 +7,19 @@
   roles:
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
-- name: Get the SAP version from the SAP-DB2-ABAP Servers(Single SID)
-  hosts: sap_db2_abap_host_name_single_sid
+- name: Get the SAP version from the SAP-HANADB-JAVA Servers(Single SID)
+  hosts: sap_hanadb_java_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-sap-version-db2-abap
+  - role: get-the-sap-version-hanadb-java
   tasks:
     - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-        state: present
       throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
