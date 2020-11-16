@@ -16,7 +16,7 @@
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -39,7 +39,7 @@
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -68,7 +68,7 @@
   roles:
   - role: get-the-sap-version-db2-java
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -91,7 +91,7 @@
   roles:
   - role: get-the-sap-version-oradb-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -114,7 +114,7 @@
   roles:
   - role: get-the-sap-version-oradb-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -143,7 +143,7 @@
   roles:
   - role: get-the-sap-version-oradb-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -178,7 +178,7 @@
   roles:
   - role: get-the-sap-version-oradb-java
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: AAdd the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -201,7 +201,7 @@
   roles:
   - role: get-the-sap-version-oradb-java
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -230,7 +230,7 @@
   roles:
   - role: get-the-sap-version-hanadb-java
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
@@ -243,7 +243,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
-      
+
 - name: Get the SAP version from the SAP-HANA-ABAP Servers(Single SID)
   hosts: sap_hanadb_abap_host_name_single_sid
   become: yes
@@ -253,7 +253,7 @@
   roles:
   - role: get-the-sap-version-hanadb-abap
   tasks:
-    - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
+    - name: Add the server details in to the SAP, DB2, Oracle and HANA DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
