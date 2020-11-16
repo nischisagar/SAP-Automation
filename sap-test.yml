@@ -8,7 +8,7 @@
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
 - name: Get the SAP version from the SAP-HANADB-JAVA Servers(Single SID)
-  hosts: ampsv034han0d
+  hosts: sap_hanadb_java_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
