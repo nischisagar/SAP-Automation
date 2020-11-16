@@ -8,7 +8,7 @@
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers(Single SID)
-  hosts: sap_oradb_java_host_name_single_sid
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   vars: 
