@@ -254,8 +254,8 @@
       mail:
         host: smtp.mail.saint-gobain.net
         port: 25
-        subject: Ansible Report - SAP, DB2 and Oracle DB versions
-        body: Hello Team, Please find the attached SAP, DB2 and Oracle DB versions details report from DB2 and Oracle DB servers.
+        subject: Ansible Report - SAP, DB2, Oracle and HANA DB versions
+        body: Hello Team, Please find the attached SAP, DB2, Oracle DB and HANA DB versions details report from DB2, Oracle and HANA DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
