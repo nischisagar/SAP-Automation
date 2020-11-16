@@ -1,7 +1,16 @@
 #!/bin/ksh
-sid=`env|grep -i DB_SID|cut -d"=" -f2`
+sid=`id -u -n|cut -c 1-3|tr '[:lower:]' '[:upper:]'`
 sidadm=`id -u -n`
-schemaa=`env|grep -i dbs_ora_schema|cut -d"=" -f2`
+sqlplus -s sys/sys as sysdba<<EOF
+spool /tmp/ansible_schemaname.txt;
+set echo off;
+set feedback off;
+set heading off;
+select owner from dba_tables where table_name='SDBAH';
+spool off;
+exit
+EOF
+schemaa=`cat /tmp/ansible_schemaname.txt|tail -1`
 sqlplus -s sys/sys as sysdba<<EOF
 spool /tmp/ansible_jsapvers.log;
 set echo off;
