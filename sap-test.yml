@@ -15,12 +15,6 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: get-the-sap-version-db2-abap
-  
-- name: Add the SAP version of the SAP-DB2-ABAP Servers(Single SID) in to the Report File.
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
   serial: 1
   tasks:
     - name: Add the server details in to the SAP,DB2 and OracleDB Report File.
@@ -35,7 +29,8 @@
           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-
+      delegate_to: ampsv010bld0d
+      
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
