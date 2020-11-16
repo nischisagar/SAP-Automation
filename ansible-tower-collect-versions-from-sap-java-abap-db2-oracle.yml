@@ -20,6 +20,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -42,6 +43,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -70,6 +72,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -92,6 +95,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -114,6 +118,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -142,6 +147,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -176,6 +182,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -198,6 +205,7 @@
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
@@ -228,11 +236,11 @@
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
- #       - Swetha J <swethaj.iyer@in.ibm.com> 
+#        - Swetha J <swethaj.iyer@in.ibm.com> 
         cc: 
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
- #       - Vignesh Rajendran <vigrajen@in.ibm.com>
- #       - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+#        - Vignesh Rajendran <vigrajen@in.ibm.com>
+#        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:
