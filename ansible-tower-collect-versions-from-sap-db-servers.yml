@@ -328,19 +328,14 @@
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
-#        - Swetha J <swethaj.iyer@in.ibm.com> 
+        - Swetha J <swethaj.iyer@in.ibm.com> 
         cc: 
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
-#        - Vignesh Rajendran <vigrajen@in.ibm.com>
-#        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
+        - Vignesh Rajendran <vigrajen@in.ibm.com>
+        - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:
         - Reply-To=pogovind@in.ibm.com
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
         charset: us-ascii
-    
-#    - name: Remove the Oracle DB report
-#      file:
-#        path: "{{ report_file }}"
-#        state: absent
