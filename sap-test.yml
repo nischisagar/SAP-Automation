@@ -7,14 +7,14 @@
   roles:
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
-- name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
-  hosts: sap_maxdb_abap_host_name_single_sid
+- name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
+  hosts: xmpsl045than0
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-sap-version-maxdb-abap
+  - role: get-the-sap-version-hanadb-abap
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
@@ -29,7 +29,6 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
-
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
