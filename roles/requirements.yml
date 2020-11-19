@@ -1,4 +1,4 @@
 ---
 - name: socks-tunnel
-  src: git+https://github.ibm.com/Continuous-Engineering/ansible-role-event-socks-tunnel.git
+  src: git+https://github.ibm.com/IBM-GTS-EU-EU01/ansible-role-event-socks-tunnel.git
   version: master
