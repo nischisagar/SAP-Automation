@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
+  hosts: ampsv010rep0d
   gather_facts: no
   roles:
   - role: socks-tunnel
