@@ -1,62 +1,22 @@
 ---
-- name: Add the title content in to SAP Version Details Report
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
-  - role: report-create-sap-title-oradb-db2-abap-jaja
 
-- name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
-  hosts: xmpsl045than0
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
+- name: Socks tunnel setup
+  hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
+  gather_facts: no
   roles:
-  - role: get-the-sap-version-hanadb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
-- name: Send e-mail
-  hosts: ampsv010bld0d
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Get the MS-SQL version from Windows Servers (Single SID)
+  hosts: sap_mssql_host_name_single_sid
   become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP, DB2 and Oracle DB versions
-        body: Hello Team, Please find the attached SAP, DB2 and Oracle DB versions details report from DB2 and Oracle DB servers.
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
- #       - Swetha J <swethaj.iyer@in.ibm.com> 
-        cc: 
-        - Poonjolai Govindasamy <pogovind@in.ibm.com>
- #       - Vignesh Rajendran <vigrajen@in.ibm.com>
- #       - Sureshkumar Krishnamurthy <sureshkk@in.ibm.com>
-        attach:
-        - "{{ report_file }}"
-        headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
-        charset: us-ascii
-    
-#    - name: Remove the Oracle DB report
-#      file:
-#        path: "{{ report_file }}"
-#        state: absent
+  become_method: enable
+  ansible_connection: psrp
+  ansible_psrp_protocol: http
+
+  roles:
+  - role: get-the-sap-version-mssql-win

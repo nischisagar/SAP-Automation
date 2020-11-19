@@ -1,0 +1,69 @@
+---
+- name: collect the version of SAP/DB/Kernel
+  win_shell:
+    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select distinct STEXT from qpb.CVERS_TXT where LANGU='E';" > C:\temp\{{ mssql_sapver_log }}
+    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" > C:\temp\{{ mssql_dbver_log }}
+    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from qpb.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc" > C:\temp\{{ mssql_sapkernelver_log }}
+
+- name: get the SAP version details from file     
+  win_shell: 
+    $var = Get-Content -Path C:\temp\{{ mssql_sapver_log }}
+    $var[2]
+  register: "sap_verison"
+- debug:
+    msg: "{{ sap_verison }}"
+
+- name: get the SAP version details from file     
+  win_shell: 
+    $var = Get-Content -Path C:\temp\{{ mssql_dbver_log }}
+    $var[2]
+  register: "kernal_verison"
+- debug:
+    msg: "kernal_verison"
+
+- name: get the SAP version details from file     
+  win_shell: 
+    $var = Get-Content -Path C:\temp\{{ mssql_sapkernelver_log }}
+    $var[10]        
+  register: "db_verison"
+- debug:
+    msg: "{{ db_verison }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
