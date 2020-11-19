@@ -14,7 +14,5 @@
   hosts: sap_mssql_host_name_single_sid
   become: yes
   become_method: enable
-  ansible_connection: psrp
-  ansible_psrp_protocol: http
   roles:
     - role: get-the-sap-version-mssql-win
