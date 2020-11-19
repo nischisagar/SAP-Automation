@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: ampsv010rep0d
+  hosts: sap_mssql_host_name_single_sid
   gather_facts: no
   roles:
   - role: socks-tunnel
