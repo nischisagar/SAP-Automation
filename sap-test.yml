@@ -1,5 +1,4 @@
 ---
-
 - name: Socks tunnel setup
   hosts: "ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com"
   gather_facts: no
@@ -17,6 +16,5 @@
   become_method: enable
   ansible_connection: psrp
   ansible_psrp_protocol: http
-
   roles:
-  - role: get-the-sap-version-mssql-win
+    - role: get-the-sap-version-mssql-win
