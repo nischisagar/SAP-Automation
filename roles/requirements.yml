@@ -2,4 +2,4 @@
 - name: socks-tunnel
   src: >-
     git+https://github.ibm.com/Continuous-Engineering/ansible-role-event-socks-tunnel.git
-  version: 20.11.0
+  version: 20.5.0
