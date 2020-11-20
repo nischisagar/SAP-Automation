@@ -7,8 +7,8 @@
     run_once: true
     delegate_to: localhost
     vars:
-      trans_num: "{{ tower_job_id }}"
-      account_code: sgi
+      transaction_id: "{{ tower_job_id }}"
+      acc_id: sgi
 
 - name: Get the MS-SQL version from Windows Servers (Single SID)
   hosts: sap_mssql_host_name_single_sid
