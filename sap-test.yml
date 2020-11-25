@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: sap_mssql_host_name_single_sid
+  hosts: all
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
