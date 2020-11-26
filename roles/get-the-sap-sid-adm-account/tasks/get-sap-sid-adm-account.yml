@@ -9,7 +9,7 @@
 - name: Run the SAP version check script
   shell: |
     #!/bin/ksh
-    sid="{{ QNE }}"
+    sid="{{ SID }}"
     ssmall=`echo $sid|tr '[:upper:]' '[:lower:]'`
     sidadm="${ssmall}adm"
     echo "The admin user name of $sid  is $sidadm"
