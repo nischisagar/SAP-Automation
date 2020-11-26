@@ -1,18 +1,7 @@
 ---
-- name: Socks tunnel setup
-  hosts: all
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
-- name: Get the MS-SQL version from Windows Servers (Single SID)
-  hosts: sap_mssql_host_name_single_sid
+- name: Print the sid_adm variable value using ansible
+  hosts: "{{ sap_server_name }}"
   become: yes
   become_method: enable
   roles:
-    - role: get-the-sap-version-mssql-win
+    - role: get-the-sap-sid-adm-account

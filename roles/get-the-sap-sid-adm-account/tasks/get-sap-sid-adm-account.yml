@@ -1,0 +1,21 @@
+---
+- name: Copy the script
+  copy:
+    src: "{{ get-the-sap-sid-adm-account-src }}"
+    dest: "/tmp/{{ get-the-sap-sid-adm-account-dst }}"
+    mode: '0700'
+  when: sid_adm is defined
+  loop: "{{ sid_adm }}"
+
+- name: Run the SAP version check script
+  shell: "/tmp/{{ get-the-sap-sid-adm-account-dst }}"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm is defined
+  loop: "{{ sid_adm }}"
+  register: "print_sid_sdm_output"
+
+- name: Print sid_adm Variable value
+  debug:
+    msg: "{{ print_sid_sdm_output }}"
