@@ -1,3 +1,5 @@
 #!/bin/ksh
-sidadm={{ sid_adm }}
-echo "$sidadm"
+sid={{ SID }}
+ssmall=`echo $sid|tr '[:upper:]' '[:lower:]'`
+sidadm="${ssmall}adm"
+echo "The admin user name of $sid  is $sidadm"
