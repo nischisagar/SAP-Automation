@@ -1,13 +1,18 @@
 ---
-- name: Copy the script
-  copy:
-    src: "{{ source_script }}"
-    dest: "/tmp/{{ destination_script }}"
-    mode: '0700'
-  when: SID is defined
+#- name: Copy the script
+#  copy:
+#    src: "{{ source_script }}"
+#    dest: "/tmp/{{ destination_script }}"
+#    mode: '0700'
+#  when: SID is defined
   
 - name: Run the SAP version check script
-  shell: "/tmp/{{ destination_script }}"
+  shell: |
+    #!/bin/ksh
+    sid="{{ QNE }}"
+    ssmall=`echo $sid|tr '[:upper:]' '[:lower:]'`
+    sidadm="${ssmall}adm"
+    echo "The admin user name of $sid  is $sidadm"
   changed_when: False
   args:
     warn: false
