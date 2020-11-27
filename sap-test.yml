@@ -5,8 +5,5 @@
   become_method: enable
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
-    destination_script: get-the-sap-sid-adm-account.sh
-    job_log: get-the-sap-sid-adm-account.log
-    source_script: files/get-the-sap-sid-adm-account.sh
   roles:
     - role: get-the-sap-sid-adm-account
