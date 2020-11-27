@@ -1,0 +1,123 @@
+---
+all:
+  hosts:
+    report-hostname:
+      ipaddress: <Add-IP-address>
+      ansible_host: <FQDN or IP-addresss of report-hostname>
+
+    sap-db2-hostname:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-db2-hostname>
+      sid_adm_usr_db2_abap:
+        - name: <Add the sidadm user name>
+      sid_adm_usr_db2_java:
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-db2-hostname-2:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-db2-hostname>
+      sid_adm_usr_db2_abap:
+        - name: <Add the sidadm user name>
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-oradb-hostname:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-oradb-hostname>
+      sid_adm_usr_oradb_abap:
+        - name: <Add the sidadm user name>
+      sid_adm_usr_oradb_java:
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-oradb-hostname-2:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-oradb-hostname>
+      sid_adm_usr_oradb_abap:
+        - name: <Add the sidadm user name>
+        - name: <Add the sidadm user name>
+      sid_adm_usr_oradb_java:
+        - name: <Add the sidadm user name>
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-oradb-hostname-3:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-oradb-hostname>
+      sid_adm_usr_oradb_abap:
+        - name: <Add the sidadm user name>
+        - name: <Add the sidadm user name>
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-hanadb-hostname:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-hanadb-hostname>
+      sid_adm_usr_hanadb_java:
+        - name: <Add the sidadm user name>
+      sid_adm_usr_hanadb_abap:
+        - name: <Add the sidadm user name>
+      sid_adm_usr_hanadb_abap2:
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+    
+    sap-maxdb-hostname:
+      ipaddress: <Add-IP-address>
+      ansible_host: <Add FQDN or IP-addresss of sap-maxdb-hostname>
+      sid_adm_usr_maxdb_abap:
+        - name: <Add the sidadm user name>
+      entity_name: <Add the entity name>
+   
+local_ansible_engine_server:
+  hosts:
+    report-hostname:
+
+sap_db2_abap_host_name_single_sid:
+  hosts:
+    sap-db2-hostname:
+
+sap_db2_abap_host_name_two_sid:
+  hosts:
+    sap-db2-hostname-2:
+    
+sap_db2_java_host_name_single_sid:
+  hosts:
+    sap-oradb-hostname:
+ 
+sap_oradb_abap_host_name_single_sid:
+  hosts:
+    sap-oradb-hostname:
+
+sap_oradb_abap_host_name_two_sid:
+  hosts:
+    sap-oradb-hostname-2:
+
+sap_oradb_abap_host_name_three_sid:
+  hosts:
+    sap-oradb-hostname-3:
+
+sap_oradb_java_host_name_single_sid:
+  hosts:
+    sap-oradb-hostname-2:
+
+sap_oradb_java_host_name_two_sid:
+  hosts:
+    sap-oradb-hostname-2:
+
+sap_hanadb_java_host_name_single_sid:
+  hosts:
+    sap-hanadb-hostname:
+
+sap_hanadb_abap_host_name_single_sid:
+  hosts:
+    sap-hanadb-hostname:
+  
+sap_hanadb_abap2_host_name_single_sid:
+  hosts:
+    sap-hanadb-hostname:
+    
+sap_maxdb_abap_host_name_single_sid:
+  hosts:
+    sap-maxdb-hostname:
+...
