@@ -21,23 +21,18 @@
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_sid_output"
   
-- name: Get the Hostname
-  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -2 | tail -1"
-  loop: "{{ sid_adm_usr_oradb_abap }}"
-  register: "get_hostname_output"
-  
 - name: Get the total TS size
-  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -3 | tail -1"
+  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -2 | tail -1"
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_totaltssize_output"
 
 - name: Get the total free space
-  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -4 | tail -1"
+  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -3 | tail -1"
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_totalfreespace_output"
 
 - name: Get the Total Used
-  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -5 | tail -1"
+  shell: "cat /tmp/{{ item.name }}-{{ log_oradb_abap }}  | head -4 | tail -1"
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_totalused_output"
   

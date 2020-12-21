@@ -27,13 +27,11 @@ spool off;
 exit
 EOF
 sid=`cat /tmp/$sidadm-ansible-psapsr3.log|awk '{print $1}'|head -2|tail -1`
-hostname=`cat /tmp/$sidadm-ansible-psapsr3.log|awk '{print $2}'|head -2|tail -1`
 totaltssize=`cat /tmp/$sidadm-ansible-psapsr3.log|awk '{print $3}'|head -2|tail -1`
 totalfreespace=`cat /tmp/$sidadm-ansible-psapsr3.log|awk '{print $4}'|head -2|tail -1`
 totalused=`cat /tmp/$sidadm-ansible-psapsr3.log|awk '{print $5}'|head -2|tail -1`
 dbsize=`cat /tmp/$sidadm-ansible-dbsize.log|head -2|tail -1`
 echo "$sid" > /tmp/$sidadm-psapsr3-ts-and-db-size-oradb-abap.log
-echo "$hostname" >> /tmp/$sidadm-psapsr3-ts-and-db-size-oradb-abap.log
 echo "$totaltssize" >> /tmp/$sidadm-psapsr3-ts-and-db-size-oradb-abap.log
 echo "$totalfreespace" >> /tmp/$sidadm-psapsr3-ts-and-db-size-oradb-abap.log
 echo "$totalused" >> /tmp/$sidadm-psapsr3-ts-and-db-size-oradb-abap.log
