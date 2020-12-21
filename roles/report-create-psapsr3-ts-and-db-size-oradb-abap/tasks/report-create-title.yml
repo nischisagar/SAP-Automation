@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to Report File
   copy:
-    content: 'Entity Name,SID,Host Name,Total TS Size,Total TS Free space,Total TS Used (in %),DB Size'
+    content: 'Entity Name,SID,Host Name,PSAPSR3 Total Size,Total TS Free space,Total TS Used (in %),DB Size'
     dest: "{{ report_file }}"
   run_once: yes
