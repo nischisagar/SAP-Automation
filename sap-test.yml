@@ -7,7 +7,7 @@
   roles:
   - role: report-create-psapsr3-ts-and-db-size-oradb-abap
 
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
+- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SID)
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
@@ -26,8 +26,15 @@
           get_hn: "{{ get_hostname_output.results[0].stdout }}"
           get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
           get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
-          get_tup: "{{ get_get_totalused_output.results[0].stdout }}"
+          get_tup: "{{ get_totalused_output.results[0].stdout }}"
           get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_hn: "{{ get_hostname_output.results[1].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[1].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[1].stdout }}"
+          get_tup: "{{ get_totalused_output.results[1].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[1].stdout }}"
+
       delegate_to: ampsv010bld0d
 
 
