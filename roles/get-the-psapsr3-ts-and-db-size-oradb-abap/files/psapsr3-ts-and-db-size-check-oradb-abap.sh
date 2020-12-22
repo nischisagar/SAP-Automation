@@ -11,7 +11,7 @@ select nam.INSTANCE_NAME, nam.HOST_NAME , df.Maxtotalspace as "Total Size(MB)" ,
 (select tablespace_name,round(sum(bytes) / 1048576) TotalSpace , round(sum(MAXBYTES) / 1048576) Maxtotalspace from dba_data_files group by tablespace_name) df,
 (select round(sum(bytes)/1048576) totalusedspace, tablespace_name from dba_segments group by tablespace_name) tu,
 (select INSTANCE_NAME,HOST_NAME from V\$instance) nam
-where df.tablespace_name = tu.tablespace_name and df.tablespace_name='PSAPSR3';
+where df.tablespace_name = tu.tablespace_name and df.tablespace_name in ('PSAPSR3','PSAPP01','PSAPADM');
 spool off;
 set linesize 500;
 set pagesize 500;
