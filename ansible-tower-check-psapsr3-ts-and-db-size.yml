@@ -1,0 +1,113 @@
+---
+- name: Add the title content in to report file
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: report-create-psapsr3-ts-and-db-size-oradb-abap
+
+- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
+  hosts: sap_oradb_abap_host_name_single_sid
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
+  tasks:
+    - name: Add the table space and DB size details in to report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
+          get_tup: "{{ get_totalused_output.results[0].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
+
+- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
+  hosts: sap_oradb_abap_host_name_two_sid
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
+  tasks:
+    - name: Add the table space and DB size details in to report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
+          get_tup: "{{ get_totalused_output.results[0].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[1].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[1].stdout }}"
+          get_tup: "{{ get_totalused_output.results[1].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[1].stdout }}"
+      delegate_to: ampsv010bld0d
+
+- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
+  hosts: sap_oradb_abap_host_name_three_sid
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
+  tasks:
+    - name: Add the table space and DB size details in to report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
+          get_tup: "{{ get_totalused_output.results[0].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[1].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[1].stdout }}"
+          get_tup: "{{ get_totalused_output.results[1].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[1].stdout }}"
+        - get_sid: "{{ get_sid_output.results[2].stdout }}"
+          get_tts: "{{ get_totaltssize_output.results[2].stdout }}"
+          get_tfs: "{{ get_totalfreespace_output.results[2].stdout }}"
+          get_tup: "{{ get_totalused_output.results[2].stdout }}"
+          get_dbs: "{{ get_dbsize_output.results[2].stdout }}"
+      delegate_to: ampsv010bld0d
+
+- name: Send e-mail
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: Send e-mail to a bunch of users, attaching files
+      mail:
+        host: smtp.mail.saint-gobain.net
+        port: 25
+        subject: Ansible Report - Table Space and DB size (Oracle DB - ABAP)
+        body: Hello Team, Please find the attached total table space and DB size report from Oracle ABAP DB servers.
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+        cc: 
+        - Poonjolai Govindasamy <pogovind@in.ibm.com>
+        attach:
+        - "{{ report_file }}"
+        headers:
+        - Reply-To=pogovind@in.ibm.com
+        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
+        charset: us-ascii
