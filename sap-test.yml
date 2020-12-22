@@ -8,13 +8,13 @@
   - role: report-create-psapsr3-ts-and-db-size-oradb-abap
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_single_sid
+  hosts: skp2
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: skp2
+  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
   tasks:
     - name: Add the table space and DB size details in to report File.
       lineinfile:
