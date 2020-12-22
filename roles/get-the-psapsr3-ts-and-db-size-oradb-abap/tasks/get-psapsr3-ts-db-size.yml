@@ -8,7 +8,7 @@
   when: sid_adm_usr_oradb_abap is defined
   loop: "{{ sid_adm_usr_oradb_abap }}"
 
-- name: Run the SAP version check script
+- name: Run the size check script
   shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ script_oradb_abap }}"
   changed_when: False
   args:
