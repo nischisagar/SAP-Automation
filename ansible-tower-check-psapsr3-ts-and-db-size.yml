@@ -102,9 +102,10 @@
         body: Hello Team, Please find the attached total table space and DB size report from Oracle ABAP DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
+        - Sg Sapbasis In Chennai <sgchenna@in.ibm.com>
         cc: 
         - Poonjolai Govindasamy <pogovind@in.ibm.com>
+        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:
