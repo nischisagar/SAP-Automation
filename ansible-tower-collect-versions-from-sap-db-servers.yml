@@ -82,6 +82,26 @@
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
+- name: Get the version from the standalone DB2 Servers
+  hosts: standalone_db2
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: get-the-version-of-standalone-db2
+  tasks:
+    - name: Add the SID Name in to the report file.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
+      throttle: 1
+      with_together:
+        - "{{ get_sid_output.stdout_lines }}"
+        - "{{ get_dbn_output.stdout_lines }}"
+        - "{{ get_dbv_output.stdout_lines }}"
+      delegate_to: ampsv010bld0d
+
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
   hosts: sap_oradb_abap_host_name_single_sid
   become: yes
