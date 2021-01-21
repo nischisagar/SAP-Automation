@@ -16,13 +16,12 @@
   roles:
   - role: get-the-version-of-standalone-oradb
   tasks:
+
     - name: Add the SAP Version in to the report file.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ get_sid_output.stdout }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }}"
       throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail

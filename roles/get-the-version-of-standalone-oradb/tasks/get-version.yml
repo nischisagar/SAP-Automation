@@ -12,18 +12,36 @@
   args:
     warn: false
 
-- name: Get the SID name
-  shell: |
-    > /tmp/ansible-sid-name.log    
-    for i in `ls /tmp/ansible*dbversion.log`
-    do
-    cat $i | head -1 >> /tmp/ansible-sid-name.log
-    done
+#- name: Get the SID name
+#  shell: |
+#    > /tmp/ansible-sid-name.log    
+#    for i in `ls /tmp/ansible*dbversion.log`
+#    do
+#    cat $i | head -1 >> /tmp/ansible-sid-name.log
+#    done
+
+# - name: Register out put of SID name 
+#  shell: "cat /tmp/ansible-sid-name.log"
+#  register: "get_sid_output"
+
+- name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
+  copy:
+    content: ''
+    dest: "/tmp/ansible-sid-name.log"
+  run_once: yes
+
+- name: Add the SAP Version in to the report file.
+    lineinfile:
+      dest: "/tmp/ansible-sid-name.log"
+      line: "{{ entity_name }},{{ ansible_fqdn }},{{ item }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }}"
+    throttle: 1
+    loop: "{{ lookup('fileglob', '*.txt', wantlist=True) }}" 
+    with_fileglob: '/tmp/ansible*dbversion.log'
 
 - name: Register out put of SID name 
   shell: "cat /tmp/ansible-sid-name.log"
   register: "get_sid_output"
-  
+
 - name: Display the sap version name
   debug:
     msg: "{{ get_sid_output.stdout }}"
