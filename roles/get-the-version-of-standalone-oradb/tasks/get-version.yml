@@ -3,11 +3,11 @@
   copy:
     src: "files/version-check-standalone-oradb.sh"
     dest: "/tmp/version-check-standalone-oradb.sh"
-    owner: "{{  item.name }}"
+    owner: "oracle"
     mode: '0700'
 
 - name: Run the version check script
-  shell: "su - oracle  -c "/tmp/version-check-standalone-oradb.sh"
+  shell: "su - oracle  -c /tmp/version-check-standalone-oradb.sh"
   changed_when: False
   args:
     warn: false
