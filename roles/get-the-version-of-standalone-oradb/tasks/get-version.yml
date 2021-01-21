@@ -14,9 +14,10 @@
 
 - name: Get the SID name
   shell: |
+    > /tmp/ansible-sid-name.log    
     for i in `ls /tmp/ansible*dbversion.log`
     do
-    cat $i | head -1
+    cat $i | head -1 >> /tmp/ansible-sid-name.log
     done
   register: "get_sid_output"
   
