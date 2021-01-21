@@ -22,9 +22,6 @@ echo "fname = $fname"
 dbrel=`cat /tmp/ansible-dbrelease.txt | grep [a-z]`
 dbver=`cat /tmp/ansible-dbversion.txt|grep [0-9]`
 echo "$db" > /tmp/ansible-$fname
-echo "NA" >> /tmp/ansible-$fname
-echo "NA" >> /tmp/ansible-$fname
-echo "NA" >> /tmp/ansible-$fname
 echo "$dbrel" >> /tmp/ansible-$fname
 echo "$dbver" >> /tmp/ansible-$fname
 done

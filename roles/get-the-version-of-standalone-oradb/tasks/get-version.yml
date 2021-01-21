@@ -20,35 +20,11 @@
     done
   register: "get_sid_output"
 
-- name: Get the SAP/Java Vesrion
-  shell: |
-    for i in `ls /tmp/ansible*dbversion.log`
-    do
-    cat $i | head -2 | tail -1
-    done
-  register: "get_sjv_output"
-
-- name: Get the SAP Kernel Base Version
-  shell: |
-    for i in `ls /tmp/ansible*dbversion.log`
-    do
-    cat $i | head -3 | tail -1
-    done
-  register: "get_skbv_output"
-
-- name: Get the SAP Kernel Patch Version
-  shell: |
-    for i in `ls /tmp/ansible*dbversion.log`
-    do
-    cat $i | head -4 | tail -1
-    done
-  register: "get_skpv_output"
-
 - name: Get the DB Name
   shell: |
     for i in `ls /tmp/ansible*dbversion.log`
     do
-    cat $i | head -5 | tail -1
+    cat $i | head -2 | tail -1
     done
   register: "get_dbn_output"
 
