@@ -21,7 +21,7 @@
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
       throttle: 1
-      with_nested:
+      with_subelements:
         - "{{ get_sid_output.stdout_lines }}"
         - "{{ get_dbn_output.stdout_lines }}"
         - "{{ get_dbv_output.stdout_lines }}"
