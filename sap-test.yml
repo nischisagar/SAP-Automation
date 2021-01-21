@@ -5,87 +5,24 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: report-create-psapsr3-ts-and-db-size-oradb-abap
+  - role: report-create-sap-title-oradb-db2-abap-jaja
 
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
-  hosts: skp2
+- name: Get the version from the standalone Oracle DB Servers
+  hosts: ampsv017pjt0d
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
+  - role: get-the-version-of-standalone-oradb
   tasks:
-    - name: Add the table space and DB size details in to report File.
+    - name: Add the SAP Version in to the report file.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }}"
       throttle: 1
       loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
-          get_tup: "{{ get_totalused_output.results[0].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
-
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
-  hosts: ampsv01620pjt
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
-  tasks:
-    - name: Add the table space and DB size details in to report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
-          get_tup: "{{ get_totalused_output.results[0].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[1].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[1].stdout }}"
-          get_tup: "{{ get_totalused_output.results[1].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
-
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
-  hosts: ampsv01201pjt
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-psapsr3-ts-and-db-size-oradb-abap
-  tasks:
-    - name: Add the table space and DB size details in to report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_sid }},{{ ansible_fqdn }},{{ item.get_tts }},{{ item.get_tfs }},{{ item.get_tup }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[0].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[0].stdout }}"
-          get_tup: "{{ get_totalused_output.results[0].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[1].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[1].stdout }}"
-          get_tup: "{{ get_totalused_output.results[1].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[1].stdout }}"
-        - get_sid: "{{ get_sid_output.results[2].stdout }}"
-          get_tts: "{{ get_totaltssize_output.results[2].stdout }}"
-          get_tfs: "{{ get_totalfreespace_output.results[2].stdout }}"
-          get_tup: "{{ get_totalused_output.results[2].stdout }}"
-          get_dbs: "{{ get_dbsize_output.results[2].stdout }}"
+        - get_sid: "{{ get_sid_output.stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
