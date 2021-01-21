@@ -1,4 +1,9 @@
 #!/bin/ksh
+#!/bin/ksh
+# Initializing DB2 environment
+if [ -f $HOME/sqllib/db2profile ]; then
+    . $HOME/sqllib/db2profile
+fi
 db2 list active databases | egrep -i 'Database name'|awk '{print $4}' > /tmp/ansible-dblist.txt
 for dbname in `cat /tmp/ansible-dblist.txt`
 do
