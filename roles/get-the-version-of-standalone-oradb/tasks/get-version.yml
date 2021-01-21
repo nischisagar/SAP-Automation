@@ -19,6 +19,9 @@
     do
     cat $i | head -1 >> /tmp/ansible-sid-name.log
     done
+
+- name: Register out put of SID name 
+  shell: "cat /tmp/ansible-sid-name.log"
   register: "get_sid_output"
   
 - name: Display the sap version name
