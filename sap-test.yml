@@ -8,7 +8,7 @@
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
 - name: Get the version from the standalone Oracle DB Servers
-  hosts: ampsv020odi0d
+  hosts: ampsv020odi0t
   become: yes
   become_method: sudo
   vars: 
