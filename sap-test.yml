@@ -23,11 +23,11 @@
       throttle: 1
       with_items: 
         - get_sid: "{{ get_sid_output.stdout_lines }}"
-          get_sap: "{{ get_sjv_output.stdout_lines }}"
-          get_kmv: "{{ get_skbv_output.stdout_lines}}"
-          get_kpn: "{{ get_skpv_output.stdout_lines}}"
-          get_dbn: "{{ get_dbn_output.stdout_lines}}"
-          get_dbv: "{{ get_dbv_output.stdout_lines}}"
+        - get_sap: "{{ get_sjv_output.stdout_lines }}"
+        - get_kmv: "{{ get_skbv_output.stdout_lines }}"
+        - get_kpn: "{{ get_skpv_output.stdout_lines }}"
+        - get_dbn: "{{ get_dbn_output.stdout_lines }}"
+        - get_dbv: "{{ get_dbv_output.stdout_lines }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
