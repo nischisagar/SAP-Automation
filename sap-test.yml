@@ -8,13 +8,13 @@
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
 - name: Get the version from the standalone Oracle DB Servers
-  hosts: standalone_oracle_db 
+  hosts: ampsv020odi0d
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-version-of-standalone-oradb
+  - role: get-the-version-of-standalone-db2
   tasks:
     - name: Add the SID Name in to the report file.
       lineinfile:
