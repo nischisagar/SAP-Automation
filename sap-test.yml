@@ -21,9 +21,18 @@
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
       throttle: 1
-      with_items:  "{{ get_sid_output.stdout_lines }}", "{{ get_sjv_output.stdout_lines }"
+      with_items:  "{{ get_sid_output.stdout_lines }}"
       delegate_to: ampsv010bld0d
 
+    - name: Add the SID Name in to the report file.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{  }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+      throttle: 1
+      with_items:  "{{ get_sjv_output.stdout_lines }"
+      delegate_to: ampsv010bld0d
+
+, 
 
 
 - name: Send e-mail
