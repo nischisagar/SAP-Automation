@@ -3,7 +3,7 @@
   hosts: sap_mssql_host_name_single_sid
   gather_facts: no
   roles:
-  - role: socks-tunnel
+  - role: ansible-role-event-socks-tunnel
     run_once: true
     delegate_to: localhost
     vars:
