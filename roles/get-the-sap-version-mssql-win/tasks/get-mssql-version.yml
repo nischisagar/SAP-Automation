@@ -7,7 +7,8 @@
 - name: Display the SAP Version
   debug:
     msg: "{{ item }}"
-  witth_together: "{{ sap_verison.results.stdout }}"
+  loop: 
+    - "{{ sap_verison.results[0].stdout }}"
 
 
 - name: collect the version of DB
@@ -18,7 +19,8 @@
 - name: Display the version of DB
   debug:
     msg: "{{ item }}"
-  with_together: "{{ db_verison.results.stdout }}" 
+  loop: 
+    - "{{ db_verison.results[0].stdout }}" 
 
 - name: collect the version of Kernel
   win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
@@ -28,4 +30,5 @@
 - name: Display the Version of Kernel
   debug:
     msg: "{{ item  }}"
-  with_together: "{{ kernal_verison.results.stdout_lines }}"
+  loop: 
+    - "{{ kernal_verison.results[0].stdout_lines }}"
