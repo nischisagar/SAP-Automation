@@ -4,18 +4,18 @@
   register: sap_verison
   loop: "{{ sid_mssql }}"
 - debug:
-    msg: "{{ sap_verison.stdout }}"
+    msg: "{{ sap_verison }}"
 
 - name: collect the version of DB
   win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
   register: 
   loop: "{{ sid_mssql }}"
 - debug:
-    msg: "{{ db_verison.stdout }}"    
+    msg: "{{ db_verison }}"    
 
 - name: collect the version of Kernel
   win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
   register: kernal_verison
   loop: "{{ sid_mssql }}"
 - debug:
-    msg: "{{ kernal_verison.stdout}}"
+    msg: "{{ kernal_verison }}"
