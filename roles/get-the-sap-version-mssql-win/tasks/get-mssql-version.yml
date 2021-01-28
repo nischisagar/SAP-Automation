@@ -8,7 +8,7 @@
 
 - name: collect the version of DB
   win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
-  register: 
+  register: db_verison
   loop: "{{ sid_mssql }}"
 - debug:
     msg: "{{ db_verison }}"    
