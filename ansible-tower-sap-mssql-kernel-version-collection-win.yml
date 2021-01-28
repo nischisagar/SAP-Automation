@@ -16,7 +16,7 @@
   become_method: runas
   become_user: system
   vars:
-    temp_file: "/ansible/reports/win_report/{{ inventory_host }}.log"
+    temp_file: "/ansible/reports/win_report/{{ inventory_hostname }}.log"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
