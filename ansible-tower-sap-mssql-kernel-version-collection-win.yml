@@ -1,0 +1,19 @@
+---
+- name: Socks tunnel setup
+  hosts: sap_mssql_host_name_single_sid
+  gather_facts: no
+  roles:
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Get the MS-SQL version from Windows Servers (Single SID)
+  hosts: sap_mssql_host_name_single_sid
+  become: yes
+  become_method: runas
+  become_user: system
+  roles:
+    - role: get-the-sap-version-mssql-win

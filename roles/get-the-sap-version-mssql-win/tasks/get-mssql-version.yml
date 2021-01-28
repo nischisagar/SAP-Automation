@@ -1,69 +1,16 @@
 ---
-- name: collect the version of SAP/DB/Kernel
-  win_shell:
-    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select distinct STEXT from qpb.CVERS_TXT where LANGU='E';" > C:\temp\{{ mssql_sapver_log }}
-    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" > C:\temp\{{ mssql_dbver_log }}
-    osql -S localhost -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from qpb.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc" > C:\temp\{{ mssql_sapkernelver_log }}
-
-- name: get the SAP version details from file     
-  win_shell: 
-    $var = Get-Content -Path C:\temp\{{ mssql_sapver_log }}
-    $var[2]
-  register: "sap_verison"
+- name: collect the version of SAP
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select distinct STEXT from {{ sid_mssql|lower }}.CVERS_TXT where LANGU='E';" |select-string -pattern SAP
+  register: sap_verison
 - debug:
-    msg: "{{ sap_verison }}"
-
-- name: get the SAP version details from file     
-  win_shell: 
-    $var = Get-Content -Path C:\temp\{{ mssql_dbver_log }}
-    $var[2]
-  register: "kernal_verison"
+    msg: "{{ sap_verison.stdout }}"
+- name: collect the version of DB
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" |Select-String -Pattern SQL
+  register: db_verison
 - debug:
-    msg: "kernal_verison"
-
-- name: get the SAP version details from file     
-  win_shell: 
-    $var = Get-Content -Path C:\temp\{{ mssql_sapkernelver_log }}
-    $var[10]        
-  register: "db_verison"
+    msg: "{{ db_verison.stdout }}"    
+- name: collect the version of Kernel
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ sid_mssql|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+  register: kernal_verison
 - debug:
-    msg: "{{ db_verison }}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    msg: "{{ kernal_verison.stdout_lines[2] }}"
