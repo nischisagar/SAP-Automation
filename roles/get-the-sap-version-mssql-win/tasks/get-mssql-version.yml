@@ -1,16 +1,21 @@
 ---
 - name: collect the version of SAP
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select distinct STEXT from {{ sid_mssql|lower }}.CVERS_TXT where LANGU='E';" |select-string -pattern SAP
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ sid_mssql|lower }}.CVERS_TXT where LANGU='E';" |select-string -pattern SAP
   register: sap_verison
+  loop: "{{ sid_mssql }}"
 - debug:
     msg: "{{ sap_verison.stdout }}"
+
 - name: collect the version of DB
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" |Select-String -Pattern SQL
-  register: db_verison
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL
+  register: 
+  loop: "{{ sid_mssql }}"
 - debug:
     msg: "{{ db_verison.stdout }}"    
+
 - name: collect the version of Kernel
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ sid_mssql|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ sid_mssql|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
   register: kernal_verison
+  loop: "{{ sid_mssql }}"
 - debug:
-    msg: "{{ kernal_verison.stdout_lines[2] }}"
+    msg: "{{ kernal_verison.stdout}}"
