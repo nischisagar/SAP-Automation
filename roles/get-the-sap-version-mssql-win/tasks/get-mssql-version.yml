@@ -1,6 +1,6 @@
 ---
 - name: collect the version of SAP
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" 
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select -first 1
   register: sap_verison
   loop: "{{ sid_mssql }}"
 
@@ -12,7 +12,7 @@
 
 
 - name: collect the version of DB
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" | select -first 1
   register: db_verison
   loop: "{{ sid_mssql }}"
 
@@ -23,7 +23,7 @@
     - "{{ db_verison.results[0].stdout }}" 
 
 - name: collect the version of Kernel
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc" | select -last 1
   register: kernal_verison
   loop: "{{ sid_mssql }}"
 
