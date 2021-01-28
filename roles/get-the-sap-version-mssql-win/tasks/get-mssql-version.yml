@@ -1,13 +1,13 @@
 ---
 - name: collect the version of SAP
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ sid_mssql|lower }}.CVERS_TXT where LANGU='E';" |select-string -pattern SAP
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ sid_mssql|lower }}.CVERS_TXT where LANGU='E';" 
   register: sap_verison
   loop: "{{ sid_mssql }}"
 - debug:
     msg: "{{ sap_verison.stdout }}"
 
 - name: collect the version of DB
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
   register: 
   loop: "{{ sid_mssql }}"
 - debug:
