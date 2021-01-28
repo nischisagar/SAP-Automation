@@ -17,4 +17,4 @@
   become_user: system
   roles:
   - role: get-the-sap-version-mssql-win
-  delegate_to: ampsw046decc0
+    delegate_to: ampsw046decc0
