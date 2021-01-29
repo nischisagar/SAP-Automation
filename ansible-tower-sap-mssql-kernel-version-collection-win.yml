@@ -16,7 +16,7 @@
   become_method: runas
   become_user: system
   vars:
-    temp_file: "C:\Temp\{{ inventory_hostname }}.log"
+    temp_file: "c:/temp/{{ inventory_hostname }}.log"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
