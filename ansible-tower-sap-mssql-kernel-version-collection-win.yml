@@ -36,7 +36,7 @@
       loop: 
         - "{{ sap_verison.results[0].stdout }}"
         - "{{ db_verison.results[0].stdout }}"
-        - "{{ kernal_verison.results[0].stdout_lines[2] }}"
+        - "{{ kernal_verison.results[0].stdout_lines }}"
       delegate_to: ampsw046decc0
 
 
