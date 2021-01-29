@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: ampsw046decc0
+  hosts: sap_mssql_host_name_single_sid
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -32,7 +32,6 @@
   become_user: system
   vars:
     report_file: "c:/temp/sap_msql_version.csv"
-    acc_id: "sgi"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
