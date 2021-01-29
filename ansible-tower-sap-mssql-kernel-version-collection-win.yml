@@ -11,7 +11,7 @@
       transaction_id: "{{ tower_job_id }}"
 
 - name: Create the Global report file
-  hosts: sap_mssql_host_name_single_sid
+  hosts: windows_report_server
   gather_facts: no
   become: yes
   become_method: runas
@@ -24,7 +24,6 @@
         content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
         dest: "{{ report_file }}"
       run_once: yes
-      delegate_to: ampsw046decc0
 
 - name: Get the MS-SQL version from Windows Servers (Single SID)
   hosts: sap_mssql_host_name_single_sid
@@ -37,7 +36,7 @@
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
   tasks:
-    - name: Add the temporary localreport file
+    - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
