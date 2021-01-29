@@ -64,7 +64,8 @@
 - name: Send e-mail
   hosts: windows_report_server
   become: yes
-  become_method: sudo
+  become_method: runas
+  become_user: system
   gather_facts: false
   vars:
     report_file: "c:/temp/sap_msql_version.csv"
