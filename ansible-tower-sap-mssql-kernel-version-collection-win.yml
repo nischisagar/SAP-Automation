@@ -26,6 +26,7 @@
         content: ''
         dest: "{{ temp_file }}"
       run_once: yes
+      delegate_to: ampsw046decc0
      
     - name: Add the temporary localreport file
       win_lineinfile:
