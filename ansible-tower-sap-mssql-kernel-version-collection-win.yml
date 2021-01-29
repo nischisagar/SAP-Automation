@@ -42,7 +42,7 @@
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
       throttle: 1
       loop: 
-        - get_sid: "{{ item.name[0] }}"
+        - get_sid: "{{ sid_mssql }}"
           get_spv: "{{ sap_verison.results[0].stdout }}"
           get_dbn: "{{ db_name.results[0].stdout }}" 
           get_dbv: "{{ db_verison.results[0].stdout }}" 
