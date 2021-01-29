@@ -12,7 +12,7 @@
 
 
 - name: collect the version of DB
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" | Select-String -Pattern SQL | Format-Wide -Column 3
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" | Select-String -Pattern SQL | | %{$_.split(' ')[0]}
   register: db_verison
   loop: "{{ sid_mssql }}"
 
