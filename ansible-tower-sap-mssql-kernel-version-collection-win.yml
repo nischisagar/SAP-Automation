@@ -32,6 +32,7 @@
   become_user: system
   vars:
     report_file: "c:/temp/sap_msql_version.csv"
+    acc_id: "sgi"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
