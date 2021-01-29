@@ -11,24 +11,55 @@
     - "{{ sap_verison.results[0].stdout }}"
 
 
+- name: collect the name of DB
+  win_shell: |
+    $sql = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" |Select-String -Pattern SQL).ToString()
+    $sql.Substring(0,29)
+  register: db_name
+  loop: "{{ sid_mssql }}"
+
+- name: Display the name of DB
+  debug:
+    msg: "{{ item }}"
+  loop: 
+    - "{{ db_name.results[0].stdout }}" 
+
 - name: collect the version of DB
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" | Select-String -Pattern SQL
+  win_shell: |
+    $sql = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select @@version;" |Select-String -Pattern SQL).ToString()
+    $sql1.Substring(30,7)
   register: db_verison
   loop: "{{ sid_mssql }}"
 
-- name: Display the version of DB
+- name: Display the name of DB
   debug:
     msg: "{{ item }}"
   loop: 
     - "{{ db_verison.results[0].stdout }}" 
 
-- name: collect the version of Kernel
-  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc" | Select-String -NotMatch SAPRELEASE | Select-String -NotMatch ----
-  register: kernal_verison
+- name: collect the version of Kernel base
+  win_shell: |
+    $ker = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ sid_mssql|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+    $ker[2] | %{ (-split $_)[0] }
+  register: kernal_base_verison
   loop: "{{ sid_mssql }}"
 
-- name: Display the Version of Kernel
+- name: Display the version of Kernel base
   debug:
     msg: "{{ item  }}"
   loop: 
-    - "{{ kernal_verison.results[0].stdout_lines }}"
+    - "{{ kernal_base_verison.results[0].stdout }}"
+
+- name: collect the version of Kernel patch
+  win_shell: |
+    $ker = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ sid_mssql }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ sid_mssql|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+    $ker[2] | %{ (-split $_)[0] }
+  register: kernal_patch_verison
+  loop: "{{ sid_mssql }}"
+
+- name: Display the version version of Kernel patch
+  debug:
+    msg: "{{ item  }}"
+  loop: 
+    - "{{ kernal_patch_verison.results[0].stdout }}"
+
