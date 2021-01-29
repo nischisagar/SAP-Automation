@@ -15,26 +15,20 @@
   become: yes
   become_method: runas
   become_user: system
+  vars:
+    temp_file: "C:\Temp\{{ inventory_hostname }}.log"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
-
-- name: Create temporary localreport file
-  hosts: local_ansible_engine_server
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  vars:
-    temp_file: "/ansible/reports/win_report/{{ inventory_hostname }}.log"
   tasks:
     - name: Create the temporary localreport file
-      copy:
+      win_copy:
         content: ''
         dest: "{{ temp_file }}"
       run_once: yes
      
     - name: Add the temporary localreport file
-      lineinfile:
+      win_lineinfile:
         dest: "{{ temp_file }}"
         line: "{{ item }}"
       throttle: 1
@@ -42,5 +36,6 @@
         - "{{ sap_verison.results[0].stdout }}"
         - "{{ db_verison.results[0].stdout }}"
         - "{{ kernal_verison.results[0].stdout_lines[2] }}"
+      delegate_to: ampsw046decc0
 
 
