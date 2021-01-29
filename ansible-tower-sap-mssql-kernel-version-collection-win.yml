@@ -12,12 +12,13 @@
 
 - name: Create the Global report file
   hosts: ampsw046decc0
+  gather_facts: no
   become: yes
   become_method: runas
   become_user: system
   vars:
     report_file: "c:/temp/sap_msql_version.csv"
-  task:
+  tasks:
     - name: Create the global report file
       win_copy:
         content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
