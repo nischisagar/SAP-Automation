@@ -16,7 +16,7 @@
   become_method: runas
   become_user: system
   vars:
-    temp_file: "c:/temp/{{ inventory_hostname }}.log"
+    temp_file: "c:/ansible/reports/{{ inventory_hostname }}.log"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: ampsw046decc0
@@ -26,7 +26,7 @@
         content: ''
         dest: "{{ temp_file }}"
       run_once: yes
-      delegate_to: ampsw046decc0
+      delegate_to: ampsv010rep0d
      
     - name: Add the temporary localreport file
       win_lineinfile:
@@ -37,6 +37,6 @@
         - "{{ sap_verison.results[0].stdout }}"
         - "{{ db_verison.results[0].stdout }}"
         - "{{ kernal_verison.results[0].stdout_lines[2] }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsv010rep0d
 
 
