@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: sap_mssql_host_name_single_sid
+  hosts: ampsw046decc0
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -23,7 +23,6 @@
         content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
         dest: "{{ report_file }}"
       run_once: yes
-      delegate_to: ampsw046decc0
 
 - name: Get the MS-SQL version from Windows Servers (Single SID)
   hosts: sap_mssql_host_name_single_sid
