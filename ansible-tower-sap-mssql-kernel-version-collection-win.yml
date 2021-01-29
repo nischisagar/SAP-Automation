@@ -66,6 +66,8 @@
   become: yes
   become_method: sudo
   gather_facts: false
+  vars:
+    report_file: "c:/temp/sap_msql_version.csv"
   tasks:
     - name: Send e-mail to a bunch of users, attaching files
       mail:
