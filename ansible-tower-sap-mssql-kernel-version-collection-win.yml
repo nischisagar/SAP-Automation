@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars:
-    acc_id: "{{ blueid_shortcode }}"
+    acc_id: "sgi"
     transaction_id: "{{ tower_job_id }}"
   roles:
     - role: ansible-role-event-socks-tunnel
