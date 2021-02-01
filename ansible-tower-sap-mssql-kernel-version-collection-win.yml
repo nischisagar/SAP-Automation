@@ -1,6 +1,6 @@
 ---
 - name: Create the Global report file
-  hosts: local_ansible_engine_server
+  hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: false
@@ -40,7 +40,7 @@
       delegate_to: local_ansible_engine_server
 
 - name: Send e-mail
-  hosts: local_ansible_engine_server
+  hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: false
