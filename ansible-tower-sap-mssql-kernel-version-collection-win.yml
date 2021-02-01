@@ -1,38 +1,8 @@
 ---
-- name: Create the Global report file
+- name: Add the title content in to report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: false
-  vars:
-    report_file: "/ansible/reports/sap_msql_version.csv"
-  tasks:
-    - name: Create the global report file
-      copy:
-        content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  vars:
-    report_file: "/ansible/reports/sap_msql_version.csv"
-  tasks:
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP and Ms-SQL versions
-        body: Hello Team, Please find the attached SAP and Ms-SQL versions report from Ms-SQL servers.
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Monthly SAP JAVA and DB version Report <Monthly.jg8pdmspxxbg0ywn@u.box.com>
-        attach:
-        - "{{ report_file }}"
-        headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
-        charset: us-ascii
+  roles:
+  - role: report-create-sap-title-oradb-db2-abap-jaja
