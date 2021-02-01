@@ -44,7 +44,7 @@
     $sqln1[0]
   register: db_name
   loop: "{{ sid_mssql }}"
-  when: inventory_hostname != ampsv045idm0t
+  when: inventory_hostname != "ampsv045idm0t"
 
 - name: collect the version of DB
   win_shell: |
@@ -53,7 +53,7 @@
     $sqlv1[1]
   register: db_version
   loop: "{{ sid_mssql }}"
-  when: inventory_hostname != ampsv045idm0t
+  when: inventory_hostname != "ampsv045idm0t"
 
 - name: collect the name of DB
   win_shell: |
@@ -62,7 +62,7 @@
     $sqln1[0]
   register: db_name
   loop: "{{ sid_mssql }}"
-  when: inventory_hostname == ampsv045idm0t
+  when: inventory_hostname == "ampsv045idm0t"
 
 - name: collect the version of DB
   win_shell: |
@@ -71,4 +71,4 @@
     $sqlv1[1]
   register: db_version
   loop: "{{ sid_mssql }}"
-  when: inventory_hostname == ampsv045idm0t
+  when: inventory_hostname == "ampsv045idm0t"
