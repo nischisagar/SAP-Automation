@@ -1,6 +1,6 @@
 ---
 - name: Socks tunnel setup
-  hosts: windows_report_server
+  hosts: local_ansible_engine_server
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -11,13 +11,13 @@
       transaction_id: "{{ tower_job_id }}"
 
 - name: Create the Global report file
-  hosts: windows_report_server
+  hosts: local_ansible_engine_server
   gather_facts: no
   become: yes
   become_method: runas
   become_user: system
   vars:
-    report_file: "c:/temp/sap_msql_version.csv"
+    report_file: "/ansible/reports/sap_msql_version.csv"
   tasks:
     - name: Create the global report file
       win_copy:
@@ -42,10 +42,10 @@
   become_method: runas
   become_user: system
   vars:
-    report_file: "c:/temp/sap_msql_version.csv"
+    report_file: "/ansible/reports/sap_msql_version.csv"
   roles:
   - role: get-the-sap-version-mssql-win
-    delegate_to: ampsw046decc0
+    delegate_to: local_ansible_engine_server
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -59,16 +59,16 @@
           get_dbv: "{{ db_verison.results[0].stdout }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
-      delegate_to: ampsw046decc0
+      delegate_to: local_ansible_engine_server
 
 - name: Send e-mail
-  hosts: windows_report_server
+  hosts: local_ansible_engine_server
   become: yes
   become_method: runas
   become_user: system
   gather_facts: false
   vars:
-    report_file: "c:/temp/sap_msql_version.csv"
+    report_file: "/ansible/reports/sap_msql_version.csv"
   tasks:
     - name: Send e-mail to a bunch of users, attaching files
       mail:
