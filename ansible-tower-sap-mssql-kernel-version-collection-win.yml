@@ -8,7 +8,7 @@
     report_file: "/ansible/reports/sap_msql_version.csv"
   tasks:
     - name: Create the global report file
-      win_copy:
+      copy:
         content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
         dest: "{{ report_file }}"
       run_once: yes
