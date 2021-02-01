@@ -11,8 +11,10 @@
     - "{{ sid_name.results[0].stdout | trim }}"
 
 - name: Get the IP Address
-  win_shell: Get-NetIPAddress |?{$_.InterfaceAlias -match "prod"} |select IPAddress -ExpandProperty IPAddress
-  register: ip_address
+  debug:
+    msg: "{{ item }}"
+  loop:
+    - "{{ ansible_ip_addresses }}"
 
 - name: Display the IP address
   debug:
