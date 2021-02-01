@@ -41,7 +41,7 @@
   become_user: system
   roles:
   - role: get-the-sap-version-mssql-win
-    delegate_to: windows_report_server
+    delegate_to: ampsw046decc0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -53,4 +53,4 @@
           get_dbn: "{{ db_name.results[0].stdout }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
-      delegate_to: windows_report_server
+      delegate_to: ampsw046decc0
