@@ -7,7 +7,7 @@
 
 - name: Display the SID name
   debug:
-    msg: "{{ sid_name.results[0].stdout | trim }}"
+    msg: "{{ sid_name }}"
 
 - name: Get the IP Address
   win_lineinfile:
