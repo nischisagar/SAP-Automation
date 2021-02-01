@@ -21,7 +21,7 @@
 
 - name: Display the production IP address
   debug:
-    msg: "{{ ip_address.stdout }}"
+    msg: "{{ ip_address }}"
     
 - name: collect the version of SAP
   win_shell: |
