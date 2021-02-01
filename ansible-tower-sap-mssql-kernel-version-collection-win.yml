@@ -43,7 +43,7 @@
           get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
       delegate_to: ampsw046decc0
 
-- Name: Send report to IBM Box folder
+- name: Send report to IBM Box folder
   hosts: sap_mssql_host_name_single_sid
   become: yes
   become_method: runas
