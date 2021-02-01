@@ -9,9 +9,16 @@
     msg: "{{ sid_name.results[0].stdout | trim }}"
 
 - name: Get the IP Address
-  win_shell: echo "{{ item }} "
+  win_lineinfile:
+    dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
+    line: "{{ item }}"
+    create: yes
   loop: "{{ ansible_ip_addresses }}"
   when : "'10.' in item"
+  
+
+- name: Display the production IP address
+  win_shell: Get-Content -Path c:/temp/{{ inventory_hostname }}-ipaddress.log
   register: ip_address
 
 - name: Display the Prduction IP address
