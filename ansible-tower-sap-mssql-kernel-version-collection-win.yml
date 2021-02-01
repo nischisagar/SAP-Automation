@@ -7,11 +7,15 @@
   roles:
   - role: report-create-sap-title-oradb-db2-abap-jaja
 
+
+
 - name: Get the MS-SQL version from Windows Servers (Single SID)
   hosts: sap_mssql_host_name_single_sid
   become: yes
   become_method: runas
   become_user: system
+  vars:
+    acc_id: "sgi"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: windows_report_server
