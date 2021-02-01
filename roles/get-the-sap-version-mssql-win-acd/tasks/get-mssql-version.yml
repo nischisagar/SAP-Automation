@@ -39,7 +39,7 @@
 
 - name: collect the name of DB
   win_shell: |
-    $sqln = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqln = sqlcmd -S {{ inventory_hostname }}\ACD -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
     $sqln1 = ($sqln[2].Split("(")).split(")")
     $sqln1[0]
   register: db_name
@@ -47,7 +47,7 @@
   
 - name: collect the version of DB
   win_shell: |
-    $sqlv = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqlv = sqlcmd -S {{ inventory_hostname }}\ACD -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
     $sqlv1 = ($sqlv[2].Split("(")).split(")")
     $sqlv1[1]
   register: db_version
