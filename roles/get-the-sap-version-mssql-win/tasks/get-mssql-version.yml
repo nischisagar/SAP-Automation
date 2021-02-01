@@ -17,11 +17,15 @@
     create: yes
   loop: "{{ ansible_ip_addresses }}"
   when : "'10.' in item"
-  register: ip_address
+  
 
 - name: Display the production IP address
+  win_shell: Get-Content -Path c:/temp/ipaddress.log
+  register: ip_address
+  
+- name: Display the Prduction IP address
   debug:
-    msg: "{{ ip_address }}"
+    msg: "{{ ip_address.stdout }}"
     
 - name: collect the version of SAP
   win_shell: |
