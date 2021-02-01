@@ -27,7 +27,8 @@
 
 - name: collect the version of SAP
   win_shell: |
-    sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP
+    $sap = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';"
+    $sap[2]
   register: sap_verison
   loop: "{{ sid_mssql }}"
 
@@ -39,7 +40,9 @@
 
 - name: collect the name of DB
   win_shell: |
-    sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL    
+    $sqln = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqln1 = ($sqln[2].Split("(")).split(")")
+    $sqln1[0]
   register: db_name
   loop: "{{ sid_mssql }}"
 
@@ -48,6 +51,21 @@
     msg: "{{ item }}"
   loop: 
     - "{{ db_name.results[0].stdout | trim }}" 
+    
+- name: collect the version of DB
+  win_shell: |
+    $sqlv = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqlv1 = ($sqlv[2].Split("(")).split(")")
+    $sqlv1[1]
+  register: db_version
+  loop: "{{ sid_mssql }}"
+
+- name: Display the version of DB
+  debug:
+    msg: "{{ item }}"
+  loop: 
+    - "{{ db_version.results[0].stdout | trim }}" 
+
 
 - name: collect the version of Kernel base
   win_shell: |
