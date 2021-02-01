@@ -9,7 +9,7 @@
   debug:
     msg: "{{ item }}"
   loop: 
-    - "{{ sap_verison.results[0].stdout | trim) }}"
+    - "{{ sap_verison.results[0].stdout | trim }}"
 
 
 - name: collect the name of DB
