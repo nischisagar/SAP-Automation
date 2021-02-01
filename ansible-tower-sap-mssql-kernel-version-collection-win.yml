@@ -1,14 +1,13 @@
 ---
-- name: Socks tunnel setup
-  hosts: windows_report_server
-  gather_facts: no
+- name: Role ensures that the socks tunnel is setup
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    acc_id: "{{ blueid_shortcode }}"
+    transaction_id: "{{ tower_job_id }}"
   roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
+    - role: ansible-role-event-socks-tunnel
 
 - name: Create the Global report file
   hosts: windows_report_server
@@ -23,17 +22,6 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Socks tunnel setup
-  hosts: sap_mssql_host_name_single_sid
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
 - name: Get the MS-SQL version from Windows Servers (Single SID)
   hosts: sap_mssql_host_name_single_sid
   become: yes
@@ -41,7 +29,7 @@
   become_user: system
   roles:
   - role: get-the-sap-version-mssql-win
-    delegate_to: ampsw046decc0
+    delegate_to: windows_report_server
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -53,4 +41,4 @@
           get_dbn: "{{ db_name.results[0].stdout }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
-      delegate_to: ampsw046decc0
+      delegate_to: windows_report_server
