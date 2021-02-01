@@ -1,6 +1,6 @@
 ---
 - name: collect the version of SAP
-  win_shell: (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP  Head 1).TrimStart().TrimEnd()
+  win_shell: (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP).TrimStart().TrimEnd()
   register: sap_verison
   loop: "{{ sid_mssql }}"
 
