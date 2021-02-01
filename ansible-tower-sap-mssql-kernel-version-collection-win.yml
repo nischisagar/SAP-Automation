@@ -1,21 +1,9 @@
 ---
-- name: Socks tunnel setup
-  hosts: local_ansible_engine_server
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
 - name: Create the Global report file
   hosts: local_ansible_engine_server
-  gather_facts: no
   become: yes
-  become_method: runas
-  become_user: system
+  become_method: sudo
+  gather_facts: false
   vars:
     report_file: "/ansible/reports/sap_msql_version.csv"
   tasks:
