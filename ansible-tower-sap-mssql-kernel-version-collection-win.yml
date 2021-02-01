@@ -37,10 +37,10 @@
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }}"
       throttle: 1
       loop: 
-        - get_spv: "{{ sap_verison.results[0].stdout }}"
-          get_dbn: "{{ db_name.results[0].stdout }}" 
-          get_kmv: "{{ kernal_base_verison.results[0].stdout }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
+        - get_spv: "{{ sap_verison.results[0].stdout | trim }}"
+          get_dbn: "{{ db_name.results[0].stdout | trim }}" 
+          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
+          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
       delegate_to: ampsw046decc0
 
 - name: Send report to IBM Box folder
