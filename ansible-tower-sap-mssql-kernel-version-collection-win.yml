@@ -16,8 +16,6 @@
   become: yes
   become_method: runas
   become_user: system
-  vars:
-    report_file: "/ansible/reports/sap_msql_version.csv"
   tasks:
     - name: Create the global report file
       win_copy:
@@ -41,8 +39,6 @@
   become: yes
   become_method: runas
   become_user: system
-  vars:
-    report_file: "/ansible/reports/sap_msql_version.csv"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: windows_report_server
