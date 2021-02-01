@@ -12,9 +12,7 @@
 
 
 - name: collect the name of DB
-  win_shell: |
-    $sql_name = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL).ToString()
-    $sql_name.Substring(0,29)
+  win_shell: sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL
   register: db_name
   loop: "{{ sid_mssql }}"
 
@@ -23,19 +21,6 @@
     msg: "{{ item }}"
   loop: 
     - "{{ db_name.results[0].stdout }}" 
-
-- name: collect the version of DB
-  win_shell: |
-    $sql_version = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL).ToString()
-    $sql_version.Substring(30,7)
-  register: db_verison
-  loop: "{{ sid_mssql }}"
-
-- name: Display the name of DB
-  debug:
-    msg: "{{ item }}"
-  loop: 
-    - "{{ db_verison.results[0].stdout }}" 
 
 - name: collect the version of Kernel base
   win_shell: |
