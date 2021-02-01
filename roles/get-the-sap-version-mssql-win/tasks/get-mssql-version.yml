@@ -8,11 +8,11 @@
   debug:
     msg: "{{ item }}"
   loop:
-    - "{{ sid_name.results[0].stdout | trim }}"
+    - "{{ sid_name.results[0].stdout }}"
 
 - name: Get the IP Address
   win_lineinfile:
-    dest: "c:/temp/ipaddress.log"
+    dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
     line: "{{ item }}"
     create: yes
   loop: "{{ ansible_ip_addresses }}"
@@ -20,13 +20,13 @@
   
 
 - name: Display the production IP address
-  win_shell: Get-Content -Path c:/temp/ipaddress.log
+  win_shell: Get-Content -Path c:/temp/{{ inventory_hostname }}-ipaddress.log
   register: ip_address
   
 - name: Display the Prduction IP address
   debug:
     msg: "{{ ip_address.stdout }}"
-    
+
 - name: collect the version of SAP
   win_shell: |
     sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP
