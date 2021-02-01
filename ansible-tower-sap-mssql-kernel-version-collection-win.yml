@@ -13,32 +13,6 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-
-- name: Get the MS-SQL version from Windows Servers (Single SID)
-  hosts: sap_mssql_host_name_single_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    report_file: "/ansible/reports/sap_msql_version.csv"
-  roles:
-  - role: get-the-sap-version-mssql-win
-    delegate_to: local_ansible_engine_server
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ansible_ip_addresses }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop: 
-        - get_sid: "{{ sid_mssql }}"
-          get_spv: "{{ sap_verison.results[0].stdout }}"
-          get_dbn: "{{ db_name.results[0].stdout }}" 
-          get_dbv: "{{ db_verison.results[0].stdout }}" 
-          get_kmv: "{{ kernal_base_verison.results[0].stdout }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout }}"
-      delegate_to: local_ansible_engine_server
-
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
