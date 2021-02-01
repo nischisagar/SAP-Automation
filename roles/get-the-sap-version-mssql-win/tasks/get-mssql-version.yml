@@ -1,13 +1,12 @@
 ---
 - name: Get the SID Name
-  debug:
-    msg: "{{ item.name }}"
+  win_shell: echo "{{ item.name }}"
   loop: "{{ sid_mssql }}"
   register: sid_name
 
 - name: Display the SID name
   debug:
-    msg: "{{ sid_name.results[0].name | trim }}"
+    msg: "{{ sid_name.results[0].stdout | trim }}"
 
 - name: Get the IP Address
   win_lineinfile:
