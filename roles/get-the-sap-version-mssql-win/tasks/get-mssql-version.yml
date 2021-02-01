@@ -1,15 +1,14 @@
 ---
 - name: Get the SID Name
-  win_shell: echo {{ item }}
-  register: sid_name
-  loop: "{{ sid_mssql }}"
-
-- name: Display the SID Name
   debug:
     msg: "{{ item }}"
-  loop:
-    - "{{ sid_name.results[0].stdout }}"
+  loop: "{{ sid_mssql }}"
+  register: sid_name
 
+- name: Display the SID name
+  debug:
+    msg: "{{ sid_name.results[0].stdout | trim }}"
+    
 - name: Get the IP Address
   win_lineinfile:
     dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
