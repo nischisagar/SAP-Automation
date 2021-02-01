@@ -1,13 +1,13 @@
 ---
 - name: Get the SID Name
   debug:
-    msg: "{{ item }}"
+    msg: "{{ item.name }}"
   loop: "{{ sid_mssql }}"
   register: sid_name
 
 - name: Display the SID name
   debug:
-    msg: "{{ sid_name.results[0] | trim }}"
+    msg: "{{ sid_name.results[0].stdout | trim }}"
 
 - name: Get the IP Address
   win_lineinfile:
