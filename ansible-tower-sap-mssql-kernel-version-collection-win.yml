@@ -15,7 +15,7 @@
   become_method: runas
   become_user: system
   vars:
-    acc_id: "sgi"
+    account_code: "sgi"
   roles:
   - role: get-the-sap-version-mssql-win
     delegate_to: windows_report_server
