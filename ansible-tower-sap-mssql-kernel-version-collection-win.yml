@@ -37,7 +37,7 @@
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }} {{ ansible_distribution }},{{ ansible_distribution_version }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }}"
       throttle: 1
       loop: 
-        - get_sid: "{{ name.results[0].stdout | trim }}"
+        - get_sid: "{{ sid_mssql.results[0].stdout | trim }}"
           get_spv: "{{ sap_verison.results[0].stdout | trim }}"
           get_dbn: "{{ db_name.results[0].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
