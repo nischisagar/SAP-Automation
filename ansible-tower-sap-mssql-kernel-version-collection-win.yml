@@ -44,7 +44,7 @@
       delegate_to: ampsw046decc0
 
 - name: Send report to IBM Box folder
-  hosts: sap_mssql_host_name_single_sid
+  hosts: windows_report_server
   become: yes
   become_method: runas
   become_user: system
