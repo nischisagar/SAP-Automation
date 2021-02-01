@@ -11,11 +11,9 @@
   loop: 
     - "{{ sap_verison.results[0].stdout | trim }}"
 
-
 - name: collect the name of DB
   win_shell: |
-    $sql = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL).ToString()
-    $sql.TrimStart().TrimEnd().replace("`n|`r","")
+    sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;" |Select-String -Pattern SQL    
   register: db_name
   loop: "{{ sid_mssql }}"
 
@@ -23,7 +21,7 @@
   debug:
     msg: "{{ item }}"
   loop: 
-    - "{{ db_name.results[0].stdout }}" 
+    - "{{ db_name.results[0].stdout | trim }}" 
 
 - name: collect the version of Kernel base
   win_shell: |
@@ -36,7 +34,7 @@
   debug:
     msg: "{{ item  }}"
   loop: 
-    - "{{ kernal_base_verison.results[0].stdout }}"
+    - "{{ kernal_base_verison.results[0].stdout | trim }}"
 
 - name: collect the version of Kernel patch
   win_shell: |
@@ -49,5 +47,5 @@
   debug:
     msg: "{{ item  }}"
   loop: 
-    - "{{ kernal_patch_verison.results[0].stdout }}"
+    - "{{ kernal_patch_verison.results[0].stdout | trim }}"
 
