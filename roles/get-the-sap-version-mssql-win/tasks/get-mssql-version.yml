@@ -1,9 +1,7 @@
 ---
 - name: collect the version of SAP
   win_shell: |
-    $sap = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP).ToString()
-    $res = $sap.TrimStart().TrimEnd()
-    $res.replace('\n',"")
+    sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP
   register: sap_verison
   loop: "{{ sid_mssql }}"
 
@@ -11,7 +9,7 @@
   debug:
     msg: "{{ item }}"
   loop: 
-    - "{{ sap_verison.results[0].stdout }}"
+    - "{{ sap_verison.results[0].stdout | regex_replace('(\r\n)','') }}"
 
 
 - name: collect the name of DB
