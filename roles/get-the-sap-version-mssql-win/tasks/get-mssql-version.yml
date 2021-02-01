@@ -8,7 +8,7 @@
 - name: Display the SID name
   debug:
     msg: "{{ sid_name.results[0].stdout | trim }}"
-    
+
 - name: Get the IP Address
   win_lineinfile:
     dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
@@ -24,7 +24,7 @@
   
 - name: Display the Prduction IP address
   debug:
-    msg: "{{ ip_address.stdout }}"
+    msg: "{{ ip_address.stdout | trim }}"
 
 - name: collect the version of SAP
   win_shell: |
