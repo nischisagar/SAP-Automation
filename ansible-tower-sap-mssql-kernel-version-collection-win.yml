@@ -18,7 +18,7 @@
   tasks:
     - name: Create the global report file
       win_copy:
-        content: 'Entity Name,Host Name,OS Name,OS Version,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name & Version'
+        content: 'Entity Name,Host Name,SID,OS Name,OS Version,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name & Version'
         dest: "{{ report_file }}"
       run_once: yes
 
@@ -34,10 +34,11 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }} {{ ansible_distribution }},{{ ansible_distribution_version }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }}"
       throttle: 1
       loop: 
-        - get_spv: "{{ sap_verison.results[0].stdout | trim }}"
+        - get_sid: "{{ name.results[0].stdout | trim }}"
+          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
           get_dbn: "{{ db_name.results[0].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
