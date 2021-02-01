@@ -15,11 +15,13 @@
     msg: "{{ item }}"
   loop:
     - "{{ ansible_ip_addresses }}"
+  when : "'10.,' in item"
+  register: ip_address
 
-- name: Display the IP address
+- name: Display the production IP address
   debug:
     msg: "{{ ip_address.stdout }}"
-
+    
 - name: collect the version of SAP
   win_shell: |
     sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP
