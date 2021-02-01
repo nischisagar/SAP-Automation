@@ -2,7 +2,8 @@
 - name: collect the version of SAP
   win_shell: |
     $sap = (sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';" | select-string -pattern SAP).ToString()
-    $sap.TrimStart().TrimEnd().replace("`n|`r","")
+    $res = $sap.TrimStart().TrimEnd()
+    $res = $res.replace("`n","")
   register: sap_verison
   loop: "{{ sid_mssql }}"
 
