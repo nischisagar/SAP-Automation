@@ -16,7 +16,7 @@
     line: "{{ item }}"
     create: yes
   loop: "{{ ansible_ip_addresses }}"
-  when : "'10.,' in item"
+  when : "'10.' in item"
   register: ip_address
 
 - name: Display the production IP address
