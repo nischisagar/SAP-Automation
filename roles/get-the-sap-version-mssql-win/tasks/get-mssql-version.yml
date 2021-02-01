@@ -11,10 +11,11 @@
     - "{{ sid_name.results[0].stdout | trim }}"
 
 - name: Get the IP Address
-  debug:
-    msg: "{{ item }}"
-  loop:
-    - "{{ ansible_ip_addresses }}"
+  win_lineinfile:
+    dest: "c:/temp/ipaddress.log"
+    line: "{{ item }}"
+    create: yes
+  loop: "{{ ansible_ip_addresses }}"
   when : "'10.,' in item"
   register: ip_address
 
