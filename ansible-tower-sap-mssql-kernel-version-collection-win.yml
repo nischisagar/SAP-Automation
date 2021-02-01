@@ -51,7 +51,7 @@
   become_method: runas
   become_user: system
   roles:
-  - role: get-the-sap-version-mssql-win
+  - role: get-the-sap-version-mssql-win-acd
     delegate_to: ampsw046decc0
   tasks:
     - name: Add the details to global report file
