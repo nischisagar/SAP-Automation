@@ -45,7 +45,7 @@
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
       delegate_to: ampsw046decc0
 
-- name: Get the MS-SQL version from Windows Servers (ACD SID)
+- name: Get the MS-SQL version from Windows Servers (SID)
   hosts: sap_mssql_host_name_acd_sid
   become: yes
   become_method: runas
