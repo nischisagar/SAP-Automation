@@ -45,11 +45,7 @@
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
       delegate_to: ampsw046decc0
 
-<<<<<<< HEAD
-- name: Get the MS-SQL version from Windows Servers (SID)
-=======
 - name: Get the MS-SQL version from ABAP Windows Servers (SID)
->>>>>>> 2699e79227d6fe66853e304c533ca158c557f6b9
   hosts: sap_mssql_host_name_sid
   become: yes
   become_method: runas
