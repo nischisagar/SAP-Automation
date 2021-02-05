@@ -27,7 +27,7 @@
   become_method: runas
   become_user: system
   roles:
-  - role: get-the-sap-version-mssql-win
+  - role: get-the-sap-version-mssql-win-abap
     delegate_to: ampsw046decc0
   tasks:
     - name: Add the details to global report file
@@ -51,7 +51,7 @@
   become_method: runas
   become_user: system
   roles:
-  - role: get-the-sap-version-mssql-win-acd
+  - role: get-the-sap-version-mssql-win-abap-sid
     delegate_to: ampsw046decc0
   tasks:
     - name: Add the details to global report file
@@ -75,7 +75,7 @@
   become_method: runas
   become_user: system
   roles:
-  - role: get-the-sap-version-mssql-win
+  - role: get-the-sap-version-mssql-win-abap
     delegate_to: ampsw046decc0
   tasks:
     - name: Add the details to global report file

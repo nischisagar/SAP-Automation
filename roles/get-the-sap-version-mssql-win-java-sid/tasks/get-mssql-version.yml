@@ -1,0 +1,63 @@
+---
+- name: Get the SID Name
+  win_shell: echo "{{ item.name }}"
+  loop: "{{ sid_ms_sql }}"
+  register: sid_name
+
+- name: Register the Production IP Address
+  win_lineinfile:
+    dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
+    line: "{{ item }}"
+    create: yes
+  loop: "{{ ansible_ip_addresses }}"
+  when : "'10.' in item"
+  
+- name: Get the Production IP address
+  win_shell: Get-Content -Path c:/temp/{{ inventory_hostname }}-ipaddress.log
+  register: ip_address
+
+- name: collect the version of SAP
+  win_shell: |
+    $sap = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select distinct STEXT from {{ item.name|lower }}.CVERS_TXT where LANGU='E';"
+    $sap[2]
+  register: sap_verison
+  loop: "{{ sid_ms_sql }}"
+
+- name: collect the version of Kernel base
+  win_shell: |
+    $ker_base = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+    $ker_base[2] | %{ (-split $_)[0] }
+  register: kernal_base_verison
+  loop: "{{ sid_ms_sql }}"
+
+- name: collect the version of Kernel patch
+  win_shell: |
+    $ker_patch = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
+    $ker_patch[2] | %{ (-split $_)[1] }
+  register: kernal_patch_verison
+  loop: "{{ sid_ms_sql }}"
+
+- name: collect the name of DB
+  win_shell: |
+    $sqln = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqln1 = ($sqln[2].Split("(")).split(")")
+    $sqln1[0]
+  register: db_name
+  loop: "{{ sid_ms_sql }}"
+  
+- name: collect the version of DB
+  win_shell: |
+    $sqlv = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqlv1 = ($sqlv[2].Split("(")).split(")")
+    $sqlv1[1]
+  register: db_version
+  loop: "{{ sid_ms_sql }}"
+  
+- name: collect the size of the DB
+  win_shell: |
+    $sql_db_size = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "SELECT (SUM(mf.size) * 8 / 1024) / 1024 AS Size_GBs, d.NAME FROM sys.master_files mf INNER JOIN sys.databases d ON d.database_id = mf.database_id WHERE d.database_id > 4 GROUP BY d.NAME ORDER BY d.NAME;" | Select-String -Pattern {{ item.name }}
+    $sql_db_size | %{ (-split $_)[0] }
+  register: db_size
+  loop: "{{ sid_ms_sql }}"
+ 
+
