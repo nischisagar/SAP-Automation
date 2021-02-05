@@ -28,14 +28,14 @@
     $ker_base = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
     $ker_base[2] | %{ (-split $_)[0] }
   register: kernal_base_verison
-  loop: "{{ sid_ms_sql_java }}"
+  loop: "{{ sid_ms_sql }}"
 
 - name: collect the version of Kernel patch
   win_shell: |
     $ker_base = sqlcmd -S {{ inventory_hostname }}\{{ item.name }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select  top 1 SAPRELEASE,substring(PATCHNO, patindex('%[^0]%',PATCHNO), 10) ,TIMESTAMP from {{ item.name|lower }}.PATCHHIST where EXECUTABLE='disp+work' order by 3 desc"
     $ker_patch[2] | %{ (-split $_)[1] }
   register: kernal_patch_verison
-  loop: "{{ sid_ms_sql_java }}"
+  loop: "{{ sid_ms_sql }}"
 
 - name: collect the name of DB
   win_shell: |
