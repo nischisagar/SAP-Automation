@@ -52,5 +52,12 @@
     $sqlv1[1]
   register: db_version
   loop: "{{ sid_mssql }}"
+  
+- name: collect the size of the DB
+  win_shell: |
+    $sql_db_size = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "SELECT (SUM(mf.size) * 8 / 1024) / 1024 AS Size_GBs, d.NAME FROM sys.master_files mf INNER JOIN sys.databases d ON d.database_id = mf.database_id WHERE d.database_id > 4 GROUP BY d.NAME ORDER BY d.NAME;" | Select-String -Pattern {{ item.name }}
+    $sql_db_size | %{ (-split $_)[0] }
+  register: db_size
+  loop: "{{ sid_mssql }}"
  
 

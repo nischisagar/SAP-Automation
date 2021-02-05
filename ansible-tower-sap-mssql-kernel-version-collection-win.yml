@@ -17,7 +17,7 @@
   tasks:
     - name: Create the global report file
       win_copy:
-        content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name, DB Version'
+        content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size'
         dest: "{{ report_file }}"
       run_once: yes
 
@@ -33,7 +33,7 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
       throttle: 1
       loop: 
         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
@@ -42,6 +42,7 @@
           get_dbv: "{{ db_version.results[0].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
+          get_dbs: "{{ db_size.results[0].stdout | trim }}"
       delegate_to: ampsw046decc0
 
 - name: Get the MS-SQL version from Windows Servers (SID)
@@ -56,7 +57,7 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
       throttle: 1
       loop: 
         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
@@ -65,6 +66,7 @@
           get_dbv: "{{ db_version.results[0].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
+          get_dbs: "{{ db_size.results[0].stdout | trim }}"
       delegate_to: ampsw046decc0
 
 - name: Get the MS-SQL version from Windows Servers (Two SIDs)
@@ -79,7 +81,7 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ ip_address.stdout | trim }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
       throttle: 1
       loop: 
         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
@@ -88,12 +90,14 @@
           get_dbv: "{{ db_version.results[0].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
+          get_dbs: "{{ db_size.results[0].stdout | trim }}"
         - get_sid: "{{ sid_name.results[1].stdout | trim }}"
           get_spv: "{{ sap_verison.results[1].stdout | trim }}"
           get_dbn: "{{ db_name.results[1].stdout | trim }}" 
           get_dbv: "{{ db_version.results[1].stdout | trim }}" 
           get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
+          get_dbs: "{{ db_size.results[1].stdout | trim }}"
       delegate_to: ampsw046decc0
 
 - name: Send report to IBM Box folder
