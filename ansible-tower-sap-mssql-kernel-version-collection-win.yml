@@ -46,7 +46,7 @@
       delegate_to: ampsw046decc0
 
 - name: Get the MS-SQL version from Windows Servers (SID)
-  hosts: sap_mssql_host_name_acd_sid
+  hosts: sap_mssql_host_name_sid
   become: yes
   become_method: runas
   become_user: system
