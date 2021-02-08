@@ -41,6 +41,7 @@
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
+    app_type: "ABAP"
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
