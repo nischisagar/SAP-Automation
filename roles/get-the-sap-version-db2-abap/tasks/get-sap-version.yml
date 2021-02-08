@@ -46,10 +46,10 @@
   loop: "{{ sid_adm_usr_db2_abap }}"
   register: "get_db_version_output"
 
-# - name: Get the DB Size
-#   shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2_abap }}  | tail -1"
-#   loop: "{{ sid_adm_usr_db2_abap }}"
-#   register: "get_db_size_output"
+- name: Get the DB Size
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_db2_abap }}  | tail -1"
+  loop: "{{ sid_adm_usr_db2_abap }}"
+  register: "get_db_size_output"
 
 - name: Remove the script
   file:
