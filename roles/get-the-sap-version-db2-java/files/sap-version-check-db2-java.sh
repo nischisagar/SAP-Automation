@@ -5,7 +5,9 @@ SCHEMA=`db2 -x "select tabschema from syscat.tables where tabname='BC_CVERS'"`
 Jrel=`db2 -x "select distinct substr(SAPRELEASE,1,3) as SAPRELEASE from $SCHEMA.bc_compvers where scname='ENGINEAPI'"`
 Jser=`db2 -x "select distinct SERVICELEVEL from $SCHEMA.bc_compvers where scname='ENGINEAPI'"`
 dblevel=`db2level | grep token | awk '{print $4 " " $5}' | sed 's/"//g' |  sed 's/,//g'`
+dbsize=`db2 -x "SELECT round(SUM(db_size/1024/1024/1024),2) FROM systools.stmg_dbsize_info"| awk '{print $1}'`
 echo "$sid" > /tmp/$sidadm-sap-version-check-db2-java.log
 echo "Java NW $Jrel SP $Jser" >> /tmp/$sidadm-sap-version-check-db2-java.log
 disp+work|egrep -i 'variant|number' >> /tmp/$sidadm-sap-version-check-db2-java.log
 echo "$dblevel" >> /tmp/$sidadm-sap-version-check-db2-java.log
+echo "$dbsize"  >> /tmp/$sidadm-sap-version-check-db2-java.log
