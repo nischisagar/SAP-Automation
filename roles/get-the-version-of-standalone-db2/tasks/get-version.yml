@@ -32,8 +32,16 @@
   shell: |
     for i in `ls /tmp/ansible*dbversion.log`
     do
-    cat $i | tail -1
+    cat $i | head -3 | tail -1
     done
   register: "get_dbv_output"
+
+- name: Get the DB Size
+  shell: |
+    for i in `ls /tmp/ansible*dbversion.log`
+    do
+    cat $i | tail -1
+    done
+  register: "get_dbs_output"
 
   

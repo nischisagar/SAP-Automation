@@ -1,6 +1,0 @@
----
-- name: Add the title content in to SAP and Oracle DB Version Details Report
-  copy:
-    content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,SAP Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version'
-    dest: "{{ report_file }}"
-  run_once: yes
