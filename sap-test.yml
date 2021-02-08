@@ -341,7 +341,7 @@
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Two SIDs)
+- name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Single SID)
   hosts: sap_hanadb_abap2_host_name_single_sid
   become: yes
   become_method: sudo
