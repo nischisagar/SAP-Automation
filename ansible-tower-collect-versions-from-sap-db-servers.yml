@@ -3,8 +3,12 @@
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  roles:
-  - role: report-create-sap-title-oradb-db2-abap-jaja
+  tasks:
+    - name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
+      copy:
+        content: 'Entity Name,Host Name,SID,OS Name,OS Version,IP Address,Application Type,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size (in GB)'
+        dest: "{{ report_file }}"
+        run_once: yes
 
 - name: Get the SAP version from the SAP-DB2-ABAP Servers (Single SID)
   hosts: sap_db2_abap_host_name_single_sid
@@ -12,13 +16,14 @@
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
+    app_type: "ABAP" 
   roles:
   - role: get-the-sap-version-db2-abap
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
       throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
@@ -29,329 +34,329 @@
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-DB2-ABAP Servers (Two SIDs)
-  hosts: sap_db2_abap_host_name_two_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-db2-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[1].stdout }}"        
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-DB2-ABAP Servers (Two SIDs)
+#   hosts: sap_db2_abap_host_name_two_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-db2-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#         - get_sid: "{{ get_sid_output.results[1].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[1].stdout }}"        
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-DB2-JAVA Servers (Single SID)
-  hosts: sap_db2_java_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-db2-java
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-DB2-JAVA Servers (Single SID)
+#   hosts: sap_db2_java_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-db2-java
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the version from the standalone DB2 Servers
-  hosts: standalone_db2
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-version-of-standalone-db2
-  tasks:
-    - name: Add the SID Name in to the report file.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
-      throttle: 1
-      with_together:
-        - "{{ get_sid_output.stdout_lines }}"
-        - "{{ get_dbn_output.stdout_lines }}"
-        - "{{ get_dbv_output.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the version from the standalone DB2 Servers
+#   hosts: standalone_db2
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-version-of-standalone-db2
+#   tasks:
+#     - name: Add the SID Name in to the report file.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
+#       throttle: 1
+#       with_together:
+#         - "{{ get_sid_output.stdout_lines }}"
+#         - "{{ get_dbn_output.stdout_lines }}"
+#         - "{{ get_dbv_output.stdout_lines }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-oradb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
+#   hosts: sap_oradb_abap_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-oradb-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
-  hosts: sap_oradb_abap_host_name_two_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-oradb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[1].stdout }}" 
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
+#   hosts: sap_oradb_abap_host_name_two_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-oradb-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#         - get_sid: "{{ get_sid_output.results[1].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[1].stdout }}" 
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
-  hosts: sap_oradb_abap_host_name_three_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-oradb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[1].stdout }}" 
-        - get_sid: "{{ get_sid_output.results[2].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[2].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[2].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[2].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[2].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[2].stdout }}" 
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
+#   hosts: sap_oradb_abap_host_name_three_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-oradb-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#         - get_sid: "{{ get_sid_output.results[1].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[1].stdout }}" 
+#         - get_sid: "{{ get_sid_output.results[2].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[2].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[2].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[2].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[2].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[2].stdout }}" 
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
-  hosts: sap_oradb_java_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-oradb-java
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
+#   hosts: sap_oradb_java_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-oradb-java
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Two SIDs)
-  hosts: sap_oradb_java_host_name_two_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-oradb-java
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Two SIDs)
+#   hosts: sap_oradb_java_host_name_two_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-oradb-java
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#         - get_sid: "{{ get_sid_output.results[1].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[1].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the version from the standalone Oracle DB Servers
-  hosts: standalone_oracle_db 
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-version-of-standalone-oradb
-  tasks:
-    - name: Add the SID Name in to the report file.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
-      throttle: 1
-      with_together:
-        - "{{ get_sid_output.stdout_lines }}"
-        - "{{ get_dbn_output.stdout_lines }}"
-        - "{{ get_dbv_output.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the version from the standalone Oracle DB Servers
+#   hosts: standalone_oracle_db 
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-version-of-standalone-oradb
+#   tasks:
+#     - name: Add the SID Name in to the report file.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},NA,NA,NA,{{ item.1 }},{{ item.2 }}"
+#       throttle: 1
+#       with_together:
+#         - "{{ get_sid_output.stdout_lines }}"
+#         - "{{ get_dbn_output.stdout_lines }}"
+#         - "{{ get_dbv_output.stdout_lines }}"
+#       delegate_to: ampsv010bld0d
 
 
-- name: Get the SAP version from the SAP-HANADB-JAVA Servers (Single SID)
-  hosts: sap_hanadb_java_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-hanadb-java
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-HANADB-JAVA Servers (Single SID)
+#   hosts: sap_hanadb_java_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-hanadb-java
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
-  hosts: sap_hanadb_abap_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-hanadb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
+#   hosts: sap_hanadb_abap_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-hanadb-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Two SIDs)
-  hosts: sap_hanadb_abap2_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-hanadb-abap2
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Two SIDs)
+#   hosts: sap_hanadb_abap2_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-hanadb-abap2
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
-- name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
-  hosts: sap_maxdb_abap_host_name_single_sid
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-sap-version-maxdb-abap
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+# - name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
+#   hosts: sap_maxdb_abap_host_name_single_sid
+#   become: yes
+#   become_method: sudo
+#   vars: 
+#     ansible_python_interpreter: "/usr/bin/python"
+#   roles:
+#   - role: get-the-sap-version-maxdb-abap
+#   tasks:
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+#       lineinfile:
+#         dest: "{{ report_file }}"
+#         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }}"
+#       throttle: 1
+#       loop:
+#         - get_sid: "{{ get_sid_output.results[0].stdout }}"
+#           get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+#           get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+#           get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+#           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+#           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+#       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
   hosts: ampsv010bld0d
