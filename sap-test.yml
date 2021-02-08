@@ -102,7 +102,7 @@
 #   roles:
 #   - role: get-the-version-of-standalone-db2
 #   tasks:
-#     - name: Add the SID Name in to the report file.
+#     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
 #       lineinfile:
 #         dest: "{{ report_file }}"
 #         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }}"
@@ -278,7 +278,7 @@
   roles:
   - role: get-the-version-of-standalone-oradb
   tasks:
-    - name: Add the SID Name in to the report file.
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: "{{ entity_name }},{{ ansible_fqdn }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ansible_default_ipv4.address }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }}"
