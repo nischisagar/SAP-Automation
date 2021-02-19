@@ -18,8 +18,8 @@
 
 - name: copy SQL queries to target
   win_copy:
-    src: files/{{ item }}
-    dest: C:\Temp
+    src: "files/{{ item }}"
+    dest: 'C:\Temp\'
   with_items:
     - ora_db.sql
     - ora_dbsiz.sql
