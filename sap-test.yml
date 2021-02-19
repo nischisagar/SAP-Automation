@@ -22,17 +22,19 @@
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
   hosts: sap_oradb_abap_host_name_win_single_sid
+  become: yes
+  become_method: runas
+  become_user: system
   vars:
     app_type: "ABAP"
   roles:
   - role: get-the-sap-version-oradb-win-abap
-    become: true
+    become: yes
     become_method: runas
-    vars:
-      ansible_become_user: "{{ item.name|lower }}adm"
-      ansible_remote_tmp: 'c:\temp'
+    become_user: "{{ item.name | lower }}adm"
     loop: "{{ sid_oradb_abap }}"
-
+    ansible_remote_tmp: 'c:\temp'
+    
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
