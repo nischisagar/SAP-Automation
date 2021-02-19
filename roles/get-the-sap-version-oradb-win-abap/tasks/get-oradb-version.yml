@@ -34,9 +34,8 @@
   become_method: runas
   become_user: "{{ item.name | lower }}adm"
   loop: "{{ sid_oradb_abap }}"
-  ansible_remote_tmp: 'c:\temp'
   register: sap_verison
-  
+
 # - name: Get the Kernel base version
 #   win_shell: |
 #     $var1 = sqlplus sys/sys as sysdba @C:\temp\ora_kernel.sql |select-object -skip 12 | select -skiplast 1
