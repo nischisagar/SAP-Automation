@@ -46,6 +46,8 @@
   win_shell: |
     $var1 = Get-Content sap_kernel.{{ item.name | lower }}adm.txt
     $var1[1]| %{ (-split $_)[3] }
+  args:
+    chdir: c:\temp
   become: yes
   become_method: runas
   become_user: "{{ item.name | lower }}adm"
@@ -56,6 +58,8 @@
   win_shell: |
     $var1 = Get-Content sap_kernel.{{ item.name | lower }}adm.txt
     $var1[2]| %{ (-split $_)[2] }
+  args:
+    chdir: c:\temp
   become: yes
   become_method: runas
   become_user: "{{ item.name | lower }}adm"
