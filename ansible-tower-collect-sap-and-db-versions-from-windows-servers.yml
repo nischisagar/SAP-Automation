@@ -30,7 +30,7 @@
     app_type: "ABAP"
   roles:
   - role: get-the-sap-version-mssql-win-abap
-    delegate_to: ampsw046decc0
+    delegate_to: ampsw010saba0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -45,7 +45,7 @@
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the MS-SQL version from ABAP Windows Servers (SID)
   hosts: sap_mssql_host_name_sid
@@ -56,7 +56,7 @@
     app_type: "ABAP"
   roles:
   - role: get-the-sap-version-mssql-win-abap-sid
-    delegate_to: ampsw046decc0
+    delegate_to: ampsw010saba0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -71,7 +71,7 @@
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the MS-SQL version from ABAP Windows Servers (Two SIDs)
   hosts: sap_mssql_host_name_two_sid
@@ -82,7 +82,7 @@
     app_type: "ABAP"
   roles:
   - role: get-the-sap-version-mssql-win-abap
-    delegate_to: ampsw046decc0
+    delegate_to: ampsw010saba0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -104,7 +104,7 @@
           get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
           get_dbs: "{{ db_size.results[1].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the MS-SQL version from Java Windows Servers (Single SID)
   hosts: sap_mssql_java_host_name_single_sid
@@ -115,7 +115,7 @@
     app_type: "Java"
   roles:
   - role: get-the-sap-version-mssql-win-java
-    delegate_to: ampsw046decc0
+    delegate_to: ampsw010saba0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -130,7 +130,7 @@
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the MS-SQL version from Java Windows Servers (SID)
   hosts: sap_mssql_java_host_name_sid
@@ -141,7 +141,7 @@
     app_type: "Java"
   roles:
   - role: get-the-sap-version-mssql-win-java-sid
-    delegate_to: ampsw046decc0
+    delegate_to: ampsw010saba0
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
@@ -156,7 +156,7 @@
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
   hosts: sap_oradb_abap_host_name_win_single_sid
@@ -181,7 +181,7 @@
           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Two SIDs)
   hosts: sap_oradb_abap_host_name_win_two_sid
@@ -213,7 +213,7 @@
           get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
           get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
           get_dbs: "{{ db_size.results[1].stdout | trim }}"
-      delegate_to: ampsw046decc0
+      delegate_to: ampsw010saba0
       
 - name: Send report to IBM Box folder
   hosts: windows_report_server
@@ -222,4 +222,4 @@
   become_user: system
   tasks:
     - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw046decc0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Monthly.jg8pdmspxxbg0ywn@u.box.com ' -Subject 'Ansible Report - SAP and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Monthly.jg8pdmspxxbg0ywn@u.box.com ' -Subject 'Ansible Report - SAP and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
