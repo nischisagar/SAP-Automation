@@ -39,7 +39,7 @@
   win_command: disp+work | findstr /C:"variant" /C:"number" >C:\temp\sap_kernel.{{ item.name | lower }}adm.txt
   become: yes
   become_method: runas
-  become_user: system
+  become_user: "{{ item.name | lower }}adm"
   loop: "{{ sid_oradb_java }}"
 
 - name: Get the Kernel base version
