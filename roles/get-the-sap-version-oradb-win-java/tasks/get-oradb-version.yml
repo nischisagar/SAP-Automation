@@ -36,7 +36,7 @@
   register: sap_verison
 
 - name: Run the disp+work.exe and redirect the output textfile
-  win_command: disp+work | findstr /C:"variant" /C:"number" >C:\temp\sap_kernel.{{ item.name | lower }}adm.txt
+  win_shell: disp+work | select-string -pattern variant,number >C:\temp\sap_kernel.{{ item.name | lower }}adm.txt
   become: yes
   become_method: runas
   become_user: "{{ item.name | lower }}adm"
