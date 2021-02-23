@@ -277,6 +277,12 @@
   become: yes
   become_method: runas
   become_user: system
+  vars:
+    report_file_with_date: "c:/temp/sap-db-version-windows-{{ ansible_date_time.date }}.csv"
   tasks:
+    - name: Copy the file with date formate
+      win_copy: 
+        src: "{{ report_file }}"
+        dest: "{{ report_file_with_date }}"
     - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Windows.yuusg0opfv8fzpf8@u.box.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Windows.yuusg0opfv8fzpf8@u.box.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
