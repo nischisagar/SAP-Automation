@@ -1,13 +1,13 @@
 ---
-# - name: Role ensures that the socks tunnel is setup
-#   hosts: localhost
-#   connection: local
-#   gather_facts: false
-#   vars:
-#     acc_id: "{{ blueid_shortcode }}"
-#     transaction_id: "{{ tower_job_id }}"
-#   roles:
-#     - role: ansible-role-event-socks-tunnel
+- name: Role ensures that the socks tunnel is setup
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    acc_id: "{{ blueid_shortcode }}"
+    transaction_id: "{{ tower_job_id }}"
+  roles:
+    - role: ansible-role-event-socks-tunnel
 
 # - name: Create the Global report file
 #   hosts: windows_report_server
