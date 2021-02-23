@@ -404,7 +404,7 @@
         body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Monthly SAP JAVA and DB version Report <Monthly.jg8pdmspxxbg0ywn@u.box.com>
+        - Monthly SAP JAVA and DB version Report <Unix.8eqokg8qtn4af85l@u.box.com>
         attach:
         - "{{ report_file }}"
         headers:
