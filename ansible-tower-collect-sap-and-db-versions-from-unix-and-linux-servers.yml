@@ -401,7 +401,6 @@
         src: "{{ report_file }}"
         dest: "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         remote_src: yes
-        
     - name: Send e-mail to a bunch of users, attaching files
       mail:
         host: smtp.mail.saint-gobain.net
