@@ -396,6 +396,11 @@
   become: yes
   become_method: sudo
   tasks:
+    - name: Copy the file with date formate
+      copy: 
+        src: "{{ report_file }}"
+        dest: "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+
     - name: Send e-mail to a bunch of users, attaching files
       mail:
         host: smtp.mail.saint-gobain.net
@@ -406,7 +411,7 @@
         to:
         - Monthly SAP JAVA and DB version Report <Unix.8eqokg8qtn4af85l@u.box.com>
         attach:
-        - "{{ report_file }}"
+        - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
         - Reply-To=pogovind@in.ibm.com
         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
