@@ -21,7 +21,7 @@ select round((serverdbsize*8) /1024/1024,2) from serverdbstatistics
 exit
 EOF
 Sapversion=`cat result.txt|sed 's/|/ /g'|head -3|tail -1|awk '{print $1,$2,$3,$4}'`
-Kernelversion=`cat result.txt|sed 's/|/ /g'|tail -1|awk '{print $1,$2}'`
+Kernelversion=`cat result.txt|sed 's/|/ /g'|tail -4|head -1|awk '{print $1,$2}'`
 DBversion=`dbmcli db_enum|grep -i running|grep -i $sid|awk '{print $3}'`
 dbsize=`cat result.txt|sed 's/|/ /g'|tail -1|awk '{print $1}'`
 echo "$sid" > /tmp/$sidadm-sap-version-check-maxdb-abap.log

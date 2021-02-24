@@ -280,7 +280,7 @@
   vars:
     report_file_with_date: "c:/temp/sap-db-version-windows-{{ ansible_date_time.date }}.csv"
   tasks:
-    - name: Copy the file with date formate
+    - name: Copy the file with date format
       win_copy: 
         src: "{{ report_file }}"
         dest: "{{ report_file_with_date }}"
