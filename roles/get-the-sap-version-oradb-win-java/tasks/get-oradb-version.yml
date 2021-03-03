@@ -4,17 +4,17 @@
   loop: "{{ sid_oradb_java }}"
   register: sid_name
 
-- name: Register the Production IP Address
-  win_lineinfile:
-    dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
-    line: "{{ item }}"
-    create: yes
-  loop: "{{ ansible_ip_addresses }}"
-  when : "'10.' in item"
+# - name: Register the Production IP Address
+#   win_lineinfile:
+#     dest: "c:/temp/{{ inventory_hostname }}-ipaddress.log"
+#     line: "{{ item }}"
+#     create: yes
+#   loop: "{{ ansible_ip_addresses }}"
+#   when : "'10.' in item"
 
-- name: Get the Production IP address
-  win_shell: Get-Content -Path c:/temp/{{ inventory_hostname }}-ipaddress.log
-  register: ip_address
+# - name: Get the Production IP address
+#   win_shell: Get-Content -Path c:/temp/{{ inventory_hostname }}-ipaddress.log
+#   register: ip_address
 
 - name: copy SQL queries to target
   win_copy:
