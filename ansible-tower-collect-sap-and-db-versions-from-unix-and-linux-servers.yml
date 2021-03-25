@@ -254,13 +254,13 @@
           get_dbn: "{{ get_db_name_output.results[3].stdout }}"
           get_dbv: "{{ get_db_version_output.results[3].stdout }}"
           get_dbs: "{{ get_db_size_output.results[3].stdout }}"
-        - get_sid: "{{ get_sid_output.results[4].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[4].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[4].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[4].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[4].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[4].stdout }}"
-          get_dbs: "{{ get_db_size_output.results[4].stdout }}"
+        # - get_sid: "{{ get_sid_output.results[4].stdout }}"
+        #   get_sap: "{{ get_sap_version_output.results[4].stdout }}"
+        #   get_kmv: "{{ get_kernel_make_variant_output.results[4].stdout }}"
+        #   get_kpn: "{{ get_patch_number_output.results[4].stdout }}"
+        #   get_dbn: "{{ get_db_name_output.results[4].stdout }}"
+        #   get_dbv: "{{ get_db_version_output.results[4].stdout }}"
+        #   get_dbs: "{{ get_db_size_output.results[4].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
