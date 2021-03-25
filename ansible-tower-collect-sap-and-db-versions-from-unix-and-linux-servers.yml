@@ -262,7 +262,7 @@
           get_dbv: "{{ get_db_version_output.results[4].stdout }}"
           get_dbs: "{{ get_db_size_output.results[5].stdout }}"
       delegate_to: ampsv010bld0d
-      
+
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
   hosts: sap_oradb_java_host_name_single_sid
   become: yes
@@ -444,28 +444,28 @@
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  tasks:
-    - name: Copy the file with date format
-      copy: 
-        src: "{{ report_file }}"
-        dest: "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
-        remote_src: yes
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
-        body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Monthly SAP JAVA and DB version Report <Unix.8eqokg8qtn4af85l@u.box.com>
-        attach:
-        - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
-        headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
-        charset: us-ascii
+# - name: Send e-mail
+#   hosts: ampsv010bld0d
+#   become: yes
+#   become_method: sudo
+#   tasks:
+#     - name: Copy the file with date format
+#       copy: 
+#         src: "{{ report_file }}"
+#         dest: "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+#         remote_src: yes
+#     - name: Send e-mail to a bunch of users, attaching files
+#       mail:
+#         host: smtp.mail.saint-gobain.net
+#         port: 25
+#         subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
+#         body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
+#         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+#         to:
+#         - Monthly SAP JAVA and DB version Report <Unix.8eqokg8qtn4af85l@u.box.com>
+#         attach:
+#         - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+#         headers:
+#         - Reply-To=pogovind@in.ibm.com
+#         - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
+#         charset: us-ascii
