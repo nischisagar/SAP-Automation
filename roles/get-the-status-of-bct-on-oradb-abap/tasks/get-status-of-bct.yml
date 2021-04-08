@@ -1,5 +1,5 @@
 ---
-- name: Copy the script
+- name: Copy BCT status script 
   copy:
     src: "files/bct-status.sh"
     dest: "/tmp/{{ item.name }}-bct-status.sh"
@@ -8,7 +8,7 @@
   when: sid_adm_usr_oradb_abap is defined
   loop: "{{ sid_adm_usr_oradb_abap }}"
 
-- name: Run the SAP version check script
+- name: Run the BCT status check script
   shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-bct-status.sh"
   changed_when: False
   args:
@@ -21,13 +21,13 @@
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_bct_status_output"
 
-- name: Remove the script
+- name: Remove the BCT status check script
   file:
     path: "/tmp/{{ item.name }}-bct-status.sh"
     state: absent
   loop: "{{ sid_adm_usr_oradb_abap }}"
 
-- name: Remove the log
+- name: Remove the BCT status check script log
   file:
     path: "/tmp/{{ item.name }}-bctstatus.log"
     state: absent

@@ -90,7 +90,6 @@
         - get_output: "{{ get_bct_status_output.results[1].stdout|trim }}"
         - get_output: "{{ get_bct_status_output.results[2].stdout|trim }}"
         - get_output: "{{ get_bct_status_output.results[3].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[4].stdout|trim }}"
       delegate_to: xmpsl010pda20ap
 
 - name: Check the status of BCT on Single SID Oracle DB Java servers
