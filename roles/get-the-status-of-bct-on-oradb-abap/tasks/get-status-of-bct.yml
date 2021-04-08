@@ -1,0 +1,34 @@
+---
+- name: Copy the script
+  copy:
+    src: "files/bct-status.sh"
+    dest: "/tmp/{{ item.name }}-bct-status.sh"
+    owner: "{{  item.name }}"
+    mode: '0700'
+  when: sid_adm_usr_oradb_abap is defined
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+
+- name: Run the SAP version check script
+  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-bct-status.sh"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_oradb_abap is defined
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+
+- name: Get the output from bctstatus log file
+  shell: "cat /tmp/{{ item.name }}-bctstatus.log"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_bct_status_output"
+
+- name: Remove the script
+  file:
+    path: "/tmp/{{ item.name }}-bct-status.sh"
+    state: absent
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+
+- name: Remove the log
+  file:
+    path: "/tmp/{{ item.name }}-bctstatus.log"
+    state: absent
+  loop: "{{ sid_adm_usr_oradb_abap }}"
