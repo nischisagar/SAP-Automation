@@ -100,7 +100,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-status-of-bct-on-oradb-abap
+  - role: get-the-status-of-bct-on-oradb-java
   tasks:
     - name: Add the content in to BCT status report file.
       lineinfile:
@@ -111,7 +111,7 @@
         - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
       delegate_to: xmpsl010pda20ap
 
-- name: Check the status of BCT on Single SID Oracle DB Java servers
+- name: Check the status of BCT on Two SID Oracle DB Java servers
   hosts: sap_oradb_java_host_name_two_sid
   become: yes
   become_method: sudo
@@ -119,7 +119,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-status-of-bct-on-oradb-abap
+  - role: get-the-status-of-bct-on-oradb-java
   tasks:
     - name: Add the content in to BCT status report file.
       lineinfile:
