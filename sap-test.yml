@@ -2,6 +2,7 @@
   hosts: xmpsl010pda20ap
   become: yes
   become_method: sudo
+  gather_facts: no
   tasks:
     - name: Add the title content in to BCT status report file.
       copy:
@@ -13,6 +14,7 @@
   hosts: sap_oradb_abap_host_name_single_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -31,6 +33,7 @@
   hosts: sap_oradb_abap_host_name_two_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -50,6 +53,7 @@
   hosts: sap_oradb_abap_host_name_three_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -70,6 +74,7 @@
   hosts: sap_oradb_abap_host_name_five_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -92,6 +97,7 @@
   hosts: sap_oradb_java_host_name_single_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
@@ -110,6 +116,7 @@
   hosts: sap_oradb_java_host_name_two_sid
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
