@@ -24,5 +24,5 @@
         line: '{{ item.get_output }}'
       throttle: 1
       loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout }}"
+        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
       delegate_to: xmpsl010pda20ap
