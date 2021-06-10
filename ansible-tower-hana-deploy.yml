@@ -1,6 +1,6 @@
 ---
 - name: Build HANA using Ansible 
-  hosts: all
+  hosts: "{{ hana_new_server_name }}"
   become: yes
   become_method: sudo
   gather_facts: false
