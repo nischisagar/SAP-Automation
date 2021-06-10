@@ -26,4 +26,4 @@ hana_groupid:
 ansible_hostname: ""
 ase_user_password: ""
 nfs: "/tempfs"
-nfs_mount: "ampsv010bld0d.p1.saint-gobain.net:/data/REAR/bigfix"
+nfs_mount: "10.139.67.53:/shared_softrepo/010_SHARED_INFRA"
