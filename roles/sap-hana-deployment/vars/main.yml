@@ -1,28 +1,28 @@
 ---
-bundle_path: "/tempfs/hana_software/GF_LINUX_HANA/HANA2_Rev45"
-bundle_sar_file_name: "IMDB_SERVER20_045_0-80002046.SAR"
+bundle_path: "/tempfs/hana_software/GF_LINUX_HANA/HANA_Dump"
+bundle_sar_file_name: "IMDB_SERVER20_053_0-80002046.SAR"
 sapcar_path: "/tempfs/hana_software/GF_LINUX_HANA"
-sapcar_file_name: "SAPCAR_1311-70001810.EXE"
+sapcar_file_name: "SAPCAR_1010-70006238.EXE"
 deploy_hostagent: 'y'
 apply_license: false
 hana_install_path: '/hana/shared'
 use_master_password: 'n'
-hana_master_password: ""
-root_password: "ffdsfsfsdfsdf"
-sapadm_password: ""
-hana_sid: ""
-hana_instance_number: ""
-hana_env_type: ''
+hana_master_password: "Ironman@123!"
+root_password: "Ironman@123!"
+sapadm_password: "Ironman@123!"
+hana_sid: "SH0"
+hana_instance_number: "20"
+hana_env_type: 'DEV'
 hana_mem_restrict: 'n'
 hana_max_mem:
-common_master_password: ""
-sidadm_password: ""
-hana_db_system_password: ""
+common_master_password: "Ironman@123!"
+sidadm_password: "Ironman@123!"
+hana_db_system_password: "Ironman@123!"
 system_restart: 'n'
 xs_install: 'n'
-hana_userid:
-hana_password: ""
-hana_groupid:
+hana_userid: "sh0adm"
+hana_password: "Ironman@123!"
+hana_groupid: "sapsys"
 ansible_hostname: ""
 ase_user_password: ""
 nfs: "/tempfs"
