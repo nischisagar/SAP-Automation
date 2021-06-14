@@ -14,7 +14,7 @@ galaxy_info:
   platforms:
     - name: SuSE for SAP
       versions:
-        - 12 SP4
+        - 12 SP5
 
     - name: HANA
       versions:
