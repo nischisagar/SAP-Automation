@@ -1,16 +1,5 @@
 ---
 - name: Socks tunnel setup
-  hosts: "{{ sap_server }}"
-  gather_facts: no
-  roles:
-  - role: socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
-- name: Socks tunnel setup
   hosts: "{{ hana_server }}"
   gather_facts: no
   roles:
