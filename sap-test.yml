@@ -1,158 +1,19 @@
-- name: Check the status of BCT on Oracle DB servers
-  hosts: xmpsl010pda20ap
-  become: yes
-  become_method: sudo
+---
+- name: Socks tunnel setup
+  hosts: "{{ hana_server }}"
   gather_facts: no
-  tasks:
-    - name: Add the title content in to BCT status report file.
-      copy:
-        content: 'Date Server_Name SID BCT_Status'
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-      run_once: yes
-      
-- name: Check the status of BCT on Single SID Oracle DB ABAP servers
-  hosts: sap_oradb_abap_host_name_single_sid
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: get-the-status-of-bct-on-oradb-abap
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
 
-- name: Check the status of BCT on Two SID Oracle DB ABAP servers
-  hosts: sap_oradb_abap_host_name_two_sid
+- name: Run SAP HANA Revision Upgrade
+  hosts: "{{ hana_server }}"
   become: yes
   become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
+  gather_facts: false
   roles:
-  - role: get-the-status-of-bct-on-oradb-abap
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[1].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
-
-- name: Check the status of BCT on Three SID Oracle DB ABAP servers
-  hosts: sap_oradb_abap_host_name_three_sid
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-status-of-bct-on-oradb-abap
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[1].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[2].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
-
-- name: Check the status of BCT on Five SID Oracle DB ABAP servers
-  hosts: sap_oradb_abap_host_name_five_sid
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-status-of-bct-on-oradb-abap
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[1].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[2].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[3].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
-
-- name: Check the status of BCT on Single SID Oracle DB Java servers
-  hosts: sap_oradb_java_host_name_single_sid
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-status-of-bct-on-oradb-java
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
-
-- name: Check the status of BCT on Two SID Oracle DB Java servers
-  hosts: sap_oradb_java_host_name_two_sid
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: get-the-status-of-bct-on-oradb-java
-  tasks:
-    - name: Add the content in to BCT status report file.
-      lineinfile:
-        dest: "/ansiblefs/reports/oradb-bct-status.csv"
-        line: '{{ item.get_output }}'
-      throttle: 1
-      loop:
-        - get_output: "{{ get_bct_status_output.results[0].stdout|trim }}"
-        - get_output: "{{ get_bct_status_output.results[1].stdout|trim }}"
-      delegate_to: xmpsl010pda20ap
-
-- name: Send e-mail
-  hosts: xmpsl010pda20ap
-  become: yes
-  become_method: sudo
-  tasks:
-    - name: Copy the file with date format
-      copy: 
-        src: "/ansiblefs/reports/oradb-bct-status.csv"
-        dest: "/ansiblefs/reports/oradb-bct-status-{{ ansible_date_time.date }}.csv"
-        remote_src: yes
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - BCT Status
-        body: Hello Team, Please find the attached BCT status report from Oracle DB servers.
-        from: xmpsl010pda20ap.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
-        attach:
-        - "/ansiblefs/reports/oradb-bct-status-{{ ansible_date_time.date }}.csv"
-        headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
-        charset: us-ascii
+  - role: sap-hana-revision-51-upgrade
