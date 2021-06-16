@@ -1,0 +1,1398 @@
+---
+sg_all:
+  hosts:
+    xmpsl010shan0:
+      ipaddress: 10.125.64.45
+      ansible_host: xmpsl010shan0.dtc2.cf.saint-gobain.net
+      entity_name: 010_SHARED_INFRA
+    ampsv010bld0d:
+      ipaddress: 10.139.69.131
+      ansible_host: ampsv010bld0d.p1.saint-gobain.net
+      entity_name: 010_SHARED_INFRA
+    xmpsl010pda20ap:
+      ipaddress: 10.125.64.8
+      ansible_host: xmpsl010pda20ap.dtc2.cf.saint-gobain.net
+      entity_name: 010_SHARED_INFRA
+    xmpsl010pda21ap:
+      ipaddress: 10.125.64.9
+      ansible_host: xmpsl010pda21ap.dtc2.cf.saint-gobain.net
+      entity_name: 010_SHARED_INFRA
+    xmpsl010tcmp001:
+      ipaddress: 10.125.66.211
+      ansible_host: xmpsl010tcmp001
+      entity_name: 010_SHARED_INFRA
+    ampsv017ecc0d:
+      ipaddress: 10.139.72.114
+      ansible_host: ampsv017ecc0d.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: dkeadm
+      entity_name: 017_LAPEYRE
+    ampsv017ecc0p:
+      ipaddress: 10.139.69.20
+      ansible_host: ampsv017ecc0p.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: pkeadm
+      entity_name: 017_LAPEYRE
+    ampsv017ecc1i:
+      ipaddress: 10.139.71.30
+      ansible_host: ampsv017ecc1i.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: rkeadm
+      entity_name: 017_LAPEYRE
+    ampsv017ecc0i:
+      ipaddress: 10.139.71.93
+      ansible_host: ampsv017ecc0i.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: skeadm
+      entity_name: 017_LAPEYRE
+    ampsv017ecc0q:
+      ipaddress: 10.139.71.110
+      ansible_host: ampsv017ecc0q.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: qkeadm
+      entity_name: 017_LAPEYRE
+    ampsa017cecc0:
+      ipaddress: 10.139.71.119
+      ansible_host: ampsa017cecc0
+      sid_adm_usr_db2_abap:
+        - name: ckeadm
+      entity_name: 017_LAPEYRE
+    ampsv017ssm0d:
+      ipaddress: 10.139.72.113
+      ansible_host: ampsv017ssm0d.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: dksadm
+      sid_adm_usr_db2_java:
+        - name: dkjadm
+      entity_name: 017_LAPEYRE
+    ampsv034ecc0d:
+      ipaddress: 10.139.72.86
+      ansible_host: ampsv034ecc0d.za.if.atcsg.net
+      sid_adm_usr_db2_abap:
+        - name: dmeadm
+      entity_name: 034_SGBDNL
+    ampsv034ecc0p:
+      ipaddress: 10.139.69.61
+      ansible_host: ampsv034ecc0p.saint-gobain.com
+      sid_adm_usr_db2_abap:
+        - name: pmeadm
+      entity_name: 034_SGBDNL
+    ampsv017pjt0t:
+      ipaddress: 10.139.71.118
+      ansible_host: ampsv017pjt0t.p1.saint-gobain.net
+      sid_adm_usr_db2_abap:
+        - name: tkeadm
+        - name: tksadm
+      sid_adm_usr_db2_java:
+        - name: tkjadm
+      entity_name: 017_LAPEYRE
+    ampsv034ecc0q:
+      ipaddress: 10.139.72.95
+      ansible_host: ampsv034ecc0q.za.if.atcsg.net
+      sid_adm_usr_db2_abap:
+        - name: qmeadm
+        - name: rmeadm
+      entity_name: 034_SGBDNL
+    ampsv017ads0d:
+      ipaddress: 10.139.72.141
+      ansible_host: ampsv017ads0d.p1.saint-gobain.net
+      sid_adm_usr_db2_java:
+        - name: dkdadm
+      entity_name: 017_LAPEYRE
+    ampsv017ads0q:
+      ipaddress: 10.139.71.113
+      ansible_host: ampsv017ads0q.p1.saint-gobain.net
+      sid_adm_usr_db2_java:
+        - name: qkdadm
+      entity_name: 017_LAPEYRE
+    ampsv017ads0p:
+      ipaddress: 10.139.67.90
+      ansible_host: ampsv017ads0p.p1.saint-gobain.net
+      sid_adm_usr_db2_java:
+        - name: pk1adm
+      entity_name: 017_LAPEYRE
+    ampsv017ads1p:
+      ipaddress: 10.139.67.91
+      ansible_host: ampsv017ads1p.p1.saint-gobain.net
+      sid_adm_usr_db2_java:
+        - name: pk2adm
+      entity_name: 017_LAPEYRE
+    xmpsa017idm0:
+      ipaddress: 10.139.71.13
+      ansible_host: xmpsa017idm0
+      sid_adm_usr_db2_java:
+        - name: dkiadm
+      entity_name: 017_LAPEYRE
+    xmpsa017qidm0:
+      ipaddress: 10.139.71.143
+      ansible_host: 10.139.71.143
+      sid_adm_usr_db2_java:
+        - name: qkjadm
+      entity_name: 017_LAPEYRE
+    xmpsa017pidm0:
+      ipaddress: 10.139.67.82
+      ansible_host: 10.139.67.82
+      sid_adm_usr_db2_java:
+        - name: pkjadm
+      entity_name: 017_LAPEYRE
+    ampsv017pjt0d:
+      ipaddress: 10.139.72.115
+      ansible_host: ampsv017pjt0d
+      entity_name: 017_LAPEYRE
+    ampsa033qecc0:
+      ipaddress: 10.139.72.34
+      ansible_hosts: 10.139.72.34
+      sid_adm_usr_oradb_abap:
+        - name: qneadm
+      entity_name: 033_SABRE
+    ampsv011ecc0d:
+      ipaddress: 10.139.72.119
+      ansible_host: ampsv011ecc0d.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: dg4adm
+      entity_name: 011_EUROPE
+    ampsv03902pjt:
+      ipaddress: 10.139.71.48
+      ansible_host: ampsv03902pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: dh3adm
+        - name: qh3adm
+        - name: dh1adm
+        # - name: dh4adm
+        - name: qh1adm
+      sid_adm_usr_oradb_java:
+        - name: dh5adm
+      entity_name: 039_HOPIS
+    # ampsv02931prd:
+    #   ipaddress: 10.139.69.139
+    #   ansible_host: ampsv02931prd.saint-gobain.com
+    #   sid_adm_usr_oradb_abap:
+    #     - name: ph3adm
+    #   sid_adm_usr_oradb_java:
+    #     - name: phdadm
+    #   entity_name: 029_SAPHRCZ
+    ampsv03901prd:
+      ipaddress: 10.139.69.102
+      ansible_host: ampsv03901prd.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: ph1adm
+        - name: ph4adm
+      sid_adm_usr_oradb_java:
+        - name: ph5adm
+      entity_name: 039_HOPIS    
+    a01822pr:
+      ipaddress: 10.139.69.116
+      ansible_host: a01822pr.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: pv1adm
+      sid_adm_usr_oradb_java:
+        - name: pvdadm
+      entity_name: 018_TESIS
+    ampsv011ecc0p:
+      ipaddress: 10.158.240.244
+      ansible_host: ampsv011ecc0p.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: prdadm
+      entity_name: 011_EUROPE
+    ampsv011ecc0q:
+      ipaddress: 10.139.72.104
+      ansible_host: ampsv011ecc0q.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: tg4adm
+      entity_name: 011_EUROPE
+    a01830pj:
+      ipaddress: 10.139.70.56
+      ansible_host: a01830pj.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: dv2adm
+        - name: qv2adm
+      sid_adm_usr_oradb_java:
+        - name: dvdadm
+      entity_name: 018_TESIS
+    ampsv03340pjt:
+      ipaddress: 10.139.72.57
+      ansible_host: ampsv03340pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: te6adm
+        - name: de6adm
+      sid_adm_usr_oradb_java:
+        - name: tnjadm
+      entity_name: 033_SABRE
+    ampsv03357dev:
+      ipaddress: 10.139.72.53
+      ansible_host: ampsv03357dev.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: dncadm
+      sid_adm_usr_oradb_java:
+        - name: dndadm     
+      entity_name: 033_SABRE
+    ampsv01201pjt:
+      ipaddress: 10.158.240.176
+      ansible_host: ampsv01201pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: ms6adm
+        - name: ts6adm
+        - name: ts7adm
+      entity_name: 012_SEKURIT
+    ampsv012bw0d:
+      ipaddress: 10.139.72.96
+      ansible_host: ampsv012bw0d.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: dsbadm
+        - name: qsbadm
+      entity_name: 012_SEKURIT
+    ampsv01301pjt:
+      ipaddress: 159.151.101.61
+      ansible_host: ampsv01301pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: devadm
+        - name: accadm
+      entity_name: 012_SEKURIT
+    ampsv013pi0d:
+      ipaddress: 10.139.70.99
+      ansible_host: ampsv013pi0d.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: dapadm
+      sid_adm_usr_oradb_java:
+        - name: dapadm
+      entity_name: 012_SEKURIT
+    ampsv01601prd:
+      ipaddress: 10.158.240.103
+      ansible_host: ampsv01601prd.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: pf1adm
+      entity_name: 016_TDGERMANY
+    ampsv01620pjt:
+      ipaddress: 10.139.72.47
+      ansible_host: ampsv01620pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: df1adm
+        - name: qf1adm
+      entity_name: 016_TDGERMANY
+    ampsv023ecc0p:
+      ipaddress: 159.151.100.70
+      ansible_host: ampsv023ecc0p.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: r10adm
+      entity_name: 023_AGILE
+    ampsv023pjt0d:
+      ipaddress: 10.139.72.79
+      ansible_host: ampsv023pjt0d.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: e11adm
+        - name: b11adm
+      entity_name: 023_AGILE
+    ampsv023pjt0q:
+      ipaddress: 10.139.72.80
+      ansible_host: ampsv023pjt0q.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: c11adm
+        - name: q11adm
+      entity_name: 023_AGILE
+    ampsv023pjt0t:
+      ipaddress: 10.158.241.86
+      ansible_host: ampsv023pjt0t.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: sueadm
+        - name: susadm
+      entity_name: 023_AGILE 
+    ampsv023scm0p:
+      ipaddress: 159.151.100.195
+      ansible_host: ampsv023scm0p.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: a11adm
+      entity_name: 023_AGILE
+    ampsv031ecc0d:
+      ipaddress: 10.125.85.4
+      ansible_host: ampsv031ecc0d
+      sid_adm_usr_oradb_abap:
+        - name: dc3adm
+        - name: tc3adm
+      entity_name: 031_IBIS
+    ampsv031ecc0p:
+      ipaddress: 10.139.68.193
+      ansible_host: ampsv031ecc0p
+      sid_adm_usr_oradb_abap:
+        - name: prdadm
+      entity_name: 031_IBIS
+    ampsv03304prd:
+      ipaddress: 10.158.240.151
+      ansible_host: ampsv03304prd.sgna.com
+      sid_adm_usr_oradb_abap:
+        - name: pn1adm
+      sid_adm_usr_oradb_java:
+        - name: pn2adm
+      entity_name: 033_SABRE
+    ampsv03354prd:
+      ipaddress: 10.158.241.57
+      ansible_host: ampsv03354prd.za.if.atcsg.net
+      sid_adm_usr_oradb_abap:
+        - name: pncadm
+      sid_adm_usr_oradb_java:
+        - name: pndadm      
+      entity_name: 033_SABRE
+    ampsv033bw0d:
+      ipaddress: 10.139.70.101
+      ansible_host: ampsv033bw0d.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: qn1adm
+        - name: dn1adm
+      sid_adm_usr_oradb_java:
+        - name: qn2adm
+        - name: dn2adm
+      entity_name: 033_SABRE
+    ampsv04201prd:
+      ipaddress: 10.158.240.218
+      ansible_host: ampsv04201prd.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: pi1adm
+      sid_adm_usr_oradb_java:
+        - name: pidadm
+      entity_name: 042_SPIKE
+    ampsv04202ppr:
+      ipaddress: 159.151.4.51
+      ansible_host: ampsv04202ppr.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: di1adm
+        - name: ti1adm
+      sid_adm_usr_oradb_java:
+        - name: tidadm
+      entity_name: 042_SPIKE
+    ampsv04203pjt:
+      ipaddress: 159.151.4.45
+      ansible_host: ampsv04203pjt.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: di2adm
+        - name: ti2adm
+      sid_adm_usr_oradb_java:
+        - name: di3adm
+        - name: ti3adm
+      entity_name: 042_SPIKE
+    ampsv04204prd:
+      ipaddress: 10.158.240.230
+      ansible_host: ampsv04204prd.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: pi2adm
+      sid_adm_usr_oradb_java:
+        - name: pi3adm
+      entity_name: 042_SPIKE
+    xmpsa140decc0:
+      ipaddress: 10.125.65.213
+      ansible_host: xmpsa140decc0
+      sid_adm_usr_oradb_abap:
+        - name: t12adm
+      entity_name: 140_PPL_PAMPUS
+    xmpsa140pecc0:
+      ipaddress: 10.125.65.254
+      ansible_host: xmpsa140pecc0
+      sid_adm_usr_oradb_abap:
+        - name: p12adm
+      sid_adm_usr_oradb_java:
+        - name: p6jadm
+      entity_name: 140_PPL_PAMPUS
+    xmpsa140qecc0:
+      ipaddress: 192.168.34.154
+      ansible_host: xmpsa140qecc0
+      sid_adm_usr_oradb_abap:
+        - name: q12adm
+      sid_adm_usr_oradb_java:
+        - name: q6jadm
+      entity_name: 140_PPL_PAMPUS
+    xmpsa013dbw0:
+      ipaddress: 10.125.67.36
+      ansible_host: 10.125.67.36
+      sid_adm_usr_oradb_abap:
+        - name: bwaadm
+      sid_adm_usr_oradb_java:
+        - name: bjaadm
+      entity_name: 013_ARGIS
+    xmpsa013pbw0:
+      ipaddress: 10.125.67.68
+      ansible_host: 10.125.67.68
+      sid_adm_usr_oradb_abap:
+        - name: bwpadm
+      sid_adm_usr_oradb_java:
+        - name: bjpadm
+      entity_name: 013_ARGIS
+    xmpsa013pecc0:
+      ipaddress: 10.125.67.69
+      ansible_host: 10.125.67.69
+      sid_adm_usr_oradb_abap:
+        - name: prdadm
+      entity_name: 013_ARGIS
+    xmpsa013ppi0:
+      ipaddress: 10.125.67.70
+      ansible_host: 10.125.67.70
+      sid_adm_usr_oradb_abap:
+        - name: papadm
+      entity_name: 013_ARGIS
+    xmpsa012secc0:
+      ipaddress: 10.139.71.52
+      ansible_host: xmpsa012secc0
+      sid_adm_usr_oradb_abap:
+        - name: sseadm
+      entity_name: 012_SEKURIT
+    ampsv163ecc0d:
+      ipaddress: 10.139.71.165
+      ansible_host: ampsv163ecc0d.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: d4eadm
+      entity_name: 163_SAP_HOLDING
+    ampsv163ecc0p:
+      ipaddress: 10.139.67.176
+      ansible_host: ampsv163ecc0p.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: prdadm
+      entity_name: 163_SAP_HOLDING
+    ampsv163ecc0q:
+      ipaddress: 10.139.71.166
+      ansible_host: ampsv163ecc0q.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: q4eadm
+      entity_name: 163_SAP_HOLDING
+    ampsv163ecc0v:
+      ipaddress: 10.139.71.167
+      ansible_host: ampsv163ecc0v.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: s4aadm
+      entity_name: 163_SAP_HOLDING
+    ampsv163ecc1d:
+      ipaddress: 10.139.71.33
+      ansible_host: ampsv163ecc1d.p1.saint-gobain.net
+      sid_adm_usr_oradb_abap:
+        - name: desadm
+        - name: dxmadm
+      entity_name: 163_SAP_HOLDING
+    xmpsa144dbw0:
+      ipaddress: 10.125.65.154
+      ansible_host: xmpsa144dbw0
+      sid_adm_usr_oradb_abap:
+        - name: d3wadm
+      sid_adm_usr_oradb_java:
+        - name: d3vadm
+      entity_name: 144_GROUPPURCHASING
+    xmpsa144pbw0:
+      ipaddress: 10.125.65.172
+      ansible_host: 10.125.65.172
+      sid_adm_usr_oradb_abap:
+        - name: p3wadm
+      sid_adm_usr_oradb_java:
+        - name: p3vadm
+      entity_name: 144_GROUPPURCHASING
+    xmpsa144qbw0:
+      ipaddress: 10.125.65.153
+      ansible_host: xmpsa144qbw0
+      sid_adm_usr_oradb_abap:
+        - name: q3wadm
+      sid_adm_usr_oradb_java:
+        - name: q3vadm
+      entity_name: 144_GROUPPURCHASING
+    ampsv144pi0p:
+      ipaddress: 10.125.65.174
+      ansible_host: ampsv144pi0p
+      sid_adm_usr_oradb_abap:
+        - name: p3xadm
+      sid_adm_usr_oradb_java:
+        - name: p3xadm
+      entity_name: 144_GROUPPURCHASING
+    ampsv033ecc0p:
+      ipaddress: 10.139.68.23
+      ansible_host: ampsv033ecc0p
+      sid_adm_usr_oradb_abap:
+        - name: oracle
+      entity_name: 033_SABRE
+    skp2:
+      ipaddress: 10.158.240.27
+      ansible_host: skp2.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: p01adm
+      entity_name: 012_SEKURIT
+    skp9:
+      ipaddress: 10.158.240.28
+      ansible_host: skp9.saint-gobain.com
+      sid_adm_usr_oradb_abap:
+        - name: ps2adm
+      sid_adm_usr_oradb_java:
+        - name: psnadm
+      entity_name: 012_SEKURIT
+    ampsv03342prd:
+      ipaddress: 10.158.240.234
+      ansible_host: ampsv03342prd.sgna.com
+      sid_adm_usr_oradb_java:
+        - name: pnjadm
+      entity_name: 033_SABRE
+    ampsv034han0d:
+      ipaddress: 10.139.70.36
+      ansible_host: ampsv034han0d
+      sid_adm_usr_hanadb_java:
+        - name: bwdadm
+      sid_adm_usr_hanadb_abap:
+        - name: bwdadm
+      entity_name: 034_APOLLO
+    ampsv034han0q:
+      ipaddress: 10.139.68.189
+      ansible_host: ampsv034han0q
+      sid_adm_usr_hanadb_java:
+        - name: bwqadm
+      sid_adm_usr_hanadb_abap:
+        - name: bwqadm
+      entity_name: 034_APOLLO
+    ampsv034han0p:
+      ipaddress: 10.139.68.225
+      ansible_host: ampsv034han0p
+      sid_adm_usr_hanadb_java:
+        - name: bwpadm
+      sid_adm_usr_hanadb_abap:
+        - name: bwpadm
+      entity_name: 034_APOLLO
+    ampsv020han0s:
+      ipaddress: 10.139.70.218
+      ansible_host: ampsv020han0s.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: txsadm
+      entity_name: 020_ATLAS
+    ampsv020han5i:
+      ipaddress: 10.139.70.246
+      ansible_host: ampsv020han5i.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: rxeadm
+      entity_name: 020_ATLAS
+    ampsv020han4i:
+      ipaddress: 10.139.70.27
+      ansible_host: ampsv020han4i.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: ix2adm
+      entity_name: 020_ATLAS
+    ampsv020han5d:
+      ipaddress: 10.139.70.21
+      ansible_host: ampsv020han5d.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: dx2adm
+      entity_name: 020_ATLAS
+    ampsv020han6i:
+      ipaddress: 10.139.70.29
+      ansible_host: ampsv020han6i.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: rx2adm
+      entity_name: 020_ATLAS
+    ampsv020han1s:
+      ipaddress: 10.139.70.34
+      ansible_host: ampsv020han1s
+      sid_adm_usr_hanadb_abap:
+        - name: txeadm
+      entity_name: 020_ATLAS
+    xmpsl020qhan0:
+      ipaddress: 192.168.41.42
+      ansible_host: xmpsl020qhan0
+      sid_adm_usr_hanadb_abap:
+        - name: qxeadm
+      entity_name: 020_ATLAS
+    xmpsl020phan0:
+      ipaddress: 10.139.68.78
+      ansible_host: xmpsl020phan0
+      sid_adm_usr_hanadb_abap:
+        - name: pxeadm
+      entity_name: 020_ATLAS  
+    ampsv019han0d:
+      ipaddress: 10.139.70.244
+      ansible_host: ampsv019han0d.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: dw2adm
+      entity_name: 019_SIGMA
+    ampsv019han0q:
+      ipaddress: 10.139.70.249
+      ansible_host: ampsv019han0q.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: qw2adm
+      entity_name: 019_SIGMA
+    ampsv019han0p:
+      ipaddress: 10.139.68.212
+      ansible_host: ampsv019han0p.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: p01adm
+      entity_name: 019_SIGMA
+    ampsv026han0d:
+      ipaddress: 10.139.71.169
+      ansible_host: ampsv026han0d.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: dpeadm
+      entity_name: 026_SAP_CANA
+    ampsv026han0q:
+      ipaddress: 10.139.71.176
+      ansible_host: ampsv026han0q.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: tpeadm
+      entity_name: 026_SAP_CANA
+    ampsv026han0p:
+      ipaddress: 10.139.67.207
+      ansible_host: ampsv026han0p.p1.saint-gobain.net
+      sid_adm_usr_hanadb_abap:
+        - name: lpradm
+      entity_name: 026_SAP_CANA
+    xmpsl045phan0:
+      ipaddress: 10.125.67.196
+      ansible_host: 10.125.67.196
+      sid_adm_usr_hanadb_abap:
+        - name: is3adm
+      sid_adm_usr_hanadb_abap2:
+        - name: is3adm
+      entity_name: 045_FBCIS
+    xmpsl045than0:
+      ipaddress: 10.125.67.166
+      ansible_host: 10.125.67.166
+      sid_adm_usr_hanadb_abap:
+        - name: is2adm
+      sid_adm_usr_hanadb_abap2:
+        - name: is2adm
+      entity_name: 045_FBCIS
+    xmpsl045dhan0:
+      ipaddress: 10.125.67.164
+      ansible_host: 10.125.67.164
+      sid_adm_usr_hanadb_abap:
+        - name: is1adm
+      sid_adm_usr_hanadb_abap2:
+        - name: is1adm
+      entity_name: 045_FBCIS
+    ampsv186han6d:
+      ipaddress: 10.139.70.62
+      ansible_host: ampsv186han6d
+      sid_adm_usr_hanadb_abap:
+        - name: d7hadm
+      entity_name: 186_ATLAS_HANA_PLATFORM
+    xmpsl186phan0:
+      ipaddress: 10.139.68.184
+      ansible_host: xmpsl186phan0
+      sid_adm_usr_hanadb_abap:
+        - name: p7hadm
+      entity_name: 186_ATLAS_HANA_PLATFORM
+    xmpsl186rhan0:
+      ipaddress: 10.125.75.132
+      ansible_host: 10.125.75.132
+      sid_adm_usr_hanadb_abap:
+        - name: r7hadm
+      entity_name: 186_ATLAS_HANA_PLATFORM
+    xmpsl011than0:
+      ipaddress: 10.125.68.140
+      ansible_host: 10.125.68.140
+      sid_adm_usr_hanadb_abap:
+        - name: tgeadm
+      entity_name: 011B_SHARED_IM
+    ampsv020slt0d:
+      ipaddress: 10.139.68.42
+      ansible_host: ampsv020slt0d
+      sid_adm_usr_maxdb_abap:
+        - name: sqddxt
+      entity_name: 020_ATLAS
+    ampsv020slt0q:
+      ipaddress: 10.139.70.198
+      ansible_host: ampsv020slt0q
+      sid_adm_usr_maxdb_abap:
+        - name: sqdqxt
+      entity_name: 020_ATLAS
+    ampsv020slt0r:
+      ipaddress: 10.139.70.197
+      ansible_host: ampsv020slt0r
+      sid_adm_usr_maxdb_abap:
+        - name: sqdrxt
+      entity_name: 020_ATLAS
+    ampsv020slt0p:
+      ipaddress: 10.139.68.42
+      ansible_host: ampsv020slt0p
+      sid_adm_usr_maxdb_abap:
+        - name: sqdpxt
+      entity_name: 020_ATLAS
+    ampsv020ssm0d:
+      ipaddress: 10.139.70.248
+      ansible_host: ampsv020ssm0d.p1.saint-gobain.net
+      sid_adm_usr_maxdb_abap:
+        - name: sqddxs
+      entity_name: 020_ATLAS
+    ampsv020ssm0p:
+      ipaddress: 10.139.68.195
+      ansible_host: ampsv020ssm0p
+      sid_adm_usr_maxdb_abap:
+        - name: sqdpxs
+      entity_name: 020_ATLAS
+    ampsv019ecc1d:
+      ipaddress: 10.139.70.241
+      ansible_host: ampsv019ecc1d
+      sid_adm_usr_maxdb_abap:
+        - name: sqddwu
+      entity_name: 019_SIGMA
+    ampsv019fio1p:
+      ipaddress: 10.139.68.211
+      ansible_host: ampsv019fio1p.p1.saint-gobain.net
+      sid_adm_usr_maxdb_abap:
+        - name: sqdpwu
+      entity_name: 019_SIGMA
+    ampsv019grc1d:
+      ipaddress: 10.139.70.61
+      ansible_host: ampsv019grc1d.p1.saint-gobain.net
+      sid_adm_usr_maxdb_abap:
+        - name: sqddwg
+      entity_name: 019_SIGMA
+    ampsv019grc1p:
+      ipaddress: 10.139.68.213
+      ansible_host: ampsv019grc1p
+      sid_adm_usr_maxdb_abap:
+        - name: sqdpwg
+      entity_name: 019_SIGMA
+    xmpsa019qgrc0:
+      ipaddress: 10.125.68.133
+      ansible_host: 10.125.68.133
+      sid_adm_usr_maxdb_abap:
+        - name: sqdqwg
+      entity_name: 019_SIGMA
+    ampsv010m1:
+      ipaddress: 10.158.241.81
+      ansible_host: ampsv010m1.saint-gobain.com
+      sid_adm_usr_maxdb_abap:
+        - name: sqdp1m
+      entity_name: 010_SHARED_INFRA 
+    ampsv010m2:
+      ipaddress: 10.139.68.19
+      ansible_host: ampsv010m2.saint-gobain.com
+      sid_adm_usr_maxdb_abap:
+        - name: sqdt1m
+      entity_name: 010_SHARED_INFRA
+    ampsa011pssm0:
+      ipaddress: 10.139.67.95
+      ansible_host: ampsa011pssm0
+      sid_adm_usr_maxdb_abap:
+        - name: sqdpgs
+      entity_name: 011_EUROPE
+    xmpsl011dslt0:
+      ipaddress: 10.125.68.138
+      ansible_host: 10.125.68.138
+      sid_adm_usr_maxdb_abap:
+        - name: dgtadm
+      entity_name: 011_EUROPE
+    xmpsl011qslt0:
+      ipaddress: 10.125.68.137
+      ansible_host: 10.125.68.137
+      sid_adm_usr_maxdb_abap:
+        - name: qgtadm
+      entity_name: 011_EUROPE
+    xmpsl011pslt0:
+      ipaddress: 10.125.68.9
+      ansible_host: 10.125.68.9
+      sid_adm_usr_maxdb_abap:
+        - name: pgtadm
+      entity_name: 011_EUROPE
+    ampsv026bw0q:
+      ipaddress: 10.139.70.77
+      ansible_host: ampsv026bw0q
+      sid_mssql: 
+        - name: QPB
+      sid_mssql_java:
+        - name: QPJ
+      entity_name: 026_SAP_CANA
+    ampsv026fio0p:
+      ipaddress: 10.139.67.148
+      ansible_host: ampsv026fio0p
+      sid_mssql: 
+        - name: PPU
+      entity_name: 026_SAP_CANA
+    ampsv026scm0p:
+      ipaddress: 10.139.67.66
+      ansible_host: ampsv026scm0p
+      sid_mssql: 
+        - name: PPS
+      entity_name: 026_SAP_CANA
+    ampsv026scm0q:
+      ipaddress: 10.139.71.117
+      ansible_host: ampsv026scm0q
+      sid_mssql: 
+        - name: TPS
+      entity_name: 026_SAP_CANA
+    ampsv026ssm0p:
+      ipaddress: 10.139.69.97
+      ansible_host: ampsv026ssm0p
+      sid_mssql: 
+        - name: PPM
+      entity_name: 026_SAP_CANA
+    ampsv026scm0d:
+      ipaddress: 10.139.71.116
+      ansible_host: ampsv026scm0d
+      sid_mssql: 
+        - name: DPS
+      entity_name: 026_SAP_CANA
+    ampsv026bw0d:
+      ipaddress: 10.139.70.78
+      ansible_host: ampsv026bw0d
+      sid_mssql: 
+        - name: DPB
+      sid_mssql_java:
+        - name: DPJ
+      entity_name: 026_SAP_CANA
+    ampsv026bw0p:
+      ipaddress: 10.139.68.84
+      ansible_host: ampsv026bw0p
+      sid_mssql: 
+        - name: BPR
+      sid_ms_sql: 
+        - name: BPR
+      sid_ms_sql_java:
+        - name: PPJ
+      entity_name: 026_SAP_CANA
+    ampsv045idm0t:
+      ipaddress: 10.125.67.169
+      ansible_host: ampsv045idm0t
+      sid_ms_sql:
+        - name: ACD
+      entity_name: 045_FBCIS
+    ampsv045scm0t:
+      ipaddress: 10.139.70.16
+      ansible_host: ampsv045scm0t
+      sid_mssql: 
+        - name: IA1
+      entity_name: 045_FBCIS
+    ampsv045scm0p:
+      ipaddress: 10.139.68.25
+      ansible_host: ampsv045scm0p
+      sid_mssql: 
+        - name: IA2
+      entity_name: 045_FBCIS
+    ampsv045grc0p:
+      ipaddress: 10.139.68.31
+      ansible_host: ampsv045grc0p
+      sid_mssql: 
+        - name: AC3
+      entity_name: 045_FBCIS
+    ampsv045bw0p:
+      ipaddress: 10.139.68.22
+      ansible_host: ampsv045bw0p
+      sid_mssql: 
+        - name: BW1
+      sid_ms_sql: 
+        - name: BW1
+      sid_ms_sql_java:
+        - name: P2J
+      entity_name: 045_FBCIS 
+    ampsv045bw0t:
+      ipaddress: 10.139.70.15
+      ansible_host: ampsv045bw0t
+      sid_mssql: 
+        - name: BW0
+      sid_ms_sql: 
+        - name: BW0
+      sid_ms_sql_java:
+        - name: D2J
+      entity_name: 045_FBCIS
+    ampsv026fio0d:
+      ipaddress: 10.139.71.144
+      ansible_host: ampsv026fio0d
+      sid_mssql:
+        - name: DPU
+      sid_ms_sql:
+        - name: QPU
+      entity_name: 026_SAP_CANA
+    ampsv010rep0d:
+      ipaddress: 10.139.69.161
+      ansible_host: ampsv010rep0d
+      entity_name: 010_SHARED_INFRA
+    ampsw046decc0:
+      ipaddress: 10.125.66.146
+      ansible_host: ampsw046decc0
+      sid_mssql: 
+        - name: DEV
+        - name: QUA
+      entity_name: 046_SAMIN
+    ampsw046pecc0:
+      ipaddress: 10.125.66.114
+      ansible_host: ampsw046pecc0 
+      sid_mssql: 
+        - name: PRO
+      entity_name: 046_SAMIN
+    ampsv011wmu0d:
+      ipaddress: 10.139.71.77
+      ansible_host: ampsv011wmu0d
+      entity_name: 011B_SHARED_IM
+    ampsv011wmu0p:
+      ipaddress: 10.139.67.39
+      ansible_host: ampsv011wmu0p
+      entity_name: 011B_SHARED_IM      
+    ampsv03370dev:
+      ipaddress: 10.139.72.22
+      ansible_host: ampsv03370dev
+      entity_name: 031_SABRE
+    ampsv042dbw0d:
+      ipaddress: 10.139.70.119
+      ansible_host: ampsv042dbw0d
+      entity_name: 042C_WEASY     
+    xmpsa144tcub0db:
+      ipaddress: 10.125.65.152
+      ansible_host: xmpsa144tcub0db
+      entity_name: 144_GROUP_PURCHASING
+    ampsv017cyl0p:
+      ipaddress: 10.139.69.183
+      ansible_host: ampsv017cyl0p
+      entity_name: 017_LAPEYRE
+    ampsv017dbm0p:
+      ipaddress: 10.139.69.159
+      ansible_host: ampsv017dbm0p
+      entity_name: 017_LAPEYRE    
+    ampsv017pjt0q:
+      ipaddress: 10.139.71.126
+      ansible_host: ampsv017pjt0q
+      entity_name: 017_LAPEYRE       
+    ampsv03371prd:
+      ipaddress: 10.158.240.92
+      ansible_host: ampsv03371prd
+      entity_name: 033_SABRE            
+    ampsv042dbw0p:
+      ipaddress: 10.139.68.107
+      ansible_host: ampsv042dbw0p
+      entity_name: 042C_WEASY
+    xmpsa144pcub0db:
+      ipaddress: 10.125.65.171
+      ansible_host: xmpsa144pcub0db
+      entity_name: 144_GROUP_PURCHASING
+    ampsv020odi0p:
+      ipaddress: 10.139.69.80
+      ansible_host: ampsv020odi0p
+      sid_adm_usr_db2: iodsprd
+      entity_name: 020_ATLAS
+    ampsv020odi0d:
+      ipaddress: 10.139.70.85
+      ansible_host: ampsv020odi0d
+      sid_adm_usr_db2: db2inst2
+      entity_name: 020_ATLAS
+    ampsv020odi0q:
+      ipaddress: 10.139.70.87
+      ansible_host: ampsv020odi0q
+      sid_adm_usr_db2: iodsppd
+      entity_name: 020_ATLAS
+    ampsv020odi0t:
+      ipaddress: 10.139.70.84
+      ansible_host: ampsv020odi0t
+      sid_adm_usr_db2: iodsinr
+      entity_name: 020_ATLAS
+    ampsv011grc0d:
+      ipaddress: 10.139.71.163
+      ansible_host: ampsv011grc0d
+      sid_oradb_abap:
+        - name: DGG
+      entity_name: 011C_SHARED_GLASS  
+    ampsv011grc1p:
+      ipaddress: 10.139.67.163
+      ansible_host: ampsv011grc1p
+      sid_oradb_abap:
+        - name: PGG
+      entity_name: 011C_SHARED_GLASS
+    ampsv012plm0d:
+      ipaddress: 10.139.71.70
+      ansible_host: ampsv012plm0d
+      sid_oradb_abap:
+        - name: DS5
+        - name: TS5  
+      sid_oradb_java:
+       - name: DS5
+       - name: TS5 
+      entity_name: 012_SEKURIT
+    ampsv012plm0p:
+      ipaddress: 10.139.67.22
+      ansible_host: ampsv012plm0p
+      sid_oradb_abap:
+        - name: PS5
+      sid_oradb_java:
+        - name: PS5      
+      entity_name: 012_SEKURIT
+    ampsv018grc0d:
+      ipaddress: 10.139.71.50
+      ansible_host: ampsv018grc0d
+      sid_oradb_abap:
+        - name: DTG
+      entity_name: 018_TESIS
+    ampsv018grc1p:
+      ipaddress: 10.139.67.160
+      ansible_host: ampsv018grc1p
+      sid_oradb_abap:
+        - name: PTG
+      entity_name: 018_TESIS
+    ampsv023bw0d:
+      ipaddress: 10.139.70.82
+      ansible_host: ampsv023bw0d
+      sid_oradb_abap:
+        - name: F11
+      sid_oradb_java:
+        - name: F11
+      entity_name: 023_AGILE
+    ampsv023grc0d:
+      ipaddress: 10.139.70.25
+      ansible_host: ampsv023grc0d
+      sid_oradb_abap:
+        - name: DUG
+      entity_name: 023_AGILE
+    ampsv023bw0q:
+      ipaddress: 10.139.70.83
+      ansible_host: ampsv023bw0q
+      sid_oradb_abap:
+        - name: G11
+      sid_oradb_java:
+        - name: G11
+      entity_name: 023_AGILE
+    ampsv023bw0p:
+      ipaddress: 10.139.68.29
+      ansible_host: ampsv023bw0p
+      sid_oradb_abap:
+        - name: H11
+      sid_oradb_java:
+        - name: H11
+      entity_name: 023_AGILE
+    ampsv023ssm0d:
+      ipaddress: 10.139.70.40
+      ansible_host: ampsv023ssm0d
+      sid_oradb_abap:
+        - name: X11
+      sid_oradb_java:
+        - name: X11
+      entity_name: 023_AGILE
+    ampsv023ssm0p:
+      ipaddress: 10.139.68.247
+      ansible_host: ampsv023ssm0p
+      sid_oradb_abap:
+        - name: X10
+      sid_oradb_java:
+        - name: X10
+      entity_name: 023_AGILE
+    ampsv023grc0p:
+      ipaddress: 10.139.68.69
+      ansible_host: ampsv023grc0p
+      sid_oradb_abap:
+        - name: PUG
+      entity_name: 023_AGILE
+    ampsv023pi0d:
+      ipaddress: 10.139.70.28
+      ansible_host: ampsv023pi0d
+      sid_oradb_java:
+        - name: DUP
+        - name: QUP
+      entity_name: 023_AGILE
+    ampsv023pi0p:
+      ipaddress: 10.139.68.75
+      ansible_host: ampsv023pi0p
+      sid_oradb_java:
+        - name: PUP
+      entity_name: 023_AGILE
+    ampsv03360prd:
+      ipaddress: 10.139.69.53
+      ansible_host: ampsv03360prd
+      sid_oradb_java:
+        - name: PNR
+      entity_name: 033_SABRE
+    ampsv144srm0d:
+      ipaddress: 10.125.65.156
+      ansible_host: ampsv144srm0d
+      sid_oradb_abap:
+        - name: EBD
+      sid_oradb_java:
+        - name: SJD
+      entity_name: 144_GROUP_PURCHASING
+    ampsv144srm0q:
+      ipaddress: 10.125.65.135
+      ansible_host: ampsv144srm0q
+      sid_oradb_abap:
+        - name: EBQ
+      sid_oradb_java:
+        - name: SJQ      
+      entity_name: 144_GROUP_PURCHASING
+    ampsv144srm0p:
+      ipaddress: 10.125.65.173
+      ansible_host: ampsv144srm0p
+      sid_oradb_abap:
+        - name: EBP
+      sid_oradb_java:
+        - name: P3J
+      entity_name: 144_GROUP_PURCHASING
+    ampsw010saba0:
+      ipaddress: 10.125.64.46
+      ansible_host: ampsw010saba0
+      entity_name: 010_SHARED_INFRA
+
+sap_oradb_abap_host_name_win_single_sid:
+  hosts:
+    ampsv011grc0d:
+    ampsv011grc1p:
+    ampsv012plm0p:
+    ampsv018grc1p:
+    ampsv023bw0d:
+    ampsv023grc0d:
+    ampsv023bw0q:
+    ampsv023bw0p:
+    # ampsv023ssm0d:
+    ampsv023ssm0p:
+    ampsv023grc0p:
+    # ampsv144srm0d:
+    # ampsv144srm0q:
+    # ampsv144srm0p:
+    ampsv018grc0d:
+
+sap_oradb_abap_host_name_win_two_sid:
+  hosts:
+    ampsv012plm0d:
+
+sap_oradb_java_host_name_win_two_sid:
+  hosts:
+    ampsv012plm0d:
+    ampsv023pi0d:
+
+sap_oradb_java_host_name_win_single_sid:
+  hosts:
+    # ampsv012plm0p:
+    ampsv023bw0d:
+    ampsv023bw0q:
+    ampsv023bw0p:
+    ampsv023ssm0d:
+    ampsv023ssm0p:
+    ampsv023pi0p:
+    ampsv03360prd:
+    # ampsv144srm0d:
+    # ampsv144srm0q:
+    # ampsv144srm0p:
+    
+standalone_db2:
+  hosts:
+    ampsv020odi0d:
+    ampsv020odi0q:
+    ampsv020odi0t:
+
+
+standalone_oracle_db:
+  hosts:
+    ampsv017pjt0d:
+    ampsv011wmu0d:
+    ampsv03370dev:
+    ampsv042dbw0d:
+    xmpsa144tcub0db:
+    ampsv011wmu0p:
+    ampsv017cyl0p:
+    ampsv017dbm0p:
+    ampsv017pjt0q:
+    ampsv03371prd:
+    ampsv042dbw0p:
+    xmpsa144pcub0db:
+
+
+sap_mssql_host_name_single_sid:
+  hosts:
+    ampsv026bw0q:
+    ampsw046pecc0:
+    ampsv026fio0p:
+    ampsv026scm0p:
+    ampsv026scm0q:
+    ampsv026ssm0p:
+    ampsv026scm0d:
+    ampsv026bw0d:
+    ampsv026bw0p:
+    ampsv045scm0t:
+    ampsv045scm0p:
+    ampsv045grc0p:
+    ampsv045bw0p:
+    ampsv045bw0t:
+    ampsv026fio0d:
+
+sap_mssql_java_host_name_single_sid:
+  hosts:
+    ampsv026bw0d:
+    ampsv026bw0q:    
+
+sap_mssql_host_name_sid:
+  hosts:
+    ampsv045idm0t:
+    ampsv026fio0d:
+
+sap_mssql_java_host_name_sid:
+  hosts:
+    ampsv045bw0p:
+    ampsv045bw0t:
+    ampsv026bw0p:
+
+sap_mssql_host_name_two_sid:
+  hosts:
+    ampsw046decc0:    
+
+windows_report_server:
+  hosts:
+    ampsw010saba0:
+
+local_ansible_engine_server:
+  hosts:
+    ampsv010bld0d:
+
+sap_db2_abap_host_name_single_sid:
+  hosts:
+    ampsv017ecc0d:
+    ampsv017ecc1i:
+    ampsv017ecc0i:
+    ampsv017ecc0q:
+    ampsa017cecc0:
+    ampsv017ssm0d:
+    ampsv034ecc0d:
+    ampsv034ecc0p:
+    ampsv017ecc0p:
+
+sap_db2_abap_host_name_two_sid:
+  hosts:
+    ampsv017pjt0t:
+    ampsv034ecc0q:
+
+sap_db2_java_host_name_single_sid:
+  hosts:
+    ampsv017pjt0t:
+    ampsv017ssm0d:
+    ampsv017ads0d:
+    ampsv017ads0q:
+    ampsv017ads0p:
+    ampsv017ads1p:    
+    xmpsa017idm0:
+    xmpsa017qidm0:
+    xmpsa017pidm0:
+
+sap_oradb_abap_host_name_single_sid:
+  hosts:
+    ampsa033qecc0:
+    ampsv011ecc0d:
+    a01822pr:
+    ampsv011ecc0p:
+    ampsv011ecc0q:
+    ampsv013pi0d:
+    ampsv01601prd:
+    ampsv023ecc0p:
+    ampsv023scm0p:
+    ampsv031ecc0p:
+    ampsv03304prd:
+    ampsv03357dev:
+    ampsv03354prd:
+    ampsv04201prd:
+    ampsv04204prd:
+    xmpsa140decc0:
+    xmpsa140pecc0:
+    xmpsa140qecc0:
+    xmpsa013dbw0:
+    xmpsa013pbw0:
+    xmpsa013pecc0:
+    xmpsa013ppi0:
+    xmpsa012secc0:
+    ampsv163ecc0d:
+    ampsv163ecc0p:
+    ampsv163ecc0q:
+    ampsv163ecc0v:
+    xmpsa144dbw0:
+    xmpsa144pbw0:
+    xmpsa144qbw0:
+    ampsv144pi0p:
+    ampsv033ecc0p:
+    skp2:
+    skp9:
+    # ampsv02931prd:
+sap_oradb_abap_host_name_two_sid:
+  hosts:
+    a01830pj:
+    ampsv012bw0d:
+    ampsv01301pjt:
+    ampsv01620pjt:
+    ampsv023pjt0d:
+    ampsv023pjt0q:
+    ampsv023pjt0t:
+    ampsv031ecc0d:
+    ampsv03340pjt:
+    ampsv033bw0d:
+    ampsv04202ppr:
+    ampsv04203pjt:
+    ampsv163ecc1d:
+    ampsv03901prd:
+sap_oradb_abap_host_name_three_sid:
+  hosts:
+    ampsv01201pjt:
+sap_oradb_abap_host_name_five_sid:
+  hosts:
+    ampsv03902pjt:
+sap_oradb_java_host_name_single_sid:
+  hosts:
+    ampsv03340pjt:
+    ampsv03357dev:
+    a01822pr:
+    a01830pj:
+    ampsv013pi0d:
+    ampsv03304prd:
+    ampsv03342prd:
+    ampsv03354prd:
+    ampsv04201prd:
+    ampsv04202ppr:
+    ampsv04204prd:
+    xmpsa140pecc0:
+    xmpsa140qecc0:
+    xmpsa013dbw0:
+    xmpsa013pbw0:
+    xmpsa144dbw0:
+    xmpsa144pbw0:
+    xmpsa144qbw0:
+    ampsv144pi0p:
+    skp9:
+    # ampsv02931prd:
+    ampsv03902pjt:
+    ampsv03901prd:
+
+sap_oradb_java_host_name_two_sid:
+  hosts:
+    ampsv033bw0d:
+    ampsv04203pjt:
+
+sap_hanadb_java_host_name_single_sid:
+  hosts:
+    ampsv034han0d:
+    ampsv034han0q:
+    ampsv034han0p:
+
+sap_hanadb_abap_host_name_single_sid:
+  hosts:
+    ampsv020han0s:
+    ampsv020han5i:
+    ampsv020han4i:
+    ampsv020han5d:
+    ampsv020han6i:
+    ampsv020han1s:
+    xmpsl020qhan0:
+    xmpsl020phan0:
+    ampsv019han0d:
+    ampsv019han0q:
+    ampsv019han0p:
+    ampsv026han0d:
+    ampsv026han0q:
+    ampsv026han0p:
+    ampsv034han0d:
+    ampsv034han0q:
+    ampsv034han0p:
+    xmpsl011than0:
+    xmpsl045dhan0:
+    xmpsl045than0:
+    xmpsl045phan0:
+  
+sap_hanadb_abap2_host_name_single_sid:
+  hosts:
+    xmpsl045dhan0:
+    xmpsl045than0:
+    xmpsl045phan0:
+    
+
+sap_maxdb_abap_host_name_single_sid:
+  hosts:
+    ampsv020slt0d:
+    ampsv020ssm0p:
+    ampsv020slt0q:
+    ampsv020slt0r:
+    ampsv020slt0p:
+    ampsv020ssm0d:
+    ampsv019ecc1d:
+    ampsv019fio1p:
+    ampsv019grc1d:
+    ampsv019grc1p:
+    xmpsa019qgrc0:
+    ampsv010m1:
+    ampsv010m2:
+    ampsa011pssm0:
+    xmpsl011dslt0:
+    xmpsl011qslt0:
+    xmpsl011pslt0:
+...
