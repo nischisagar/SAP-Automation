@@ -20,7 +20,7 @@ sidadm_password: "Ironman@123!"
 hana_db_system_password: "Ironman@123!"
 system_restart: 'n'
 xs_install: 'n'
-hana_userid: "sh0adm"
+hana_userid: "7001"
 hana_password: "Ironman@123!"
 hana_groupid: "79"
 ansible_hostname: ""
