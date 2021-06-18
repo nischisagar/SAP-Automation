@@ -22,7 +22,7 @@ system_restart: 'n'
 xs_install: 'n'
 hana_userid: "sh0adm"
 hana_password: "Ironman@123!"
-hana_groupid: "sapsys"
+hana_groupid: "79"
 ansible_hostname: ""
 ase_user_password: ""
 nfs: "/tempfs"
