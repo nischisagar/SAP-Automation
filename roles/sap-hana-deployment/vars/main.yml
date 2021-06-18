@@ -12,7 +12,7 @@ root_password: "Ironman@123!"
 sapadm_password: "Ironman@123!"
 hana_sid: "SH0"
 hana_instance_number: "20"
-hana_env_type: 'DEV'
+hana_env_type: 'test'
 hana_mem_restrict: 'n'
 hana_max_mem:
 common_master_password: "Ironman@123!"
