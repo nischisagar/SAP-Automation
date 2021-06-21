@@ -1,3 +1,3 @@
 ---
-nfs: "/tempfs_ansible"
+nfs: "/tempfs"
 nfs_mount: "ampsv010bld0d.p1.saint-gobain.net:/data/REAR/bigfix"
