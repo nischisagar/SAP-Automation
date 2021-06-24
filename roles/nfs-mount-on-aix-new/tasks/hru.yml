@@ -1,9 +1,9 @@
 ---
 - name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
   aix_filesystem:
-    device: /shared_softrepo/010_SHARED_INFRA
+    device: "/shared_softrepo/{{ eno_ename }}"
     nfs_server: 10.139.67.53
-    filesystem: /010_SHARED_INFRA
+    filesystem: "/{{ eno_ename }}"
     state: present
 
 - name: Mount the NFS file system /tempfs_ansible
