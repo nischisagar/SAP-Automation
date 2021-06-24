@@ -1,12 +1,8 @@
 ---
-- name: Create the NFS share /tempfs_ansible entries in /etc/filesystems
-  aix_filesystem:
-    device: "/shared_softrepo/{{ eno_ename }}"
-    nfs_server: 10.139.67.53
-    filesystem: "/{{ eno_ename }}"
-    state: present
-
-- name: Mount the NFS file system /tempfs_ansible
-  aix_filesystem:
-    filesystem: "/{{ eno_ename }}"
-    state: mounted
+- name: Mount NFS by shell module
+  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/010_SHARED_INFRA /010_SHARED_INFRA"
+  register: Display the NFS mount status
+   
+- name: Display the mount
+  debug:
+    msg: "{{ Display the NFS mount status.stdout }}"
