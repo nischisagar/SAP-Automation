@@ -8,5 +8,5 @@
 
 - name: Mount the NFS file system /tempfs_ansible
   aix_filesystem:
-    filesystem: /010_SHARED_INFRA
+    filesystem: "/{{ eno_ename }}"
     state: mounted
