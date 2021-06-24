@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: nfs-mount-on-linux
+  - role: nfs-mount-on-linux-new
