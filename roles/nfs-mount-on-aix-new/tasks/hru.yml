@@ -1,8 +1,8 @@
 ---
 - name: Mount NFS by shell module
-  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/010_SHARED_INFRA /010_SHARED_INFRA"
-  register: Display_NFS_mount_status
+  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/010_SHARED_INFRA /010_testmnt"
+  register: nfsstatus
    
 - name: Display the mount
   debug:
-    msg: "{{ Display_NFS_mount_status.stdout }}"
+    msg: "{{ nfsstatus.stdout }}"
