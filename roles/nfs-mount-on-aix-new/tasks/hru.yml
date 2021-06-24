@@ -1,12 +1,12 @@
 ---
 - name: Create a directory if it does not exist
   file:
-    path: /010_testmnt
+    path: "{{ eno_ename }}"
     state: directory
     mode: '0755'
-    
+
 - name: Mount NFS by shell module
-  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/010_SHARED_INFRA /010_testmnt"
+  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
   register: nfsstatus
    
 - name: Display the mount
