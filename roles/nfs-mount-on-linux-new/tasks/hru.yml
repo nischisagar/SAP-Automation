@@ -1,0 +1,7 @@
+---
+- name: Mount the NFS share /tempfs_ansible
+  mount:
+    path: "{{ nfs }}"
+    src: "{{ nfs_mount }}"
+    fstype: nfs
+    state: mounted
