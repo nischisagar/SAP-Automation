@@ -3,12 +3,12 @@
   debug:
     msg: "Provided OS type is {{ ostype }}"
 
-- name: Mount NFS by shell module for AIX
+- name: Unmount NFS by shell module for AIX
   shell: "/usr/sbin/umount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
   register: nfsstatus
   when: ostype | lower == "aix"
   
-- name: Mount the NFS share for LINUX
+- name: Unmount the NFS share for LINUX
   mount:
     path: "/{{ eno_ename }}"
     src: "10.139.67.53:/shared_softrepo/{{ eno_ename }}"
