@@ -14,11 +14,7 @@
   shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
   register: nfsstatus
   when: ostype | lower == "aix"
-
-- name: Display the mount
-  debug:
-    msg: "{{ nfsstatus.stdout }}"
-
+  
 - name: Mount the NFS share for LINUX
   mount:
     path: "/{{ eno_ename }}"
