@@ -21,7 +21,7 @@
 
 - name: Mount the NFS share for LINUX
   mount:
-    path: "{{ eno_ename }}"
+    path: "/{{ eno_ename }}"
     src: "10.139.67.53:/shared_softrepo/{{ eno_ename }}"
     fstype: nfs
     state: mounted
