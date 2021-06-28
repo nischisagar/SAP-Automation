@@ -4,7 +4,7 @@
     msg: "Provided OS type is {{ ostype }}"
 
 - name: Unmount NFS by shell module for AIX
-  shell: "/usr/sbin/umount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
+  shell: "/usr/sbin/umount /{{ eno_ename }}"
   register: nfsstatus
   when: ostype | lower == "aix"
   
