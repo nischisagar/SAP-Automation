@@ -8,7 +8,7 @@
     path: "/{{ eno_ename }}"
     state: directory
     mode: '0755'
-    when: ostype | lower == "aix"
+  when: ostype | lower == "aix"
 
 - name: Mount NFS by shell module for AIX
   shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
@@ -25,4 +25,4 @@
     src: "10.139.67.53:/shared_softrepo/{{ eno_ename }}"
     fstype: nfs
     state: mounted
-    when: ostype | lower == "linux"
+  when: ostype | lower == "linux"
