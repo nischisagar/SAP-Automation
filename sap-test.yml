@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: nfs-mount-on-aix-new
+  - role: nfs-unmount-on-aix-new
