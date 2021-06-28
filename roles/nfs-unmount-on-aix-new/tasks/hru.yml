@@ -3,15 +3,8 @@
   debug:
     msg: "Provided OS type is {{ ostype }}"
 
-- name: Create a directory if it does not exist
-  file:
-    path: "/{{ eno_ename }}"
-    state: directory
-    mode: '0755'
-  when: ostype | lower == "aix"
-
 - name: Mount NFS by shell module for AIX
-  shell: "/usr/sbin/mount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
+  shell: "/usr/sbin/umount 10.139.67.53:/shared_softrepo/{{ eno_ename }} /{{ eno_ename }}"
   register: nfsstatus
   when: ostype | lower == "aix"
   
@@ -20,5 +13,5 @@
     path: "/{{ eno_ename }}"
     src: "10.139.67.53:/shared_softrepo/{{ eno_ename }}"
     fstype: nfs
-    state: mounted
+    state: absent
   when: ostype | lower == "linux"
