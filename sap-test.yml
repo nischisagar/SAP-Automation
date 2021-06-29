@@ -1,6 +1,6 @@
 ---
 - name: Nfs action called is {{ mountnfs }}
-  debug:
+- debug:
     msg: "Nfs action called is {{ mountnfs }}"
 
 - name: Initiating Mount operation
