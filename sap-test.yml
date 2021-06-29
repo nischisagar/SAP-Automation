@@ -1,5 +1,6 @@
 ---
 - name: Enter NFS Mount action
+  hosts: localhost
   vars: 
     app_type: "{{ mountnfs }}"
 
