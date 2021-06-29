@@ -1,7 +1,5 @@
 ---
 - name: Nfs action called is {{ mountnfs }}
-- debug:
-    msg: "Nfs action called is {{ mountnfs }}"
 
 - name: Initiating Mount operation
   hosts: "{{ nfstargetservername }}"
