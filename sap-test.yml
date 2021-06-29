@@ -1,5 +1,7 @@
 ---
-- name: Nfs action called is {{ mountnfs }}
+- name: Provided mount type is {{ mountnfs }}
+  debug:
+    msg: "Provided mount type is {{ mountnfs }}"
 
 - name: Initiating Mount operation
   hosts: "{{ nfstargetservername }}"
