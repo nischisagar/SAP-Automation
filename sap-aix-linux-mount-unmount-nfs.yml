@@ -1,0 +1,23 @@
+---
+- name: Enter NFS Mount action
+  hosts: localhost
+  vars: 
+    app_type: "{{ mountnfs }}"
+
+- name: Initiating Mount operation
+  hosts: "{{ nfstargetservername }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: nfs-mount-on-aix-linux-new
+    when: mountnfs | lower == "mount"
+
+- name: Initiating UnMount operation
+  hosts: "{{ nfstargetservername }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: nfs-unmount-on-aix-linux-new
+    when: mountnfs | lower == "unmount"
