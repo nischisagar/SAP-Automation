@@ -1,8 +1,22 @@
 ---
-- name: Run SAP HANA Revision Upgrade
-  hosts: "{{ hana_server }}"
+- name: Nfs action called is {{ mountnfs }}
+  debug:
+   msg: "Nfs action called is {{ mountnfs }}"
+
+- name: Initiating Mount operation
+  hosts: "{{ nfstargetservername }}"
   become: yes
   become_method: sudo
   gather_facts: false
   roles:
-  - role: nfs-unmount-on-aix-new
+  - role: nfs-mount-on-aix-linux-new
+    when: mountnfs | lower == "mount"
+
+- name: Initiating UnMount operation
+  hosts: "{{ nfstargetservername }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: nfs-unmount-on-aix-linux-new
+    when: mountnfs | lower == "unmount"
