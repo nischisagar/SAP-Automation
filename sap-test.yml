@@ -1,7 +1,7 @@
 ---
-- name: Provided mount type is {{ mountnfs }}
-  debug:
-    msg: "Provided mount type is {{ mountnfs }}"
+- name: Enter NFS Mount action
+  vars: 
+    app_type: "{{ mountnfs }}"
 
 - name: Initiating Mount operation
   hosts: "{{ nfstargetservername }}"
