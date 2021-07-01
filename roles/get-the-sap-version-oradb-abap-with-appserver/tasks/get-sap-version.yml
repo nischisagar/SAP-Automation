@@ -52,14 +52,14 @@
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: "get_db_size_output"
 
-- name: Remove the script
-  file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_oradb_abap_with_app }}"
-    state: absent
-  loop: "{{ sid_adm_usr_oradb_abap }}"
+#- name: Remove the script
+# file:
+#    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_oradb_abap_with_app }}"
+#    state: absent
+#  loop: "{{ sid_adm_usr_oradb_abap }}"
 
-- name: Remove the log
-  file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_oradb_abap_with_app }}"
-    state: absent
-  loop: "{{ sid_adm_usr_oradb_abap }}"
+#- name: Remove the log
+#  file:
+#    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_oradb_abap_with_app }}"
+#    state: absent
+#  loop: "{{ sid_adm_usr_oradb_abap }}"
