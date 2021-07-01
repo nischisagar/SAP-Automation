@@ -44,18 +44,18 @@ DBREL=`cat /tmp/$sidadm-ansible_sapvers.log|grep -i oracle`
 DBVER=`cat /tmp/$sidadm-ansible_sapvers.log|grep -i version`
 kernellevel=`cat /tmp/$sidadm-ansible_kernelv.log|tail -1|awk '{print $1,$2}'`
 dbsize=`sed 's/ //g' /tmp/$sidadm-dbsize_new.log|grep "^[0-9]"`
-echo "$sid" > /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$sid" > /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "$sid" > /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "$sversion" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$sversion" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "$sversion" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "$kernellevel" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$kernellevel" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "$kernellevel" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "$DBREL" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$DBREL" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "NA" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "$DBVER" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$DBVER" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "NA" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "$dbsize" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "$dbsize" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "NA" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
-echo "ABAP" >> /tmp/$sidadmsap_version_check_log_oradb_abap_with_app.log
+echo "ABAP" >> /tmp/$sidadm-sap_version_check_log_oradb_abap_with_app.log
 echo "ABAP" >> /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
 chmod 775 /sapmnt/$sid/sapversion/$sapsidadm-sapapp-version-check-abap.log
