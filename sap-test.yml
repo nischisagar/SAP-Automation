@@ -3,6 +3,7 @@
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
+  gather_facts: false
   tasks:
     - name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
       copy:
@@ -38,6 +39,7 @@
   hosts: sap_abap_with_app_one_sid 
   become: yes
   become_method: sudo
+  gather_facts: false
   vars:
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "ABAP"
