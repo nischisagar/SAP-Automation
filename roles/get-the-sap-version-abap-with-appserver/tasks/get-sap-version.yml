@@ -1,0 +1,56 @@
+---
+
+- name: Get SID 
+  shell: "sid=`env|grep -i DB_SID|cut -d"=" -f2`"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_oradb_abap is defined
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_sid"
+
+- debug: 
+    var: get_sid 
+
+- name: Get the SID
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }} | head -1"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_sid_output"
+  
+- name: Get the SAP Version
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_sap_version_output"
+  
+- name: Get the Kernel make variant
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -3 | tail -1 | awk '{print $1}'"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_kernel_make_variant_output"
+
+- name: Get the Kernel Patch Number
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -3 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_patch_number_output"
+
+- name: Get the DB Name
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -4 | tail -1"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_db_name_output"
+  
+
+- name: Get the DB Version
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -5 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_db_version_output"
+
+- name: Get the DB Size
+  shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+  register: "get_db_size_output"
+
+
+    #- name: Remove the log
+    #file:
+    #path: "/sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}"
+    #state: absent
+    #loop: "{{ sid_adm_usr_oradb_abap }}"
