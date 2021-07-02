@@ -2,15 +2,12 @@
 
 - name: Get SID 
   shell: env|grep -i DB_SID|cut -d"=" -f2
-  changed_when: False
-  args:
-    warn: false
   when: sid_adm_usr_oradb_abap is defined
   loop: "{{ sid_adm_usr_oradb_abap }}"
-  register: "get_sid"
+  register: get_sid
 
 - debug: 
-    var: get_sid 
+    var: get_sid.content
 
 - name: Get the SID
   shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }} | head -1"
