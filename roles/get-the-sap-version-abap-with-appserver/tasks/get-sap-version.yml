@@ -1,7 +1,7 @@
 ---
 
 - name: Get SID 
-  shell: "env|grep -i DB_SID|cut -d"=" -f2"
+  shell: env|grep -i DB_SID|cut -d"=" -f2
   changed_when: False
   args:
     warn: false
