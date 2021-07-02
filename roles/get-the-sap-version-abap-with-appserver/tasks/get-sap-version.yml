@@ -7,10 +7,7 @@
     warn: false
   when: sid_adm_usr_oraapp_abap is defined
   loop: "{{ sid_adm_usr_oraapp_abap }}"
-  register: get_sid
-
-- debug: 
-    var: get_sid.content
+  register: "get_sid"
 
 - name: Get the SID
   shell: "cat /sapmnt/{{ get_sid }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }} | head -1"
