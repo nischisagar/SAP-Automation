@@ -10,7 +10,7 @@
         dest: "{{ report_file }}"
       run_once: yes
 - name: Get the SAP version from the SAP-OracleDB-ABAP and Application Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_single_sid
+  hosts: sap_oradb_abap_with_app_one_sid
   become: yes
   become_method: sudo
   vars: 
