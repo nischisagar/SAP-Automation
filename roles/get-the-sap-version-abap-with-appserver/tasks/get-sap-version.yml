@@ -24,7 +24,7 @@
   shell: "cat /sapmnt/{{ get_sid.results[0].stdout }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -2 | tail -1"
   loop: "{{ sid_adm_usr_oraapp_abap }}"
   register: "get_sap_version_output"
-- debug: var=get_sap_version_output.stdout
+
 
 - name: Get the Kernel make variant
   shell: "cat /sapmnt/{{ get_sid.results[0].stdout }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -3 | tail -1 | awk '{print $1}'"
