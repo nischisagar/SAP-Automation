@@ -1,7 +1,7 @@
 ---
 
 - name: Get SID 
-  shell: env|grep -i DB_SID|cut -d"=" -f2
+  shell: "env|grep -i DB_SID|cut -d= -f2"
   changed_when: False
   args:
     warn: false
@@ -9,14 +9,16 @@
   loop: "{{ sid_adm_usr_oraapp_abap }}"
   register: "get_sid"
   
-- debug: var=get_sid.stdout
+- debug: 
+    var: get_sid
 
 - name: Get the SID
   shell: "cat /sapmnt/{{ get_sid.results[0].stdout }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }} | head -1"
   loop: "{{ sid_adm_usr_oraapp_abap }}"
   register: "get_sid_output"
   
-- debug: var=get_sid_output.stdout
+- debug: 
+    var: get_sid_output
     
 - name: Get the SAP Version
   shell: "cat /sapmnt/{{ get_sid.results[0].stdout }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | head -2 | tail -1"
