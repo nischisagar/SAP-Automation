@@ -38,8 +38,14 @@ DBVER=`cat /tmp/ansible_jsapvers.log|grep -i version`
 DBREL=`cat /tmp/ansible_jsapvers.log|grep -i oracle`
 dbsize=`sed 's/ //g' /tmp/$sidadm-ansible-dbsize.log|grep "^[0-9]"`
 echo "$sid" > /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "$sid" > /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
 echo "Java NW $jversion SP $jsp" >> /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "Java NW $jversion SP $jsp" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
 disp+work|egrep -i 'variant|number' >> /tmp/$sidadm-sap-version-check-oradb-java.log
+disp+work|egrep -i 'variant|number' >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
 echo "$DBREL" >> /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
 echo "$DBVER" >> /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
 echo "$dbsize" >> /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
