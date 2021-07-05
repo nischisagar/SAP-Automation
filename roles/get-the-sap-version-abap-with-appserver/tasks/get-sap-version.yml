@@ -1,7 +1,7 @@
 ---
 
 - name: Get SID 
-  shell: "env|grep -i DB_SID|cut -d= -f2"
+  shell: "id -u -n|cut -c 1-3|tr '[:lower:]' '[:upper:]'"
   changed_when: False
   args:
     warn: false
