@@ -32,20 +32,30 @@ dual;
 spool off;
 exit
 EOF
+scheck="pn2adm"
+if [ $scheck == $sidadm ]
+then
+sid1="$sid"
+jadm="$sidadm"
+else
+sid1=`df -g|grep -i sapmnt|grep -v $sid|awk '{print $NF}'|cut -d/ -f3`
+sjadm=`echo $sid1|tr '[:upper:]' '[:lower:]'`
+jadm="${sjadm}adm"
+fi
 jversion=`tail -1 /tmp/ansible_jsapvers.log|awk '{print $1}'`
 jsp=`tail -1 /tmp/ansible_jsapvers.log|awk '{print $2}'`
 DBVER=`cat /tmp/ansible_jsapvers.log|grep -i version`
 DBREL=`cat /tmp/ansible_jsapvers.log|grep -i oracle`
 dbsize=`sed 's/ //g' /tmp/$sidadm-ansible-dbsize.log|grep "^[0-9]"`
-echo "$sid" > /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "$sid" > /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+echo "$sid1" > /tmp/$sidadm-sap-version-check-oradb-java.log
+echo "$sid1" > /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log
 echo "Java NW $jversion SP $jsp" >> /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "Java NW $jversion SP $jsp" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+echo "Java NW $jversion SP $jsp" >> /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log
 disp+work|egrep -i 'variant|number' >> /tmp/$sidadm-sap-version-check-oradb-java.log
-disp+work|egrep -i 'variant|number' >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+disp+work|egrep -i 'variant|number' >> /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log
 echo "$DBREL" >> /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+echo "NA" >> /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log
 echo "$DBVER" >> /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+echo "NA" >> /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log
 echo "$dbsize" >> /tmp/$sidadm-sap-version-check-oradb-java.log
-echo "NA" >> /sapmnt/$sid/sapversion/$sidadm-sap-version-check-appjava.log
+echo "NA" >> /sapmnt/$sid1/sapversion/$jadm-sap-version-check-appjava.log

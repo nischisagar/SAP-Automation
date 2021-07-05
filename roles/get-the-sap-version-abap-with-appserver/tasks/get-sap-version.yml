@@ -36,7 +36,7 @@
   register: "get_db_version_output"
 
 - name: Get the DB Size
-  shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | tail -1 | awk '{print $NF}'"
+  shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }}  | tail -2 | head -1 | awk '{print $NF}'"
   loop: "{{ sid_adm_usr_oraapp_abap }}"
   register: "get_db_size_output"
 
