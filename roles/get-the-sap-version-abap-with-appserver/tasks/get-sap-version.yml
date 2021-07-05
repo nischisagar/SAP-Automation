@@ -9,7 +9,7 @@
   loop: "{{ sid_adm_usr_oraapp_abap }}"
   register: "get_sid"
   
- - debug: var=get_sid.stdout
+- debug: var=get_sid.stdout
 
 - name: Get the SID
   shell: "cat /sapmnt/{{ get_sid.results[0].stdout }}/sapversion/{{ item.name }}-{{ sapapp_version_check_abap }} | head -1"
