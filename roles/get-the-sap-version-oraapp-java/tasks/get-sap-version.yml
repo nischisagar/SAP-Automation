@@ -1,0 +1,44 @@
+---
+
+- name: Get the SID
+  shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -1"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_sid_output"
+  
+- name: Get the SAP Version
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_sap_version_output"
+  
+- name: Get the Kernel make variant
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -3 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_kernel_make_variant_output"
+
+- name: Get the Kernel Patch Number
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -4 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_patch_number_output"
+
+- name: Get the DB name
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -5 | tail -1"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_db_name_output"
+  
+
+- name: Get the DB Version
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | head -6 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_db_version_output"
+
+- name: Get the DB Size
+  shell: "shell: "cat /sapmnt/{{ item.name[:3]|upper }}/sapversion/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }} | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_oraapp_java }}"
+  register: "get_db_size_output"
+
+
+    #- name: Remove the log
+    #file:
+    #path: "/tmp/{{ item.name }}-{{ sap_version_check_log_oraapp_java_app }}"
+    #state: absent
+    #loop: "{{ sid_adm_usr_oradb_java }}"
