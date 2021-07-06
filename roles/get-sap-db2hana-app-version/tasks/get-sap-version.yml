@@ -13,14 +13,6 @@
 - name: Run the SAP version check script
   shell: "/ansible/reports/get-sap-db2hana-app-version.sh"
 
-- name: Extract Report for DB2HANA server
-  shell: "cat /ansible/reports/outputfinal.csv"
-  register: db2hanaoutput
-
-- debug:
-    msg: "{{ db2hanaoutput }}"
-
-
 
 
 

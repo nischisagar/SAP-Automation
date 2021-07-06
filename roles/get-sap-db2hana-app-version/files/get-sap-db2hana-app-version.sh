@@ -25,4 +25,4 @@ echo $value
 echo $value >> /ansible/reports/outputfinal.csv
 done
 done
-#cat /ansible/reports/outputfinal.csv >> $csvfile
+cat /ansible/reports/outputfinal.csv >> $csvfile
