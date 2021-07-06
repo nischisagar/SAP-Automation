@@ -50,7 +50,7 @@
         dest: "{{ report_file }}"
         insertafter: EOF
         content: |
-          {{ db2hanaoutput }}
+          {{ db2hanaoutput.stdout_lines }}
       
 - name: Send e-mail
   hosts: ampsv010bld0d
