@@ -34,6 +34,29 @@
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
+
+- name: Extract DB2HANA Application Servers Details
+  hosts: ampsv010bld0d 
+  become: yes
+  become_method: sudo
+  pre_tasks:
+    - name: Copy Content previous report
+      copy:
+        src: "{{ report_file }}"
+        dest: "/ansible/reports/sap_db2_abap_host_name.csv"
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+    - role: get-sap-db2hana-app-version
+      #  tasks:
+      #- name: Add the server details in to the SAP, DB2 and  HANA Report File.
+      #  blockinfile:
+      #    state: present 
+      #    dest: "{{ report_file }}"
+      #    insertafter: EOF
+      #    content: |
+      
+
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes

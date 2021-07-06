@@ -1,0 +1,36 @@
+---
+- name: Copy the script
+  copy:
+    src: "files/get-sap-db2hana-app-version.sh"
+    dest: "/ansible/reports/get-sap-db2hana-app-version.sh"
+
+- name: Copy the Server List
+  copy:
+    src: "files/db2-hana-app-servers-list"
+    dest: "/ansible/reports/db2-hana-app-servers-list"
+
+- name: Run the SAP version check script
+  shell: "/ansible/reports/get-sap-db2hana-app-version.sh"
+
+- name: Extract Report for DB2HANA server
+  shell: "cat /ansible/reports/outputfinal.csv"
+  register: db2hanaoutput
+
+- debug:
+    msg: "{{ db2hanaoutput }}"
+
+
+
+
+
+    #- name: Remove the script
+    #file:
+    #path: "/ansible/reports/{{ get-sap-db2hana-app-version }}"
+    #state: absent
+    #loop: "{{ sid_adm_usr_db2_abap }}"
+
+    #- name: Remove the log
+    #file:
+    #path: "/tmp/{{ item.name }}-{{ sap_version_check_log_db2_abap }}"
+    #state: absent
+    #loop: "{{ sid_adm_usr_db2_abap }}"
