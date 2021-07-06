@@ -43,15 +43,15 @@
     ansible_python_interpreter: "/usr/bin/python"
   roles:
     - role: get-sap-db2hana-app-version
-      #  tasks:
-      #- name: Add the server details in to the SAP, DB2 and  HANA Report File.
-      #  blockinfile:
-      #    state: present 
-      #    dest: "{{ report_file }}"
-      #    insertafter: EOF
-      #    content: |
+  tasks:
+    - name: Add the server details in to the SAP, DB2 and  HANA Report File.
+      blockinfile:
+        state: present 
+        dest: "{{ report_file }}"
+        insertafter: EOF
+        content: |
+          {{ db2hanaoutput }}
       
-
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
