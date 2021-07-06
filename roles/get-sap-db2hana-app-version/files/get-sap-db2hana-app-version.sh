@@ -1,6 +1,6 @@
 #!/bin/ksh
 rm -f /ansible/reports/outputfinal.csv
-tgtlist=`cat /ansible/reports/serverlist.txt|awk '{print $1}'|uniq`
+tgtlist=`cat /ansible/reports/db2-hana-app-servers-list|awk '{print $1}'|uniq`
 ddate=`date +%Y-%m-%d`
 #csvfile=`ls -lrt /ansible/reports/sap-db-versions-unix-linux-test-$ddate.csv|awk '{print $9}'`
 csvfile=`ls -lrt /ansible/reports/unix-linux-sap-db-versions-withapp.csv|awk '{print $9}'`
@@ -14,7 +14,7 @@ echo $srcsid
 echo $srcsid > /ansible/reports/temp1.csv
 srchname=`cat /ansible/reports/temp1.csv|cut -d, -f2`
 echo $srchname
-updlist=`cat /ansible/reports/serverlist.txt|grep -i $i|awk '{print $3}'`
+updlist=`cat /ansible/reports/db2-hana-app-servers-list|grep -i $i|awk '{print $3}'`
 echo $updlist
 for j in $updlist
 do

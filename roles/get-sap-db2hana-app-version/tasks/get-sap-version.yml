@@ -3,6 +3,7 @@
   copy:
     src: "files/get-sap-db2hana-app-version.sh"
     dest: "/ansible/reports/get-sap-db2hana-app-version.sh"
+    mode: "0755"
 
 - name: Copy the Server List
   copy:
