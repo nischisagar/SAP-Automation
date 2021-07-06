@@ -39,11 +39,6 @@
   hosts: ampsv010bld0d 
   become: yes
   become_method: sudo
-  pre_tasks:
-    - name: Copy Content previous report
-      copy:
-        src: "{{ report_file }}"
-        dest: "/ansible/reports/sap_db2_abap_host_name.csv"
   vars:
     ansible_python_interpreter: "/usr/bin/python"
   roles:
