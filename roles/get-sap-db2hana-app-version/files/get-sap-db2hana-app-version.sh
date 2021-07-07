@@ -9,7 +9,7 @@ echo $tgtlist
 for i in $tgtlist
 do
 echo $i
-srcsid=`cat $csvfile|grep -v skp2|grep -v xmpsa013pbw0|grep -i $i`
+srcsid=`cat $csvfile|grep -v 012_SEKURIT|grep -v xmpsa013pbw0|grep -i $i`
 echo $srcsid
 echo $srcsid > /ansible/reports/temp1.csv
 srchname=`cat /ansible/reports/temp1.csv|cut -d, -f2`
