@@ -1,20 +1,8 @@
-- name: test stop
-  hosts: "{{ hname }}"
+- hosts: "{{ hname }}"
+  serial: 1
   gather_facts: yes
-
-- name: cat /tmp/sidfile.txt
-  shell: cat /tmp/sidfile.txt
-  register: sidfile
-
-- debug:
-    msg: "{{ sidfile }}"
-
-- name: Setting facts
-  set_fact:
-    sidadm: "{{ item | lower }}adm"
-  become: yes
-  with_items: "{{ sidfile['stdout_lines'] }}"
-
-- debug:
-    msg: "{{ sidadm }}"
+  roles:
+    - role: sap_fullstop
+      become: yes
+      ignore_errors: yes
   

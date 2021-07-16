@@ -1,0 +1,30 @@
+---
+- name: check no of sid
+  shell: df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
+
+- name: cat /tmp/sidfile.txt
+  shell: cat /tmp/sidfile.txt
+  register: sidfile
+
+- debug:
+    msg: "{{ sidfile }}"
+
+- name: Setting facts
+  set_fact:
+    sidadm: "{{ item | lower }}adm"
+  become: yes
+  with_items: "{{ sidfile['stdout_lines'] }}"
+
+- debug:
+    msg: "{{ sidadm }}"
+
+- name: Start the SAP
+  shell: "su - {{ sidadm }} -c {{ start_sap_command }}"
+  register: start_sap_output
+  changed_when: False
+  args:
+    warn: false
+  with_items: "{{ sidadm['stdout_lines'] }}"
+  
+- debug:
+    msg: "{{ start_sap_output.stdout_lines }}"
