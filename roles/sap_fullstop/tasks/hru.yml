@@ -11,20 +11,9 @@
 
 - name: Setting facts
   set_fact:
-    sidadm: "{{ item | lower }}adm"
+    sidadm: "{{ item | lower }}adm | list"
   become: yes
-  with_items: "{{ sidfile['stdout_lines'] }}"
+  with_items: "{{ sidfile['results'] }}"
 
 - debug:
     msg: "{{ sidadm }}"
-
-- name: Start the SAP
-  shell: "su - {{ item }} -c {{ start_sap_command }}"
-  register: start_sap_output
-  changed_when: False
-  args:
-    warn: false
-  with_items: "{{ sidadm['stdout_lines'] }}"
-  
-- debug:
-    msg: "{{ start_sap_output.stdout_lines }}"
