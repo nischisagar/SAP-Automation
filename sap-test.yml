@@ -14,10 +14,6 @@
 - debug:
     msg: "{{ sidfile }}"
 
-- name: checking sid in loop
-  shell: kill -9 {{ item }}
-  with_items: "{{ pidfile['stdout_lines'] }}"
-
 - name: Setting facts
   set_fact:
     sidadm: "{{ item | lower }}adm"
