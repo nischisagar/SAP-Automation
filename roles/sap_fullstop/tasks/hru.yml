@@ -19,7 +19,7 @@
     msg: "{{ sidadm }}"
 
 - name: Start the SAP
-  shell: "su - {{ sidadm }} -c {{ start_sap_command }}"
+  shell: "su - {{ item }} -c {{ start_sap_command }}"
   register: start_sap_output
   changed_when: False
   args:
