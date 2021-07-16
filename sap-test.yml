@@ -1,8 +1,9 @@
 ---
-
-- hosts: "{{ hname }}"
-  serial: 1
+- name: test stop
+  hosts: "{{ hname }}"
   gather_facts: yes
+
+- name: check no of sid
   shell: df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
 
 - name: cat /tmp/sidfile.txt
