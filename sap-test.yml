@@ -3,8 +3,6 @@
 - hosts: "{{ hname }}"
   serial: 1
   gather_facts: yes
-
-- name: sap stop test
   shell: df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
 
 - name: cat /tmp/sidfile.txt
