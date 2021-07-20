@@ -1,19 +1,129 @@
 ---
-- name: check no of sid
-  shell: df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
-
-- name: cat /tmp/sidfile.txt
-  shell: cat /tmp/sidfile.txt
-  register: sidfile
-
-- debug:
-    msg: "{{ sidfile }}"
-
-- name: Setting facts
-  set_fact:
-    sidadm: "{{ item | lower }}adm | list"
+- name: Delete temporary created files in previous this script run
+  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt
   become: yes
-  with_items: "{{ sidfile['results'] }}"
+
+- name: check sapmnt is found or not
+  shell: df -g|grep -i sapmnt|wc -l
+  register: df
 
 - debug:
-    msg: "{{ sidadm }}"
+    msg: "{{ df }}"
+
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Get number of SIDs
+  shell: |
+    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
+
+- name: Get sid list
+  shell: cat /tmp/sidfile.txt
+  register: sidd
+
+- name: Demo set_facts
+  set_fact:
+    sidd_list: "{{ sidd.stdout_lines | list }}"
+
+- name: Get sidadm user
+  shell: cat /tmp/sidfile.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
+  register: sids
+
+- name: Debug Registry
+  debug: var=sids
+
+- name: Demo set_facts
+  set_fact:
+    sids_list: "{{ sids.stdout_lines | list }}"
+
+- name: Simulate The Actual Command
+  shell: |
+    su - {{ item }} -c stopsap
+  register: simulate
+  with_items: "{{ sids_list }}"
+  ignore_errors: true
+
+- name: Results of SID execution
+  debug:
+    msg: "{{ item }}"
+  with_items: "{{ simulate.results }}"
+
+- name: Finding db server
+  shell: |
+    grep -i "SAPDBHOST" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}' >> /tmp/SAPDBHOSTfile.txt
+  #register: servertype
+  #with_items: "{{ sids_list }}"
+  with_items: "{{ sidd_list }}"
+
+- name: Get SAPDBHOSTfile value
+  shell: cat /tmp/SAPDBHOSTfile.txt|sort|uniq
+  register: servertype
+
+- debug:
+    msg: "{{ servertype }}"
+
+- name: Demo set_facts
+  set_fact:
+    servertype_list: "{{ servertype.stdout_lines | list }}"
+
+- debug:
+    msg: "{{ servertype.stdout_lines }}"
+
+- name: check condition
+  shell: |
+    ps -ef|grep -i sapstartsrv|wc -l >> /tmp/testing1.txt
+  when:
+     - servertype.stdout_lines ==  hname
+  register: pmoncnt
+
+- name: result of ps check
+  debug:
+    msg: "{{ pmoncnt }}"
+
+- name: checking DB type
+  shell: |
+    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
+    do
+    if [ $i == {{ hname }} ]
+    then
+    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    echo " DB = $db " >> /tmp/testing1.txt
+    if [ $db == ora ]
+    then
+    ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l >> /tmp/testing1.txt
+    pmoncnt=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
+    if [ $pmoncnt == 1 ]
+    then
+    echo "Oracle DB is still Up" >> /tmp/testing1.txt
+    else
+    echo "Oracle DB is down" >> /tmp/testing1.txt
+    fi
+    elif [ $db == ada ]
+    then
+    echo "ada db" >> /tmp/testing1.txt
+    else
+    echo "not ora, ada db" >> /tmp/testing1.txt
+    fi
+    else
+    echo "$i Its not db server " >> /tmp/testing1.txt
+    fi
+    done
+  register: dbtype
+  #with_items: "{{ sids_list }}"
+  with_items: "{{ sidd_list }}"
+
+- name: Results of DBTYPE check
+  debug:
+    msg: "{{ item }}"
+  with_items: "{{ dbtype.results }}"
