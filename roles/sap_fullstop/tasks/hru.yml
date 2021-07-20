@@ -91,6 +91,14 @@
   debug:
     msg: "{{ pmoncnt }}"
 
+- name: Copy listener script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulldbsap_stop.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+
 - name: checking DB type
   shell: |
     for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
@@ -106,6 +114,8 @@
     if [ $pmoncnt == 1 ]
     then
     echo "Oracle DB is still Up" >> /tmp/testing1.txt
+    echo "stopping db by oracle user" >> /tmp/testing1.txt
+    su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
     else
     echo "Oracle DB is down" >> /tmp/testing1.txt
     fi
