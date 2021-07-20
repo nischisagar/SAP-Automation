@@ -49,7 +49,7 @@
 
 - name: Simulate The Actual Command
   shell: |
-    su - {{ item }} -c stopsap
+    su - {{ item }} -c pwd
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
