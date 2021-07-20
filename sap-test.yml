@@ -4,5 +4,4 @@
   roles:
     - role: sap_fullstop
       become: yes
-      ignore_errors: yes
-  
+      ignore_errors: yes  
