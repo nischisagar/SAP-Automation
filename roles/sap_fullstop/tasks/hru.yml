@@ -120,7 +120,7 @@
     then
     echo "Oracle DB is still Up" >> /tmp/testing1.txt
     echo "stopping db by oracle user" >> /tmp/testing1.txt
-    su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
+    #su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
     else
     echo "Oracle DB is down" >> /tmp/testing1.txt
     fi
