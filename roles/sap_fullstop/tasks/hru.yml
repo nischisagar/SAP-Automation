@@ -177,7 +177,7 @@
     echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
     then
-    su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
+    su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
     else
     echo "Not oracle DB" >> /tmp/testing1.txt
     fi
