@@ -167,9 +167,31 @@
   when: 
     - listcnt | int == 1
 
-- name: Execute script on remote endpoint to stop DB listeners
-  command: "su - oracle -c oraenv_fulllistonly_stop.sh {{ item }}"
+- name: Check Listener status and stop Listener if required
+  shell: |
+    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
+    do
+    if [ $i == {{ hname }} ]
+    then
+    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    echo " DB = $db " >> /tmp/testing1.txt
+    if [ $db == ora ]
+    then
+    su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
+    else
+    echo "Not oracle DB" >> /tmp/testing1.txt
+    fi
+    else
+    echo "$i Its not db server " >> /tmp/testing1.txt
+    fi
+    done
+  register: liststatus
+  with_items: "{{ sidd_list }}"
   when:
     - listcnt | int == 1
   become: yes
   become_user: root
+
+- debug:
+    msg: "{{ liststatus }}"
+
