@@ -104,7 +104,7 @@
   when: 
     - pmoncnt | int == 1
 
-- name: checking DB type
+- name: checking DB type and stopping DB forcefully, if it is not stopped by stopsap command
   shell: |
     for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
     do
@@ -129,16 +129,16 @@
     echo "Found DB is MAX DB, automation can't stop maxdb, manual intervention required" >> /tmp/testing1.txt
     elif [ $db == db6 ]
     then
-    echo "Found DB is DB2 Database, checking DB status"
+    echo "Found DB is DB2 Database, checking DB status" >> /tmp/testing1.txt
     db2cnt=`ps -ef|grep -i db2sysc|grep -i {{ item }}|grep -v grep|wc -l`
     if [ $db2cnt == 1 ]
     then
-    echo "DB2 DB is still up, doing force DB stop"
+    echo "DB2 DB is still up, doing force DB stop" >> /tmp/testing1.txt
     dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
     dbuser="${dbuser1}adm"
     su - $dbuser -c "db2stop force"
     else
-    echo "DB2 DB {{ item }} is Down"
+    echo "DB2 DB {{ item }} is Down" >> /tmp/testing1.txt
     fi
     else
     echo "DB type is not Oracle, MaxDb or DB2 DB, possibly Hana DB" >> /tmp/testing1.txt
@@ -148,11 +148,11 @@
     hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
     if [ $hdbcnt1 == 1]
     then
-    echo "It is HANA DB, DB still Up, proceeding with HDB stop"  
+    echo "It is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt
     hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
     su - $hdbuser -c "HDB stop"
     else
-    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped"
+    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
     fi
     fi
     done
