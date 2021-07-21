@@ -156,3 +156,20 @@
   
 - debug:
     msg: "{{ listcnt }}"
+
+- name: Copy listener script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulllistonly_stop.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
+    - listcnt | int == 1
+
+- name: Execute script on remote endpoint to stop DB listeners
+  command: "su - oracle -c oraenv_fulllistonly_stop.sh {{ item }}"
+  when:
+    - listcnt | int == 1
+  become: yes
+  become_user: root
