@@ -47,14 +47,14 @@
   set_fact:
     sids_list: "{{ sids.stdout_lines | list }}"
 
-- name: Execute SAP stop
+- name: Simulate The Actual Command
   shell: |
     su - {{ item }} -c pwd
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
 
-- name: Results of SAP stop execution
+- name: Results of SID execution
   debug:
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
@@ -80,20 +80,6 @@
 - debug:
     msg: "{{ servertype.stdout_lines }}"
 
-- name: pmoncnt=`ps -ef|grep -i pmon|grep -i {{ sid }}|grep -v grep|wc -l`
-  shell: ps -ef|grep -i pmon|grep -i {{ sid }}|grep -v grep|wc -l
-  register: pmoncnt
-
-- debug:
-    msg: "{{ pmoncnt }}"
-
-- name: Setting fact - pmoncnt
-  set_fact:
-    pmoncnt: "{{ pmoncnt['stdout'] }}"
-  
-- debug:
-    msg: "{{ pmoncnt }}"
-
 - name: Copy listener script to remote endpoint
   copy:
     src: ./files/oraenv_fulldbsap_stop.sh
@@ -101,8 +87,6 @@
     owner: oracle
     group: oinstall
     mode: '0775'
-  when: 
-    - pmoncnt | int == 1
 
 - name: checking DB type
   shell: |
@@ -115,8 +99,8 @@
     if [ $db == ora ]
     then
     ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l >> /tmp/testing1.txt
-    pmoncnt1=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
-    if [ $pmoncnt1 == 1 ]
+    pmoncnt=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
+    if [ $pmoncnt == 1 ]
     then
     echo "Oracle DB is still Up" >> /tmp/testing1.txt
     echo "stopping db by oracle user" >> /tmp/testing1.txt
@@ -142,17 +126,3 @@
   debug:
     msg: "{{ item }}"
   with_items: "{{ dbtype.results }}"
-
-- name: listcnt=`ps -ef|grep -i tns|grep -v grep|wc -l`
-  shell: ps -ef|grep -i tns|grep -v grep|wc -l
-  register: listcnt
-
-- debug:
-    msg: "{{ listcnt }}"
-
-- name: Setting fact - listcnt
-  set_fact:
-    listcnt: "{{ listcnt['stdout'] }}"
-  
-- debug:
-    msg: "{{ listcnt }}"
