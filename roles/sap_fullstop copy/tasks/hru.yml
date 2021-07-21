@@ -47,14 +47,14 @@
   set_fact:
     sids_list: "{{ sids.stdout_lines | list }}"
 
-- name: Simulate The Actual Command
+- name: Execute SAP stop
   shell: |
-    su - {{ item }} -c pwd
+    su - {{ item }} -c stopsap
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
 
-- name: Results of SID execution
+- name: Results of SAP stop execution
   debug:
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
@@ -80,6 +80,20 @@
 - debug:
     msg: "{{ servertype.stdout_lines }}"
 
+- name: pmoncnt=`ps -ef|grep -i pmon|grep -v grep|wc -l`
+  shell: ps -ef|grep -i pmon|grep -v grep|wc -l
+  register: pmoncnt
+
+- debug:
+    msg: "{{ pmoncnt }}"
+
+- name: Setting fact - pmoncnt
+  set_fact:
+    pmoncnt: "{{ pmoncnt['stdout'] }}"
+  
+- debug:
+    msg: "{{ pmoncnt }}"
+
 - name: Copy listener script to remote endpoint
   copy:
     src: ./files/oraenv_fulldbsap_stop.sh
@@ -87,8 +101,10 @@
     owner: oracle
     group: oinstall
     mode: '0775'
+  when: 
+    - pmoncnt | int == 1
 
-- name: checking DB type
+- name: checking DB type and stopping DB forcefully, if it is not stopped by stopsap command
   shell: |
     for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
     do
@@ -99,8 +115,8 @@
     if [ $db == ora ]
     then
     ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l >> /tmp/testing1.txt
-    pmoncnt=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
-    if [ $pmoncnt == 1 ]
+    pmoncnt1=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
+    if [ $pmoncnt1 == 1 ]
     then
     echo "Oracle DB is still Up" >> /tmp/testing1.txt
     echo "stopping db by oracle user" >> /tmp/testing1.txt
@@ -110,19 +126,96 @@
     fi
     elif [ $db == ada ]
     then
-    echo "ada db" >> /tmp/testing1.txt
+    echo "Found DB is MAX DB, automation can't stop maxdb, manual intervention required" >> /tmp/testing1.txt
+    elif [ $db == db6 ]
+    then
+    echo "Found DB is DB2 Database, checking DB status" >> /tmp/testing1.txt
+    db2cnt=`ps -ef|grep -i db2sysc|grep -i {{ item }}|grep -v grep|wc -l`
+    if [ $db2cnt == 1 ]
+    then
+    echo "DB2 DB is still up, doing force DB stop" >> /tmp/testing1.txt
+    dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
+    dbuser="${dbuser1}adm"
+    su - $dbuser -c "db2stop force"
     else
-    echo "not ora, ada db" >> /tmp/testing1.txt
+    echo "DB2 DB {{ item }} is Down" >> /tmp/testing1.txt
+    fi
+    else
+    echo "DB type is not Oracle, MaxDb or DB2 DB, possibly Hana DB" >> /tmp/testing1.txt
+    fi
+    else
+    echo "Checking $i is HANA db server" >> /tmp/testing1.txt
+    hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
+    if [ $hdbcnt1 == 1]
+    then
+    echo "It is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt
+    hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
+    su - $hdbuser -c "HDB stop"
+    else
+    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
+    fi
+    fi
+    done
+  register: dbstopstatus
+  #with_items: "{{ sids_list }}"
+  with_items: "{{ sidd_list }}"
+  become: yes
+  become_user: root
+
+- name: Results of DB stop status
+  debug:
+    msg: "{{ item }}"
+  with_items: "{{ dbstopstatus.results }}"
+
+- name: listcnt=`ps -ef|grep -i tns|grep -v grep|wc -l`
+  shell: ps -ef|grep -i tns|grep -v grep|wc -l
+  register: listcnt
+
+- debug:
+    msg: "{{ listcnt }}"
+
+- name: Setting fact - listcnt
+  set_fact:
+    listcnt: "{{ listcnt['stdout'] }}"
+  
+- debug:
+    msg: "{{ listcnt }}"
+
+- name: Copy listener script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulllistonly_stop.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
+    - listcnt | int == 1
+
+- name: Check Listener status and stop Listener if required
+  shell: |
+    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
+    do
+    if [ $i == {{ hname }} ]
+    then
+    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    echo " DB = $db " >> /tmp/testing1.txt
+    if [ $db == ora ]
+    then
+    su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
+    else
+    echo "Not oracle DB" >> /tmp/testing1.txt
     fi
     else
     echo "$i Its not db server " >> /tmp/testing1.txt
     fi
     done
-  register: dbtype
-  #with_items: "{{ sids_list }}"
+  register: liststatus
   with_items: "{{ sidd_list }}"
+  when:
+    - listcnt | int == 1
+  become: yes
+  become_user: root
 
-- name: Results of DBTYPE check
-  debug:
-    msg: "{{ item }}"
-  with_items: "{{ dbtype.results }}"
+- debug:
+    msg: "{{ liststatus }}"
+
