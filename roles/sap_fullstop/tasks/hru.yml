@@ -49,7 +49,7 @@
 
 - name: Execute SAP stop
   shell: |
-    su - {{ item }} -c pwd
+    su - {{ item }} -c stopsap
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
@@ -80,8 +80,8 @@
 - debug:
     msg: "{{ servertype.stdout_lines }}"
 
-- name: pmoncnt=`ps -ef|grep -i pmon|grep -i {{ sid }}|grep -v grep|wc -l`
-  shell: ps -ef|grep -i pmon|grep -i {{ sid }}|grep -v grep|wc -l
+- name: pmoncnt=`ps -ef|grep -i pmon|grep -v grep|wc -l`
+  shell: ps -ef|grep -i pmon|grep -v grep|wc -l
   register: pmoncnt
 
 - debug:
