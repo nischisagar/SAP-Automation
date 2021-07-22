@@ -252,7 +252,7 @@
     else
     echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
     fi
-  when: df | int >= 1
+  when: df | int == 0
   register: hanastopstatus
 
 - debug:
