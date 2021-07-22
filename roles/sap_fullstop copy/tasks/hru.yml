@@ -46,6 +46,14 @@
     sidd_list: "{{ sidd.stdout_lines | list }}"
   when: df | int >= 1
 
+- name: Get sid values are in temp file
+  shell: |
+    cat /tmp/sidfile.txt
+    echo "Following SID are found in {{ hname }} server" > /tmp/testing1.txt
+    cat /tmp/sidfile.txt >> /tmp/testing1.txt
+    echo "-------------------------------------------------" >> /tmp/testing1.txt
+  when: df | int >= 1
+
 - name: Get sidadm user
   shell: cat /tmp/sidfile.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
   register: sids
@@ -73,6 +81,36 @@
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
   when: df | int >= 1
+
+- name: Checking Application stop status
+  shell: ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa|wc -l
+  when: df | int >= 1
+  register: appcnt
+
+- debug:
+    msg: "{{ appcnt }}"
+
+- name: Setting fact - appcnt
+  set_fact:
+    appcnt: "{{ appcnt['stdout'] }}"
+  when: df | int >= 1
+
+- debug:
+    msg: "{{ appcnt }}"
+
+- name: echo "SAP/JAVA Application stop is successful"
+  debug:
+    msg: "SAP/JAVA Application stop is successful"
+  when:
+    - df | int >= 1
+    - appcnt | int <= 1
+
+- name: echo "SAP/JAVA Application stop is NOT successful"
+  debug:
+    msg: "Attempt of SAP/JAVA Application stop is NOT successful"
+  when:
+    - df | int >= 1
+    - appcnt | int >= 2
 
 - name: Finding db server
   shell: |
