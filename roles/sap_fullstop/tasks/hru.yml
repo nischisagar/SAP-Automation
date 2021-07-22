@@ -256,13 +256,15 @@
   shell: cat /tmp/testing1.txt
   register : outputfinal
 
+- name: Demo set_facts final output
+  set_fact:
+    outputfinaldel: "{{ outputfinaldel['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinaldel }}"
+ 
 - name: "Delicate output to bld0d server"
   lineinfile:
     path: "/tmp/finaloutput.txt"
-    line: "{{ outputfinal }}"
+    line: "{{ outputfinaldel }}"
   delegate_to: ampsv010bld0d
-
-
-
-
-
