@@ -158,16 +158,6 @@
     fi
     else
     echo "DB type is not Oracle, MaxDb or DB2 DB, possibly Hana DB" >> /tmp/testing1.txt
-    echo "Checking $i is HANA db server" >> /tmp/testing1.txt
-    hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
-    if [ $hdbcnt1 == 1]
-    then
-    echo "It is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt
-    hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
-    su - $hdbuser -c "HDB stop"
-    else
-    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
-    fi
     fi
     done
   register: dbstopstatus
@@ -244,16 +234,20 @@
 - name: "Checking HANA DB Status and proceeding DB stop"
   shell: |
     hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
-    if [ $hdbcnt1 == 1]
+    echo "HDB count is $hdbcnt1" >> /tmp/testing1.txt
+    if [ $hdbcnt1 == 1 ]
     then
     echo "It is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt
     hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
+    echo "hdbuser is $hdbuser" >> /tmp/testing1.txt
     su - $hdbuser -c "HDB stop"
     else
     echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
     fi
   when: df | int == 0
   register: hanastopstatus
+  become: yes
+  become_user: root
 
 - debug:
     msg: "{{ hanastopstatus }}"
