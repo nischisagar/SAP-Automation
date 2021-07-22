@@ -258,7 +258,7 @@
 
 - name: "Delicate output to bld0d server"
   lineinfile:
-    dest: "/tmp/finaloutput.txt"
+    path: "/tmp/finaloutput.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
 
