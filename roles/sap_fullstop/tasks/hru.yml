@@ -99,23 +99,35 @@
     msg: "{{ appcnt }}"
 
 - name: echo "SAP/JAVA Application stop is successful"
-  shell: |
-    echo "SAP/JAVA Application stop is successful on {{ hname }} server:" >> /tmp/testing1.txt
-    echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/testing1.txt
-    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt
   debug:
     msg: "SAP/JAVA Application stop is successful"
   when:
     - df | int >= 1
     - appcnt | int <= 1
 
+- name: echo "SAP/JAVA Application stop is successful"
+  shell: |
+    echo "SAP/JAVA Application stop is successful on {{ hname }} server:" >> /tmp/testing1.txt
+    echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/testing1.txt
+    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt
+    echo "-------------------------------------------------------------------------" >> /tmp/testing1.txt
+  when:
+    - df | int >= 1
+    - appcnt | int <= 1
+
+- name: echo "SAP/JAVA Application stop is NOT successful"
+  debug:
+    msg: "Attempt of SAP/JAVA Application stop is NOT successful"
+  when:
+    - df | int >= 1
+    - appcnt | int >= 2
+
 - name: echo "SAP/JAVA Application stop is NOT successful"
   shell: |
     echo "Attempt of SAP/JAVA Application stop is NOT successful on {{ hname }} server:" >> /tmp/testing1.txt
     echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/testing1.txt
-    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt    
-  debug:
-    msg: "Attempt of SAP/JAVA Application stop is NOT successful"
+    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt 
+    echo "-------------------------------------------------------------------------" >> /tmp/testing1.txt   
   when:
     - df | int >= 1
     - appcnt | int >= 2
