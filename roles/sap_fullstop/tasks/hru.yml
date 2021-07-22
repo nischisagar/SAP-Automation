@@ -10,6 +10,13 @@
 - debug:
     msg: "{{ df }}"
 
+- name: Setting facts - df
+  set_fact:
+    df: "{{ df['stdout'] }}"
+
+- debug:
+    msg: "{{ df }}"
+
 - name: Getting current host info
   shell: hostname
   register: hname
@@ -27,26 +34,26 @@
 - name: Get number of SIDs
   shell: |
     df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
-  when: df | int
+  when: df | int >= 1
 
 - name: Get sid list
   shell: cat /tmp/sidfile.txt
   register: sidd
-  when: df | int
+  when: df | int >= 1
 
 - name: Demo set_facts
   set_fact:
     sidd_list: "{{ sidd.stdout_lines | list }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: Get sidadm user
   shell: cat /tmp/sidfile.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
   register: sids
-  when: df | int
+  when: df | int >= 1
 
 - name: Debug Registry
   debug: var=sids
-  when: df | int
+  when: df | int >= 1
 
 - name: Demo set_facts
   set_fact:
