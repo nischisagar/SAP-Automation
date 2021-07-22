@@ -258,13 +258,13 @@
 
 - name: Demo set_facts final output
   set_fact:
-    outputfinaldel: "{{ outputfinaldel['stdout'] }}"
+    outputfinal: "{{ outputfinal['stdout'] }}"
   
 - debug:
-    msg: "{{ outputfinaldel }}"
+    msg: "{{ outputfinal }}"
  
 - name: "Delicate output to bld0d server"
   lineinfile:
     path: "/tmp/finaloutput.txt"
-    line: "{{ outputfinaldel }}"
+    line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
