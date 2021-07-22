@@ -252,10 +252,14 @@
 - debug:
     msg: "{{ hanastopstatus }}"
 
+- name: Registering output file
+  shell: cat /tmp/testing1.txt
+  register : outputfinal
+
 - name: "Delicate output to bld0d server"
   lineinfile:
     dest: "/tmp/finaloutput.txt"
-  shell: cat /tmp/testing1.txt
+    line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
 
 
