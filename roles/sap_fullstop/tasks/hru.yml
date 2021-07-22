@@ -222,7 +222,7 @@
     echo "DB type is not Oracle, MaxDb or DB2 DB" >> /tmp/testing1.txt
     fi
     else
-    echo "$i is not on DB Server" >> /tmp/testing1.txt
+    echo "{{ hname }} is not on DB Server" >> /tmp/testing1.txt
     fi
     done
   register: dbstopstatus
