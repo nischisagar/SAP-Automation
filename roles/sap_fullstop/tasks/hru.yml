@@ -58,7 +58,7 @@
 - name: Demo set_facts
   set_fact:
     sids_list: "{{ sids.stdout_lines | list }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: Execute SAP stop
   shell: |
@@ -66,13 +66,13 @@
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
-  when: df | int
+  when: df | int >= 1
 
 - name: Results of SAP stop execution
   debug:
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: Finding db server
   shell: |
@@ -80,25 +80,25 @@
   #register: servertype
   #with_items: "{{ sids_list }}"
   with_items: "{{ sidd_list }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: Get SAPDBHOSTfile value
   shell: cat /tmp/SAPDBHOSTfile.txt|sort|uniq
   register: servertype
-  when: df | int
+  when: df | int >= 1
 
 - debug:
     msg: "{{ servertype }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: Demo set_facts
   set_fact:
     servertype_list: "{{ servertype.stdout_lines | list }}"
-  when: df | int
+  when: df | int >= 1
 
 - debug:
     msg: "{{ servertype.stdout_lines }}"
-  when: df | int
+  when: df | int >= 1
 
 - name: pmoncnt=`ps -ef|grep -i pmon|grep -v grep|wc -l`
   shell: ps -ef|grep -i pmon|grep -v grep|wc -l
@@ -164,7 +164,7 @@
     echo "DB type is not Oracle, MaxDb or DB2 DB" >> /tmp/testing1.txt
     fi
     else
-    echo "DB type is not Oracle, MaxDb or DB2 DB, possibly Hana DB" >> /tmp/testing1.txt
+    echo "$i is not on DB Server" >> /tmp/testing1.txt
     fi
     done
   register: dbstopstatus
@@ -235,7 +235,7 @@
 - name: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
   debug:
     msg: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
-  when: df | int
+  when: df | int == 0
     
 - name: "Checking HANA DB Status and proceeding DB stop"
   shell: |
@@ -250,7 +250,7 @@
     else
     echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
     fi
-  when: df | int 
+  when: df | int == 0
   register: hanastopstatus
   become: yes
   become_user: root
