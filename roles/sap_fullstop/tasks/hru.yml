@@ -27,31 +27,31 @@
 - name: Get number of SIDs
   shell: |
     df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
-  when: df | int >= 1
+  when: df | int
 
 - name: Get sid list
   shell: cat /tmp/sidfile.txt
   register: sidd
-  when: df | int >= 1
+  when: df | int
 
 - name: Demo set_facts
   set_fact:
     sidd_list: "{{ sidd.stdout_lines | list }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: Get sidadm user
   shell: cat /tmp/sidfile.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
   register: sids
-  when: df | int >= 1
+  when: df | int
 
 - name: Debug Registry
   debug: var=sids
-  when: df | int >= 1
+  when: df | int
 
 - name: Demo set_facts
   set_fact:
     sids_list: "{{ sids.stdout_lines | list }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: Execute SAP stop
   shell: |
@@ -59,13 +59,13 @@
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
-  when: df | int >= 1
+  when: df | int
 
 - name: Results of SAP stop execution
   debug:
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: Finding db server
   shell: |
@@ -73,25 +73,25 @@
   #register: servertype
   #with_items: "{{ sids_list }}"
   with_items: "{{ sidd_list }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: Get SAPDBHOSTfile value
   shell: cat /tmp/SAPDBHOSTfile.txt|sort|uniq
   register: servertype
-  when: df | int >= 1
+  when: df | int
 
 - debug:
     msg: "{{ servertype }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: Demo set_facts
   set_fact:
     servertype_list: "{{ servertype.stdout_lines | list }}"
-  when: df | int >= 1
+  when: df | int
 
 - debug:
     msg: "{{ servertype.stdout_lines }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: pmoncnt=`ps -ef|grep -i pmon|grep -v grep|wc -l`
   shell: ps -ef|grep -i pmon|grep -v grep|wc -l
@@ -163,7 +163,7 @@
   register: dbstopstatus
   #with_items: "{{ sids_list }}"
   with_items: "{{ sidd_list }}"
-  when: df | int >= 1
+  when: df | int
   become: yes
   become_user: root
 
@@ -171,7 +171,7 @@
   debug:
     msg: "{{ item }}"
   with_items: "{{ dbstopstatus.results }}"
-  when: df | int >= 1
+  when: df | int
 
 - name: listcnt=`ps -ef|grep -i tnslsnr|grep -v grep|wc -l`
   shell: ps -ef|grep -i tnslsnr|grep -v grep|wc -l
@@ -228,9 +228,8 @@
 - name: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
   debug:
     msg: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
-  when:
-    - df | int == 0
-
+  when: df | int
+    
 - name: "Checking HANA DB Status and proceeding DB stop"
   shell: |
     hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
@@ -244,7 +243,7 @@
     else
     echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
     fi
-  when: df | int == 0
+  when: df | int 
   register: hanastopstatus
   become: yes
   become_user: root
