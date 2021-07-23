@@ -194,7 +194,7 @@
     do
     if [ $i == {{ hname }} ]
     then
-    db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|grep -v sap|awk '{print $3}'`
     echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
     then
