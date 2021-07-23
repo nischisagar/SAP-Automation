@@ -192,37 +192,45 @@
     echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
     then
-    ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l >> /tmp/testing1.txt
+    echo "Server $i has Oracle DB:" >> /tmp/testing1.txt
     pmoncnt1=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
     if [ $pmoncnt1 == 1 ]
     then
-    echo "Oracle DB is still Up" >> /tmp/testing1.txt
-    echo "stopping db by oracle user" >> /tmp/testing1.txt
+    echo "Oracle DB is still Up, stopping db by oracle user:" >> /tmp/testing1.txt
     su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
+    echo "Oracle DB {{ item }} is stopped on $i server:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     else
-    echo "Oracle DB is down" >> /tmp/testing1.txt
+    echo "Oracle DB {{ item }} is down on $i server:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     fi
     elif [ $db == ada ]
     then
-    echo "Found DB is MAX DB, automation can't stop maxdb, manual intervention required" >> /tmp/testing1.txt
+    echo "Server $i has MAX DB, automation can't stop maxdb, manual intervention required:" >> /tmp/testing1.txt
+    echo "----------------------------------------------------------------------------------" >> /tmp/testing1.txt
     elif [ $db == db6 ]
     then
-    echo "Found DB is DB2 Database, checking DB status" >> /tmp/testing1.txt
+    echo "Server $i has DB2 Database:" >> /tmp/testing1.txt
     db2cnt=`ps -ef|grep -i db2sysc|grep -i {{ item }}|grep -v grep|wc -l`
     if [ $db2cnt == 1 ]
     then
-    echo "DB2 DB is still up, doing force DB stop" >> /tmp/testing1.txt
+    echo "DB2 DB is still up, doing force DB stop:" >> /tmp/testing1.txt
     dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
     dbuser="${dbuser1}adm"
     su - $dbuser -c "db2stop force"
+    echo "DB2 DB {{ item }} is stopped on $i server:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     else
-    echo "DB2 DB {{ item }} is Down" >> /tmp/testing1.txt
+    echo "DB2 DB {{ item }} is Down on $i server:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     fi
     else
-    echo "DB type is not Oracle, MaxDb or DB2 DB" >> /tmp/testing1.txt
+    echo "NO Oracle, MaxDb or DB2 DB Found on $i Server:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     fi
     else
-    echo "{{ hname }} is not on DB Server" >> /tmp/testing1.txt
+    echo "{{ hname }} is not on DB Server, Application stop is sufficient:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     fi
     done
   register: dbstopstatus
@@ -269,15 +277,16 @@
     if [ $i == {{ hname }} ]
     then
     db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
-    echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
     then
     su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
+    echo "Listener stop on $i server is successful, for {{ item }} DB:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     else
-    echo "Not oracle DB" >> /tmp/testing1.txt
+    echo "{{ item }} Not oracle DB" 
     fi
     else
-    echo "$i Its not db server " >> /tmp/testing1.txt
+    echo "$i Its not db server " 
     fi
     done
   register: liststatus
@@ -301,12 +310,15 @@
     echo "HDB count is $hdbcnt1" >> /tmp/testing1.txt
     if [ $hdbcnt1 == 1 ]
     then
-    echo "It is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt
     hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
-    echo "hdbuser is $hdbuser" >> /tmp/testing1.txt
+    hdbsid=`echo $hdbuser|cut -c 1-3|tr '[:lower:]' '[:upper:]'`
+    echo "$hdbsid is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt    
     su - $hdbuser -c "HDB stop"
+    echo "HANA DB $hdbsid stop is successful" >> /tmp/testing1.txt 
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
     else
     echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
+    echo "----------------------------------------------------------------------" >> /tmp/testing1.txt
     fi
   when: df | int == 0
   register: hanastopstatus
