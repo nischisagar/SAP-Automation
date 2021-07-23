@@ -33,17 +33,17 @@
 
 - name: Get number of SIDs
   shell: |
-    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
-    for j in `cat /tmp/sidfile_temp.txt`
+    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfilestart_temp.txt
+    for j in `cat /tmp/sidfilestart_temp.txt`
     do
     systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
-    echo "$systype $j" >> /tmp/sidlist_upd.txt
+    echo "$systype $j" >> /tmp/sidliststart_upd.txt
     done
-    cat /tmp/sidlist_upd.txt|sort -r|awk '{print $2}' > /tmp/sidfile.txt
+    cat /tmp/sidliststart_upd.txt|sort|awk '{print $2}' > /tmp/sidfilestart.txt
   when: df | int >= 1
 
 - name: Get sid list
-  shell: cat /tmp/sidfile.txt
+  shell: cat /tmp/sidfilestart.txt
   register: sidd
   when: df | int >= 1
 
@@ -54,14 +54,13 @@
 
 - name: Get sid values are in temp file
   shell: |
-    cat /tmp/sidfile.txt
-    echo "Following SID are found in {{ hname }} server" > /tmp/testing1.txt
-    cat /tmp/sidfile.txt >> /tmp/testing1.txt
-    echo "-------------------------------------------------" >> /tmp/testing1.txt
+    echo "Following SID are found in {{ hname }} server" > /tmp/startstatustrack.txt
+    cat /tmp/sidfilestart.txt >> /tmp/startstatustrack.txt
+    echo "-------------------------------------------------" >> /tmp/startstatustrack.txt
   when: df | int >= 1
 
 - name: Get sidadm user
-  shell: cat /tmp/sidfile.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
+  shell: cat /tmp/sidfilestart.txt| tr [:upper:] [:lower:] | sed '/$/s/.*/&adm/'
   register: sids
   when: df | int >= 1
 
@@ -74,9 +73,62 @@
     sids_list: "{{ sids.stdout_lines | list }}"
   when: df | int >= 1
 
-- name: Execute SAP stop
+- name: checking if it Oracle DB server
+  shell: df -g|grep -i sapdata|grep -i oracle|wc -l
+  register: sapdatacnt
+
+- debug:
+    msg: "{{ sapdatacnt }}"
+
+- name: Setting facts - sapdatacnt
+  set_fact:
+    sapdatacnt: "{{ sapdatacnt['stdout'] }}"
+
+- debug:
+    msg: "{{ sapdatacnt }}"
+
+- name: Copy listener script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulldbsap_start.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
+    - sapdatacnt | int >= 1
+
+- name: Check Listener status and stop Listener if required
   shell: |
-    su - {{ item }} -c stopsap
+    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
+    do
+    if [ $i == {{ hname }} ]
+    then
+    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    if [ $db == ora ]
+    then
+    su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
+    echo "Listener stop on $i server is successful, for {{ item }} DB:" >> /tmp/testing1.txt
+    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    else
+    echo "{{ item }} Not oracle DB" 
+    fi
+    else
+    echo "$i Its not db server " 
+    fi
+    done
+  register: liststatus
+  with_items: "{{ sidd_list }}"
+  when:
+    - listcnt | int == 1
+  become: yes
+  become_user: root
+
+- debug:
+    msg: "{{ liststatus }}"
+
+- name: Execute SAP start
+  shell: |
+    su - {{ item }} -c startsap
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
@@ -178,15 +230,7 @@
 - debug:
     msg: "{{ pmoncnt }}"
   
-- name: Copy listener script to remote endpoint
-  copy:
-    src: ./files/oraenv_fulldbsap_stop.sh
-    dest: /tmp/
-    owner: oracle
-    group: oinstall
-    mode: '0775'
-  when: 
-    - pmoncnt | int == 1
+
 
 - name: checking DB type and stopping DB forcefully, if it is not stopped by stopsap command
   shell: |
@@ -265,45 +309,6 @@
   
 - debug:
     msg: "{{ listcnt }}"
-
-- name: Copy listener script to remote endpoint
-  copy:
-    src: ./files/oraenv_fulllistonly_stop.sh
-    dest: /tmp/
-    owner: oracle
-    group: oinstall
-    mode: '0775'
-  when: 
-    - listcnt | int == 1
-
-- name: Check Listener status and stop Listener if required
-  shell: |
-    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
-    do
-    if [ $i == {{ hname }} ]
-    then
-    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
-    if [ $db == ora ]
-    then
-    su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
-    echo "Listener stop on $i server is successful, for {{ item }} DB:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
-    else
-    echo "{{ item }} Not oracle DB" 
-    fi
-    else
-    echo "$i Its not db server " 
-    fi
-    done
-  register: liststatus
-  with_items: "{{ sidd_list }}"
-  when:
-    - listcnt | int == 1
-  become: yes
-  become_user: root
-
-- debug:
-    msg: "{{ liststatus }}"
 
 - name: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
   debug:
