@@ -89,7 +89,7 @@
 
 - name: Copy listener script to remote endpoint
   copy:
-    src: ./files/oraenv_fulldbsap_start.sh
+    src: ./files/oraenv_fulllistonly_start.sh
     dest: /tmp/
     owner: oracle
     group: oinstall
@@ -97,34 +97,47 @@
   when: 
     - sapdatacnt | int >= 1
 
-- name: Check Listener status and stop Listener if required
+- name: Check Listener status and start Listener for Oracle DB
   shell: |
-    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
-    do
-    if [ $i == {{ hname }} ]
-    then
-    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    db=`grep -i "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
     if [ $db == ora ]
     then
-    su - oracle -c /tmp/oraenv_fulllistonly_stop.sh {{ item }}
-    echo "Listener stop on $i server is successful, for {{ item }} DB:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    su - oracle -c /tmp/oraenv_fulllistonly_start.sh {{ item }}
+    echo "Listener start on $i server is successful, for {{ item }} DB:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
     echo "{{ item }} Not oracle DB" 
     fi
-    else
-    echo "$i Its not db server " 
-    fi
-    done
-  register: liststatus
+  register: liststartstatus
   with_items: "{{ sidd_list }}"
   when:
-    - listcnt | int == 1
+    - sapdatacnt | int == 1
   become: yes
   become_user: root
 
 - debug:
-    msg: "{{ liststatus }}"
+    msg: "{{ liststartstatus }}"
+
+- name: Starting Oracle DB
+  shell: |
+    db=`grep -i "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    if [ $db == ora ]
+    then
+    dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
+    dbuser="${dbuser1}adm"
+    su - $dbuser -c startsap
+    pmoncnt=`ps -ef|grep -i pmon|grep -i {{ item }}|wc -l`
+    echo "Listener start on $i server is successful, for {{ item }} DB:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
+    else
+    echo "{{ item }} Not oracle DB" 
+    fi
+
+- name: Get saphost detail
+  shell: |
+    cat /sapmnt/{{ item }}/profile/DEFAULT.PFL|grep -i SAPGLOBALHOST|awk '{print $3}'
+  register: sapglobalhost
+
 
 - name: Execute SAP start
   shell: |
@@ -161,14 +174,14 @@
     msg: "SAP/JAVA Application stop is successful"
   when:
     - df | int >= 1
-    - appcnt | int <= 1
+    - appcnt | int >= 10
 
-- name: echo "SAP/JAVA Application stop is successful"
+- name: echo "SAP/JAVA Application start is successful"
   shell: |
-    echo "SAP/JAVA Application stop is successful on {{ hname }} server:" >> /tmp/testing1.txt
-    echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/testing1.txt
-    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt
-    echo "-------------------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "SAP/JAVA Application stop is successful on {{ hname }} server:" >> /tmp/startstatustrack.txt
+    echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/startstatustrack.txt
+    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/startstatustrack.txt
+    echo "-------------------------------------------------------------------------" >> /tmp/startstatustrack.txt
   when:
     - df | int >= 1
     - appcnt | int <= 1
