@@ -132,7 +132,18 @@
 - debug:
     msg: "{{ listcnt }}"
 
-- name: Starting Oracle DB
+- name: Copy DB start script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulldbsap_start.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
+    - sapdatacnt | int >= 1
+    - hname == xmpsa010sdb0
+
+- name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
     su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}
   register: se0dbstart
