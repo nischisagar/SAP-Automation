@@ -2,6 +2,6 @@
   serial: 1
   gather_facts: yes
   roles:
-    - role: sap_fullstart
+    - role: sap_fullstop
       become: yes
       ignore_errors: yes  
