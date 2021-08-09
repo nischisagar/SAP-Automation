@@ -104,11 +104,10 @@
         to:
         - Sg Sapbasis In Chennai <sgchenna@in.ibm.com>
         cc: 
-        - Poonjolai Govindasamy <pogovind@in.ibm.com>
         - Kalaikannan Anbarasan <kalanbar@in.ibm.com>
         attach:
         - "{{ report_file }}"
         headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
+        - Reply-To=kalanbar@in.ibm.com
+        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
         charset: us-ascii
