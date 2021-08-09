@@ -152,7 +152,13 @@
 
 - name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
+    cdb=`df -g|grep -i {{ item }}|wc -l`
+    if [ $cdb >= 1 ]
+    then
     su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}
+    else
+    echo "{{ item }} is not oracle db"
+    fi
   register: se0dbstart
   with_items: "{{ sidd_list }}"
   when: 
