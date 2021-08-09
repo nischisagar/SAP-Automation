@@ -153,6 +153,6 @@
         attach:
         - "/ansiblefs/reports/oradb-bct-status-{{ ansible_date_time.date }}.csv"
         headers:
-        - Reply-To=pogovind@in.ibm.com
-        - X-Special="Please contact Poonjolai Govindasamy if any issues are in this report."
+        - Reply-To=kalanbar@in.ibm.com
+        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
         charset: us-ascii
