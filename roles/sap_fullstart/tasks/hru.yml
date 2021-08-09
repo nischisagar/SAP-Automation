@@ -111,7 +111,7 @@
   register: liststartstatus
   with_items: "{{ sidd_list }}"
   when:
-    - sapdatacnt | int == 1
+    - sapdatacnt | int >= 1
   become: yes
   become_user: root
 
@@ -132,6 +132,13 @@
 - debug:
     msg: "{{ listcnt }}"
 
+- name: dbhname=`cat /oracle/stage/dbhnmae`
+  shell: cat /oracle/stage/dbhnmae
+  register: dbhname
+
+- debug:
+    msg: "{{ dbhname }}"
+
 - name: Copy DB start script to remote endpoint
   copy:
     src: ./files/oraenv_fulldbsap_start.sh
@@ -141,7 +148,7 @@
     mode: '0775'
   when: 
     - sapdatacnt | int >= 1
-    - hname == xmpsa010sdb0
+    - hname == dbhname
 
 - name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
@@ -150,7 +157,7 @@
   with_items: "{{ sidd_list }}"
   when: 
     - sapdatacnt | int == 1
-    - hname == xmpsa010sdb0
+    - hname == dbhname
   become: yes
   become_user: root 
 
@@ -164,7 +171,7 @@
   with_items: "{{ sids_list }}"
   ignore_errors: true
   when: df | int >= 1
-  when: hname != xmpsa010sdb0
+  when: hname != dbhname
 
 - name: Results of SAP start execution
   debug:
@@ -322,8 +329,8 @@
     echo "HDB count is $hdbcnt1" >> /tmp/startstatustrack.txt
     if [ $hdbcnt1 == 1 ]
     then
-    hdbuser=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'`
-    hdbsid="${hdbuser}adm"
+    hdbsid=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'`
+    hdbuser="${hdbsid}adm"
     echo "$hdbsid is HANA DB, proceeding with HDB start"  >> /tmp/startstatustrack.txt   
     su - $hdbuser -c "HDB start"
     echo "HANA DB $hdbsid start is successful" >> /tmp/startstatustrack.txt
