@@ -242,12 +242,13 @@ fi
 #
 # Install any "custom" code here
 #
-#sqlplus -s sys/sys as sysdba<<EOF
-#set echo off;
-#set feedback off;
-#set heading off;
-#select status from v\$instance;
-#shut immediate;
-#exit
-#EOF
-lsnrctl stop $list
+sqlplus -s sys/sys as sysdba<<EOF
+set echo off;
+set feedback off;
+set heading off;
+startup;
+select status from v\$instance;
+exit
+EOF
+lsnrctl start $list
+

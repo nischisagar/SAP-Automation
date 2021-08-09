@@ -2,6 +2,6 @@
   serial: 1
   gather_facts: yes
   roles:
-    - role: sap_fullstop
+    - role: start-sap-on-aix
       become: yes
       ignore_errors: yes  

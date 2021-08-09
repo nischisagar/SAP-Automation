@@ -122,7 +122,7 @@ sg_all:
       ansible_host: xmpsl010tcmp001
       entity_name: 010_SHARED_INFRA
     ampsv017ecc0d:
-      ipaddress: 10.125.76.80
+      ipaddress: 10.139.72.114
       ansible_host: ampsv017ecc0d.p1.saint-gobain.net
       sid_adm_usr_db2_abap:
         - name: dkeadm
@@ -134,25 +134,25 @@ sg_all:
         - name: pkeadm
       entity_name: 017_LAPEYRE
     ampsv017ecc1i:
-      ipaddress: 10.125.76.75
+      ipaddress: 10.139.71.30
       ansible_host: ampsv017ecc1i.p1.saint-gobain.net
       sid_adm_usr_db2_abap:
         - name: rkeadm
       entity_name: 017_LAPEYRE
     ampsv017ecc0i:
-      ipaddress: 10.125.76.76
+      ipaddress: 10.139.71.93
       ansible_host: ampsv017ecc0i.p1.saint-gobain.net
       sid_adm_usr_db2_abap:
         - name: skeadm
       entity_name: 017_LAPEYRE
     ampsv017ecc0q:
-      ipaddress: 10.125.76.52
+      ipaddress: 10.139.71.110
       ansible_host: ampsv017ecc0q.p1.saint-gobain.net
       sid_adm_usr_db2_abap:
         - name: qkeadm
       entity_name: 017_LAPEYRE
     ampsa017cecc0:
-      ipaddress: 10.125.76.57
+      ipaddress: 10.139.71.119
       ansible_host: ampsa017cecc0
       sid_adm_usr_db2_abap:
         - name: ckeadm
@@ -166,19 +166,19 @@ sg_all:
         - name: dkjadm
       entity_name: 017_LAPEYRE
     ampsv034ecc0d:
-      ipaddress: 10.125.86.36
+      ipaddress: 10.139.72.86
       ansible_host: ampsv034ecc0d.za.if.atcsg.net
       sid_adm_usr_db2_abap:
         - name: dmeadm
       entity_name: 034_SGBDNL
     ampsv034ecc0p:
-      ipaddress: 10.125.86.38
+      ipaddress: 10.139.69.61
       ansible_host: ampsv034ecc0p.saint-gobain.com
       sid_adm_usr_db2_abap:
         - name: pmeadm
       entity_name: 034_SGBDNL
     ampsv017pjt0t:
-      ipaddress: 10.125.76.56
+      ipaddress: 10.139.71.118
       ansible_host: ampsv017pjt0t.p1.saint-gobain.net
       sid_adm_usr_db2_abap:
         - name: tkeadm
@@ -187,20 +187,20 @@ sg_all:
         - name: tkjadm
       entity_name: 017_LAPEYRE
     ampsv034ecc0q:
-      ipaddress: 10.125.86.37
+      ipaddress: 10.139.72.95
       ansible_host: ampsv034ecc0q.za.if.atcsg.net
       sid_adm_usr_db2_abap:
         - name: qmeadm
         - name: rmeadm
       entity_name: 034_SGBDNL
     ampsv017ads0d:
-      ipaddress: 10.125.76.82
+      ipaddress: 10.139.72.141
       ansible_host: ampsv017ads0d.p1.saint-gobain.net
       sid_adm_usr_db2_java:
         - name: dkdadm
       entity_name: 017_LAPEYRE
     ampsv017ads0q:
-      ipaddress: 10.125.76.55
+      ipaddress: 10.139.71.113
       ansible_host: ampsv017ads0q.p1.saint-gobain.net
       sid_adm_usr_db2_java:
         - name: qkdadm
@@ -218,14 +218,14 @@ sg_all:
         - name: pk2adm
       entity_name: 017_LAPEYRE
     xmpsa017idm0:
-      ipaddress: 10.125.76.61
+      ipaddress: 10.139.71.13
       ansible_host: xmpsa017idm0
       sid_adm_usr_db2_java:
         - name: dkiadm
       entity_name: 017_LAPEYRE
     xmpsa017qidm0:
-      ipaddress: 10.125.76.64
-      ansible_host: 10.125.76.64
+      ipaddress: 10.139.71.143
+      ansible_host: 10.139.71.143
       sid_adm_usr_db2_java:
         - name: qkjadm
       entity_name: 017_LAPEYRE
@@ -236,7 +236,7 @@ sg_all:
         - name: pkjadm
       entity_name: 017_LAPEYRE
     ampsv017pjt0d:
-      ipaddress: 10.125.76.81
+      ipaddress: 10.139.72.115
       ansible_host: ampsv017pjt0d
       entity_name: 017_LAPEYRE
     ampsa033qecc0:
@@ -618,7 +618,7 @@ sg_all:
         - name: psnadm
       entity_name: 012_SEKURIT
     ampsv034han0d:
-      ipaddress: 10.125.86.7
+      ipaddress: 10.139.70.36
       ansible_host: ampsv034han0d
       sid_adm_usr_hanadb_java:
         - name: bwdadm
@@ -626,7 +626,7 @@ sg_all:
         - name: bwdadm
       entity_name: 034_APOLLO
     ampsv034han0q:
-      ipaddress: 10.125.86.8
+      ipaddress: 10.139.68.189
       ansible_host: ampsv034han0q
       sid_adm_usr_hanadb_java:
         - name: bwqadm
@@ -634,7 +634,7 @@ sg_all:
         - name: bwqadm
       entity_name: 034_APOLLO
     ampsv034han0p:
-      ipaddress: 10.125.86.9
+      ipaddress: 10.139.68.225
       ansible_host: ampsv034han0p
       sid_adm_usr_hanadb_java:
         - name: bwpadm
@@ -1029,7 +1029,7 @@ sg_all:
       ansible_host: ampsv017dbm0p
       entity_name: 017_LAPEYRE    
     ampsv017pjt0q:
-      ipaddress: 10.125.76.60
+      ipaddress: 10.139.71.126
       ansible_host: ampsv017pjt0q
       entity_name: 017_LAPEYRE       
     ampsv03371prd:

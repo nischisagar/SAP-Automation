@@ -118,26 +118,44 @@
 - debug:
     msg: "{{ liststartstatus }}"
 
-- name: Starting Oracle DB
-  shell: |
-    db=`grep -i "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
-    if [ $db == ora ]
-    then
-    dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
-    dbuser="${dbuser1}adm"
-    su - $dbuser -c startsap
-    pmoncnt=`ps -ef|grep -i pmon|grep -i {{ item }}|wc -l`
-    echo "Listener start on $i server is successful, for {{ item }} DB:" >> /tmp/startstatustrack.txt
-    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
-    else
-    echo "{{ item }} Not oracle DB" 
-    fi
+- name: listcnt=`ps -ef|grep -i tnslsnr|grep -v grep|wc -l`
+  shell: ps -ef|grep -i tnslsnr|grep -v grep|wc -l
+  register: listcnt
 
-- name: Get saphost detail
-  shell: |
-    cat /sapmnt/{{ item }}/profile/DEFAULT.PFL|grep -i SAPGLOBALHOST|awk '{print $3}'
-  register: sapglobalhost
+- debug:
+    msg: "{{ listcnt }}"
 
+- name: Setting fact - listcnt
+  set_fact:
+    listcnt: "{{ listcnt['stdout'] }}"
+  
+- debug:
+    msg: "{{ listcnt }}"
+
+- name: Copy DB start script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulldbsap_start.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
+    - sapdatacnt | int >= 1
+    - hname == xmpsa010sdb0
+
+- name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
+  shell: |
+    su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}
+  register: se0dbstart
+  with_items: "{{ sidd_list }}"
+  when: 
+    - sapdatacnt | int == 1
+    - hname == xmpsa010sdb0
+  become: yes
+  become_user: root 
+
+- debug:
+    msg: "{{ se0dbstart }}" 
 
 - name: Execute SAP start
   shell: |
@@ -146,14 +164,15 @@
   with_items: "{{ sids_list }}"
   ignore_errors: true
   when: df | int >= 1
+  when: hname != xmpsa010sdb0
 
-- name: Results of SAP stop execution
+- name: Results of SAP start execution
   debug:
     msg: "{{ item }}"
   with_items: "{{ simulate.results }}"
   when: df | int >= 1
 
-- name: Checking Application stop status
+- name: Checking Application start status
   shell: ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa|wc -l
   when: df | int >= 1
   register: appcnt
@@ -169,39 +188,37 @@
 - debug:
     msg: "{{ appcnt }}"
 
-- name: echo "SAP/JAVA Application stop is successful"
+- name: echo "SAP/JAVA Application start is successful"
   debug:
-    msg: "SAP/JAVA Application stop is successful"
+    msg: "SAP/JAVA Application start is successful"
   when:
     - df | int >= 1
     - appcnt | int >= 10
 
 - name: echo "SAP/JAVA Application start is successful"
   shell: |
-    echo "SAP/JAVA Application stop is successful on {{ hname }} server:" >> /tmp/startstatustrack.txt
+    echo "SAP/JAVA Application start is successful on {{ hname }} server:" >> /tmp/startstatustrack.txt
+    echo "-------------------------------------------------------------------------" >> /tmp/startstatustrack.txt
+  when:
+    - df | int >= 1
+    - appcnt | int >= 10
+
+- name: echo "SAP/JAVA Application start is NOT successful"
+  debug:
+    msg: "Attempt of SAP/JAVA Application start is NOT successful"
+  when:
+    - df | int >= 1
+    - appcnt | int <= 2
+
+- name: echo "SAP/JAVA Application start is NOT successful"
+  shell: |
+    echo "Attempt of SAP/JAVA Application start is NOT successful on {{ hname }} server:" >> /tmp/startstatustrack.txt
     echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/startstatustrack.txt
     ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/startstatustrack.txt
     echo "-------------------------------------------------------------------------" >> /tmp/startstatustrack.txt
   when:
     - df | int >= 1
-    - appcnt | int <= 1
-
-- name: echo "SAP/JAVA Application stop is NOT successful"
-  debug:
-    msg: "Attempt of SAP/JAVA Application stop is NOT successful"
-  when:
-    - df | int >= 1
-    - appcnt | int >= 2
-
-- name: echo "SAP/JAVA Application stop is NOT successful"
-  shell: |
-    echo "Attempt of SAP/JAVA Application stop is NOT successful on {{ hname }} server:" >> /tmp/testing1.txt
-    echo "ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa" >> /tmp/testing1.txt
-    ps -ef|grep -iE ".sap|scs"|grep -v sapstartsrv|grep -v root|grep -v daa >> /tmp/testing1.txt 
-    echo "-------------------------------------------------------------------------" >> /tmp/testing1.txt   
-  when:
-    - df | int >= 1
-    - appcnt | int >= 2
+    - appcnt | int <= 2
 
 - name: Finding db server
   shell: |
@@ -242,15 +259,10 @@
     
 - debug:
     msg: "{{ pmoncnt }}"
-  
 
 
 - name: checking DB type and stopping DB forcefully, if it is not stopped by stopsap command
   shell: |
-    for i in `cat /tmp/SAPDBHOSTfile.txt|sort|uniq`
-    do
-    if [ $i == {{ hname }} ]
-    then
     db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|grep -v sap|awk '{print $3}'`
     echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
@@ -259,90 +271,66 @@
     pmoncnt1=`ps -ef|grep -i pmon|grep -i {{ item }}|grep -v grep |wc -l`
     if [ $pmoncnt1 == 1 ]
     then
-    echo "Oracle DB is still Up, stopping db by oracle user:" >> /tmp/testing1.txt
-    su - oracle -c /tmp/oraenv_fulldbsap_stop.sh {{ item }}
-    echo "Oracle DB {{ item }} is stopped on $i server:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "Oracle DB {{ item }} is started on $i server:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
-    echo "Oracle DB {{ item }} is down on $i server:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "Oracle DB {{ item }} is down on $i server:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     fi
     elif [ $db == ada ]
     then
-    echo "Server $i has MAX DB, automation can't stop maxdb, manual intervention required:" >> /tmp/testing1.txt
-    echo "----------------------------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "Server $i has MAX DB, automation can't start maxdb, manual intervention required:" >> /tmp/startstatustrack.txt
+    echo "----------------------------------------------------------------------------------" >> /tmp/startstatustrack.txt
     elif [ $db == db6 ]
     then
-    echo "Server $i has DB2 Database:" >> /tmp/testing1.txt
+    echo "Server $i has DB2 Database:" >> /tmp/startstatustrack.txt
     db2cnt=`ps -ef|grep -i db2sysc|grep -i {{ item }}|grep -v grep|wc -l`
     if [ $db2cnt == 1 ]
     then
-    echo "DB2 DB is still up, doing force DB stop:" >> /tmp/testing1.txt
-    dbuser1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
-    dbuser="${dbuser1}adm"
-    su - $dbuser -c "db2stop force"
-    echo "DB2 DB {{ item }} is stopped on $i server:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "DB2 is up:" >> /tmp/startstatustrack.txt
+    echo "DB2 DB {{ item }} is started on $i server:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
-    echo "DB2 DB {{ item }} is Down on $i server:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "DB2 DB {{ item }} is Down on $i server:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     fi
     else
-    echo "NO Oracle, MaxDb or DB2 DB Found on $i Server:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "NO Oracle, MaxDb or DB2 DB Found on $i Server:" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     fi
-    else
-    echo "{{ hname }} is not on DB Server, Application stop is sufficient:" >> /tmp/testing1.txt
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
-    fi
-    done
-  register: dbstopstatus
+  register: dbstartstatus
   #with_items: "{{ sids_list }}"
   with_items: "{{ sidd_list }}"
   when: df | int
   become: yes
   become_user: root
 
-- name: Results of DB stop status
+- name: Results of DB start status
   debug:
     msg: "{{ item }}"
-  with_items: "{{ dbstopstatus.results }}"
+  with_items: "{{ dbstartstatus.results }}"
   when: df | int
-
-- name: listcnt=`ps -ef|grep -i tnslsnr|grep -v grep|wc -l`
-  shell: ps -ef|grep -i tnslsnr|grep -v grep|wc -l
-  register: listcnt
-
-- debug:
-    msg: "{{ listcnt }}"
-
-- name: Setting fact - listcnt
-  set_fact:
-    listcnt: "{{ listcnt['stdout'] }}"
-  
-- debug:
-    msg: "{{ listcnt }}"
 
 - name: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
   debug:
     msg: "DB type is not Oracle/DB2/MAXDB,checking if it HANA DB"
   when: df | int == 0
     
-- name: "Checking HANA DB Status and proceeding DB stop"
+- name: "Checking HANA DB Status and proceeding DB start"
   shell: |
-    hdbcnt1=`ps -ef|grep -i hdbnameserver|grep -v grep|wc -l`
-    echo "HDB count is $hdbcnt1" >> /tmp/testing1.txt
+    hdbcnt1=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'|wc -l`
+    echo "HDB count is $hdbcnt1" >> /tmp/startstatustrack.txt
     if [ $hdbcnt1 == 1 ]
     then
-    hdbuser=`ps -ef|grep -i hdbnameserver|grep -v grep|awk '{print $1}'`
-    hdbsid=`echo $hdbuser|cut -c 1-3|tr '[:lower:]' '[:upper:]'`
-    echo "$hdbsid is HANA DB, DB still Up, proceeding with HDB stop"  >> /tmp/testing1.txt    
-    su - $hdbuser -c "HDB stop"
-    echo "HANA DB $hdbsid stop is successful" >> /tmp/testing1.txt 
-    echo "---------------------------------------------------------------" >> /tmp/testing1.txt
+    hdbuser=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'`
+    hdbsid="${hdbuser}adm"
+    echo "$hdbsid is HANA DB, proceeding with HDB start"  >> /tmp/startstatustrack.txt   
+    su - $hdbuser -c "HDB start"
+    echo "HANA DB $hdbsid start is successful" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
-    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is stopped" >> /tmp/testing1.txt
-    echo "----------------------------------------------------------------------" >> /tmp/testing1.txt
+    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is started" >> /tmp/startstatustrack.txt
+    echo "----------------------------------------------------------------------" >> /tmp/startstatustrack.txt
     fi
   when: df | int == 0
   register: hanastopstatus
@@ -353,7 +341,7 @@
     msg: "{{ hanastopstatus }}"
 
 - name: Registering output file
-  shell: cat /tmp/testing1.txt
+  shell: cat /tmp/startstatustrack.txt
   register : outputfinal
 
 - name: Demo set_facts final output
@@ -365,6 +353,6 @@
  
 - name: "Delicate output to bld0d server"
   lineinfile:
-    path: "/tmp/finaloutput.txt"
+    path: "/tmp/finaloutputstart.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
