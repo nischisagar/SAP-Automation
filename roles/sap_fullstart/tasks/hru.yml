@@ -132,12 +132,12 @@
 - debug:
     msg: "{{ listcnt }}"
 
-- name: dbhname=`cat /oracle/stage/dbhnmae`
-  shell: cat /oracle/stage/dbhnmae
-  register: dbhname
+#- name: dbhname=`cat /oracle/stage/dbhnmae`
+#  shell: cat /oracle/stage/dbhnmae
+#  register: dbhname
 
-- debug:
-    msg: "{{ dbhname }}"
+#- debug:
+#    msg: "{{ dbhname }}"
 
 - name: Copy DB start script to remote endpoint
   copy:
@@ -148,7 +148,7 @@
     mode: '0775'
   when: 
     - sapdatacnt | int >= 1
-    - hname == dbhname
+    - hname == "xmpsa010sdb0"
 
 - name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
@@ -157,7 +157,7 @@
   with_items: "{{ sidd_list }}"
   when: 
     - sapdatacnt | int == 1
-    - hname == dbhname
+    - hname == "xmpsa010sdb0"
   become: yes
   become_user: root 
 
@@ -171,7 +171,7 @@
   with_items: "{{ sids_list }}"
   ignore_errors: true
   when: df | int >= 1
-  when: hname != dbhname
+  when: hname != "xmpsa010sdb0"
 
 - name: Results of SAP start execution
   debug:
