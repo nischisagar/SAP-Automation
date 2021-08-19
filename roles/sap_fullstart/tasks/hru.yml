@@ -102,7 +102,7 @@
 
 - name: Check Listener status and start Listener for Oracle DB
   shell: |
-    db=`grep -i "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
     echo "DB {{ item }} is : $db" >> /tmp/startstatustrack.txt
     if [ $db == ora ]
     then
@@ -166,9 +166,10 @@
     cdb=`df -g|grep -i {{ item }}|grep -i oracle|wc -l`
     if [ $cdb >= 1 ]
     then
+    echo "cdb = $cdb" >> /tmp/startstatustrack.txt
     su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}
     else
-    echo "{{ item }} is not oracle db"
+    echo "{{ item }} is not oracle db" >> /tmp/startstatustrack.txt
     fi
   register: se0dbstart
   with_items: "{{ sidd_list }}"
