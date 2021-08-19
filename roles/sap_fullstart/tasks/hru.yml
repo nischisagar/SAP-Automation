@@ -163,10 +163,11 @@
 
 - name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
-    cdb=`df -g|grep -i {{ item }}|grep -i oracle|wc -l`
-    if [ $cdb >= 1 ]
+    db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    echo "DB {{ item }} is : $db" >> /tmp/startstatustrack.txt
+    if [ $db == ora ]
     then
-    echo "cdb = $cdb" >> /tmp/startstatustrack.txt
+    echo "DB {{ item }} is : $db" >> /tmp/startstatustrack.txt
     su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}
     else
     echo "{{ item }} is not oracle db" >> /tmp/startstatustrack.txt
