@@ -242,8 +242,6 @@ fi
 #
 # Install any "custom" code here
 #
-echo "NEWSID = $NEWSID" >> /tmp/startstatustrack.txt
-echo "listener name = $list" >> /tmp/startstatustrack.txt
 sqlplus -s sys/sys as sysdba<<EOF
 set echo off;
 set feedback off;

@@ -110,7 +110,7 @@
     echo "Listener start on $i server is successful, for {{ item }} DB:" >> /tmp/startstatustrack.txt
     echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
-    echo "{{ item }} Not oracle DB" 
+    echo "{{ item }} Not oracle DB" >> /tmp/startstatustrack.txt
     fi
   register: liststartstatus
   with_items: "{{ sidd_list }}"
@@ -119,13 +119,6 @@
   become: yes
   become_user: root
 
-- debug:
-    msg: "{{ liststartstatus }}"
-
-- name: Setting fact - listcnt
-  set_fact:
-    liststartstatus: "{{ liststartstatus['stdout'] }}"
-  
 - debug:
     msg: "{{ liststartstatus }}"
 

@@ -250,6 +250,4 @@ fi
 #shut immediate;
 #exit
 #EOF
-echo "NEWSID = $NEWSID" >> /tmp/startstatustrack.txt
-echo "listener name = $list" >> /tmp/startstatustrack.txt
 lsnrctl start $list
