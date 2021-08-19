@@ -242,6 +242,8 @@ fi
 #
 # Install any "custom" code here
 #
+echo "NEWSID = $NEWSID" > /tmp/oratempfile.txt
+echo "listener name = $list" /tmp/oratempfile.txt
 sqlplus -s sys/sys as sysdba<<EOF
 set echo off;
 set feedback off;

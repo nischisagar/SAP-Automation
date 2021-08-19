@@ -1,6 +1,6 @@
 ---
 - name: Delete temporary created files in previous this script run
-  shell: rm -f /tmp/sidfilestart_temp.txt /tmp/sidliststart_upd.txt /tmp/sidfilestart.txt /tmp/startstatustrack.txt  /tmp/SAPDBHOSTfile.txt 
+  shell: rm -f /tmp/sidfilestart_temp.txt /tmp/sidliststart_upd.txt /tmp/sidfilestart.txt /tmp/startstatustrack.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt 
   become: yes
 
 - name: check sapmnt is found or not
@@ -103,6 +103,7 @@
 - name: Check Listener status and start Listener for Oracle DB
   shell: |
     db=`grep -i "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    echo "DB {{ item }} is : $db" >> /tmp/startstatustrack.txt
     if [ $db == ora ]
     then
     su - oracle -c /tmp/oraenv_fulllistonly_start.sh {{ item }}
@@ -118,6 +119,13 @@
   become: yes
   become_user: root
 
+- debug:
+    msg: "{{ liststartstatus }}"
+
+- name: Setting fact - listcnt
+  set_fact:
+    liststartstatus: "{{ liststartstatus['stdout'] }}"
+  
 - debug:
     msg: "{{ liststartstatus }}"
 
@@ -155,7 +163,7 @@
 
 - name: Starting Oracle DB by oracle user only on xmpsa010sdb0 server
   shell: |
-    cdb=`df -g|grep -i {{ item }}|wc -l`
+    cdb=`df -g|grep -i {{ item }}|grep -i oracle|wc -l`
     if [ $cdb >= 1 ]
     then
     su - oracle -c /tmp/oraenv_fulldbsap_start.sh {{ item }}

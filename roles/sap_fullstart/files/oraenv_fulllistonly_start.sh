@@ -250,4 +250,6 @@ fi
 #shut immediate;
 #exit
 #EOF
+echo "NEWSID = $NEWSID" > /tmp/oratempfile1.txt
+echo "listener name = $list" /tmp/oratempfile1.txt
 lsnrctl start $list
