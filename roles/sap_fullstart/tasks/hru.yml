@@ -1,6 +1,6 @@
 ---
 - name: Delete temporary created files in previous this script run
-  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt
+  shell: rm -f /tmp/sidfilestart_temp.txt /tmp/sidliststart_upd.txt /tmp/sidfilestart.txt /tmp/startstatustrack.txt  /tmp/SAPDBHOSTfile.txt 
   become: yes
 
 - name: check sapmnt is found or not
@@ -51,6 +51,9 @@
   set_fact:
     sidd_list: "{{ sidd.stdout_lines | list }}"
   when: df | int >= 1
+
+- debug: 
+    msg: "{{ sidd_list }}"
 
 - name: Get sid values are in temp file
   shell: |
