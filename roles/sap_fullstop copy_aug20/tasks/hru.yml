@@ -1,6 +1,6 @@
 ---
 - name: Delete temporary created files in previous this script run
-  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt
+  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt
   become: yes
 
 - name: check sapmnt is found or not
@@ -33,7 +33,13 @@
 
 - name: Get number of SIDs
   shell: |
-    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile.txt
+    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
+    for j in `cat /tmp/sidfile_temp.txt`
+    do
+    systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
+    echo "$systype $j" >> /tmp/sidlist_upd.txt
+    done
+    cat /tmp/sidlist_upd.txt|sort -r|awk '{print $2}' > /tmp/sidfile.txt
   when: df | int >= 1
 
 - name: Get sid list
@@ -188,7 +194,7 @@
     do
     if [ $i == {{ hname }} ]
     then
-    db=`grep -i "dbms/type" /sapmnt/{{ item }}/profile/DEFAULT.PFL|awk '{print $3}'`
+    db=`grep -iE "dbms/type|j2ee/dbtype" /sapmnt/{{ item }}/profile/DEFAULT.PFL|grep -v sap|awk '{print $3}'`
     echo " DB = $db " >> /tmp/testing1.txt
     if [ $db == ora ]
     then
