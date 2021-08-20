@@ -222,7 +222,7 @@
     then
     echo "MAX DB {{ item }} STOP is Successful" >> /tmp/testing1.txt
     else
-    echo "MAX DB {{ item }} STOP is NOT Successful, manual intervention required:" >> /tmp/testing1.txt"
+    echo "MAX DB {{ item }} STOP is NOT Successful, manual intervention required:" >> /tmp/testing1.txt
     echo "----------------------------------------------------------------------------------" >> /tmp/testing1.txt
     fi
     elif [ $db == db6 ]
