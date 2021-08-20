@@ -216,7 +216,7 @@
     maxdb1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
     maxdb="${maxdb1}adm"
     su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_offline"
-    maxstate=`su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_state`
+    maxstate=`su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_state"`
     echo "maxstate = $maxstate" >> /tmp/testing1.txt
     if [ $maxstate == OFFLINE ]
     then
