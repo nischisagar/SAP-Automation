@@ -215,7 +215,7 @@
     echo "Server $i has MAX DB, automation can't stop maxdb, manual intervention required:" >> /tmp/testing1.txt
     maxdb1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
     maxdb="${maxdb1}adm"
-    su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_stop"
+    su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_offline"
     maxstate=`su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_state`
     if [ $maxstate == OFFLINE ]
     then
