@@ -213,7 +213,17 @@
     elif [ $db == ada ]
     then
     echo "Server $i has MAX DB, automation can't stop maxdb, manual intervention required:" >> /tmp/testing1.txt
+    maxdb1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
+    maxdb="${maxdb1}adm"
+    su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_stop"
+    maxstate=`su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_state`
+    if [ $maxstate == OFFLINE ]
+    then
+    echo "MAX DB {{ item }} STOP is Successful" >> /tmp/testing1.txt
+    else
+    echo "MAX DB {{ item }} STOP is NOT Successful, manual intervention required:" >> /tmp/testing1.txt"
     echo "----------------------------------------------------------------------------------" >> /tmp/testing1.txt
+    fi
     elif [ $db == db6 ]
     then
     echo "Server $i has DB2 Database:" >> /tmp/testing1.txt
