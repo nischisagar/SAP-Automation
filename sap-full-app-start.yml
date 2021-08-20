@@ -1,0 +1,7 @@
+- hosts: "{{ hname1 }}"
+  serial: 1
+  gather_facts: yes
+  roles:
+    - role: sap_fullstart
+      become: yes
+      ignore_errors: yes  
