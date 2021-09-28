@@ -1,7 +1,10 @@
 ---
 # tasks file for oracle_home_installation
 
-- name: ""
+- name: "Copy Installation dump to Oracle Home path"
+  shell: |
+    echo "copy {{ Oracle_dump_path }}/* to {{ oracle_home_value }}"
+    cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}
 
 - name: "Process Oracle Configfile Template"
   template:
