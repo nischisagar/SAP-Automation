@@ -47,7 +47,7 @@
 
 - name: "Replacing db response file"
   shell: |
-    mv {{ oracle_home_value }}install/response/db_install.rsp_`date +%d%h%y`
+    mv {{ oracle_home_value }}install/response/db_install.rsp {{ oracle_home_value }}install/response/db_install.rsp_`date +%d%h%y`
     cp -rp /tmp/db_install.rsp {{ oracle_home_value }}install/response/
     chown oracle:{{ db_group_name }} {{ oracle_home_value }}install/response/db_install.rsp
     chown 775 {{ oracle_home_value }}install/response/db_install.rsp
