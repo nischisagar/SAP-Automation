@@ -29,7 +29,7 @@
 - name: echo "actual unzip {{ item }}"
   shell: |
     cd {{ oracle_home_value }}
-    su - oracle -c "unzip {{ oracle_home_value }}{{ item }}"    
+    su - oracle -c "cd {{ oracle_home_value }};unzip {{ oracle_home_value }}{{ item }}"    
   with_items: "{{ dumpsarfiles['stdout_lines'] }}"
   register: unzip_out
 
