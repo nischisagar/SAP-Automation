@@ -5,6 +5,34 @@
   shell: |
     echo "copy {{ Oracle_dump_path }}/* to {{ oracle_home_value }}"
     cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}
+  register: copystatus
+
+- debug:
+    msg: "{{ copystatus }}"
+
+- name: cat {{ dump_file_detail }}
+  shell: cat {{ dump_file_detail }}
+  register: dumpsarfiles
+
+- debug:
+    msg: "dumpsarfiles: {{ dumpsarfiles }}"
+
+- name: echo "unzip {{ item }}"
+  debug:
+    msg: echo "unzip {{ oracle_home_value }}/{{ item }}"
+  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
+  register: unzip_check
+
+- debug:
+    msg: "{{ unzip_check }}"
+
+- name: echo "actual unzip {{ item }}"
+  shell: "unzip {{ oracle_home_value }}/{{ item }}"
+  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
+  register: unzip_out
+
+- debug:
+    msg: "{{ unzip_out }}"
 
 - name: "Process Oracle Configfile Template"
   template:
