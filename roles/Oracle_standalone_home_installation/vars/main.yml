@@ -1,0 +1,6 @@
+---
+# vars file for oracle_home_installation
+
+db_group_name: "dba"
+oracle_home_value: "/oracle/OTEST/19"
+oracle_base_value: "/oracle/OTEST"

@@ -1,0 +1,8 @@
+---
+# tasks file for oracle_home_installation
+
+- name: "Process Oracle Configfile Template"
+  template:
+    src: "{{ role_path }}/templates/db_install.rsp"
+    dest: "/tmp/db_install.rsp"
+  register: cftemplate
