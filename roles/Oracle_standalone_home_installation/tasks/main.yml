@@ -19,7 +19,7 @@
 
 - name: echo "unzip {{ item }}"
   debug:
-    msg: echo "unzip {{ oracle_home_value }}/{{ item }}"
+    msg: echo "unzip {{ oracle_home_value }}{{ item }}"
   with_items: "{{ dumpsarfiles['stdout_lines'] }}"
   register: unzip_check
 
@@ -27,7 +27,9 @@
     msg: "{{ unzip_check }}"
 
 - name: echo "actual unzip {{ item }}"
-  shell: "unzip {{ oracle_home_value }}/{{ item }}"
+  shell: |
+    cd {{ oracle_home_value }}
+    unzip {{ oracle_home_value }}{{ item }}
   with_items: "{{ dumpsarfiles['stdout_lines'] }}"
   register: unzip_out
 
