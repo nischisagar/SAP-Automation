@@ -2,6 +2,6 @@
   serial: 1
   gather_facts: yes
   roles:
-    - role: Oracle_standalone_home_installation
+    - role: sap-hostagent-update
       become: yes
       ignore_errors: yes  
