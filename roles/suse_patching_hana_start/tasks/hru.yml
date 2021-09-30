@@ -1,0 +1,45 @@
+---
+- name: Delete temporary created files in previous this script run
+  shell: rm -f /tmp/sidfilestart_temp.txt /tmp/sidliststart_upd.txt /tmp/sidfilestart.txt /tmp/startstatustrack.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt 
+  become: yes
+
+- name: "Checking HANA DB Status and proceeding DB start"
+  shell: |
+    hdbcnt1=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'|wc -l`
+    echo "HDB count is $hdbcnt1" >> /tmp/startstatustrack.txt
+    if [ $hdbcnt1 == 1 ]
+    then
+    hdbsid=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'`
+    hdbuser="${hdbsid}adm"
+    echo "$hdbsid is HANA DB, proceeding with HDB start"  >> /tmp/startstatustrack.txt   
+    su - $hdbuser -c "HDB start"
+    echo "HANA DB $hdbsid start is successful" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
+    else
+    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is started" >> /tmp/startstatustrack.txt
+    echo "----------------------------------------------------------------------" >> /tmp/startstatustrack.txt
+    fi
+  when: df | int == 0
+  register: hanastopstatus
+  become: yes
+  become_user: root
+
+- debug:
+    msg: "{{ hanastopstatus }}"
+
+- name: Registering output file
+  shell: cat /tmp/startstatustrack.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinal }}"
+ 
+- name: "Delicate output to bld0d server"
+  lineinfile:
+    path: "/tmp/finaloutputstart.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d
