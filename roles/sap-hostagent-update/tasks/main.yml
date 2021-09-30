@@ -1,2 +1,17 @@
 ---
-- import_tasks: hru.yml
+# tasks file for host_agent update
+
+- name: Hostagent Update
+  set_fact:
+    patchpath: /tmp
+
+- debug:
+    msg: "{{ patchpath }}"
+
+- name: Copy script to patchlocation
+  copy:
+    src: ./files/{{ patch_name }}
+    dest: "{{ patchpath }}/"
+    owner: root     
+    group: sapsys
+    mode: '0775'
