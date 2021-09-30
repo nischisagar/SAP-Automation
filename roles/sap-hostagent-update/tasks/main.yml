@@ -19,3 +19,8 @@
 - name: Update hostagent
   shell: |
     /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
+    /usr/sap/hostctrl/exe/saphostexec -version
+  register: hostupdate
+
+- debug:
+    msg: "{{ hostupdate }}"      
