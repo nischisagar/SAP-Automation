@@ -1,5 +1,4 @@
 - hosts: "{{ hname1 }}"
-  serial: 1
   gather_facts: yes
   roles:
     - role: sap-hostagent-update

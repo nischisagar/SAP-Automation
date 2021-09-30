@@ -15,3 +15,7 @@
     owner: root     
     group: sapsys
     mode: '0775'
+
+- name: Update hostagent
+  shell: |
+    /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
