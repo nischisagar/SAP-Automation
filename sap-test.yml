@@ -1,6 +1,6 @@
-- hosts: "{{ hname1 }}"
+- hosts: ansible_servers
   gather_facts: yes
   roles:
-    - role: sap-hostagent-update
+    - role: sap-hostagent-version
       become: yes
       ignore_errors: yes  
