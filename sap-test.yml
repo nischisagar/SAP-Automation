@@ -19,7 +19,7 @@
     - name: Add sap host agent version to report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_hname_output }},{{ item.get_make_value }},{{ item.get_patch_level }}"
+        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_make }},{{ item.get_patch }}"
       throttle: 1
       loop:
         - get_hname: "{{ get_hname_output.results[0].stdout }}"
