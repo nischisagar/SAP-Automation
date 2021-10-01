@@ -16,16 +16,3 @@
 - name: Get patch level
   shell:  "cat /tmp/test123.txt|tail -1|awk '{print $3}'"
   register: get_patch_level
-
-- name: Demo set_facts final output
-  set_fact:
-    outputfinal: "{{ outputfinal['stdout'] }}"
-  
-- debug:
-    msg: "{{ outputfinal }}"
- 
-- name: "Delicate output to bld0d server"
-  lineinfile:
-    path: "/tmp/finalhostagentoutput.txt"
-    line: "{{ outputfinal }}"
-  delegate_to: ampsv010bld0d
