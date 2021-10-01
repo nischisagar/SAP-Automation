@@ -1,6 +1,23 @@
-- hosts: "{{ hname1 }}"
+---
+- name: What whould you like to do - update hostagent or see version
+  hosts: localhost
+  vars: 
+    app_type: "{{ hostagt }}"
+
+- name: Initiating Host Agent Update operation
+  hosts: ansible_servers
+  become: yes
+  become_method: sudo
   gather_facts: yes
   roles:
-    - role: sap-hostagent-update
-      become: yes
-      ignore_errors: yes  
+  - role: sap-hostagent-update
+    when: hostagt | lower == "update"
+
+- name: Initiating check for Host Agent version
+  hosts: ansible_servers
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: sap-hostagent-version
+    when: hostagt | lower == "version"

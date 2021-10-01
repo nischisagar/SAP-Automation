@@ -1,0 +1,8 @@
+---
+- name: Check SAP HOST AGENT VERSION
+  shell: |
+    hostname;echo "-----------------------";{{ path }} -version|grep -iE "variant|patch"|tail -2;echo "============================================================================================="
+  register: hostversion
+
+- degug:
+    msg: "{{ hostversion }}"
