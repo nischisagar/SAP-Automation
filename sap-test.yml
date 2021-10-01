@@ -1,9 +1,31 @@
-- hosts: all_entity_server
-  gather_facts: yes
+---
+- name: Add the title content in to report file
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
   roles:
-    - role: sap-hostagent-version
-      become: yes
-      ignore_errors: yes  
+  - role: report-create-sap-hostagent-version-collect
+
+- name: Get the SAP HOST AGENT version from indiduval server
+  hosts: all_entity_server
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: sap-hostagent-version
+  tasks:
+    - name: Add sap host agent version to report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_hname_output }},{{ item.get_make_value }},{{ item.get_patch_level }}"
+      throttle: 1
+      loop:
+        - get_hname: "{{ get_hname_output.results[0].stdout }}"
+          get_make: "{{ get_make_value.results[0].stdout }}"
+          get_patch: "{{ get_get_patch_level.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
 
 - name: Send e-mail
   hosts: ampsv010bld0d
@@ -23,7 +45,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "/tmp/finalhostagentoutput.txt"
+        - "{{ report_file }}"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
