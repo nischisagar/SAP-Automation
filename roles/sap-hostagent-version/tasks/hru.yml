@@ -23,28 +23,3 @@
     path: "/tmp/finalhostagentoutput.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
-
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - HOST AGENT Version
-        body: Hello Team, Please find the attached total table space and DB size report from Oracle ABAP DB servers.
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan.Anbarasan@kyndryl.com
-        cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com
-        attach:
-        - "/tmp/finalhostagentoutput.txt"
-        headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
-        charset: us-ascii
-
