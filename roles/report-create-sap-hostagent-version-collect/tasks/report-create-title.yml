@@ -1,0 +1,6 @@
+---
+- name: Add the title content in to Report File
+  copy:
+    content: 'Entity Name,Kernel_Make,Patch_level'
+    dest: "{{ report_file }}"
+  run_once: yes
