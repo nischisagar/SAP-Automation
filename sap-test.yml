@@ -1,4 +1,4 @@
-- hosts: ansible_servers
+- hosts: sabre_servers
   gather_facts: yes
   roles:
     - role: sap-hostagent-version
