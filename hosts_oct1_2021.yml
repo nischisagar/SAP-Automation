@@ -1216,13 +1216,6 @@ ansible_hana_server:
   hosts:
     xmpsl010shan0:
 
-sabre_servers:
-  hosts:
-    ampsv03340pjt:
-    ampsv033bw0d:
-    ampsv03357dev:
-    ampsa033qecc0:
-
 sap_oradb_abap_host_name_win_single_sid:
   hosts:
     ampsv011grc0d:
