@@ -1,4 +1,4 @@
-- hosts: sabre_servers
+- hosts: all_entity_server
   gather_facts: yes
   roles:
     - role: sap-hostagent-version
