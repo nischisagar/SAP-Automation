@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: ibis_nonprod_servers
+  hosts: target_update_servers
   become: yes
   become_method: sudo
   gather_facts: yes
