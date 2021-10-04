@@ -1,0 +1,51 @@
+---
+- name: Delete temporary created files in previous this script run
+  shell: rm -f /tmp/stopstatustrack.txt 
+  become: yes
+
+- name: "Checking HANA DB Status and proceeding DB stop"
+  shell: |
+    hdbcnt1=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'|wc -l`
+    echo "HDB count is $hdbcnt1" >> /tmp/stopstatustrack.txt
+    if [ $hdbcnt1 == 1 ]
+    then
+    hdbsid=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'`
+    hdbuser="${hdbsid}adm"
+    echo "$hdbsid is HANA DB, proceeding with HDB stop"  >> /tmp/stopstatustrack.txt   
+    su - $hdbuser -c "HDB stop"
+    hdbcnt2=`ps -ef|grep -iE "hdbnameserver|hdbindexserver"|grep -v grep|wc -l`
+    if [ $hdbcnt2 == 2 ]
+    then
+    echo "HANA DB $hdbsid stop is not successful, , manual intervetion required" >> /tmp/stopstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/stopstatustrack.txt
+    else
+    echo "HANA DB stop is successful" >> /tmp/stopstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/stopstatustrack.txt
+    fi
+    else
+    echo "No HANA DB Running on this server" >> /tmp/stopstatustrack.txt
+    echo "----------------------------------------------------------------------" >> /tmp/stopstatustrack.txt
+    fi
+  register: hanastopstatus
+  become: yes
+  become_user: root
+
+- debug:
+    msg: "{{ hanastopstatus }}"
+
+- name: Registering output file
+  shell: cat /tmp/stopstatustrack.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinal }}"
+ 
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/tmp/hanafinaloutputstop.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d

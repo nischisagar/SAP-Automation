@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: suse_patching_hana_start
+  - role: suse_patching_hana_stop
