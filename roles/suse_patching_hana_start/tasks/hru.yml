@@ -3,12 +3,6 @@
   shell: rm -f /tmp/startstatustrack.txt 
   become: yes
 
-- name: remove and create output file in bld0d server
-  host: ampsv010bld0d
-  shell: |
-    rm -f /tmp/hanafinaloutputstart.txt
-    touch /tmp/hanafinaloutputstart.txt
-
 - name: "Checking HANA DB Status and proceeding DB start"
   shell: |
     hdbcnt1=`df -h|grep -i "/hana/data/"|awk '{print $NF}'|cut -d/ -f4|tr '[:upper:]' '[:lower:]'|wc -l`
