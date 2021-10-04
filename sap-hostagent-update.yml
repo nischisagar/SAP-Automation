@@ -1,6 +1,8 @@
-- hosts: ampsa033qecc0
+---
+- name: Update SAP Host Agent
+  hosts: ampsa033qecc0
+  become: yes
+  become_method: sudo
   gather_facts: yes
   roles:
-    - role: sap-hostagent-update
-      become: yes
-      ignore_errors: yes  
+  - role: sap-hostagent-update
