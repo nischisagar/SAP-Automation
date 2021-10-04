@@ -1,6 +1,6 @@
 ---
 - name: Delete temporary created files in previous this script run
-  shell: rm -f /tmp/sidfilestart_temp.txt /tmp/sidliststart_upd.txt /tmp/sidfilestart.txt /tmp/startstatustrack.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt 
+  shell: rm -f /tmp/startstatustrack.txt 
   become: yes
 
 - name: "Checking HANA DB Status and proceeding DB start"
@@ -13,19 +13,25 @@
     hdbuser="${hdbsid}adm"
     echo "$hdbsid is HANA DB, proceeding with HDB start"  >> /tmp/startstatustrack.txt   
     su - $hdbuser -c "HDB start"
+    hdbcnt2=`ps -ef|grep -iE "hdbnameserver|hdbindexserver"|grep -v grep|wc -l`
+    if [ $hdbcnt2 == 2 ]
+    then
     echo "HANA DB $hdbsid start is successful" >> /tmp/startstatustrack.txt
     echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
     else
-    echo "Either No Oracle, MaxDb, DB2 or HANA DB Found, or HANA DB is started" >> /tmp/startstatustrack.txt
+    echo "HANA DB Start is not successful, manual intervetion required" >> /tmp/startstatustrack.txt
+    echo "---------------------------------------------------------------" >> /tmp/startstatustrack.txt
+    fi
+    else
+    echo "No HANA DB Running on this server" >> /tmp/startstatustrack.txt
     echo "----------------------------------------------------------------------" >> /tmp/startstatustrack.txt
     fi
-  when: df | int == 0
-  register: hanastopstatus
+  register: hanastartstatus
   become: yes
   become_user: root
 
 - debug:
-    msg: "{{ hanastopstatus }}"
+    msg: "{{ hanastartstatus }}"
 
 - name: Registering output file
   shell: cat /tmp/startstatustrack.txt
@@ -40,6 +46,6 @@
  
 - name: "Delicate output to bld0d server"
   lineinfile:
-    path: "/tmp/finaloutputstart.txt"
+    path: "/tmp/hanafinaloutputstart.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d
