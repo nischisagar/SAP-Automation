@@ -1,4 +1,4 @@
-- hosts: ampsv031ecc0d
+- hosts: ampsa033qecc0
   gather_facts: yes
   roles:
     - role: sap-hostagent-update
