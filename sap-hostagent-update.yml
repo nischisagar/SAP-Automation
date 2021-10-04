@@ -1,4 +1,4 @@
-- hosts: "{{ hname1 }}"
+- hosts: ampsv031ecc0d
   gather_facts: yes
   roles:
     - role: sap-hostagent-update
