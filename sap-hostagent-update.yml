@@ -1,4 +1,4 @@
-- hosts: ibis_nonprod_servers
+- hosts: "{{ hname1 }}"
   gather_facts: yes
   roles:
     - role: sap-hostagent-update
