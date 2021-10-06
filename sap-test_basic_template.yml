@@ -1,0 +1,8 @@
+---
+- name: Add the title content in to report file
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: suse_patching_hana_stop
