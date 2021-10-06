@@ -41,3 +41,9 @@
 
 - debug:
     msg: "{{ hostupdate }}"      
+
+- name: Remove the host agent dump file
+  file:
+    path: "{{ patchpath }}/{{ patch_name }}"
+    state: absent
+  when: (tmpfree | int) >= (1 | int)
