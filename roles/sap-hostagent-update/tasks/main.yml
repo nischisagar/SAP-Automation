@@ -31,13 +31,14 @@
     owner: root     
     group: sapsys
     mode: '0775'
-  when: (tmpfree | int) >= (5 | int)
+  when: (tmpfree | int) >= (1 | int)
 
 - name: Update hostagent
   shell: |
+    /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
     /usr/sap/hostctrl/exe/saphostexec -version
   register: hostupdate
-  when: (tmpfree | int) >= (5 | int)
+  when: (tmpfree | int) >= (1 | int)
 
 - debug:
     msg: "{{ hostupdate }}"      
