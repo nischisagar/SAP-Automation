@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_update_servers
+  hosts: spike_nonprod_servers
   become: yes
   become_method: sudo
   gather_facts: yes
