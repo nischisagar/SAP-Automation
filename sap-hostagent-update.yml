@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_update_servers5
+  hosts: target_update_servergroups5
   become: yes
   become_method: sudo
   gather_facts: yes
