@@ -9,7 +9,7 @@
     msg: "{{ patchpath }}"
 
 - name: Check free space for tmp, atleast 1 GB free space should be there
-  shell: df -g {{ patchpath }}|tail -1|awk '{print $3}'|awk '{print int($0)}'
+  shell: df -m {{ patchpath }}|tail -1|awk '{print $3}'|awk '{print int($0)}'
   register: tmpfree
   ignore_errors: yes
 
@@ -31,14 +31,14 @@
     owner: root     
     group: sapsys
     mode: '0775'
-  when: (tmpfree | int) >= (1 | int)
+  when: (tmpfree | int) >= (500 | int)
 
 - name: Update hostagent
   shell: |
     /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
     /usr/sap/hostctrl/exe/saphostexec -version
   register: hostupdate
-  when: (tmpfree | int) >= (1 | int)
+  when: (tmpfree | int) >= (500 | int)
 
 - debug:
     msg: "{{ hostupdate }}"      
