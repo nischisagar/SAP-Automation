@@ -32,7 +32,6 @@
     group: sapsys
     mode: '0775'
   when: (tmpfree | int) >= (500 | int)
-  when: ansible_distribution | lower == "aix"
 
 - name: Update hostagent
   shell: |
@@ -40,7 +39,6 @@
     /usr/sap/hostctrl/exe/saphostexec -version
   register: hostupdate
   when: (tmpfree | int) >= (500 | int)
-  when: ansible_distribution | lower == "aix"
 
 - debug:
     msg: "{{ hostupdate }}"      

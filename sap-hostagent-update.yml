@@ -1,8 +1,9 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_update_servergroups
+  hosts: target_update_servergroups1
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: sap-hostagent-update
+    when: ansible_distribution | lower == "aix"
