@@ -36,7 +36,8 @@
 - name: Update hostagent
   shell: |
     /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
-    /usr/sap/hostctrl/exe/saphostexec -version
+    hostname
+    /usr/sap/hostctrl/exe/saphostexec -version|grep -iE "variant|patch"|tail -2
   register: hostupdate
   when: (tmpfree | int) >= (500 | int)
 
