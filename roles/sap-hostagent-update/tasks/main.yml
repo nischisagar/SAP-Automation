@@ -9,7 +9,7 @@
     msg: "{{ patchpath }}"
 
 - name: Check free space for tmp, atleast 1 GB free space should be there
-  shell: df -m {{ patchpath }}|tail -1|awk '{print $3}'|awk '{print int($0)}'
+  shell: df -m {{ patchpath }}|tail -1|awk '{print $4}'|awk '{print int($0)}'
   register: tmpfree
   ignore_errors: yes
 
