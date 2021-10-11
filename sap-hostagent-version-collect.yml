@@ -8,7 +8,7 @@
   - role: report-create-sap-hostagent-version-collect
 
 - name: Get the SAP HOST AGENT version from indiduval server
-  hosts: all_entity_nonprod_servers
+  hosts: all_entity_servers1
   become: yes
   become_method: sudo
   vars: 
