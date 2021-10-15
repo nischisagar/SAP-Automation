@@ -1,6 +1,6 @@
 ---
 - name: Execute oracle commands
-  hosts: target_update_servers13
+  hosts: target_update_servers_o1
   become: yes
   become_method: sudo
   gather_facts: yes
