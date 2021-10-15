@@ -1,7 +1,9 @@
-- hosts: "{{ hname1 }}"
-  serial: 1
+---
+- name: Execute oracle commands
+  hosts: target_update_servers13
+  become: yes
+  become_method: sudo
   gather_facts: yes
   roles:
-    - role: sap_fullstart
-      become: yes
-      ignore_errors: yes
+  - role: Copy-filestoSG-SAPServers
+    when: ansible_distribution | lower == "aix" 
