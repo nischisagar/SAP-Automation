@@ -28,7 +28,7 @@
   copy:
     src: ./files/{{ patch_name }}
     dest: "{{ patchpath }}/"
-    owner: oracle     
-    group: oinstall
-    mode: '0755'
+    owner: root     
+    group: sapsys
+    mode: '0777'
   when: (tmpfree | int) >= (200 | int)
