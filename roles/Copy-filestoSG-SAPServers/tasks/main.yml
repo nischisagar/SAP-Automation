@@ -32,3 +32,13 @@
     group: sapsys
     mode: '0777'
   when: (tmpfree | int) >= (200 | int)
+
+- name: unzip and set permission for collection folder
+  shell:  |
+    cd /oracle/stage;unzip /oracle/stage/Oracle_Collection_Tool.zip
+    cd /oracle/stage/Collection/bin;chmod 777 /oracle/stage/Collection/bin/*
+    ls -lrt /oracle/stage/Collection/bin/*  
+  register: unzipstatus
+
+- debug:
+    msg: "{{ unzipstatus }}"
