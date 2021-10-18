@@ -1,11 +1,13 @@
 ---
 # tasks file for oracle_home_installation
 
-- name: "Copy Installation dump to Oracle Home path"
+- name: "Update ENV to oracle user and create control file path:"
   shell: |
-    echo "copy {{ Oracle_dump_path }}/* to {{ oracle_home_value }}/"
-    #cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}/
-  register: copystatus
+    echo "export ORACLE_SID={{ dbname }}" >> /home/oracle/.profile
+    echo "export ORACLE_HOME={{ oracle_home_value }}" >> /home/oracle/.profile
+    echo "export ORACLE_BASE={{ oracle_base_value }}" >> /home/oracle/.profile
+    echo "export PATH={{ oracle_home_value }}/bin:$PATH" >> /home/oracle/.profile
+  register: updateenv
 
 - debug:
     msg: "{{ copystatus }}"
