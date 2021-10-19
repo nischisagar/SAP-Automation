@@ -39,3 +39,10 @@
 
 - debug:
     msg: "{{ scriptcopy }}"
+
+- name: Execute DB Creation script
+  shell: su - oracle -c "/oracle/stage/Oracle_DBcreation_script.sh" {{ dbname }}
+  register: dbcreatestatus
+
+- debug:
+    msg: "{{ dbcreatestatus }}"

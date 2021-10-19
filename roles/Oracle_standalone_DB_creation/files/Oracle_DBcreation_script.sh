@@ -242,10 +242,9 @@ sid="$NEWSID"
 echo "New Sid is : $sid" >> /tmp/dbcreate.txt
 
 sqlplus -s sys/sys as sysdba<<EOF
+startup nomount pfile='/oracle/stage/init_test.ora'
 spool /oracle/stage/dbcreatestatus.txt
 @/oracle/stage/create_call.sql;
 spool off
-shut immediate;
-startup
 exit
 EOF
