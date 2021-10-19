@@ -7,38 +7,14 @@
     echo "export ORACLE_HOME={{ oracle_home_value }}" >> /home/oracle/.profile
     echo "export ORACLE_BASE={{ oracle_base_value }}" >> /home/oracle/.profile
     echo "export PATH={{ oracle_home_value }}/bin:$PATH" >> /home/oracle/.profile
+    mkdir -p {{ control_file_path }}
+    chown oracle:{{ db_group_name }} {{ control_file_path }}
   register: updateenv
 
 - debug:
-    msg: "{{ copystatus }}"
+    msg: "{{ updateenv }}"
 
-- name: cat {{ dump_file_detail }}
-  shell: cat {{ dump_file_detail }}
-  register: dumpsarfiles
-
-- debug:
-    msg: "dumpsarfiles: {{ dumpsarfiles }}"
-
-- name: echo "unzip {{ item }}"
-  debug:
-    msg: echo "unzip {{ oracle_home_value }}/{{ item }}"
-  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
-  register: unzip_check
-
-- debug:
-    msg: "{{ unzip_check }}"
-
-- name: echo "actual unzip {{ item }}"
-  shell: |
-    cd {{ oracle_home_value }}
-    #su - oracle -c "cd {{ oracle_home_value }}/;unzip {{ oracle_home_value }}/{{ item }}"    
-  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
-  register: unzip_out
-
-- debug:
-    msg: "{{ unzip_out }}"
-
-- name: "Process Oracle Configfile Template"
+- name: "Process Oracle initfile Template"
   template:
     src: "{{ role_path }}/templates/db_install.rsp"
     dest: "/tmp/db_install.rsp"
