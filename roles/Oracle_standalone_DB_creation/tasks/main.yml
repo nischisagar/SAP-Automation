@@ -5,6 +5,9 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: oracle
+    group: "{{ db_group_name }}"
+    mode: '0775'
   with_items:
   - "{{ control_file_path1 }}" 
   - "{{ control_file_path2 }}"
