@@ -1,12 +1,8 @@
 ---
-# tasks file for oracle_home_installation
+# tasks file for oracle_db_creation
 
 - name: "Update ENV to oracle user and create control file path:"
   shell: |
-    echo "export ORACLE_SID={{ dbname }}" >> /home/oracle/.profile
-    echo "export ORACLE_HOME={{ oracle_home_value }}" >> /home/oracle/.profile
-    echo "export ORACLE_BASE={{ oracle_base_value }}" >> /home/oracle/.profile
-    echo "export PATH={{ oracle_home_value }}/bin:$PATH" >> /home/oracle/.profile
     mkdir -p {{ control_file_path }}
     chown oracle:{{ db_group_name }} {{ control_file_path }}
   register: updateenv
@@ -16,28 +12,24 @@
 
 - name: "Process Oracle initfile Template"
   template:
-    src: "{{ role_path }}/templates/db_install.rsp"
-    dest: "/tmp/db_install.rsp"
-  register: cftemplate
+    src: "{{ role_path }}/templates/init_test.ora"
+    dest: "/oracle/stage/"
+    owner: oracle
+    group: {{ db_group_name }}
+    mode: '0775'
+  register: initfilecopy
 
 - debug:
-    msg: "{{ cftemplate }}"
+    msg: "{{ initfilecopy }}"
 
-- name: "Replacing db response file"
-  shell: |
-    #mv {{ oracle_home_value }}/install/response/db_install.rsp {{ oracle_home_value }}/install/response/db_install.rsp_`date +%d%h%y`
-    #cp -rp /tmp/db_install.rsp {{ oracle_home_value }}/install/response/
-    #chown oracle:{{ db_group_name }} {{ oracle_home_value }}/install/response/db_install.rsp
-    #chmod 775 {{ oracle_home_value }}/install/response/db_install.rsp
-  register: dbresponse
-
-- debug:
-    msg: "{{ dbresponse }}"
-
-- name: "Proceeding with Home Installation"
-  shell: |
-    su - oracle -c "{{ oracle_home_value }}/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile {{ oracle_home_value }}/install/response/db_install.rsp < /tmp/input.txt"
-  register: homeinstall
+- name: Copy DB script to patchlocation
+  copy:
+    src: ./files/*
+    dest: "/oracle/stage/"
+    owner: oracle
+    group: {{ db_group_name }}
+    mode: '0775'
+  register: scriptcopy
 
 - debug:
-    msg: "{{ homeinstall }}"
+    msg: "{{ scriptcopy }}"
