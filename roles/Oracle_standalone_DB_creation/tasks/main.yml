@@ -8,9 +8,10 @@
   with_items:
   - "{{ control_file_path1 }}" 
   - "{{ control_file_path2 }}"
+  register: createctrlpath
 
 - debug:
-    msg: "{{ updateenv }}"
+    msg: "{{ createctrlpath }}"
 
 - name: "Process Oracle initfile Template"
   template:
