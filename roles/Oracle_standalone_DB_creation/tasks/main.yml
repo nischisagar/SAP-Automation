@@ -22,7 +22,7 @@
     mode: '0775'
   with_items:
   - create_call.sql
-  - Oracle_DBcreation_script.sh
+  - init_test.ora
   register: initfilecopy
 
 - debug:
