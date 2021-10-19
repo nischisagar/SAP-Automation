@@ -243,7 +243,7 @@ echo "New Sid is : $sid" >> /tmp/dbcreate.txt
 
 sqlplus -s sys/sys as sysdba<<EOF
 spool /oracle/stage/dbcreatestatus.txt
-@/oracle/stage/create_db.sql;
+@/oracle/stage/create_call.sql;
 spool off
 shut immediate;
 startup

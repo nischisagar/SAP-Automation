@@ -53,16 +53,16 @@
 db_name='{{ dbname }}'
 memory_target=1G
 processes=150
-audit_file_dest=''{{ oracle_base_value }}'admin/otest/adump'
+audit_file_dest='{{ oracle_base_value }}admin/otest/adump'
 audit_trail='db'
 db_block_size=8192
 db_domain=''
 diagnostic_dest='{{ oracle_base_value }}'
-dispatchers='(PROTOCOL=TCP) (SERVICE=OTESTXDB)'
+dispatchers='(PROTOCOL=TCP) (SERVICE={{ dbname }}XDB)'
 open_cursors=300
 remote_login_passwordfile='EXCLUSIVE'
 undo_tablespace='UNDO'
-control_files=''{{ oracle_base_value }}'origlogA/cntrl/cntrlOTEST.dbf',''{{ oracle_base_value }}'mirrlogB/cntrl/cntrlOTEST.dbf'
+control_files='{{ oracle_base_value }}origlogA/cntrl/cntrl{{ dbname }}.dbf','{{ oracle_base_value }}mirrlogB/cntrl/cntrl{{ dbname }}.dbf'
 compatible='19.0.0'
 undo_management=auto
 instance_name='{{ dbname }}'
