@@ -1,9 +1,9 @@
 ---
-- name: Execute oracle commands
-  hosts: target_update_servers_o6
+- name: Execute db create commands
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: Copy-filestoSG-SAPServers
+  - role: Oracle_standalone_DB_creation
     when: ansible_distribution | lower == "aix" 
