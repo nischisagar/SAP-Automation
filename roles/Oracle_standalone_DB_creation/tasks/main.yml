@@ -15,7 +15,7 @@
 
 - name: "Process Oracle initfile Template"
   template:
-    src: "{{ role_path }}/templates/init_test.ora"
+    src: "{{ role_path }}/templates/"
     dest: "/oracle/stage/"
     owner: oracle
     group: "{{ db_group_name }}"
