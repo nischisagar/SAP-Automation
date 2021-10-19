@@ -24,7 +24,7 @@
 
 - name: Copy DB script to patchlocation
   copy:
-    src: ./files/*
+    src: ./files/{{ * }}
     dest: "/oracle/stage/"
     owner: oracle
     group: "{{ db_group_name }}"
