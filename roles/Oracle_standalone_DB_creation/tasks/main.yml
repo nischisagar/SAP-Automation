@@ -24,14 +24,11 @@
 
 - name: Copy DB script to patchlocation
   copy:
-    src: ./files/{{ item }}
+    src: ./files/
     dest: "/oracle/stage/"
     owner: oracle
     group: "{{ db_group_name }}"
     mode: '0775'
-  with_items:
-  - create_call.sql
-  - Oracle_DBcreation_script.sh
   register: scriptcopy
 
 - debug:
