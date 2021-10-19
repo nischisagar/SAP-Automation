@@ -1,11 +1,13 @@
 ---
 # tasks file for oracle_db_creation
 
-- name: "Update ENV to oracle user and create control file path:"
-  shell: |
-    mkdir -p {{ control_file_path }}
-    chown oracle:{{ db_group_name }} {{ control_file_path }}
-  register: updateenv
+- name: Creates directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - "{{ control_file_path1 }}" 
+  - "{{ control_file_path2 }}"
 
 - debug:
     msg: "{{ updateenv }}"
