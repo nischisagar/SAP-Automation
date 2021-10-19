@@ -20,6 +20,9 @@
     owner: oracle
     group: "{{ db_group_name }}"
     mode: '0775'
+  with_items:
+  - create_call.sql
+  - Oracle_DBcreation_script.sh
   register: initfilecopy
 
 - debug:
