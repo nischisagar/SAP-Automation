@@ -15,7 +15,7 @@
     src: "{{ role_path }}/templates/init_test.ora"
     dest: "/oracle/stage/"
     owner: oracle
-    group: {{ db_group_name }}
+    group: "{{ db_group_name }}"
     mode: '0775'
   register: initfilecopy
 
@@ -27,7 +27,7 @@
     src: ./files/*
     dest: "/oracle/stage/"
     owner: oracle
-    group: {{ db_group_name }}
+    group: "{{ db_group_name }}"
     mode: '0775'
   register: scriptcopy
 
