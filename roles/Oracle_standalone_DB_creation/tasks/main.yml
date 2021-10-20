@@ -42,6 +42,3 @@
     - 
       name: "test become"
       shell: /oracle/stage/Oracle_DBcreation_script.sh
-
-- debug:
-    msg: "{{ dbcreatestatus }}"
