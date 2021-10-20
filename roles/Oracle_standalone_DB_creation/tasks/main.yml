@@ -32,15 +32,16 @@
 - debug:
     msg: "{{ initfilecopy }}"
 
-- name: Execute DB Creation script
-  become: yes
-  become_user:  oracle
+  become: true
+  become_flags: "-c"
   become_method: su
-  become_flags: '-c'
-  tasks: 
-    - name: test become
-      shell:  "/oracle/stage/Oracle_DBcreation_script.sh"
+  become_user: oracle
+  name: "Execute DB Creation script"
   register: dbcreatestatus
+  tasks: 
+    - 
+      name: "test become"
+      shell: /oracle/stage/Oracle_DBcreation_script.sh
 
 - debug:
     msg: "{{ dbcreatestatus }}"
