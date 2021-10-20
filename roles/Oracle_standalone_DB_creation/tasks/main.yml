@@ -33,7 +33,13 @@
     msg: "{{ initfilecopy }}"
 
 - name: Execute DB Creation script
-  shell: su - oracle -c "/oracle/stage/Oracle_DBcreation_script.sh"
+  become: yes
+  become_user:  oracle
+  become_method: su
+  become_flags: '-c'
+  tasks: 
+    - name: test become
+      shell:  "/oracle/stage/Oracle_DBcreation_script.sh"
   register: dbcreatestatus
 
 - debug:
