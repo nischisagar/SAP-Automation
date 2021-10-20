@@ -1,12 +1,16 @@
 --- 
-- 
-  become: true
-  become_method: sudo
-  gather_facts: true
-  hosts: "{{ hname1 }}"
-  name: "Execute db create commands"
-  roles: 
-    - Oracle_standalone_home_installation
-    - Oracle_standalone_DB_creation
-    - 
-      ignore_errors: true
+- hosts: "{{ hname1 }}"
+  serial: 1
+  gather_facts: yes
+  roles:
+    - role: Oracle_standalone_home_installation
+      become: yes
+      ignore_errors: yes  
+
+- hosts: "{{ hname1 }}"
+  serial: 1
+  gather_facts: yes
+  roles:
+    - role: Oracle_standalone_DB_creation
+      become: yes
+      ignore_errors: yes  
