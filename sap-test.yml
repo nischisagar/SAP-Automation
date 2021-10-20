@@ -1,11 +1,14 @@
----
-- name: Execute db create commands
-  hosts: "{{ hname1 }}"
-  become: yes
+--- 
+- 
+  become: true
   become_method: sudo
-  gather_facts: yes
-  roles:
+  gather_facts: true
+  hosts: "{{ hname1 }}"
+  name: "Execute db create commands"
+  roles: 
     - Oracle_standalone_home_installation
     - Oracle_standalone_DB_creation
-    - when: ansible_distribution | lower == "aix" 
-    - ignore_errors: yes
+    - 
+      when: "ansible_distribution | lower == \"aix\""
+    - 
+      ignore_errors: true
