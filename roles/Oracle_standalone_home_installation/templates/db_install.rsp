@@ -179,7 +179,7 @@ oracle.install.db.config.starterdb.globalDBName=
 #-------------------------------------------------------------------------------
 # Specify the Starter Database SID.
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.SID=
+oracle.install.db.config.starterdb.SID={{ dbname }}
 
 #-------------------------------------------------------------------------------
 # Specify whether the database should be configured as a Container database.
