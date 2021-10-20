@@ -31,22 +31,22 @@ oracle.install.option=INSTALL_DB_SWONLY
 #-------------------------------------------------------------------------------
 # Specify the Unix group to be set for the inventory directory.
 #-------------------------------------------------------------------------------
-UNIX_GROUP_NAME={{ db_group_name }}
+UNIX_GROUP_NAME=dba
 
 #-------------------------------------------------------------------------------
 # Specify the location which holds the inventory files.
 # This is an optional parameter if installing on
 # Windows based Operating System.
 #-------------------------------------------------------------------------------
-INVENTORY_LOCATION=
+INVENTORY_LOCATION=/oracle/oraInventory
 #-------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Home.
 #-------------------------------------------------------------------------------
-ORACLE_HOME={{ oracle_home_value }}
+ORACLE_HOME=/oracle/OTEST/19
 #-------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Base.
 #-------------------------------------------------------------------------------
-ORACLE_BASE={{ oracle_base_value }}
+ORACLE_BASE=/oracle/OTEST/
 
 #-------------------------------------------------------------------------------
 # Specify the installation edition of the component.
@@ -75,33 +75,33 @@ oracle.install.db.InstallEdition=EE
 #------------------------------------------------------------------------------
 # The OSDBA_GROUP is the OS group which is to be granted SYSDBA privileges.
 #-------------------------------------------------------------------------------
-oracle.install.db.OSDBA_GROUP={{ db_group_name }}
+oracle.install.db.OSDBA_GROUP=dba
 
 #------------------------------------------------------------------------------
 # The OSOPER_GROUP is the OS group which is to be granted SYSOPER privileges.
 # The value to be specified for OSOPER group is optional.
 #------------------------------------------------------------------------------
-oracle.install.db.OSOPER_GROUP={{ db_group_name }}
+oracle.install.db.OSOPER_GROUP=dba
 
 #------------------------------------------------------------------------------
 # The OSBACKUPDBA_GROUP is the OS group which is to be granted SYSBACKUP privileges.
 #------------------------------------------------------------------------------
-oracle.install.db.OSBACKUPDBA_GROUP={{ db_group_name }}
+oracle.install.db.OSBACKUPDBA_GROUP=dba
 
 #------------------------------------------------------------------------------
 # The OSDGDBA_GROUP is the OS group which is to be granted SYSDG privileges.
 #------------------------------------------------------------------------------
-oracle.install.db.OSDGDBA_GROUP={{ db_group_name }}
+oracle.install.db.OSDGDBA_GROUP=dba
 
 #------------------------------------------------------------------------------
 # The OSKMDBA_GROUP is the OS group which is to be granted SYSKM privileges.
 #------------------------------------------------------------------------------
-oracle.install.db.OSKMDBA_GROUP={{ db_group_name }}
+oracle.install.db.OSKMDBA_GROUP=dba
 
 #------------------------------------------------------------------------------
 # The OSRACDBA_GROUP is the OS group which is to be granted SYSRAC privileges.
 #------------------------------------------------------------------------------
-oracle.install.db.OSRACDBA_GROUP={{ db_group_name }}
+oracle.install.db.OSRACDBA_GROUP=dba
 ################################################################################
 #                                                                              #
 #                      Root script execution configuration                     #
@@ -179,7 +179,7 @@ oracle.install.db.config.starterdb.globalDBName=
 #-------------------------------------------------------------------------------
 # Specify the Starter Database SID.
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.SID={{ dbname }}
+oracle.install.db.config.starterdb.SID=OTEST
 
 #-------------------------------------------------------------------------------
 # Specify whether the database should be configured as a Container database.
@@ -248,17 +248,17 @@ oracle.install.db.config.starterdb.installExampleSchemas=
 # This variable holds the password that is to be used for all schemas in the
 # starter database.
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.password.ALL=
+oracle.install.db.config.starterdb.password.ALL=o2source
 
 #-------------------------------------------------------------------------------
 # Specify the SYS password for the starter database.
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.password.SYS=
+oracle.install.db.config.starterdb.password.SYS=o2source
 
 #-------------------------------------------------------------------------------
 # Specify the SYSTEM password for the starter database.
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.password.SYSTEM=
+oracle.install.db.config.starterdb.password.SYSTEM=o2source
 
 #-------------------------------------------------------------------------------
 # Specify the DBSNMP password for the starter database.

@@ -7,3 +7,4 @@
   roles:
   - role: Oracle_standalone_home_installation
     when: ansible_distribution | lower == "aix" 
+    ignore_errors: yes
