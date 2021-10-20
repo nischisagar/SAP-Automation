@@ -4,7 +4,7 @@
 - name: "Copy Installation dump to Oracle Home path"
   shell: |
     echo "copy {{ Oracle_dump_path }}/* to {{ oracle_home_value }}/"
-    #cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}/
+    cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}/
   register: copystatus
 
 - debug:
@@ -29,7 +29,7 @@
 - name: echo "actual unzip {{ item }}"
   shell: |
     cd {{ oracle_home_value }}
-    #su - oracle -c "cd {{ oracle_home_value }}/;unzip {{ oracle_home_value }}/{{ item }}"    
+    su - oracle -c "cd {{ oracle_home_value }}/;unzip {{ oracle_home_value }}/{{ item }}"    
   with_items: "{{ dumpsarfiles['stdout_lines'] }}"
   register: unzip_out
 
@@ -39,7 +39,7 @@
 - name: "Process Oracle Configfile Template"
   template:
     src: "{{ role_path }}/templates/db_install.rsp"
-    dest: "/tmp/db_install.rsp"
+    dest: "/oracle/stage/db_install.rsp"
   register: cftemplate
 
 - debug:
@@ -47,10 +47,10 @@
 
 - name: "Replacing db response file"
   shell: |
-    #mv {{ oracle_home_value }}/install/response/db_install.rsp {{ oracle_home_value }}/install/response/db_install.rsp_`date +%d%h%y`
-    #cp -rp /tmp/db_install.rsp {{ oracle_home_value }}/install/response/
-    #chown oracle:{{ db_group_name }} {{ oracle_home_value }}/install/response/db_install.rsp
-    #chmod 775 {{ oracle_home_value }}/install/response/db_install.rsp
+    mv {{ oracle_home_value }}/install/response/db_install.rsp {{ oracle_home_value }}/install/response/db_install.rsp_`date +%d%h%y`
+    cp -rp /oracle/stage/db_install.rsp {{ oracle_home_value }}/install/response/
+    chown oracle:{{ db_group_name }} {{ oracle_home_value }}/install/response/db_install.rsp
+    chmod 775 {{ oracle_home_value }}/install/response/db_install.rsp
   register: dbresponse
 
 - debug:
@@ -58,6 +58,7 @@
 
 - name: "Proceeding with Home Installation"
   shell: |
+    {{ oracle_home_value }}/clone/rootpre.sh
     su - oracle -c "{{ oracle_home_value }}/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile {{ oracle_home_value }}/install/response/db_install.rsp < /tmp/input.txt"
   register: homeinstall
 
