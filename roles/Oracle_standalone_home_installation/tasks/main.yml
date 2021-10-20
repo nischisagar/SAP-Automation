@@ -59,8 +59,20 @@
 - name: "Proceeding with Home Installation"
   shell: |
     {{ oracle_home_value }}/clone/rootpre.sh
-    su - oracle -c "{{ oracle_home_value }}/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile {{ oracle_home_value }}/install/response/db_install.rsp < /tmp/input.txt"
+    su - oracle -c "{{ oracle_home_value }}/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile {{ oracle_home_value }}/install/response/db_install.rsp < /tmp/input.txt" > /oracle/stage/homeinstall.txt
+ 
+- name: "Validating home install status"
+  shell:  cat /oracle/stage/homeinstall.txt
   register: homeinstall
 
 - debug:
     msg: "{{ homeinstall }}"
+
+- name: Executing root scripts
+  shell:  |
+    /oracle/oraInventory/orainstRoot.sh
+    /oracle/OTEST/19/root.sh
+  register: rootscript
+
+- debug:
+    msg:  "{{ rootscript }}"
