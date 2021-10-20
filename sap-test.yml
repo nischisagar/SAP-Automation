@@ -5,5 +5,6 @@
   become_method: sudo
   gather_facts: yes
   roles:
+  - role: Oracle_standalone_home_installation
   - role: Oracle_standalone_DB_creation
     when: ansible_distribution | lower == "aix" 
