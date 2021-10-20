@@ -9,6 +9,6 @@
     - Oracle_standalone_home_installation
     - Oracle_standalone_DB_creation
     - 
-      when: "ansible_distribution | lower == \"aix\""
+      when: "ansible_distribution | lower == aix"
     - 
       ignore_errors: true
