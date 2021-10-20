@@ -26,25 +26,14 @@
   with_items:
   - create_call.sql
   - init_test.ora
+  - Oracle_DBcreation_script.sh
   register: initfilecopy
 
 - debug:
     msg: "{{ initfilecopy }}"
 
-- name: Copy DB script to patchlocation
-  copy:
-    src: ./files/
-    dest: "/oracle/stage/"
-    owner: oracle
-    group: "{{ db_group_name }}"
-    mode: '0775'
-  register: scriptcopy
-
-- debug:
-    msg: "{{ scriptcopy }}"
-
 - name: Execute DB Creation script
-  shell: su - oracle -c "/oracle/stage/Oracle_DBcreation_script.sh" {{ dbname }}
+  shell: su - oracle -c "/oracle/stage/Oracle_DBcreation_script.sh"
   register: dbcreatestatus
 
 - debug:
