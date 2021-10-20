@@ -7,5 +7,5 @@
   roles:
     - Oracle_standalone_home_installation
     - Oracle_standalone_DB_creation
-    when: ansible_distribution | lower == "aix" 
-    ignore_errors: yes
+    - when: ansible_distribution | lower == "aix" 
+    - ignore_errors: yes
