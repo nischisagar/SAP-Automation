@@ -18,6 +18,9 @@
   args:
     chdir: 'C:\Program Files\SAP\hostctrl\exe'
   register: host_version
+  become: yes
+  become_method: runas
+  become_user: system
 
 - debug:
     msg: "{{ host_version }}"     
