@@ -25,10 +25,14 @@
 - debug:
     msg: "{{ host_version.stdout_lines }}"   
 
-- debug:
-    msg:  "{{ sapcar_path }}"
+- name: Uncar SAPHOST AGENT Dump
+  win_command:  SAPCAR.exe -xvf {{ patch_name }}
+  args:
+    chdir: 'K:\saphostagent\'
+  register: host_uncar
+  become: yes
+  become_method: runas
+  become_user: system
 
-- name: Copy SAPCAR to patchlocation
-  win_copy:
-    src:  C:\test\kalai.txt
-    dest: 'K:\saphostagent\'  
+- debug:
+    msg: "{{ host_uncar.stdout_lines }}"
