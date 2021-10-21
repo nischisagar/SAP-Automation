@@ -10,7 +10,7 @@
 
 - name: Copy host agent dump to patchlocation
   win_copy:
-    src: "files/{{ patch_name }}"
+    src: "files/"
     dest: 'K:\saphostagent\'
 
 - name: Check hostagent version
