@@ -10,7 +10,7 @@
 
 - name: Copy dump to patchlocation
   ansible.windows.win_copy:
-    src: ./files/{{ patch_name }}
+    src:  files/{{ patch_name }}
     dest: K:\saphostagent\
 
 - name: Check hostagent version
