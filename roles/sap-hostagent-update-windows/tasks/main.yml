@@ -14,7 +14,7 @@
     dest: 'K:\saphostagent\'
 
 - name: Check hostagent version
-  win_command: 'C:\Program Files\SAP\hostctrl\exe\saphostexec.exe -version'
+  win_command: "C:\Program Files\SAP\hostctrl\exe\saphostexec.exe -version"
   #args:
     #chdir: ''
   register: host_version
