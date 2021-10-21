@@ -23,4 +23,4 @@
   become_user: system
 
 - debug:
-    msg: "{{ host_version }}"     
+    msg: "{{ host_version.stdout_lines }}"     
