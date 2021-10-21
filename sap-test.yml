@@ -2,6 +2,9 @@
 - hosts: "{{ hname1 }}"
   serial: 1
   gather_facts: false
+  become: yes
+  become_method: runas
+  become_user: system
   roles:
     - role: sap-hostagent-update-windows
       ignore_errors: yes  
