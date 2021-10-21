@@ -36,3 +36,16 @@
 
 - debug:
     msg: "{{ host_uncar.stdout_lines }}"
+
+- name: Update Host Agent to target version
+  win_command:  saphostexec.exe -upgrade
+  args:
+    chdir: 'K:\saphostagent\'
+  register: host_update
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_update.stdout_lines }}"
+
