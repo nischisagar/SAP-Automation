@@ -5,7 +5,7 @@
   become_user: system
   gather_facts: false
   vars:
-    acc_id: "sgi"
+    account_code: "sgi"
     trans_num: "{{ tower_job_id }}"
   roles:
     - role: sap-hostagent-update-windows
