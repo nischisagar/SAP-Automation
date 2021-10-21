@@ -30,5 +30,5 @@
 
 - name: Copy SAPCAR to patchlocation
   win_copy:
-    src:  "{{ sapcar_path }}"
+    src:  C:\test\kalai.txt
     dest: 'K:\saphostagent\'  
