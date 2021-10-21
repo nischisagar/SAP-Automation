@@ -30,5 +30,5 @@
 
 - name: Copy SAPCAR to patchlocation
   win_copy:
-    src: "{{ sapcar_path }}"\SAPCAR.exe
+    src: '{{ sapcar_path }}'\SAPCAR.exe
     dest: 'K:\saphostagent\'  
