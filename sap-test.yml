@@ -1,10 +1,13 @@
 --- 
 - hosts: "{{ hname1 }}"
-  serial: 1
-  gather_facts: false
   become: yes
   become_method: runas
   become_user: system
+  gather_facts: false
+  vars:
+    acc_id: "sgi"
+    trans_num: "{{ tower_job_id }}"
   roles:
     - role: sap-hostagent-update-windows
       ignore_errors: yes  
+      
