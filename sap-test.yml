@@ -3,6 +3,6 @@
   serial: 1
   gather_facts: yes
   roles:
-    - role: Oracle_standalone_DB_creation
+    - role: sap-hostagent-update-windows
       become: yes
       ignore_errors: yes  
