@@ -24,3 +24,8 @@
 
 - debug:
     msg: "{{ host_version.stdout_lines }}"     
+
+- name: Remove host agent dump file, if present
+  win_file:
+    path: 'K:\saphostagent\{{ patch_name }}'
+    state: absent
