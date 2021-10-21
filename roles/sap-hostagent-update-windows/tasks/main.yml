@@ -8,13 +8,13 @@
 - debug:
     msg: "{{ patchpath }}"
 
-- name: Copy dump to patchlocation
-  ansible.windows.win_copy:
-    src:  files/{{ patch_name }}
-    dest: K:\saphostagent\
+- name: Copy host agent dump to patchlocation
+  win_copy:
+    src: "files/{{ patch_name }}"
+    dest: 'K:\saphostagent\'
 
 - name: Check hostagent version
-  ansible.windows.win_command: saphostexec.exe -version
+  win_shell: saphostexec.exe -version
   args:
     chdir: C:\Program Files\SAP\hostctrl\exe\
   register: host_version
