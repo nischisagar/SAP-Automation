@@ -11,7 +11,7 @@
 - name: Copy dump to patchlocation
   ansible.windows.win_copy:
     src: ./files/{{ patch_name }}
-    dest: "{{ patchpath }}/"
+    dest: "{{ patchpath }}"
 
 - name: Check hostagent version
   ansible.windows.win_command: saphostexec.exe -version
