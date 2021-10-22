@@ -10,15 +10,38 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: "{{ hname1 }}"
+- name: Create the Global report file
+  hosts: windows_report_server
   become: yes
   become_method: runas
   become_user: system
-  gather_facts: false
+  tasks:
+    - name: Create the global report file
+      win_copy:
+        content: 'Entity Name,Host_name,Kernel_Make,Patch_level'
+        dest: "{{ report_file }}"
+      run_once: yes
+
+- name: Prepare output file for saphost agent version details
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: runas
+  become_user: system
   vars:
     account_code: "sgi"
     trans_num: "{{ tower_job_id }}"
   roles:
-    - role: sap-hostagent-version-collect-windows
-      ignore_errors: yes  
+  - role: sap-hostagent-version-collect-windows
+  tasks:
+    - name: Add the details to global report file
+      win_lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_hbase }},{{ item.get_patch }}"
+      throttle: 1
+      loop:
+        - get_hname: "{{ host_version.results[0].stdout | trim }}"
+          get_hbase: "{{ host_uncar.results[0].stdout | trim }}"
+          get_patch: "{{ host_update.results[0].stdout | trim }}"
+      delegate_to: ampsw010saba0 
       
+
