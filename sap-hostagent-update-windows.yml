@@ -1,0 +1,24 @@
+--- 
+- name: Ensure Socks tunnel setup
+  hosts: "{{ hname1 }}"
+  gather_facts: no
+  roles:
+  - role: ansible-role-event-socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- hosts: "{{ hname1 }}"
+  become: yes
+  become_method: runas
+  become_user: system
+  gather_facts: false
+  vars:
+    account_code: "sgi"
+    trans_num: "{{ tower_job_id }}"
+  roles:
+    - role: sap-hostagent-update-windows
+      ignore_errors: yes  
+      
