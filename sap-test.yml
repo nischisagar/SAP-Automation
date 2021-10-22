@@ -19,6 +19,6 @@
     account_code: "sgi"
     trans_num: "{{ tower_job_id }}"
   roles:
-    - role: sap-hostagent-update-windows
+    - role: sap-hostagent-version-collect-windows
       ignore_errors: yes  
       
