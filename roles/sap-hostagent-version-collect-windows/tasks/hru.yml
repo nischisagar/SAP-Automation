@@ -11,5 +11,47 @@
   become_user: system
   register: hostversion_detail
 
+- name: Get target server hostname 
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[0]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: thostname
+
 - debug:
-    msg: "{{ hostversion_detail.stdout_lines }}"
+    msg: "{{ thostname.stdout_lines }}"
+
+- name: Get Hostagent base version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[1]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostbase
+
+- debug:
+    msg: "{{ hostbase.stdout_lines }}"
+
+- name: Get Hostagent patch version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[2]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostpatch
+
+- debug:
+    msg: "{{ hostpatch.stdout_lines }}"
