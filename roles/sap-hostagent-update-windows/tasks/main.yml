@@ -59,6 +59,15 @@
 - debug:
     msg: "{{ host_update.stdout_lines }}"
 
+- name: Display Latest hostagent version
+  win_command: saphostexec.exe -version
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  register: host_version
+  become: yes
+  become_method: runas
+  become_user: system
+
 - name: Remove directory saphostagent under c drive 
   win_file:
     path: '{{ patchpath }}'
