@@ -24,7 +24,7 @@
   register: thostname
 
 - debug:
-    msg: "{{ thostname.stdout_lines }}"
+    msg: "{{ thostname }}"
 
 - name: Get Hostagent base version
   win_shell: |
@@ -39,7 +39,7 @@
   register: hostbase
 
 - debug:
-    msg: "{{ hostbase.stdout_lines }}"
+    msg: "{{ hostbase }}"
 
 - name: Get Hostagent patch version
   win_shell: |
@@ -54,4 +54,4 @@
   register: hostpatch
 
 - debug:
-    msg: "{{ hostpatch.stdout_lines }}"
+    msg: "{{ hostpatch }}"
