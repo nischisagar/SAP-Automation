@@ -1,0 +1,51 @@
+---
+# tasks file for host_agent update
+
+- name: Hostagent Update
+  set_fact:
+    patchpath: K:\saphostagent\
+
+- debug:
+    msg: "{{ patchpath }}"
+
+- name: Copy host agent dump to patchlocation
+  win_copy:
+    src: "files/"
+    dest: 'K:\saphostagent\'
+
+- name: Check hostagent version
+  win_command: saphostexec.exe -version
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  register: host_version
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_version.stdout_lines }}"   
+
+- name: Uncar SAPHOST AGENT Dump
+  win_command:  SAPCAR.exe -xvf {{ patch_name }}
+  args:
+    chdir: 'K:\saphostagent\'
+  register: host_uncar
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_uncar.stdout_lines }}"
+
+- name: Update Host Agent to target version
+  win_command:  saphostexec.exe -upgrade
+  args:
+    chdir: 'K:\saphostagent\'
+  register: host_update
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_update.stdout_lines }}"
+
