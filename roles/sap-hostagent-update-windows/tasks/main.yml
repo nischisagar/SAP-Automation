@@ -13,3 +13,7 @@
     path: 'K:\saphostagent\'
     state: absent
 
+- name: Remove host agent dump file, if present
+  win_file:
+    path: '{{ patchpath }}'
+    state: directory
