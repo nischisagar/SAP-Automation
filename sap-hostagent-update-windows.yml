@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: "{{ hname1 }}"
+  hosts: target_update_servers_w2
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: "{{ hname1 }}"
+- hosts: target_update_servers_w2
   become: yes
   become_method: runas
   become_user: system
