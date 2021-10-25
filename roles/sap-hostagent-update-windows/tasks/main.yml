@@ -63,10 +63,13 @@
   win_command: saphostexec.exe -version
   args:
     chdir: 'C:\Program Files\SAP\hostctrl\exe'
-  register: host_version
+  register: host_version1
   become: yes
   become_method: runas
   become_user: system
+
+- debug:
+    msg: "{{ host_version1.stdout_lines }}"  
 
 - name: Remove directory saphostagent under c drive 
   win_file:
