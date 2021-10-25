@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: target_update_servers_w6
+  hosts: target_update_servers_u3
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_update_servers_w6
+  hosts: target_update_servers_u3
   become: yes
   become_method: runas
   become_user: system
