@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: target_update_servers_w5
+- hosts: target_update_servers_u1
   become: yes
   become_method: runas
   become_user: system
