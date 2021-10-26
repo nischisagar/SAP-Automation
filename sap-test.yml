@@ -1,47 +1,28 @@
---- 
-- name: Ensure Socks tunnel setup
-  hosts: target_update_servers_w1
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
-- name: Create the Global report file
-  hosts: windows_report_server
+---
+- name: Add the title content in to report file
+  hosts: ampsv010bld0d
   become: yes
-  become_method: runas
-  become_user: system
-  tasks:
-    - name: Create the global report file
-      win_copy:
-        content: 'Entity Name,Host_name,Kernel_Make,Patch_level'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Prepare output file for saphost agent version details
-  hosts: target_update_servers_w1
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
+  become_method: sudo
+  gather_facts: false
   roles:
-  - role: sap-hostagent-version-collect-windows
+  - role: report-create-sap-hostagent-version-collect
+
+- name: Get the SAP CRYPTO version from indiduval server
+  hosts: all_entity_servers3
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: sap-hostagent-version
   tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
+    - name: Add sap CRYPTO version to report File.
+      lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_hbase }},{{ item.get_patch }}"
+        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_make }},{{ item.get_patch }}"
       throttle: 1
       loop:
-        - get_hname: "{{ thostname.results[0].stdout | trim }}"
-          get_hbase: "{{ hostbase.results[0].stdout | trim }}"
-          get_patch: "{{ hostpatch.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0 
-      
-
+        - get_hname: "{{ get_hname_output.results[0].stdout }}"
+          get_make: "{{ get_make_value.results[0].stdout }}"
+          get_patch: "{{ get_patch_level.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
