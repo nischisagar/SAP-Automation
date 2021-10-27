@@ -1,24 +1,30 @@
 ---
-- name: Check SAP HOST AGENT VERSION
-  shell: |
-    su - {{ item.name }} -c "hostname > /tmp/crypto-{{ item.name }}.txt"
-    su - {{ item.name }} -c "env|grep -i DB_SID|cut -d"=" -f2 >> /tmp/crypto-{{ item.name }}.txt"
-    su - {{ item.name }} -c "sapgenpse|grep -i CommoncryptoLib|tail -1|awk '{print $2}' >> /tmp/crypto-{{ item.name }}.txt"
-    cat /tmp/crypto-{{ item.name }}.txt
-  loop: "{{ sid_adm_usr_oradb_abap }}"
+- name: Find number of SID present
+  shell:  |
+    a=`df -g|grep -i sapmnt|awk '{print $NF}'|cut -d"/" -f3|awk '{print tolower($0)}'`
+    for i in $a
+    do
+    b="$i""adm"
+    echo $b >> /tmp/siduserlist.txt
+    done
+    chmod 775 /tmp/siduserlist.txt
+    for j in `cat /tmp/siduserlist.txt`
+    do
+    su - $j -c "hostname >> /tmp/crypto-$j.txt"
+    su - $j -c "env|grep -i DB_SID|cut -d"=" -f2 >> /tmp/crypto-$j.txt"
+    su - $j -c "sapgenpse|grep -i CommoncryptoLib|tail -1|awk '{print $2}' >> /tmp/crypto-$j.txt"
+    done
+    usercnt=`cat /tmp/siduserlist.txt|wc -l|awk '{print $0}'`
+    echo $usercnt
+    userdiff=`expr 5 - $usercnt`
+    echo $userdiff
+    k=0
+    while let "(k=$k+1) <= 2"
+    do
+    echo "dummy" >> /tmp/siduserlist.txt
+    done
   register: crypto_version
 
-- name: Get Host Name
-  shell:  "cat /tmp/crypto-{{ item.name }}.txt|head -1"
-  loop: "{{ sid_adm_usr_oradb_abap }}"
-  register: get_hname_output
-
-- name: Get SID
-  shell:  "cat /tmp/crypto-{{ item.name }}.txt|head -2|tail -1"
-  loop: "{{ sid_adm_usr_oradb_abap }}"
-  register: get_SID
-
-- name: Get crypto level
-  shell:  "cat /tmp/crypto-{{ item.name }}.txt|tail -1|awk '{print $2}'"
-  loop: "{{ sid_adm_usr_oradb_abap }}"
-  register: get_crypto_level
+- debug:
+    msg:  "{{ crypto_version }}"
+  
