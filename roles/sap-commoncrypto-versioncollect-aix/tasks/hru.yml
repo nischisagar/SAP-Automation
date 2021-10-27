@@ -1,6 +1,7 @@
 ---
 - name: Find number of SID present
   shell:  |
+    rm -f /tmp/siduserlist.txt /tmp/crypto-*
     a=`df -g|grep -i sapmnt|awk '{print $NF}'|cut -d"/" -f3|awk '{print tolower($0)}'`
     for i in $a
     do
