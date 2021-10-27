@@ -2,8 +2,8 @@
 - name: Check SAP HOST AGENT VERSION
   shell: |
     hostname > /tmp/crypto-{{ item.name }}.txt
-    env|grep -i DB_SID|cut -d"=" -f2 >> /tmp/crypto-{{ item.name }}.txt
-    sapgenpse|grep -i CommoncryptoLib|tail -1|awk '{print $2}' >> /tmp/crypto-{{ item.name }}.txt
+    su - {{ item.name }} -c "env|grep -i DB_SID|cut -d"=" -f2 >> /tmp/crypto-{{ item.name }}.txt"
+    su - {{ item.name }} -c "sapgenpse|grep -i CommoncryptoLib|tail -1|awk '{print $2}' >> /tmp/crypto-{{ item.name }}.txt"
     cat /tmp/crypto-{{ item.name }}.txt
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: crypto_version
