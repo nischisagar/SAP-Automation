@@ -24,4 +24,10 @@
         - get_hname: "{{ get_hname_output.results[2].stdout }}"
           get_ssid1: "{{ get_SID.results[2].stdout }}"
           get_crypt: "{{ get_crypto_level.results[2].stdout }}"
+        - get_hname: "{{ get_hname_output.results[3].stdout }}"
+          get_ssid1: "{{ get_SID.results[3].stdout }}"
+          get_crypt: "{{ get_crypto_level.results[3].stdout }}"
+        - get_hname: "{{ get_hname_output.results[4].stdout }}"
+          get_ssid1: "{{ get_SID.results[4].stdout }}"
+          get_crypt: "{{ get_crypto_level.results[4].stdout }}"
       delegate_to: ampsv010bld0d
