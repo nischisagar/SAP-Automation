@@ -1,6 +1,6 @@
 ---
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: "{{ hname1 }}"
+  hosts: target_update_servers_c1
   become: yes
   become_method: sudo
   vars: 
