@@ -11,6 +11,11 @@
 - debug:
     msg:  "{{ crypto_version }}"
 
+- name: command output
+  debug:
+    msg: "{{ item['stdout'] }}"
+  with_items: "{{ crypto_version['results'] }}"
+
 - name: Get Host Name
   shell:  "cat /tmp/crypto-{{ item.name }}.txt|head -1"
   loop: "{{ sid_adm_usr_oradb_abap }}"
@@ -22,6 +27,6 @@
   register: get_SID
 
 - name: Get crypto level
-  shell:  "cat /tmp/crypto-{{ item.name }}.txt|tail -1"
+  shell:  "cat /tmp/crypto-{{ item.name }}.txt|tail -1|awk '{print $2}'"
   loop: "{{ sid_adm_usr_oradb_abap }}"
   register: get_crypto_level
