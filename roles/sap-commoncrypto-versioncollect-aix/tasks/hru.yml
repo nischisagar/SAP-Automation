@@ -1,7 +1,7 @@
 ---
 - name: Check SAP HOST AGENT VERSION
   shell: |
-    su - {{ item.name }} -c hostname > /tmp/crypto-{{ item.name }}.txt
+    su - {{ item.name }} -c "hostname > /tmp/crypto-{{ item.name }}.txt"
     su - {{ item.name }} -c "env|grep -i DB_SID|cut -d"=" -f2 >> /tmp/crypto-{{ item.name }}.txt"
     su - {{ item.name }} -c "sapgenpse|grep -i CommoncryptoLib|tail -1|awk '{print $2}' >> /tmp/crypto-{{ item.name }}.txt"
     cat /tmp/crypto-{{ item.name }}.txt
