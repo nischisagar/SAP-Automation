@@ -38,7 +38,7 @@
         host: smtp.mail.saint-gobain.net
         port: 25
         subject: Ansible Report - HOST AGENT Version
-        body: Hello Team, Please find the attached total table space and DB size report from Oracle ABAP DB servers.
+        body: Hello Team, Please find the attached sap host agent version details for AIX Servers
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan.Anbarasan@kyndryl.com
