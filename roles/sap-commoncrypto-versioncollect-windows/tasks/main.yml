@@ -1,2 +1,2 @@
 ---
-- import_tasks: get-oradb-version.yml
+- import_tasks: get-crypto-version.yml
