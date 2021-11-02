@@ -32,20 +32,3 @@
     group: sapsys
     mode: '0775'
   when: (tmpfree | int) >= (500 | int)
-
-- name: Update hostagent
-  shell: |
-    /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
-    hostname
-    /usr/sap/hostctrl/exe/saphostexec -version|grep -iE "variant|patch"|tail -2
-  register: hostupdate
-  when: (tmpfree | int) >= (500 | int)
-
-- debug:
-    msg: "{{ hostupdate }}"      
-
-- name: Remove the host agent dump file
-  file:
-    path: "{{ patchpath }}/{{ patch_name }}"
-    state: absent
-  when: (tmpfree | int) >= (1 | int)
