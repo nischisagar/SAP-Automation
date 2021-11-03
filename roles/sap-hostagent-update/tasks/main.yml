@@ -32,3 +32,36 @@
     group: sapsys
     mode: '0775'
   when: (tmpfree | int) >= (500 | int)
+
+- name: Check free space for hostcontrol, atleast 1 GB free space should be there
+  shell: df -m /usr/sap/hostctrl|tail -1|awk '{print $3}'|awk '{print int($0)}'
+  register: hostfree
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ hostfree }}"
+
+- name: Register host control free space value
+  set_fact:
+    tmpfree: "{{ hostfree['stdout'] }}"
+  ignore_errors: yes
+
+- debug:
+    msg: "hostfree: {{ hostfree }}"
+
+- name: Update hostagent
+  shell: |
+    /usr/sap/hostctrl/exe/saphostexec -upgrade -archive /tmp/{{ patch_name }}
+    hostname
+    /usr/sap/hostctrl/exe/saphostexec -version|grep -iE "variant|patch"|tail -2
+  register: hostupdate
+  when: (hostfree | int) >= (200 | int)
+
+- debug:
+    msg: "{{ hostupdate }}"      
+
+- name: Remove the host agent dump file
+  file:
+    path: "{{ patchpath }}/{{ patch_name }}"
+    state: absent
+  when: (tmpfree | int) >= (1 | int)
