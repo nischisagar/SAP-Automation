@@ -43,7 +43,7 @@
 
 - name: Register host control free space value
   set_fact:
-    tmpfree: "{{ hostfree['stdout'] }}"
+    hostfree: "{{ hostfree['stdout'] }}"
   ignore_errors: yes
 
 - debug:
