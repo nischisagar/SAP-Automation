@@ -12,19 +12,19 @@ galaxy_info:
   #
 
   platforms:
-    - name: AIX
+    - name: SuSE for SAP
       versions:
-        - 7.2
+        - 12 SP4
 
-    - name: SAP
+    - name: HANA
       versions:
-        - EHP 7.0
-        - ERP 6.0
+        - 2.0
 
   galaxy_tags:
-    - sap
-    - version
-    - aix
+    - hana
+    - update
+    - suse
+    - revision
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,

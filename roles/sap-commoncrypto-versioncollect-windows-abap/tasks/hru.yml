@@ -1,0 +1,57 @@
+---
+- name: Collect Hostname and Hostagent version detail
+  win_shell: |
+    hostname > C:\temp\check1234.txt
+    ./saphostexec.exe -version| select-string -pattern variant|%{ (-split $_)[3] } >> C:\temp\check1234.txt
+    ./saphostexec.exe -version| select-string -pattern "patch number"|%{ (-split $_)[2] } >>C:\temp\check1234.txt  
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  become: yes
+  become_method: runas
+  become_user: system
+  register: hostversion_detail
+
+- name: Get target server hostname 
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[0]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: thostname
+
+- debug:
+    msg: "{{ thostname }}"
+
+- name: Get Hostagent base version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[1]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostbase
+
+- debug:
+    msg: "{{ hostbase }}"
+
+- name: Get Hostagent patch version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[2]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostpatch
+
+- debug:
+    msg: "{{ hostpatch }}"
