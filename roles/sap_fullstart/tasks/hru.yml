@@ -298,7 +298,18 @@
     fi
     elif [ $db == ada ]
     then
-    echo "Server $i has MAX DB, automation can't start maxdb, manual intervention required:" >> /tmp/startstatustrack.txt
+    maxdb1=`echo {{ item }}|tr '[:upper:]' '[:lower:]'`
+    maxdb="${maxdb1}adm"
+    su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_online"
+    maxstate=`su - $maxdb -c "dbmcli -d {{ item }} -U c_J2EE db_state|tail -1"`
+    echo "maxstate = $maxstate" >> /tmp/testing1.txt
+    if [ $maxstate == ONLINE ]
+    then
+    echo "MAX DB {{ item }} START is Successful" >> /tmp/testing1.txt
+    else
+    echo "MAX DB {{ item }} START is NOT Successful, manual intervention required:" >> /tmp/testing1.txt
+    echo "----------------------------------------------------------------------------------" >> /tmp/testing1.txt
+    fi
     echo "----------------------------------------------------------------------------------" >> /tmp/startstatustrack.txt
     elif [ $db == db6 ]
     then
