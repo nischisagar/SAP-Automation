@@ -3,10 +3,10 @@
 - name: "Process Input param file"
   template:
     src: "{{ role_path }}/templates/{{ item }}"
-    dest: "/tmp"
+    dest: "/010_SHARED_INFRA/SAP/install/"
     owner: root
     group: sapinst
-    mode: '0775'
+    mode: '0777'
   with_items:
   - inifile.params
   register: inputfile
