@@ -1,11 +1,24 @@
 ---
-# tasks file for oracle_home_installation
 
-- name: echo execute installation step
-  shell: |
-    cd /usr/sap/DAA/SWPM
-    cd /usr/sap/DAA/SWPM;/010_SHARED_INFRA/software/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/software/software/xmpsa010secc1_APPS/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
-  register: install_out
+- name: "Process Input param file"
+  template:
+    src: "{{ role_path }}/templates/{{ item }}"
+    dest: "/tmp"
+    owner: root
+    group: sapinst
+    mode: '0775'
+  with_items:
+  - inifile.params
+  register: inputfile
 
 - debug:
-    msg: "{{ install_out }}"
+    msg: "{{ inputfile }}"
+
+#- name: echo execute installation step
+  #shell: |
+    #cd /usr/sap/DAA/SWPM
+    #cd /usr/sap/DAA/SWPM;/010_SHARED_INFRA/software/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/software/software/xmpsa010secc1_APPS/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
+  #register: install_out
+
+#- debug:
+    #msg: "{{ install_out }}"
