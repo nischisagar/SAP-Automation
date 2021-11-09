@@ -2,7 +2,7 @@
 # variables file for sap app installation
 
 ASInstanceNumber: "00"
-DI_Instance.virtualHostname: "xmpsa010secc1"
+DI_Instance_virtualHostname: "xmpsa010secc1"
 GetMasterPassword.masterPwd: "O2source"
 System.installSAPHostAgent: "false"
 checkMsgServer.abapMSPort: "3610"
