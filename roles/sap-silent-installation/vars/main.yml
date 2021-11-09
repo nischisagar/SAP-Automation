@@ -3,7 +3,7 @@
 
 ASInstanceNumber: "00"
 DI_Instance.virtualHostname: "xmpsa010secc1"
-GetMasterPassword.masterPwd: "des25(zqwj2iFNPlVsQeSCMA5Pig==)"
+GetMasterPassword.masterPwd: "O2source"
 System.installSAPHostAgent: "false"
 checkMsgServer.abapMSPort: "3610"
 getDBInfoGeneric.dbhost: "xmpsa010sdb0"
