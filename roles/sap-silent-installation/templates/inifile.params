@@ -39,13 +39,13 @@ NW_DI_Instance.virtualHostname = '{{ DI_Instance_virtualHostname }}'
 # NW_Delete_Sapinst_Users.removeUsers = false
 
 # Master password
-NW_GetMasterPassword.masterPwd = '{{ GetMasterPassword.masterPwd }}'
+NW_GetMasterPassword.masterPwd = '{{ GetMasterPassword_masterPwd }}'
 
 # DEPRECATED, DO NOT USE!
 # NW_SAPCrypto.SAPCryptoFile =
 
 # SAP INTERNAL USE ONLY
-NW_System.installSAPHostAgent = '{{ System.installSAPHostAgent }}'
+NW_System.installSAPHostAgent = '{{ System_installSAPHostAgent }}'
 
 # DEPRECATED, DO NOT USE!
 # NW_Unpack.dbaToolsSar =
@@ -72,34 +72,34 @@ NW_System.installSAPHostAgent = '{{ System.installSAPHostAgent }}'
 # NW_adaptProfile.templateFiles =
 
 # ABAP message server port for connecting to the message server, leave empty for default
-NW_checkMsgServer.abapMSPort = '{{ checkMsgServer.abapMSPort }}'
+NW_checkMsgServer.abapMSPort = '{{ checkMsgServer_abapMSPort }}'
 
 # The database host
-NW_getDBInfoGeneric.dbhost = '{{ getDBInfoGeneric.dbhost }}'
+NW_getDBInfoGeneric.dbhost = '{{ getDBInfoGeneric_dbhost }}'
 
 # The database ID (DBSID)
-NW_getDBInfoGeneric.dbsid = '{{ getDBInfoGeneric.dbsid }}'
+NW_getDBInfoGeneric.dbsid = '{{ getDBInfoGeneric_dbsid }}'
 
 # Only use this parameter if recommended by SAP.
 # NW_getDBInfoGeneric.strictDbSidCheck = true
 
 # The FQDN of the system
-# NW_getFQDN.FQDN = '{{ getFQDN.FQDN }}'
+# NW_getFQDN.FQDN = '{{ getFQDN_FQDN }}'
 
 # SAP INTERNAL USE ONLY
-# NW_getFQDN.resolve = '{{ getFQDN.resolve }}'
+# NW_getFQDN.resolve = '{{ getFQDN_resolve }}'
 
 # Specify whether you want to set FQDN for the system.
-# NW_getFQDN.setFQDN = '{{ getFQDN.setFQDN }}'
+# NW_getFQDN.setFQDN = '{{ getFQDN_setFQDN }}'
 
 # The load type chosen by the user. Valid values are: 'SAP', 'STD', 'OBR', 'HCP', 'FLASHCOPY', 'MDA', 'HBR', 'SBR'
-NW_getLoadType.loadType = '{{ getLoadType.loadType }}'
+NW_getLoadType.loadType = '{{ getLoadType_loadType }}'
 
 # ABAP system is Unicode (true|false), only needed if it cannot be determined from the system.
-NW_getUnicode.isUnicode = '{{ getUnicode.isUnicode }}'
+NW_getUnicode.isUnicode = '{{ getUnicode_isUnicode }}'
 
 # Provide  'profile' directory of SAP Netweaver-based system.
-NW_readProfileDir.profileDir = '{{ readProfileDir.profileDir }}'
+NW_readProfileDir.profileDir = '{{ readProfileDir_profileDir }}'
 
 # Windows only: The drive to use
 # NW_readProfileDir.sapdrive =
@@ -135,7 +135,7 @@ nwUsers.sidAdmUID = '{{ sidAdmUID }}'
 # ora.multitenant.installMT = FALSE
 
 # Name of the database ID (DBSID) of the Pluggable Database
-ora.multitenant.pdbsid = '{{ ora.dbsid }}'
+ora.multitenant.pdbsid = '{{ ora_dbsid }}'
 
 # possible values are
 #         isSingle:  Database on filesystem exist.
@@ -159,7 +159,7 @@ ora.whatInstallation = '{{ ora_whatInstallation }}'
 # storageBasedCopy.ora.ABAPSchema =
 
 # Oracle client version: 121, 112, ...
-storageBasedCopy.ora.clientVersion = '{{ ora.clientVersion }}'
+storageBasedCopy.ora.clientVersion = '{{ ora_clientVersion }}'
 
 # Name of Oracle Listener. Default value is: LISTENER
 # storageBasedCopy.ora.listenerName =
@@ -168,7 +168,7 @@ storageBasedCopy.ora.clientVersion = '{{ ora.clientVersion }}'
 # storageBasedCopy.ora.listenerPort =
 
 # Oracle server version
-storageBasedCopy.ora.serverVersion = '{{ ora.serverVersion }}'
+storageBasedCopy.ora.serverVersion = '{{ ora_serverVersion }}'
 
 # The folder containing Oracle_DB_Client
-SAPINST.CD.PACKAGE.ORACLI = '{{ SAPINST.CD.PACKAGE.ORACLI_1 }}'
+SAPINST.CD.PACKAGE.ORACLI = '{{ SAPINST_CD_PACKAGE_ORACLI_1 }}'
