@@ -14,11 +14,11 @@
 - debug:
     msg: "{{ inputfile }}"
 
-#- name: echo execute installation step
-  #shell: |
-    #cd /usr/sap/DAA/SWPM
-    #cd /usr/sap/DAA/SWPM;/010_SHARED_INFRA/software/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/software/software/xmpsa010secc1_APPS/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
-  #register: install_out
+- name: echo execute installation step
+  shell: |
+    cd {{ swpm_path }}
+    cd {{ swpm_path }};/010_SHARED_INFRA/SAP/install/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/SAP/install/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
+  register: install_out
 
-#- debug:
-    #msg: "{{ install_out }}"
+- debug:
+    msg: "{{ install_out }}"
