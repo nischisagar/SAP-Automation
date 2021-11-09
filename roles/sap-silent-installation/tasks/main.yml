@@ -3,7 +3,7 @@
 
 - name: echo execute installation step
   shell: |
-    /010_SHARED_INFRA/software/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/software/software/xmpsa010secc1_APPS/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
+    cd /usr/sap/DAA/SWPM;/010_SHARED_INFRA/software/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/software/software/xmpsa010secc1_APPS/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
   register: install_out
 
 - debug:
