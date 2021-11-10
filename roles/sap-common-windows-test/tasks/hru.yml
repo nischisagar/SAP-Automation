@@ -7,7 +7,7 @@
         $sub_service=(($service.Name).Substring(3)).split("_")
         $sid1=$sub_service[0].ToLower()
         $con=adm
-        "$sid1+$con" >> K:\version\sidlisttest.txt
+        "$sid1adm" >> K:\version\sidlisttest.txt
         $sub_service[0]
       register: sid
       ignore_errors: true
