@@ -1,9 +1,23 @@
----
-- name: SAP APPS Installation
-  hosts: xmpsa010secc1
-  become: yes
-  become_method: sudo
-  gather_facts: yes
+--- 
+- name: Ensure Socks tunnel setup
+  hosts: ampsv018grc0d
+  gather_facts: no
   roles:
-  - role: sap-silent-installation  
-    when: ansible_distribution | lower == "aix" 
+  - role: ansible-role-event-socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- hosts: ampsv018grc0d
+  become: yes
+  become_method: runas
+  become_user: system
+  gather_facts: false
+  vars:
+    account_code: "sgi"
+    trans_num: "{{ tower_job_id }}"
+  roles:
+    - role: sap-common-windows-test
+      ignore_errors: yes 
