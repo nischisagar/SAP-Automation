@@ -21,8 +21,8 @@
 
     - name: restore output
       win_shell:  |
-        echo { item } >> K:\version\sidlisttest.txt
-      with_items: "{{ sid_adm }}"
+        echo "{{ sid_adm }}" >> K:\version\sidlisttest.txt
+      
 
     
 
