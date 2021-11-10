@@ -14,12 +14,13 @@
         echo "$sid3$con" >> C:\temp\sidlisttest1.txt
         $sid4=$sub_service[6].ToLower()
         echo "$sid4$con" >> C:\temp\sidlisttest1.txt
+        Get-Content C:\temp\sidlisttest1.txt | Get-Unique | Set-Content C:\temp\sidlisttest2.txt
       register: sid
       ignore_errors: true
 
     - name: collect sid output
       win_shell: |
-        cat C:\temp\sidlisttest1.txt
+        cat C:\temp\sidlisttest2.txt
       register: sid_list
 
     - debug:
