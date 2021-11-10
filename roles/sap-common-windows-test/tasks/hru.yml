@@ -7,7 +7,7 @@
         $sub_service=(($service.Name).Substring(3)).split("_")
         $con="adm"
         $sid1=$sub_service[0].ToLower()
-        echo "$sid1$con" >> C:\temp\sidlisttest1.txt
+        echo "$sid1$con" > C:\temp\sidlisttest1.txt
         $sid2=$sub_service[2].ToLower() 
         echo "$sid2$con" >> C:\temp\sidlisttest1.txt
         $sid3=$sub_service[4].ToLower() 
