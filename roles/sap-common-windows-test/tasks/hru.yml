@@ -5,8 +5,6 @@
       win_shell: |
         $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
         $sub_service=(($service.Name).Substring(3)).split("_")
-        $sid1=$sub_service[0].ToLower()
-        $con=adm
         $sub_service[0]
       register: sid
       ignore_errors: true
@@ -21,7 +19,7 @@
 
     - name: restore output
       win_shell:  |
-        echo "{{ sid_adm }}" >> K:\version\sidlisttest.txt
+        echo "{{ sid_adm }}" >> C:\temp\sidlisttest.txt
       
 
     
