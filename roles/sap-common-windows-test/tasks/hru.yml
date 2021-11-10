@@ -1,0 +1,16 @@
+---
+- name: Collect SAP CRYPTO Version
+  block:
+    - name: Get the SID
+      win_shell: |
+        $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
+        $sub_service=(($service.Name).Substring(3)).split("_")
+        $sub_service[0] >> K:\version\sidlisttest.txt
+        $sub_service[0]
+      register: sid
+      ignore_errors: true
+
+    - name: Dispaly the SIDadm user details
+      debug:
+        msg: "{{ sid.stdout | trim |lower }}adm"
+
