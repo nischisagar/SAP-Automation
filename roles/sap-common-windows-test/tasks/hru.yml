@@ -12,6 +12,7 @@
     - name: Dispaly the SIDadm user details
       debug:
         msg: "{{ sid.stdout | trim |lower }}adm"
+      with_items: "{{ sid }}"
 
     - name: Set facts sid adm as variables to become as sidam when stop SAP
       set_fact:
