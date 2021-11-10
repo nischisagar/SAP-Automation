@@ -5,22 +5,27 @@
       win_shell: |
         $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
         $sub_service=(($service.Name).Substring(3)).split("_")
-        $sub_service[0,2,4,6,8]
+        $con="adm"
+        $sid1=$sub_service[0].ToLower()
+        echo "$sid1$con" >> C:\temp\sidlisttest1.txt
+        $sid2=$sub_service[2].ToLower() 
+        echo "$sid2$con" >> C:\temp\sidlisttest1.txt
+        $sid3=$sub_service[4].ToLower() 
+        echo "$sid3$con" >> C:\temp\sidlisttest1.txt
+        $sid4=$sub_service[6].ToLower()
+        echo "$sid4$con" >> C:\temp\sidlisttest1.txt
       register: sid
       ignore_errors: true
 
-    - name: Dispaly the SIDadm user details
-      debug:
-        msg: "{{ sid.stdout | trim |lower }}adm"
-      with_items: "{{ sid }}"
+    - name: collect sid output
+      win_shell: |
+        cat C:\temp\sidlisttest1.txt
+      register: sid_list
 
-    - name: Set facts sid adm as variables to become as sidam when stop SAP
-      set_fact:
-        sid_adm: "{{ sid.stdout | trim |lower }}adm"
+    - debug:
+        msg: "{{ item }}"
+      with_items: "{{ sid_list['stdout_lines'] }}"
 
-    - name: restore output
-      win_shell:  |
-        echo "{{ sid_adm }}" >> C:\temp\sidlisttest.txt
       
 
     
