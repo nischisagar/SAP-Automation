@@ -7,7 +7,6 @@
         $sub_service=(($service.Name).Substring(3)).split("_")
         $sid1=$sub_service[0].ToLower()
         $con=adm
-        "$sid1adm" >> K:\version\sidlisttest.txt
         $sub_service[0]
       register: sid
       ignore_errors: true
@@ -15,4 +14,15 @@
     - name: Dispaly the SIDadm user details
       debug:
         msg: "{{ sid.stdout | trim |lower }}adm"
+
+    - name: Set facts sid adm as variables to become as sidam when stop SAP
+      set_fact:
+        sid_adm: "{{ sid.stdout | trim |lower }}adm"
+
+    - name: restore output
+      win_shell:  |
+        echo { item } >> K:\version\sidlisttest.txt
+      with_items: "{{ sid_adm }}"
+
+    
 
