@@ -7,20 +7,20 @@
         $sub_service=(($service.Name).Substring(3)).split("_")
         $con="adm"
         $sid1=$sub_service[0].ToLower()
-        echo "$sid1$con" > C:\temp\sidlisttest1.txt
+        echo "$sid1$con" > K:\version\firstuserlist.txt
         $sid2=$sub_service[2].ToLower() 
-        echo "$sid2$con" >> C:\temp\sidlisttest1.txt
+        echo "$sid2$con" >> K:\version\firstuserlist.txt
         $sid3=$sub_service[4].ToLower() 
-        echo "$sid3$con" >> C:\temp\sidlisttest1.txt
+        echo "$sid3$con" >> K:\version\firstuserlist.txt
         $sid4=$sub_service[6].ToLower()
-        echo "$sid4$con" >> C:\temp\sidlisttest1.txt
-        Get-Content C:\temp\sidlisttest1.txt | Get-Unique | Set-Content C:\temp\sidlisttest2.txt
+        echo "$sid4$con" >> K:\version\firstuserlist.txt
+        Get-Content K:\version\firstuserlist.txt | Get-Unique | Set-Content K:\version\finaluserlist.txt
       register: sid
       ignore_errors: true
 
     - name: collect sid output
       win_shell: |
-        cat C:\temp\sidlisttest2.txt
+        cat K:\version\finaluserlist.txt
       register: sid_list
 
     - debug:
@@ -29,13 +29,13 @@
 
     - name: Count number of users present
       win_shell: |
-        $user_cnt=(Get-Content C:\temp\sidlisttest2.txt).Length
-        $dmy="dummy"
+        $user_cnt=(Get-Content K:\version\finaluserlist.txt).Length
+        $dmy='dummy'
         for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
         {
-          echo $dmy >> C:\temp\sidlisttest2.txt
+          echo $dmy >> K:\version\finaluserlist.txt
         }
-        cat C:\temp\sidlisttest2.txt
+        cat K:\version\finaluserlist.txt
       register: sid_list1
 
     - debug:
