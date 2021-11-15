@@ -66,7 +66,18 @@
       when: user_count | int < 2
 
     - debug:
-        msg: "{{ set_dummy }}"     
+        msg: "{{ set_dummy }}"
+
+    - name: Copy a single file where the source is on the remote host
+      win_copy:
+        src: C:\Temp\sidlist_final.txt
+        dest: C:\Temp\finalsidlist_new.txt
+        remote_src: yes
+      register: set_nodummy
+      when: user_count | int = 2
+
+    - debug:
+        msg: "{{ set_nodummy }}"     
 
     - name: collect sid output
       win_shell: |
