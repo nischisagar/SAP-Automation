@@ -29,7 +29,7 @@
 
     - name: Count number of users present
       win_shell: |
-        $user_cnt=(Get-Content K:\version\finaluserlist.txt).Length
+        (Get-Content K:\version\finaluserlist.txt).Length
       register: user_count
 
     - name: User count value
