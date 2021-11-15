@@ -30,9 +30,10 @@
     - name: Count number of users present
       win_shell: |
         $user_cnt=(Get-Content C:\temp\sidlisttest2.txt).Length
-        for (( $lo = 3 ); $user_cnt -le $lo; $user_cnt++ )
+        $dmy="dummy"
+        for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
         {
-          echo 'dummy' >> C:\temp\sidlisttest2.txt
+          echo $dmy >> C:\temp\sidlisttest2.txt
         }
         cat C:\temp\sidlisttest2.txt
       register: sid_list1
