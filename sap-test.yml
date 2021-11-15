@@ -46,6 +46,9 @@
         - get_hname: "{{ thostname.results[1].stdout | trim }}"
           get_hsid: "{{ hostsid.results[1].stdout | trim }}"
           get_patch: "{{ hostpatch.results[1].stdout | trim }}"
+        - get_hname: "{{ thostname.results[2].stdout | trim }}"
+          get_hsid: "{{ hostsid.results[2].stdout | trim }}"
+          get_patch: "{{ hostpatch.results[2].stdout | trim }}"
       delegate_to: ampsw010saba0 
       
 

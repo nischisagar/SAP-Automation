@@ -38,6 +38,45 @@
       debug:
         msg: "{{ sap_hostname }}"
 
+    - name: Count number of users present
+      win_shell: |
+        (Get-Content K:\version\sidlist_final.txt).Length
+      register: user_count
+
+    - name: User count value
+      debug:
+        msg: "{{ user_count }}"
+
+    - name: Setting facts - user_count
+      set_fact:
+        user_count: "{{ user_count['stdout'] }}"
+
+    - debug:
+        msg: "{{ user_count }}"
+
+    - name: set dummy value
+      win_shell: |
+        $dmy='dummy'
+        for (( $lo = 4 ); $user_cnt -lt $lo; $user_cnt++ )
+        {
+          echo $dmy >> K:\version\dummy_final.txt
+        }
+        Get-Content K:\version\sidlist_final.txt, K:\version\dummy_final.txt | Set-Content K:\version\finalsidlist_new.txt
+      register: set_dummy
+      when: user_count | int < 3
+
+    - debug:
+        msg: "{{ set_dummy }}"     
+
+    - name: collect sid output
+      win_shell: |
+        cat K:\version\finalsidlist_new.txt      
+      register: sid_list2
+
+    - debug:
+        msg: "{{ item }}"
+      with_items: "{{ sid_list2['stdout_lines'] }}"
+
     - name: Get target server hostname 
       win_shell: |
         $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
@@ -47,7 +86,7 @@
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
-      loop: "{{ sid_list['stdout_lines'] }}"
+      loop: "{{ sid_list2['stdout_lines'] }}"
       register: thostname
 
     - debug:
@@ -62,7 +101,7 @@
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
-      loop: "{{ sid_list['stdout_lines'] }}"
+      loop: "{{ sid_list2['stdout_lines'] }}"
       register: hostsid
 
     - debug:
@@ -77,7 +116,7 @@
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
-      loop: "{{ sid_list['stdout_lines'] }}"
+      loop: "{{ sid_list2['stdout_lines'] }}"
       register: hostpatch
 
     - debug:
