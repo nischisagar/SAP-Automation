@@ -32,6 +32,7 @@
       become_user: "{{ item }}adm"
       loop: "{{ sid_list['stdout_lines'] }}"
       register: sap_hostname
+      ignore_errors: yes
 
     - name: hostname output
       debug:
