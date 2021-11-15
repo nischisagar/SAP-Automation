@@ -32,6 +32,7 @@
     trans_num: "{{ tower_job_id }}"
   roles:
   - role: sap-common-windows-test
+    ignore_errors: yes
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
