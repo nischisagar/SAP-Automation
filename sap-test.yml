@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: ampsv018grc0d
+  hosts: ampsv026fio0d
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: ampsv018grc0d
+- hosts: ampsv026fio0d
   become: yes
   become_method: runas
   become_user: system
