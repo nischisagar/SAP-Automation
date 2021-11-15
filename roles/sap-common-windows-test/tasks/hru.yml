@@ -39,7 +39,7 @@
     - name: User count value1
       debug:
         msg: "{{ item['stdout'] }}"
-      with_items: "{{ user_count['results'] }}"
+      with_items: "{{ user_count }}"
 
     - name: set dummy value
       win_shell: |
