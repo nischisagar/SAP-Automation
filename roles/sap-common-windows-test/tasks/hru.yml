@@ -24,10 +24,10 @@
 
     - name: Get the SAP version
       win_shell: |
-        hostname > K:\version\testoutput_{{ item.name }}.txt
+        hostname > K:\version\testoutput_{{ item[0] }}.txt
       become: yes
       become_method: runas
-      become_user: "{{ item.name | lower }}adm"
+      become_user: "{{ item[0] | lower }}adm"
       loop: "{{ sid_list['stdout_lines'] }}"
       register: sap_hostname
 
