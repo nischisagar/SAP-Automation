@@ -38,6 +38,9 @@
       register: sid_list1
 
     - debug:
+        msg: "{{ sid_list1 }}"     
+
+    - debug:
         msg: "{{ item }}"
       with_items: "{{ sid_list1['stdout_lines'] }}"
 
