@@ -57,13 +57,13 @@
     - name: set dummy value
       win_shell: |
         $dmy='dummy'
-        for (( $lo = 2 ); $user_cnt -lt $lo; $user_cnt++ )
+        for (( $lo = 1 ); $user_cnt -lt $lo; $user_cnt++ )
         {
           echo $dmy >> C:\Temp\dummy_final.txt
         }
         Get-Content C:\Temp\sidlist_final.txt, C:\Temp\dummy_final.txt | Set-Content C:\Temp\finalsidlist_new.txt
       register: set_dummy
-      when: user_count | int < 3
+      when: user_count | int < 2
 
     - debug:
         msg: "{{ set_dummy }}"     

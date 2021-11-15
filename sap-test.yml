@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: ampsv023bw0d
+  hosts: ampsv026fio0d
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: ampsv023bw0d
+  hosts: ampsv026fio0d
   become: yes
   become_method: runas
   become_user: system
@@ -46,9 +46,6 @@
         - get_hname: "{{ thostname.results[1].stdout | trim }}"
           get_hsid: "{{ hostsid.results[1].stdout | trim }}"
           get_patch: "{{ hostpatch.results[1].stdout | trim }}"
-        - get_hname: "{{ thostname.results[2].stdout | trim }}"
-          get_hsid: "{{ hostsid.results[2].stdout | trim }}"
-          get_patch: "{{ hostpatch.results[2].stdout | trim }}"
       delegate_to: ampsw010saba0 
       
 
