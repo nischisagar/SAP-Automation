@@ -30,6 +30,18 @@
     - name: Count number of users present
       win_shell: |
         $user_cnt=(Get-Content K:\version\finaluserlist.txt).Length
+      register: user_count
+
+    - name: User count value
+      debug:
+        msg: "{{ user_count }}"
+
+    - name: User count value1
+      debug:
+        msg: "{{ item['stdout'] }}"
+      with_items: "{{ user_count['results'] }}"
+
+    - name: set dummy value
         $dmy='dummy'
         for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
         {
@@ -38,6 +50,7 @@
         Get-Content K:\version\finaluserlist.txt, K:\version\dummylist.txt | Set-Content K:\version\finaluserlist_new.txt
         cat K:\version\finaluserlist_new.txt
       register: sid_list1
+      when: (item['stdout'] | int) < 2
 
     - debug:
         msg: "{{ sid_list1 }}"     
