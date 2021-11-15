@@ -42,6 +42,7 @@
       with_items: "{{ user_count['results'] }}"
 
     - name: set dummy value
+      win_shell: |
         $dmy='dummy'
         for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
         {
