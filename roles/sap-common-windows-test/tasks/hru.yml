@@ -24,9 +24,9 @@
 
     - name: Get the SAP version
       win_shell: |
-        hostname > K:\version\testoutput_{{ item }}.txt
-        "{{ item }}".ToUpper() >> K:\version\testoutput_{{ item }}.txt
-        sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> K:\version\testoutput_{{ item }}.txt
+        hostname > K:\version\cryptooutput_{{ item }}.txt
+        "{{ item }}".ToUpper() >> K:\version\cryptooutput_{{ item }}.txt
+        sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> K:\version\cryptooutput_{{ item }}.txt
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
@@ -36,6 +36,51 @@
     - name: hostname output
       debug:
         msg: "{{ sap_hostname }}"
+
+    - name: Get target server hostname 
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[0]
+      args:
+        chdir: K:\version
+      become: yes
+      become_method: runas
+      become_user: "{{ item }}adm"
+      loop: "{{ sid_list['stdout_lines'] }}"
+      register: thostname
+
+    - debug:
+        msg: "{{ thostname }}"
+
+    - name: Get SID
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[1]
+      args:
+        chdir: K:\version
+      become: yes
+      become_method: runas
+      become_user: "{{ item }}adm"
+      loop: "{{ sid_list['stdout_lines'] }}"
+      register: hostsid
+
+    - debug:
+        msg: "{{ hostsid }}"
+
+    - name: Get crypto patch version
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[2]
+      args:
+        chdir: K:\version
+      become: yes
+      become_method: runas
+      become_user: "{{ item }}adm"
+      loop: "{{ sid_list['stdout_lines'] }}"
+      register: hostpatch
+
+    - debug:
+        msg: "{{ hostpatch }}"
 
 
       
