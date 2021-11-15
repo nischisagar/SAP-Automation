@@ -1,0 +1,68 @@
+---
+- name: Collect SAP CRYPTO Version
+  block:
+    - name: Get the SID
+      win_shell: |
+        $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
+        $sub_service=(($service.Name).Substring(3)).split("_")
+        $con="adm"
+        $sid1=$sub_service[0].ToLower()
+        echo "$sid1$con" > K:\version\firstuserlist.txt
+        $sid2=$sub_service[2].ToLower() 
+        echo "$sid2$con" >> K:\version\firstuserlist.txt
+        $sid3=$sub_service[4].ToLower() 
+        echo "$sid3$con" >> K:\version\firstuserlist.txt
+        $sid4=$sub_service[6].ToLower()
+        echo "$sid4$con" >> K:\version\firstuserlist.txt
+        Get-Content K:\version\firstuserlist.txt | Get-Unique | Set-Content K:\version\finaluserlist.txt
+      register: sid
+      ignore_errors: true
+
+    - name: collect sid output
+      win_shell: |
+        cat K:\version\finaluserlist.txt
+      register: sid_list
+
+    - debug:
+        msg: "{{ item }}"
+      with_items: "{{ sid_list['stdout_lines'] }}"
+
+    - name: Count number of users present
+      win_shell: |
+        (Get-Content K:\version\finaluserlist.txt).Length
+      register: user_count
+
+    - name: User count value
+      debug:
+        msg: "{{ user_count }}"
+
+    - name: Setting facts - user_count
+      set_fact:
+        user_count: "{{ user_count['stdout'] }}"
+
+    - debug:
+        msg: "{{ user_count }}"
+
+    - name: set dummy value
+      win_shell: |
+        $dmy='dummy'
+        for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
+        {
+          echo $dmy >> K:\version\dummylist.txt
+        }
+        Get-Content K:\version\finaluserlist.txt, K:\version\dummylist.txt | Set-Content K:\version\finaluserlist_new.txt
+        cat K:\version\finaluserlist_new.txt
+      register: sid_list1
+      when: user_count | int < 2
+
+    - debug:
+        msg: "{{ sid_list1 }}"     
+
+    - debug:
+        msg: "{{ item }}"
+      with_items: "{{ sid_list1['stdout_lines'] }}"
+
+      
+
+    
+
