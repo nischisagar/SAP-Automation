@@ -5,31 +5,42 @@
       win_shell: |
         $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
         $sub_service=(($service.Name).Substring(3)).split("_")
-        $con="adm"
-        $sid1=$sub_service[0].ToLower()
-        echo "$sid1$con" > K:\version\firstuserlist.txt
-        $sid2=$sub_service[2].ToLower() 
-        echo "$sid2$con" >> K:\version\firstuserlist.txt
-        $sid3=$sub_service[4].ToLower() 
-        echo "$sid3$con" >> K:\version\firstuserlist.txt
-        $sid4=$sub_service[6].ToLower()
-        echo "$sid4$con" >> K:\version\firstuserlist.txt
-        Get-Content K:\version\firstuserlist.txt | Get-Unique | Set-Content K:\version\finaluserlist.txt
+        $sub_service[0].ToLower() > K:\version\sidlist.txt
+        $sub_service[2].ToLower() >> K:\version\sidlist.txt
+        $sub_service[4].ToLower() >> K:\version\sidlist.txt
+        $sub_service[6].ToLower() >> K:\version\sidlist.txt
+        Get-Content K:\version\sidlist.txt | Get-Unique | Set-Content K:\version\sidlist_final.txt  
       register: sid
       ignore_errors: true
 
     - name: collect sid output
       win_shell: |
-        cat K:\version\finaluserlist.txt
+        cat K:\version\sidlist_final.txt        
       register: sid_list
 
     - debug:
         msg: "{{ item }}"
       with_items: "{{ sid_list['stdout_lines'] }}"
 
+    - name: Get the SAP version
+      win_shell: |
+        hostname > K:\version\cryptooutput_{{ item }}.txt
+        "{{ item }}".ToUpper() >> K:\version\cryptooutput_{{ item }}.txt
+        sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> K:\version\cryptooutput_{{ item }}.txt
+      become: yes
+      become_method: runas
+      become_user: "{{ item }}adm"
+      loop: "{{ sid_list['stdout_lines'] }}"
+      register: sap_hostname
+      ignore_errors: yes
+
+    - name: hostname output
+      debug:
+        msg: "{{ sap_hostname }}"
+
     - name: Count number of users present
       win_shell: |
-        (Get-Content K:\version\finaluserlist.txt).Length
+        (Get-Content K:\version\sidlist_final.txt).Length
       register: user_count
 
     - name: User count value
@@ -46,21 +57,62 @@
     - name: set dummy value
       win_shell: |
         $dmy='dummy'
-        for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
+        for (( $lo = 2 ); $user_cnt -lt $lo; $user_cnt++ )
         {
-          echo $dmy >> K:\version\dummylist.txt
+          echo $dmy >> K:\version\dummy_final.txt
         }
-        Get-Content K:\version\finaluserlist.txt, K:\version\dummylist.txt | Set-Content K:\version\finaluserlist_new.txt
-        cat K:\version\finaluserlist_new.txt
-      register: sid_list1
-      when: user_count | int < 2
+        Get-Content K:\version\sidlist_final.txt, K:\version\dummy_final.txt | Set-Content K:\version\finalsidlist_new.txt
+      register: set_dummy
+      when: user_count | int < 3
 
     - debug:
-        msg: "{{ sid_list1 }}"     
+        msg: "{{ set_dummy }}"     
+
+    - name: collect sid output
+      win_shell: |
+        cat K:\version\finalsidlist_new.txt      
+      register: sid_list2
 
     - debug:
         msg: "{{ item }}"
-      with_items: "{{ sid_list1['stdout_lines'] }}"
+      with_items: "{{ sid_list2['stdout_lines'] }}"
+
+    - name: Get target server hostname 
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[0]
+      args:
+        chdir: K:\version
+      loop: "{{ sid_list2['stdout_lines'] }}"
+      register: thostname
+
+    - debug:
+        msg: "{{ thostname }}"
+
+    - name: Get SID
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[1]
+      args:
+        chdir: K:\version
+      loop: "{{ sid_list2['stdout_lines'] }}"
+      register: hostsid
+
+    - debug:
+        msg: "{{ hostsid }}"
+
+    - name: Get crypto patch version
+      win_shell: |
+        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1[2]
+      args:
+        chdir: K:\version
+      loop: "{{ sid_list2['stdout_lines'] }}"
+      register: hostpatch
+
+    - debug:
+        msg: "{{ hostpatch }}"
+
 
       
 

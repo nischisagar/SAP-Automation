@@ -5,17 +5,17 @@
       win_shell: |
         $Service=get-wmiobject win32_service |?{$_.Name -like '*SAP???_??*' -and $_.pathname -match 'D00|DVE|SCS' -and $_.state -eq "Running"}
         $sub_service=(($service.Name).Substring(3)).split("_")
-        $sub_service[0].ToLower() > K:\version\sidlist.txt
-        $sub_service[2].ToLower() >> K:\version\sidlist.txt
-        $sub_service[4].ToLower() >> K:\version\sidlist.txt
-        $sub_service[6].ToLower() >> K:\version\sidlist.txt
-        Get-Content K:\version\sidlist.txt | Get-Unique | Set-Content K:\version\sidlist_final.txt  
+        $sub_service[0].ToLower() > C:\Temp\sidlist.txt
+        $sub_service[2].ToLower() >> C:\Temp\sidlist.txt
+        $sub_service[4].ToLower() >> C:\Temp\sidlist.txt
+        $sub_service[6].ToLower() >> C:\Temp\sidlist.txt
+        Get-Content C:\Temp\sidlist.txt | Get-Unique | Set-Content C:\Temp\sidlist_final.txt  
       register: sid
       ignore_errors: true
 
     - name: collect sid output
       win_shell: |
-        cat K:\version\sidlist_final.txt        
+        cat C:\Temp\sidlist_final.txt        
       register: sid_list
 
     - debug:
@@ -24,9 +24,9 @@
 
     - name: Get the SAP version
       win_shell: |
-        hostname > K:\version\cryptooutput_{{ item }}.txt
-        "{{ item }}".ToUpper() >> K:\version\cryptooutput_{{ item }}.txt
-        sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> K:\version\cryptooutput_{{ item }}.txt
+        hostname > C:\Temp\cryptooutput_{{ item }}.txt
+        "{{ item }}".ToUpper() >> C:\Temp\cryptooutput_{{ item }}.txt
+        sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> C:\Temp\cryptooutput_{{ item }}.txt
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
@@ -40,7 +40,7 @@
 
     - name: Count number of users present
       win_shell: |
-        (Get-Content K:\version\sidlist_final.txt).Length
+        (Get-Content C:\Temp\sidlist_final.txt).Length
       register: user_count
 
     - name: User count value
@@ -59,9 +59,9 @@
         $dmy='dummy'
         for (( $lo = 2 ); $user_cnt -lt $lo; $user_cnt++ )
         {
-          echo $dmy >> K:\version\dummy_final.txt
+          echo $dmy >> C:\Temp\dummy_final.txt
         }
-        Get-Content K:\version\sidlist_final.txt, K:\version\dummy_final.txt | Set-Content K:\version\finalsidlist_new.txt
+        Get-Content C:\Temp\sidlist_final.txt, C:\Temp\dummy_final.txt | Set-Content C:\Temp\finalsidlist_new.txt
       register: set_dummy
       when: user_count | int < 3
 
@@ -70,7 +70,7 @@
 
     - name: collect sid output
       win_shell: |
-        cat K:\version\finalsidlist_new.txt      
+        cat C:\Temp\finalsidlist_new.txt      
       register: sid_list2
 
     - debug:
@@ -79,10 +79,10 @@
 
     - name: Get target server hostname 
       win_shell: |
-        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1 = Get-Content C:\Temp\cryptooutput_{{ item }}.txt
         $var1[0]
       args:
-        chdir: K:\version
+        chdir: C:\Temp
       loop: "{{ sid_list2['stdout_lines'] }}"
       register: thostname
 
@@ -91,10 +91,10 @@
 
     - name: Get SID
       win_shell: |
-        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1 = Get-Content C:\Temp\cryptooutput_{{ item }}.txt
         $var1[1]
       args:
-        chdir: K:\version
+        chdir: C:\Temp
       loop: "{{ sid_list2['stdout_lines'] }}"
       register: hostsid
 
@@ -103,10 +103,10 @@
 
     - name: Get crypto patch version
       win_shell: |
-        $var1 = Get-Content K:\version\cryptooutput_{{ item }}.txt
+        $var1 = Get-Content C:\Temp\cryptooutput_{{ item }}.txt
         $var1[2]
       args:
-        chdir: K:\version
+        chdir: C:\Temp
       loop: "{{ sid_list2['stdout_lines'] }}"
       register: hostpatch
 
