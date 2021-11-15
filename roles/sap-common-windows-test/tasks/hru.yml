@@ -10,7 +10,6 @@
         $sub_service[4].ToLower() >> K:\version\sidlist.txt
         $sub_service[6].ToLower() >> K:\version\sidlist.txt
         Get-Content K:\version\sidlist.txt | Get-Unique | Set-Content K:\version\sidlist_final.txt  
-        echo " "  > K:\version\userlist_new.txt
       register: sid
       ignore_errors: true
 
@@ -26,9 +25,8 @@
     - name: Get the SAP version
       win_shell: |
         hostname > K:\version\testoutput_{{ item }}.txt
-        {{ item }}.ToUpper() >> K:\version\testoutput_{{ item }}.txt
+        "{{ item }}".ToUpper() >> K:\version\testoutput_{{ item }}.txt
         sapgenpse| select-string -pattern Common|select-object -skip 3|%{ (-split $_)[1] } >> K:\version\testoutput_{{ item }}.txt
-        "{{ item }}"+"adm" >> K:\version\userlist_new.txt
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
