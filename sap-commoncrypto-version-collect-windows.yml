@@ -1,13 +1,14 @@
----
-- name: Role ensures that the socks tunnel is setup
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
-    acc_id: "{{ blueid_shortcode }}"
-    transaction_id: "{{ tower_job_id }}"
+--- 
+- name: Ensure Socks tunnel setup
+  hosts: ampsv026fio0d
+  gather_facts: no
   roles:
-    - role: ansible-role-event-socks-tunnel
+  - role: ansible-role-event-socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
 
 - name: Create the Global report file
   hosts: windows_report_server
@@ -17,273 +18,32 @@
   tasks:
     - name: Create the global report file
       win_copy:
-        content: 'Entity Name,Host Name,SID,Application Type,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size (in GB)'
+        content: 'Entity Name,Host_name,SID,Patch_level'
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the MS-SQL version from ABAP Windows Servers (Single SID)
-  hosts: sap_mssql_host_name_single_sid
+- name: Prepare output file for saphost agent version details
+  hosts: ampsv026fio0d
   become: yes
   become_method: runas
   become_user: system
   vars:
-    app_type: "ABAP"
+    account_code: "sgi"
+    trans_num: "{{ tower_job_id }}"
   roles:
-  - role: get-the-sap-version-mssql-win-abap
-    delegate_to: ampsw010saba0
+  - role: sap-common-windows-test
+    ignore_errors: yes
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
+        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_hsid }},{{ item.get_patch }}"
       throttle: 1
       loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-- name: Get the MS-SQL version from ABAP Windows Servers (SID)
-  hosts: sap_mssql_host_name_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "ABAP"
-  roles:
-  - role: get-the-sap-version-mssql-win-abap-sid
-    delegate_to: ampsw010saba0
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-# - name: Get the MS-SQL version from ABAP Windows Servers (Two SIDs)
-#   hosts: sap_mssql_host_name_two_sid
-#   become: yes
-#   become_method: runas
-#   become_user: system
-#   vars:
-#     app_type: "ABAP"
-#   roles:
-#   - role: get-the-sap-version-mssql-win-abap
-#     delegate_to: ampsw010saba0
-#   tasks:
-#     - name: Add the details to global report file
-#       win_lineinfile:
-#         dest: "{{ report_file }}"
-#         line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-#       throttle: 1
-#       loop:
-#         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-#           get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-#           get_dbn: "{{ db_name.results[0].stdout | trim }}"
-#           get_dbv: "{{ db_version.results[0].stdout | trim }}"
-#           get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-#           get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-#           get_dbs: "{{ db_size.results[0].stdout | trim }}"
-#         - get_sid: "{{ sid_name.results[1].stdout | trim }}"
-#           get_spv: "{{ sap_verison.results[1].stdout | trim }}"
-#           get_dbn: "{{ db_name.results[1].stdout | trim }}"
-#           get_dbv: "{{ db_version.results[1].stdout | trim }}"
-#           get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
-#           get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
-#           get_dbs: "{{ db_size.results[1].stdout | trim }}"
-#       delegate_to: ampsw010saba0
-
-- name: Get the MS-SQL version from Java Windows Servers (Single SID)
-  hosts: sap_mssql_java_host_name_single_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "Java"
-  roles:
-  - role: get-the-sap-version-mssql-win-java
-    delegate_to: ampsw010saba0
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-- name: Get the MS-SQL version from Java Windows Servers (SID)
-  hosts: sap_mssql_java_host_name_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "Java"
-  roles:
-  - role: get-the-sap-version-mssql-win-java-sid
-    delegate_to: ampsw010saba0
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-- name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_win_single_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "ABAP"
-  roles:
-  - role: get-the-sap-version-oradb-win-abap
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-- name: Get the Oracle DB version from ABAP Windows Servers (Two SIDs)
-  hosts: sap_oradb_abap_host_name_win_two_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "ABAP"
-  roles:
-  - role: get-the-sap-version-oradb-win-abap
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-        - get_sid: "{{ sid_name.results[1].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[1].stdout | trim }}"
-          get_dbn: "{{ db_name.results[1].stdout | trim }}"
-          get_dbv: "{{ db_version.results[1].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
-          get_dbs: "{{ db_size.results[1].stdout | trim }}"
-      delegate_to: ampsw010saba0
-
-- name: Get the Oracle DB version from JAVA Windows Servers (Single SID)
-  hosts: sap_oradb_java_host_name_win_single_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "Java"
-  roles:
-  - role: get-the-sap-version-oradb-win-java
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0
-    
-- name: Get the Oracle DB version from JAVA Windows Servers (Two SIDs)
-  hosts: sap_oradb_java_host_name_win_two_sid
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    app_type: "Java"
-  roles:
-  - role: get-the-sap-version-oradb-win-java
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_spv}},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
-      throttle: 1
-      loop:
-        - get_sid: "{{ sid_name.results[0].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[0].stdout | trim }}"
-          get_dbn: "{{ db_name.results[0].stdout | trim }}"
-          get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[0].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
-        - get_sid: "{{ sid_name.results[1].stdout | trim }}"
-          get_spv: "{{ sap_verison.results[1].stdout | trim }}"
-          get_dbn: "{{ db_name.results[1].stdout | trim }}"
-          get_dbv: "{{ db_version.results[1].stdout | trim }}"
-          get_kmv: "{{ kernal_base_verison.results[1].stdout | trim }}"
-          get_kpn: "{{ kernal_patch_verison.results[1].stdout | trim }}"
-          get_dbs: "{{ db_size.results[1].stdout | trim }}"
-      delegate_to: ampsw010saba0
-      
-- name: Send report to IBM Box folder
-  hosts: windows_report_server
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    report_file_with_date: "c:/temp/sap-db-version-windows-{{ ansible_date_time.date }}.csv"
-  tasks:
-    - name: Copy the file with date format
-      win_copy: 
-        src: "{{ report_file }}"
-        dest: "{{ report_file_with_date }}"
-        remote_src: yes
-    - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Windows.yuusg0opfv8fzpf8@u.box.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+        - get_hname: "{{ thostname.results[0].stdout | trim }}"
+          get_hsid: "{{ hostsid.results[0].stdout | trim }}"
+          get_patch: "{{ hostpatch.results[0].stdout | trim }}"
+        - get_hname: "{{ thostname.results[1].stdout | trim }}"
+          get_hsid: "{{ hostsid.results[1].stdout | trim }}"
+          get_patch: "{{ hostpatch.results[1].stdout | trim }}"
+      delegate_to: ampsw010saba0   
