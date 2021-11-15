@@ -33,9 +33,10 @@
         $dmy='dummy'
         for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
         {
-          echo $dmy >> K:\version\finaluserlist.txt
+          echo $dmy >> K:\version\dummylist.txt
         }
-        cat K:\version\finaluserlist.txt
+        Get-Content K:\version\finaluserlist.txt, K:\version\dummylist.txt | Set-Content K:\version\finaluserlist_new.txt
+        cat K:\version\finaluserlist_new.txt
       register: sid_list1
 
     - debug:
