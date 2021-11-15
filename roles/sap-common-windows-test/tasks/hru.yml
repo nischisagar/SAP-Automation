@@ -25,6 +25,7 @@
     - name: Get the SAP version
       win_shell: |
         hostname > K:\version\testoutput_{{ item }}.txt
+        "{{ item }}"+adm >> K:\version\userlist_new.txt
       become: yes
       become_method: runas
       become_user: "{{ item }}adm"
