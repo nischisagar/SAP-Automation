@@ -57,7 +57,7 @@
     - name: set dummy value
       win_shell: |
         $dmy='dummy'
-        for (( $lo = 3 ); $user_cnt -lt $lo; $user_cnt++ )
+        for (( $lo = 2 ); $user_cnt -lt $lo; $user_cnt++ )
         {
           echo $dmy >> K:\version\dummy_final.txt
         }
