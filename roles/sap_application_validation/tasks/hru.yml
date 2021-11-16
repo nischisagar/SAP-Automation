@@ -90,9 +90,6 @@
   ignore_errors: true
   when: df | int >= 1
 
-- debug: Collect value output
-    msg: "{{ simulate }}"
-
 - name: Results of collection
   debug:
     msg: "{{ item }}"
