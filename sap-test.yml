@@ -1,6 +1,6 @@
 ---
 - name: Validate system status
-  hosts: ampsv03340pjt
+  hosts: target_update_servers_validate
   become: yes
   become_method: sudo
   gather_facts: yes
