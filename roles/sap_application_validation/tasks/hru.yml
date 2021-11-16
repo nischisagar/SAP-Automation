@@ -87,8 +87,9 @@
   ignore_errors: true
   when: df | int >= 1
 
-- name: Results of collection
-  debug:
-    msg: "{{ item }}"
-  with_items: "{{ simulate.results }}"
-  when: df | int >= 1
+- name: Setting facts - simulate
+  set_fact:
+    simulate: "{{ simulate['stdout'] }}"
+
+- debug:
+    msg: "{{ simulate }}"
