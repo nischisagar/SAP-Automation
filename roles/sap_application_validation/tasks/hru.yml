@@ -1,6 +1,6 @@
 ---
 - name: Delete temporary created files in previous this script run
-  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt
+  shell: rm -f /tmp/sidfile.txt /tmp/SAPDBHOSTfile.txt /tmp/testing1.txt /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/application_validation_status_all.txt
   become: yes
 
 - name: check sapmnt is found or not

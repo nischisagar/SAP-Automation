@@ -1,6 +1,16 @@
 ---
+- name: Create output file
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  file:
+    path: /tmp/test123.txt
+    state: touch
+    mode: '0775'
+
 - name: Validate system status
-  hosts: target_update_servers_validate
+  hosts: target_update_servers_validate1
   become: yes
   become_method: sudo
   gather_facts: yes
