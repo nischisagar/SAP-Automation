@@ -79,17 +79,19 @@
     sidname=`echo {{ item }}|cut -c 1-3 | tr '[a-z]' '[A-Z]'`
     echo $sidname
     hstname=`hostname`
-    echo $hstname
+    echo $hstname 
+    echo $hstname > /tmp/validation_status_$sidname.txt
     instnum=`grep -i SAPSYSTEM /sapmnt/$sidname/profile/$sidname_*_$hstname|grep -v SAPSYSTEMNAME|grep -v SCS|awk '{print $3}'`
     echo $instnum
+    su - {{ item }} -c "sapcontrol -nr $instnum -function GetProcessList" >> /tmp/validation_status_$sidname.txt
+    su - {{ item }} -c "sapcontrol -nr $instnum -function GetSystemInstanceList" >> /tmp/validation_status_$sidname.txt
   register: simulate
   with_items: "{{ sids_list }}"
   ignore_errors: true
   when: df | int >= 1
 
-- name: Setting facts - simulate
-  set_fact:
-    simulate: "{{ simulate['stdout'] }}"
-
-- debug:
-    msg: "{{ simulate }}"
+- name: Results of collection
+  debug:
+    msg: "{{ item }}"
+  with_items: "{{ simulate.results }}"
+  when: df | int >= 1
