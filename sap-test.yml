@@ -1,51 +1,8 @@
---- 
-- name: Ensure Socks tunnel setup
-  hosts: ampsv026fio0d
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
-- name: Create the Global report file
-  hosts: windows_report_server
+---
+- name: Validate system status
+  hosts: ampsv03340pjt
   become: yes
-  become_method: runas
-  become_user: system
-  tasks:
-    - name: Create the global report file
-      win_copy:
-        content: 'Entity Name,Host_name,Kernel_Make,Patch_level'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Prepare output file for saphost agent version details
-  hosts: ampsv026fio0d
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
+  become_method: sudo
+  gather_facts: yes
   roles:
-  - role: sap-common-windows-test
-    ignore_errors: yes
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_hsid }},{{ item.get_patch }}"
-      throttle: 1
-      loop:
-        - get_hname: "{{ thostname.results[0].stdout | trim }}"
-          get_hsid: "{{ hostsid.results[0].stdout | trim }}"
-          get_patch: "{{ hostpatch.results[0].stdout | trim }}"
-        - get_hname: "{{ thostname.results[1].stdout | trim }}"
-          get_hsid: "{{ hostsid.results[1].stdout | trim }}"
-          get_patch: "{{ hostpatch.results[1].stdout | trim }}"
-      delegate_to: ampsw010saba0 
-      
-
+  - role: sap_application_validation
