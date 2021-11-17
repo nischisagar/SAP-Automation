@@ -109,6 +109,6 @@
  
 - name: "Delicate output to bld0d server"
   lineinfile:
-    path: "/tmp/finaloutput.txt"
+    path: "/tmp/application_validation_status.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d

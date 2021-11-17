@@ -1,16 +1,14 @@
 ---
-- name: Create output file
+- name: Add the title content in to report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  gather_facts: yes
-  file:
-    path: /tmp/test123.txt
-    state: touch
-    mode: '0775'
+  gather_facts: false
+  roles:
+  - role: report-store-application-validation-status
 
 - name: Validate system status
-  hosts: target_update_servers_validate1
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
