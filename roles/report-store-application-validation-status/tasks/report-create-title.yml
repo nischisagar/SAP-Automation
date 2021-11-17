@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to Report File
   copy:
-    content: 'Entity Name,Host_name,Kernel_Make,Patch_level'
+    content: 'Application Validation Status:'
     dest: "{{ report_file }}"
   run_once: yes
