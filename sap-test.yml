@@ -1,16 +1,8 @@
 ---
-- name: Add the title content in to report file
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
-  - role: report-store-application-validation-status
-
-- name: Validate system status
+- name: Install CI
   hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap_application_validation
+  - role: sap-CI-silent-installation
