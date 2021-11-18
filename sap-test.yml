@@ -1,8 +1,8 @@
 ---
-- name: Install CI
+- name: Install ASCS
   hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-CI-silent-installation
+  - role: sap-ASCS-silent-installation
