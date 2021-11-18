@@ -9,7 +9,7 @@ var_CI_Instance_scsVirtualHostname: "xmpsa010secc0"
 #Distributed installation or system copy with any database and SAP Basis release 740 or higher: Execute ABAP program 'RUTPOADAPT' for depooling. Set it to 'true' if declustering / depooling is selected for the distributed database instance installation option
 var_CI_Instance_ABAP_Reports_executeReportsForDepooling: "true"
 #Are the passwords for the DDIC users different from the default value? Possible values are 'true' or 'false'. Leave empty for default.
-var_DDIC_Password_needDDICPasswords: "false"
+var_DDIC_Password_needDDICPasswords: "true"
 var_GetMasterPassword_masterPwd: "O2source"
 var_System_installSAPHostAgent: "false"
 var_Unpack_dbaToolsSar: "/software/software/Kernel_IGS_AIX_ORA/DBATL740O11_43-80002578.SAR"

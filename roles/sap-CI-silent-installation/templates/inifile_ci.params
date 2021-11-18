@@ -81,7 +81,7 @@ NW_CI_Instance.scsVirtualHostname = {{ var_CI_Instance_scsVirtualHostname }}
 NW_CI_Instance_ABAP_Reports.executeReportsForDepooling = {{ var_CI_Instance_ABAP_Reports_executeReportsForDepooling }}
 
 # Password of the DDIC user in client 000
-NW_DDIC_Password.ddic000Password = O2source
+NW_DDIC_Password.ddic000Password = mrbean@3
 
 # Password of the DDIC user in client 001
 NW_DDIC_Password.ddic001Password = O2source
