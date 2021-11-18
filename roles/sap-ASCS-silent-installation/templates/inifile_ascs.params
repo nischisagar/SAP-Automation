@@ -102,7 +102,7 @@ NW_Unpack.sapExeSar = {{ var_Unpack_sapExeSar }}
 # NW_getFQDN.resolve = true
 
 # Specify whether you want to set FQDN for the system.
-# NW_getFQDN.setFQDN = true
+NW_getFQDN.setFQDN = {{ var_getFQDN_setFQDN }}
 
 # The ASP device name where the SAP system will be in installed. The property is IBM i only.
 # Values from 1 to 256 can be specified. The default is 1, the System ASP.
