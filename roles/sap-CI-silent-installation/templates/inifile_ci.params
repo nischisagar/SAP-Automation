@@ -81,10 +81,10 @@ NW_CI_Instance.scsVirtualHostname = {{ var_CI_Instance_scsVirtualHostname }}
 NW_CI_Instance_ABAP_Reports.executeReportsForDepooling = {{ var_CI_Instance_ABAP_Reports_executeReportsForDepooling }}
 
 # Password of the DDIC user in client 000
-# NW_DDIC_Password.ddic000Password =
+NW_DDIC_Password.ddic000Password = O2source
 
 # Password of the DDIC user in client 001
-# NW_DDIC_Password.ddic001Password =
+NW_DDIC_Password.ddic001Password = O2source
 
 # Are the passwords for the DDIC users different from the default value? Possible values are 'true' or 'false'. Leave empty for default.
 NW_DDIC_Password.needDDICPasswords = {{ var_DDIC_Password_needDDICPasswords }}
