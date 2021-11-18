@@ -15,9 +15,3 @@ var_getFQDN_FQDN: "dtc2.cf.saint-gobain.net"
 var_getFQDN_resolve: "true"
 var_getFQDN_setFQDN: "true"
 swpm_path: "/010_SHARED_INFRA/SAP/install/SWPM/"
-
-
-
-
-
-
