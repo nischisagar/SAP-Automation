@@ -84,13 +84,13 @@ NW_getDBInfoGeneric.dbsid = {{ getDBInfoGeneric_dbsid }}
 # NW_getDBInfoGeneric.strictDbSidCheck = true
 
 # The FQDN of the system
-# NW_getFQDN.FQDN = {{ getFQDN_FQDN }}
+NW_getFQDN.FQDN = {{ getFQDN_FQDN }}
 
 # SAP INTERNAL USE ONLY
-# NW_getFQDN.resolve = {{ getFQDN_resolve }}
+NW_getFQDN.resolve = {{ getFQDN_resolve }}
 
 # Specify whether you want to set FQDN for the system.
-# NW_getFQDN.setFQDN = {{ getFQDN_setFQDN }}
+NW_getFQDN.setFQDN = {{ getFQDN_setFQDN }}
 
 # The load type chosen by the user. Valid values are: 'SAP', 'STD', 'OBR', 'HCP', 'FLASHCOPY', 'MDA', 'HBR', 'SBR'
 NW_getLoadType.loadType = {{ getLoadType_loadType }}
