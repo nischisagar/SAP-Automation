@@ -162,10 +162,10 @@ NW_getDBInfoGeneric.dbsid = {{ var_getDBInfoGeneric_dbsid }}
 # NW_getDBInfoGeneric.strictDbSidCheck = true
 
 # The FQDN of the system
-# NW_getFQDN.FQDN =
+NW_getFQDN.FQDN = {{ var_getFQDN_FQDN }}
 
 # SAP INTERNAL USE ONLY
-# NW_getFQDN.resolve = true
+NW_getFQDN.resolve = {{ var_getFQDN_resolve }}
 
 # Specify whether you want to set FQDN for the system.
 NW_getFQDN.setFQDN = {{ var_getFQDN_setFQDN }}
