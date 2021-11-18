@@ -1,0 +1,19 @@
+---
+# variables file for sap app installation
+
+var_GetMasterPassword_masterPwd: "O2source"
+var_GetSidNoProfiles_sid: "SE0"
+var_SAPCrypto_SAPCryptoFile: "/software/software/Kernel_IGS_AIX_ORA/SAPEXE_700-80002577.SAR"
+var_SCS_Instance_instanceNumber: "10"
+var_SCS_Instance_scsVirtualHostname: "xmpsa010secc0"
+var_Unpack_sapExeSar: "/software/software/Kernel_IGS_AIX_ORA/SAPEXE_700-80002577.SAR"
+var_archives_downloadBasket: "/software/software/Kernel_IGS_AIX_ORA"
+var_nwUsers_sapadmUID: "2002"
+var_nwUsers_sapsysGID: "212"
+var_nwUsers_sidAdmUID: "3000"
+swpm_path: "/010_SHARED_INFRA/SAP/install/SWPM/"
+
+
+
+
+
