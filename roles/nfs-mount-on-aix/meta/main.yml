@@ -1,8 +1,8 @@
 galaxy_info:
-  author: Poonjolai Govindasamy
-  description: This role performs the HANA Revision Upgrade
-  company: IBM
-  license: IBM Intellectual Property
+  author: Kalaikannan Anbarasan
+  description: This role performs NFS Mount on AIX Server
+  company: KYNDRYL
+  license: KYNDRYL Intellectual Property
   min_ansible_version: 2.7
 
   # Provide a list of supported platforms, and for each platform a list of versions.
@@ -12,19 +12,19 @@ galaxy_info:
   #
 
   platforms:
-    - name: SuSE for SAP
+    - name: AIX
       versions:
-        - 12 SP4
+        - 7.2
 
-    - name: HANA
+    - name: SAP
       versions:
-        - 2.0
+        - EHP 7.0
+        - ERP 6.0
 
   galaxy_tags:
-    - hana
-    - update
-    - suse
-    - revision
+    - sap
+    - version
+    - aix
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
