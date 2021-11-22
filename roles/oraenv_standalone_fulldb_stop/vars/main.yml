@@ -1,0 +1,4 @@
+---
+# vars file for oraenv_fulldb_stop
+
+sid: "{{ e_sid }}"

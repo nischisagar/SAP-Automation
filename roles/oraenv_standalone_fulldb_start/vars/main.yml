@@ -1,0 +1,4 @@
+---
+# vars file for oraenv_fulldb_start
+
+sid: "{{ e_sid }}"
