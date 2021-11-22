@@ -356,7 +356,7 @@
 - debug:
     msg: "{{ outputfinal }}"
  
-- name: "Delicate output to bld0d server"
+- name: "Delegate output to bld0d server"
   lineinfile:
     path: "/tmp/finaloutput.txt"
     line: "{{ outputfinal }}"
