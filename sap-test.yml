@@ -1,6 +1,6 @@
 ---
 - name: standalone stop
-  hosts: xmpsa010secc0
+  hosts: xmpsa010secc1
   become: yes
   become_method: sudo
   gather_facts: yes
