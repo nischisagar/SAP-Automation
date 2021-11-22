@@ -1,8 +1,9 @@
 ---
-- name: Install CI
-  hosts: xmpsa010secc1
+- name: standalone stop
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-application-silent-installation
+  - role: standalone_db2_ora_hana_stop
+    ignore_errors: yes
