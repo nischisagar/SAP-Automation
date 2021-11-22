@@ -126,43 +126,34 @@
     msg: "Found ORACLE Database"
   when: op | int == 1
 
-- name: No ORACLE SID input Given, coming out from script
-  debug:
-    msg: "No ORACLE SID input Given, coming out from script"
-  when:
+- name: Copy DB and Listener script to remote endpoint
+  copy:
+    src: ./files/oraenv_fulldbstandalone_stop.sh
+    dest: /tmp/
+    owner: oracle
+    group: oinstall
+    mode: '0775'
+  when: 
     - op | int == 1
-    - not sid
 
-- meta: end_play
+- name: Stopping Oracle DB
+  shell:  |
+    dblist1=`cat /oracle/stage/listnamefile_donotdelete|awk '{print $1}'`
+    for sdb1 in $dblist1
+    do
+    su - oracle -c /tmp/oraenv_fulldbstandalone_stop.sh $sdb1
+    done
   when:
     - op | int == 1
-    - not sid
+  register: dbliststop
 
-- name: Oracle SID given is {{ sid }}
-  debug:
-    msg: "Oracle SID given is {{ sid }}"
-  when:
-    - op | int == 1
-    - sid | length > 0
-
-- name: All DB restart is requested
-  debug:
-    msg: "All DB restart is requested"
-  when:
-    - op | int == 1
-    - sid | lower == "full"
-
-- name: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/sapdbstopstart/oraenv_fulldb_stop"
-  shell: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/sapdbstopstart/oraenv_fulldb_stop"
-  when:
-    - op | int == 1
-    - sid | lower == "full"
+- debug:
+    msg: "{{ dbliststop }}"
 
 - name: ps -ef|grep -i pmon|grep -v grep|wc -l
   shell: ps -ef|grep -i pmon|grep -v grep|wc -l
   when:
     - op | int == 1
-    - sid | lower == "full"
   register: pmoncnt
 
 - debug:
@@ -172,7 +163,6 @@
   shell: ps -ef|grep -i tnsl|grep -v grep|wc -l
   when:
     - op | int == 1
-    - sid | lower == "full"
   register: lsncnt
 
 - debug:
@@ -183,13 +173,11 @@
     msg: "One of DB stop is not working , manual intervention is required"
   when:
     - op | int == 1
-    - sid | lower == "full"
     - pmoncnt | int == 1 or lsncnt | int == 1
 
 - meta: end_play
   when:
     - op | int == 1
-    - sid | lower == "full"
     - pmoncnt | int == 1 or lsncnt | int == 1
 
 - name: All Oracle DB and Listener are stopped
@@ -197,128 +185,9 @@
     msg: "All Oracle DB and Listener are stopped"
   when:
     - op | int == 1
-    - sid | lower == "full"
     - pmoncnt | int != 1 or lsncnt | int != 1
 
-- name: "{{ sid }} oracle db restart is requested"
-  debug:
-    msg: "{{ sid }} oracle db restart is requested"
-  when:
-    - op | int == 1
-    - sid | lower == "full"
-
-- name: Getting Listener Name from /oracle/stage/listnamefile file
-  debug:
-    msg: "Getting Listener Name from /oracle/stage/listnamefile file"
-  when:
-    - op | int == 1
-    - sid | lower == "full"
-
-- name: cat /oracle/stage/listnamefile|grep -i {{ sid }}|awk '{print $2}'
-  shell: cat /oracle/stage/listnamefile|grep -i {{ sid }}|awk '{print $2}'
-  when:
-    - op | int == 1
-    - sid | lower == "full"
-  register: list
-
-- debug:
-    msg: "{{ list }}"
-
-- name: "Listener name {{ list }}"
-  debug:
-    msg: "Listener name : {{ list }}"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-
-- name: cat /oracle/stage/listnamefile|grep -i {{ sid }}|wc -l
-  shell: cat /oracle/stage/listnamefile|grep -i {{ sid }}|wc -l
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-  register: sidchk
-
-- name: Setting fact
-  set_fact:
-    sidchk: "{{ sidchk.stdout | trim }}"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-
-- debug:
-    msg: "{{ sidchk }}"
-
-- name: Valid SID {{ sid }} Found
-  debug:
-    msg: "Valid SID {{ sid }} Found"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-    - sidchk | int >= 1
-
-- name: Invalid SID Provided, exiting from script
-  debug:
-    msg: "Invalid SID Provided, exiting from script"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-    - not sidchk | int >= 1
-
-- name: Proceeding with $sid DB stop by Oracle User
-  debug:
-    msg: "Proceeding with {{ sid }} DB stop by Oracle User"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-
-- name: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/oraenv_db_list $sid $list
-  shell: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/oraenv_db_list {{ sid }} {{ list }}"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-
-- name: ps -ef|grep -i pmon|grep -v grep|wc -l
-  shell: ps -ef|grep -i pmon|grep -v grep|wc -l
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-  register: pmoncnt
-
-- debug:
-    msg: "{{ pmoncnt }}"
-
-- name: ps -ef|grep -i tnsl|grep -v grep|wc -l
-  shell: ps -ef|grep -i tnsl|grep -v grep|wc -l
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-  register: lsncnt
-
-- debug:
-    msg: "{{ lsncnt }}"
-
-- name: Oracle DB $sid  stop is not working , manual intervention is required
-  debug:
-    msg: "Oracle DB {{ sid }}  stop is not working , manual intervention is required"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-    - pmoncnt | int == 1 or lsncnt | int == 1
-
-- meta: end_play
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-    - pmoncnt | int == 1 or lsncnt | int == 1
-
-- name: Oracle DB $sid and Listener are stopped
-  debug:
-    msg: "Oracle DB {{ sid }} and Listener are stopped"
-  when:
-    - op | int == 1
-    - sid | lower != "full"
-    - pmoncnt | int != 1 or lsncnt | int != 1
-
+# =============================================================================
 
 - name: df -h|grep -i hana|grep -i data|awk '{print $NF}'|cut -d"/" -f4|tr '[:upper:]' '[:lower:]'
   shell: df -h|grep -i hana|grep -i data|awk '{print $NF}'|cut -d"/" -f4|tr '[:upper:]' '[:lower:]'
