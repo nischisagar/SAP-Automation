@@ -1,0 +1,4 @@
+---
+# vars file for db2_ora_hana_stop/
+
+sid: "{{ e_sid }}"

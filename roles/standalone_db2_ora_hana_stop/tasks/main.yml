@@ -1,0 +1,381 @@
+---
+# tasks file for db2_ora_hana_stop/
+
+- name: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  register: dp
+
+- name: Setting fact
+  set_fact:
+    dp: "{{ dp.stdout | trim }}"
+
+- debug:
+    msg: "DP-{{ dp }}"
+
+- name: ps -ef|grep -i pmon|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i pmon|grep -v grep|wc -l|awk '{print $0}'
+  register: op
+
+- name: Setting fact
+  set_fact:
+    op: "{{ op.stdout | trim }}"
+
+- debug:
+    msg: "OP-{{ op }}"
+
+- name: ps -ef|grep -i hdbnameserver|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i hdbnameserver|grep -v grep|wc -l|awk '{print $0}'
+  register: hp
+
+- name: Setting fact
+  set_fact:
+    hp: "{{ hp.stdout | trim }}"
+
+- debug:
+    msg: "HP-{{ hp }}"
+
+- name: Found DB2 Database,Looking for db2 admin user
+  debug:
+    msg: "Found DB2 Database,Looking for db2 admin user"
+  when: dp | int == 1
+
+- name: find /db2/ -name db2ilist -print|tail -1
+  shell: find /db2/ -name db2ilist -print|tail -1
+  when: dp | int == 1
+  register: dbl
+
+- debug:
+    msg: "{{ dbl }}"
+
+- debug:
+    msg: "{{ dbl }}"
+  with_items: "{{ dbl.stdout_lines }}"
+  
+- name: sh $dbl
+  shell: sh {{ item }}
+  with_items: "{{ dbl.stdout_lines }}"
+  when: dp | int == 1
+  register: dbuser
+
+- name: Setting facts
+  set_fact:
+    dbuser: "{{ dbuser.results[0].stdout }}"
+
+- debug:
+    msg: "{{ dbuser }}"
+
+- name: "DB User is- {{ dbuser }}"
+  debug:
+    msg: "DB User is : {{ dbuser }}"
+  when: dp | int == 1
+
+- name: Initiating DB2 Database stop
+  debug:
+    msg: "Initiating DB2 Database stop"
+  when: dp | int == 1
+
+- name: su - $dbuser -c "db2stop"
+  shell:  |
+    su - {{ dbuser }} -c "db2 list active databases | egrep -i 'Database name'" > /tmp/dblistcnt.txt
+    actdb=`cat /tmp/dblistcnt.txt|grep -v MAIL|awk '{print $4}'`
+    for dbo in $actdb
+    do
+    su - {{ dbuser }} -c "db2 deactivate db $dbo"
+    done
+    su - {{ dbuser }} -c "db2stop"
+  when: dp | int == 1
+
+- name: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  when: dp | int == 1
+  register: dp
+
+- name: DB2 DB is still Up,proceeding with force stop
+  debug:
+    msg: "DB2 DB is still Up,proceeding with force stop"
+  when: dp | int == 1
+
+- name: su - $dbuser -c db2 force application all
+  shell: su - {{ dbuser }} -c "db2 force application all"
+  when: dp | int == 1
+
+- name: su - $dbuser -c db2stop
+  shell: su - {{ dbuser }} -c "db2stop"
+  when: dp | int == 1
+
+- name: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i db2sysc|grep -v grep|wc -l|awk '{print $0}'
+  when: dp | int == 1
+  register: dp
+
+- name: Force stop of DB2 DB is also not success,Manual intervention is required
+  debug:
+    msg: "Force stop of DB2 DB is also not success,Manual intervention is required"
+  when: dp | int == 1
+
+- name: Stop of DB2 DB is successful
+  debug:
+    msg: "Stop of DB2 DB is successful"
+  when: dp | int != 1
+
+
+# =============================================================================
+
+- name: Found ORACLE Database
+  debug:
+    msg: "Found ORACLE Database"
+  when: op | int == 1
+
+- name: No ORACLE SID input Given, coming out from script
+  debug:
+    msg: "No ORACLE SID input Given, coming out from script"
+  when:
+    - op | int == 1
+    - not sid
+
+- meta: end_play
+  when:
+    - op | int == 1
+    - not sid
+
+- name: Oracle SID given is {{ sid }}
+  debug:
+    msg: "Oracle SID given is {{ sid }}"
+  when:
+    - op | int == 1
+    - sid | length > 0
+
+- name: All DB restart is requested
+  debug:
+    msg: "All DB restart is requested"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+
+- name: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/sapdbstopstart/oraenv_fulldb_stop"
+  shell: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/sapdbstopstart/oraenv_fulldb_stop"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+
+- name: ps -ef|grep -i pmon|grep -v grep|wc -l
+  shell: ps -ef|grep -i pmon|grep -v grep|wc -l
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+  register: pmoncnt
+
+- debug:
+    msg: "{{ pmoncnt }}"
+
+- name: ps -ef|grep -i tnsl|grep -v grep|wc -l
+  shell: ps -ef|grep -i tnsl|grep -v grep|wc -l
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+  register: lsncnt
+
+- debug:
+    msg: "{{ lsncnt }}"
+
+- name: One of DB stop is not working , manual intervention is required
+  debug:
+    msg: "One of DB stop is not working , manual intervention is required"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+    - pmoncnt | int == 1 or lsncnt | int == 1
+
+- meta: end_play
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+    - pmoncnt | int == 1 or lsncnt | int == 1
+
+- name: All Oracle DB and Listener are stopped
+  debug:
+    msg: "All Oracle DB and Listener are stopped"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+    - pmoncnt | int != 1 or lsncnt | int != 1
+
+- name: "{{ sid }} oracle db restart is requested"
+  debug:
+    msg: "{{ sid }} oracle db restart is requested"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+
+- name: Getting Listener Name from /oracle/stage/listnamefile file
+  debug:
+    msg: "Getting Listener Name from /oracle/stage/listnamefile file"
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+
+- name: cat /oracle/stage/listnamefile|grep -i {{ sid }}|awk '{print $2}'
+  shell: cat /oracle/stage/listnamefile|grep -i {{ sid }}|awk '{print $2}'
+  when:
+    - op | int == 1
+    - sid | lower == "full"
+  register: list
+
+- debug:
+    msg: "{{ list }}"
+
+- name: "Listener name {{ list }}"
+  debug:
+    msg: "Listener name : {{ list }}"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+
+- name: cat /oracle/stage/listnamefile|grep -i {{ sid }}|wc -l
+  shell: cat /oracle/stage/listnamefile|grep -i {{ sid }}|wc -l
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+  register: sidchk
+
+- name: Setting fact
+  set_fact:
+    sidchk: "{{ sidchk.stdout | trim }}"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+
+- debug:
+    msg: "{{ sidchk }}"
+
+- name: Valid SID {{ sid }} Found
+  debug:
+    msg: "Valid SID {{ sid }} Found"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+    - sidchk | int >= 1
+
+- name: Invalid SID Provided, exiting from script
+  debug:
+    msg: "Invalid SID Provided, exiting from script"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+    - not sidchk | int >= 1
+
+- name: Proceeding with $sid DB stop by Oracle User
+  debug:
+    msg: "Proceeding with {{ sid }} DB stop by Oracle User"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+
+- name: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/oraenv_db_list $sid $list
+  shell: su - oracle -c "/010_SHARED_INFRA/Ansible_scripts/stopstart/oraenv_db_list {{ sid }} {{ list }}"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+
+- name: ps -ef|grep -i pmon|grep -v grep|wc -l
+  shell: ps -ef|grep -i pmon|grep -v grep|wc -l
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+  register: pmoncnt
+
+- debug:
+    msg: "{{ pmoncnt }}"
+
+- name: ps -ef|grep -i tnsl|grep -v grep|wc -l
+  shell: ps -ef|grep -i tnsl|grep -v grep|wc -l
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+  register: lsncnt
+
+- debug:
+    msg: "{{ lsncnt }}"
+
+- name: Oracle DB $sid  stop is not working , manual intervention is required
+  debug:
+    msg: "Oracle DB {{ sid }}  stop is not working , manual intervention is required"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+    - pmoncnt | int == 1 or lsncnt | int == 1
+
+- meta: end_play
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+    - pmoncnt | int == 1 or lsncnt | int == 1
+
+- name: Oracle DB $sid and Listener are stopped
+  debug:
+    msg: "Oracle DB {{ sid }} and Listener are stopped"
+  when:
+    - op | int == 1
+    - sid | lower != "full"
+    - pmoncnt | int != 1 or lsncnt | int != 1
+
+
+- name: df -h|grep -i hana|grep -i data|awk '{print $NF}'|cut -d"/" -f4|tr '[:upper:]' '[:lower:]'
+  shell: df -h|grep -i hana|grep -i data|awk '{print $NF}'|cut -d"/" -f4|tr '[:upper:]' '[:lower:]'
+  when:
+    - hp | int == 1
+  register: sid1
+
+- debug:
+    msg: "{{ sid1 }}"
+
+- name: Setting facts
+  set_fact:
+    sidadm: "{{ sid1['stdout'] }}adm"
+  when:
+    - hp | int == 1
+
+- name: "Found HANA Database $sid1,proceeding with DB stop by {{ sidadm }} user"
+  debug:
+    msg: "Found HANA Database $sid1,proceeding with DB stop by {{ sidadm }} user"
+  when:
+    - hp | int == 1
+
+- name: "su - $sidadm -c HDB stop"
+  shell: "su - {{ sidadm }} -c 'HDB stop'"
+  when:
+    - hp | int == 1
+
+- name: ps -ef|grep -i hdbnameserver|grep -v grep|wc -l|awk '{print $0}'
+  shell: ps -ef|grep -i hdbnameserver|grep -v grep|wc -l|awk '{print $0}'
+  when:
+    - hp | int == 1
+  register: hp1
+
+- debug:
+    msg: "{{ hp1 }}"
+
+- name: HANA DB $sid1 stop is not working , manual intervention is required
+  debug:
+    msg: "HANA DB {{ sid1 }} stop is not working , manual intervention is required"
+  when:
+    - hp | int == 1
+    - hp1 | int == 1
+
+- meta: end_play
+  when:
+    - hp | int == 1
+    - hp1 | int == 1
+
+- name: HANA DB $sid1 is stopped
+  debug:
+    msg: "HANA DB {{ sid1 }} is stopped"
+  when:
+    - hp | int == 1
+    - hp1 | int != 1
+
+- name: NO DB2/ORACLE/HANA DB Found, or DB is already stopped
+  debug:
+    msg: "NO DB2/ORACLE/HANA DB Found, or DB is already stopped"
+  when:
+    - hp | int != 1
