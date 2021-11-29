@@ -1,9 +1,9 @@
 ---
-- name: standalone stop
-  hosts: xmpsa010secc1
+- name: NAS mount
+  hosts: xmpsl020dhaw0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: standalone_db2_ora_hana_stop
+  - role: nfs-mount-on-linux
     ignore_errors: yes
