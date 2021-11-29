@@ -1,0 +1,30 @@
+---
+bundle_path: "/tempfs/hana_software/GF_LINUX_HANA/HANA_Dump"
+bundle_sar_db_file_name: "IMDB_SERVER20_053_0-80002046.SAR"
+bundle_sar_client_file_name: "IMDB_CLIENT20_007_17-80002095.SAR"
+sapcar_path: "/tempfs/hana_software/GF_LINUX_HANA"
+sapcar_file_name: "SAPCAR_1010-70006238.EXE"
+deploy_hostagent: 'y'
+apply_license: false
+hana_install_path: '/hana/shared'
+use_master_password: 'n'
+hana_master_password: "Ironman@123!"
+root_password: "Ironman@123!"
+sapadm_password: "Ironman@123!"
+hana_sid: "SH0"
+hana_instance_number: "20"
+hana_env_type: 'test'
+hana_mem_restrict: 'n'
+hana_max_mem:
+common_master_password: "Ironman@123!"
+sidadm_password: "Ironman@123!"
+hana_db_system_password: "Ironman@123!"
+system_restart: 'n'
+xs_install: 'n'
+hana_userid: "7001"
+hana_password: "Ironman@123!"
+hana_groupid: "79"
+ansible_hostname: ""
+ase_user_password: ""
+nfs: "/tempfs"
+nfs_mount: "10.139.67.53:/shared_softrepo/010_SHARED_INFRA"
