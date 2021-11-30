@@ -1,9 +1,9 @@
 ---
-- name: NAS mount
-  hosts: xmpsl020dhaw0
+- name: SAP 7.5 install
+  hosts: xmpsa020dewm0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: nfs-mount-on-linux
+  - role: sap-CI-nw75-standardbuild-installation-hana2055db
     ignore_errors: yes
