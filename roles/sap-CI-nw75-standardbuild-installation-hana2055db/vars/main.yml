@@ -1,4 +1,4 @@
 ---
 # variables file for sap app installation
 
-swpm_path: "/010_SHARED_INFRA/SAP/install/SWPM/"
+swpm_path: "/010_SHARED_INFRA/SH0_Installation/SWPM/"
