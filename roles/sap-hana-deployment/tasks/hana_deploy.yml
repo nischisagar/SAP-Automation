@@ -1,11 +1,4 @@
 ---
-- name: Mount the NFS share /tempfs
-  mount:
-    path: "{{nfs}}"
-    src: "{{nfs_mount}}"
-    fstype: nfs
-    state: mounted
-
 - name: Use SAPCAR to extract the SAP HANA Bundle SAR file
   command: "{{ sapcar_path }}/{{ sapcar_file_name }} -xvf {{ bundle_path }}/{{ bundle_sar_db_file_name }} -manifest SAP_HANA_DATABASE/SIGNATURE.SMF"
   register: extractbundle
