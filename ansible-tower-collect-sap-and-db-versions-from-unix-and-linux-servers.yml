@@ -572,6 +572,8 @@
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Monthly SAP JAVA and DB version Report <Unix.8eqokg8qtn4af85l@u.box.com>
+        cc: 
+        - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
         - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
