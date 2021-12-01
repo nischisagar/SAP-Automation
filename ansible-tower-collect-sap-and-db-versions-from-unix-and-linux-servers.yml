@@ -575,6 +575,6 @@
         attach:
         - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
-        - Reply-To=kalanbar@in.ibm.com
+        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
         charset: us-ascii
