@@ -7,7 +7,7 @@
   file:
     path: "/{{ eno_ename }}"
     state: directory
-    mode: '0755'
+    mode: '0775'
   when: ostype | lower == "aix"
 
 - name: Mount NFS by shell module for AIX
