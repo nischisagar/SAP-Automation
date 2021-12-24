@@ -35,10 +35,3 @@
   args:
     chdir: "{{ hana_source_path }}"
   changed_when: "'SAP HANA Lifecycle Management' in installhana.stdout"
-
-- name: Unmount the NFS share /tempfs
-  mount:
-    path: "{{nfs}}"
-    src: "{{nfs_mount}}"
-    fstype: nfs
-    state: absent
