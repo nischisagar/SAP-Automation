@@ -2,7 +2,7 @@
 - name: echo execute installation step
   shell: |
     cd {{ swpm_path }}
-    cd {{ swpm_path }};/010_SHARED_INFRA/SWPM_30Nov2021/SWPM_AIX_NEW/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/Ansible_Hana_files/inifile.params_dxw SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true
+    cd {{ swpm_path }};/010_SHARED_INFRA/SWPM_30Nov2021/SWPM_AIX_NEW/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/Ansible_Hana_files/inifile.params_ixw SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true
   register: install_out
 
 - debug:
