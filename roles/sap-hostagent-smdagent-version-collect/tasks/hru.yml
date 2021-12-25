@@ -23,6 +23,6 @@
   register: get_patch_level
 
 - name: Get smdagent version level
-  shell:  "cat /tmp/test123.txt|grep -i version|cut -d"=" -f2|cut -d"." -f1-4"
+  shell:  cat /tmp/test123.txt|grep -i version|cut -d"=" -f2|cut -d"." -f1-4
   loop: "{{ os_type_list }}"
   register: get_smd_version
