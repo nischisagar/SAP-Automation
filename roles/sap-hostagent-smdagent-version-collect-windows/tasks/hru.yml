@@ -1,0 +1,86 @@
+---
+- name: Collect Hostname and Hostagent version detail
+  win_shell: |
+    hostname > C:\temp\check1234.txt
+    ./saphostexec.exe -version| select-string -pattern variant|%{ (-split $_)[3] } >> C:\temp\check1234.txt
+    ./saphostexec.exe -version| select-string -pattern "patch number"|%{ (-split $_)[2] } >>C:\temp\check1234.txt  
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  become: yes
+  become_method: runas
+  become_user: system
+  register: hostversion_detail
+
+- name: Collect smdagent version detail
+  win_shell: |
+    $ss=Get-WmiObject win32_service | ?{$_.Name -like '*DAA*'} | select PathName | findstr "DAA"
+    $s1=$ss.split("exe") | findstr "DAA"
+    $s2=$s1[0]+'SMDAgent\configuration\runtime.properties"'
+    $s3=$s2.split('"')|findstr DAA
+    $s4=cat $s3|findstr version
+    $s5=$s4.split('=')
+    $s5[1] >> C:\temp\check1234.txt  
+  become: yes
+  become_method: runas
+  become_user: system
+  register: smdagentversion_detail
+
+- name: Get target server hostname 
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[0]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: thostname
+
+- debug:
+    msg: "{{ thostname }}"
+
+- name: Get Hostagent base version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[1]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostbase
+
+- debug:
+    msg: "{{ hostbase }}"
+
+- name: Get Hostagent patch version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[2]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: hostpatch
+
+- debug:
+    msg: "{{ hostpatch }}"
+
+- name: Get smdagent patch version
+  win_shell: |
+    $var1 = Get-Content C:\temp\check1234.txt
+    $var1[3]
+  args:
+    chdir: c:\temp
+  become: yes
+  become_method: runas
+  become_user: system
+  loop: "{{ os_type_list }}"
+  register: smdpatch
+
+- debug:
+    msg: "{{ smdpatch }}"
