@@ -31,7 +31,7 @@
     account_code: "sgi"
     trans_num: "{{ tower_job_id }}"
   roles:
-  - role: sap-hostagent-version-collect-windows
+  - role: sap-hostagent-smdagent-version-collect-windows
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
