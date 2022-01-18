@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_update_servers_aixlast
+  hosts: target_update_servers_hagentdemo
   become: yes
   become_method: sudo
   gather_facts: yes
