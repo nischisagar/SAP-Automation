@@ -1,9 +1,9 @@
-#############################################################################################################################################################################################################################
-#                                                                                                                                                                                                                           #
-# Installation service 'SAP Business Suite 7i 2016 > EHP8 for SAP ERP 6.0 ABAP > Oracle > Installation > Additional SAP System Instances > Additional Application Server Instance', product id 'NW_DI:BS2016.ERP608.ORA.PD' #
-#                                                                                                                                                                                                                           #
-#############################################################################################################################################################################################################################
-# IMPORTANT DO NOT DELETE!!! SAPInstDes25Hash=$ZUJQro/khzlq$ZNgMasbFwsAL17ZiSC7u2gqPEuYDyMUCwW6qbk266rZz7qq73PpuAvbq3U/HbKIG7dWFTr7qu4QHp+p/qkGSkJ+fj6boSI5P
+###########################################################################################################################################################################################################
+#                                                                                                                                                                                                         #
+# Installation service 'SAP Enhancement Package 1 for SAP NetWeaver 7.3 > Oracle > Installation > Application Server ABAP > Standard System > Standard System', product id 'NW_ABAP_OneHost:NW731.ORA.PI' #
+#                                                                                                                                                                                                         #
+###########################################################################################################################################################################################################
+# IMPORTANT DO NOT DELETE!!! SAPInstDes25Hash=$Tp7fnU0lN/7a$YDT9emuwS1aonudPXIl8u0QKwUVJP9mKLhDONY0Gw5hqtnjESRH73F2gC1nCYzqIlDFeFE9uQyRMRq+78wAftwYesmJh63W9
 
 # Password for the Diagnostics Agent specific <dasid>adm user. Provided value may be encoded.
 # DiagnosticsAgent.dasidAdmPassword =
@@ -14,53 +14,185 @@
 # Windows only: Password for the Diagnostics Agent specific 'SAPService<DASID>' user.
 # DiagnosticsAgent.sapServiceDASIDPassword =
 
+# Specify whether you want to decluster during the import.
+InitDeclusteringForImport.decluster = false
+
 # If set to 'true', an 'ms_acl_info' file is created. It manages the hosts from which the Message Server accepts connections.
 # MessageServer.configureAclInfo = false
 
-# The  instance number of the application server. Leave empty for default.
-NW_AS.instanceNumber = {{ ASInstanceNumber }}
+# SAP HANA: import tasks to omit. To be used in combination with HDB_IMPORT_WITH_SDI=true.
+# NW_ABAP_Import.hdbOmitTasksForSDI = TPIV
 
-# Skip unpacking any archive, for example SAPEXE.SAR. Do not set it to 'true' if the database client archives or the SAP kernel must be unpacked, for example if you want to add an application server on a another operating system.
-# NW_AS.skipUnpacking = false
+# SAP code page. Value for Unicode is: '4103' on little endian (intel), '4102' on big endian. Value for Non-Unicode is: '1100' or country specific.
+NW_ABAP_Import_Dialog.dbCodepage = 4102
 
-# Start the application server at the end of the installation. Default is 'true'.
-# NW_AS.start = true
+# Communication port for the Migration Monitor.
+# NW_ABAP_Import_Dialog.migmonComPort =
 
-# User-defined number of Java server nodes. Depends on NW_DI_Instance.nodesNumber.
-# NW_DI_Instance.nodesNum =
+# Communication type for the Migration Monitor. Possible values are: 'EXCHANGE', 'SOCKETS', none
+# NW_ABAP_Import_Dialog.migmonComType = EXCHANGE
 
-# Number of Java server nodes. Possible values: 'defNodes' - default number; 'userNodes' - user-defined number. Default is 'defNodes'
-# NW_DI_Instance.nodesNumber = defNodes
+# Exchange directory for the Migration Monitor
+# NW_ABAP_Import_Dialog.migmonExchangeDir =
 
-# You can specify a virtual host name for the application server instance. Leave empty if you want to use the default physical host name. The virtual host name must already be bound to a local network interface.
-NW_DI_Instance.virtualHostname = {{ DI_Instance_virtualHostname }}
+# Number of parallel Migration Monitor jobs
+NW_ABAP_Import_Dialog.migmonJobNum = 8
+
+# Additional 'R3load' arguments for the LOAD phase
+NW_ABAP_Import_Dialog.migmonLoadArgs = -stop_on_error -loadprocedure fast
+
+# Additional 'R3load' arguments for the TASK phase
+# NW_ABAP_Import_Dialog.migmonTaskArgs =
+
+# Migration key.
+# NW_ABAP_Import_Dialog.migrationKey =
+
+# Enables setting advanced 'R3load' options.
+# NW_ABAP_Import_Dialog.useAdvancedLoadConfig = false
+
+# Enables setting attribues for parallel export/import.
+# NW_ABAP_Import_Dialog.useParallelExportImport = false
+
+# Location of the input file for the 'ABAP SecureStore' key. The input file must have two lines: 'key = <key>', 'key-id = <key ID>'. You can generate a key using 'rsecssfx'. Leave empty if you want to use the default key.
+# NW_ABAP_SSFS_CustomKey.ssfsKeyInputFile =
+
+# Standard system only: Add gateway process to (A)SCS instance
+# NW_CI_Instance.ascsInstallGateway = false
+
+# Standard system only: Add web dispatcher process to (A)SCS instance
+# NW_CI_Instance.ascsInstallWebDispatcher = false
+
+# Standard system with AS ABAP only: ASCS instance number. Leave empty for default.
+NW_CI_Instance.ascsInstanceNumber = {{ ci_ascsinst_num }}
+
+# Standard system with AS ABAP only: Virtual host name for the ASCS instance. Leave empty for default.
+NW_CI_Instance.ascsVirtualHostname = {{ ci_ascshostname }}
+
+# Instance number of the primary application server instance. Leave empty for default.
+NW_CI_Instance.ciInstanceNumber = {{ ci_ciinst_num }}
+
+# The ABAP message server port. Leave empty for default.
+# NW_CI_Instance.ciMSPort =
+
+# The internal ABAP message server port. Leave empty for default.
+# NW_CI_Instance.ciMSPortInternal =
+
+# Virtual host name of the primary application server instance . Leave empty for default.
+NW_CI_Instance.ciVirtualHostname = {{ ci_cihostname }}
+
+# Create file 'prxyinfo(.DAT)' in the global directory, if it does not already exist and set 'gw/prxy_info' in the default profile accordingly.  Default is 'false'.
+# NW_CI_Instance.createGlobalProxyInfoFile = false
+
+# Create file 'reginfo(.DAT)' in the global directory. Default is 'false'.
+# NW_CI_Instance.createGlobalRegInfoFile = false
+
+# User-defined number of Java server nodes. Depends on NW_CI_Instance.nodesNumber.
+# NW_CI_Instance.nodesNum =
+
+# Number of Java server nodes. Possible values: 'defNodes' - default number; 'srcNodes' - copy from source; 'userNodes' - user-defined number. Default is 'defNodes'
+# NW_CI_Instance.nodesNumber = defNodes
+
+# Standard system with AS Java only: The SCS instance number. Leave empty for default.
+# NW_CI_Instance.scsInstanceNumber =
+
+# The internal Java message server port. Leave empty for default.
+# NW_CI_Instance.scsMSPortInternal =
+
+# Standard system with AS Java only: Virtual host name for the SCS instance. Leave empty for default.
+NW_CI_Instance.scsVirtualHostname = {{ ci_scshostname }}
+
+# Activate ICF node '/SAP/BC/REST/SLPROTOCOL'
+# NW_CI_Instance_ABAP_Reports.enableActivateICFService = false
+
+# SAP INTERNAL USE ONLY
+# NW_CI_Instance_ABAP_Reports.enableSPAMUpdateWithoutStackXml = false
+
+# SAP INTERNAL USE ONLY
+# NW_CI_Instance_ABAP_Reports.enableTMSConfigWithoutStackXml = false
+
+# SAP INTERNAL USE ONLY
+# NW_CI_Instance_ABAP_Reports.enableTransportsWithoutStackXml = false
+
+# Distributed installation or system copy with any database and SAP Basis release 740 or higher: Execute ABAP program 'RUTPOADAPT' for depooling. Set it to 'true' if declustering / depooling is selected for the distributed database instance installation option.
+NW_CI_Instance_ABAP_Reports.executeReportsForDepooling = false
+
+# System copy AS Java with product instance Process Integration and/or Development Infrastructure: Specify whether the target system should replace the source system. Possible values are  'true' or 'false'.
+# NW_CreateDBandLoad.movePVCforUsagePiAndDi =
+
+# Password of the DDIC user in client 000
+# NW_DDIC_Password.ddic000Password =
+
+# Password of the DDIC user in client 001
+# NW_DDIC_Password.ddic001Password =
+
+# Are the passwords for the DDIC users different from the default value? Possible values are 'true' or 'false'. Leave empty for default.
+NW_DDIC_Password.needDDICPasswords = false
 
 # Specify whether the all operating system users are to be removed from group 'sapinst' after the execution of Software Provisioning Manager has completed.
 # NW_Delete_Sapinst_Users.removeUsers = false
 
 # Master password
-NW_GetMasterPassword.masterPwd = {{ GetMasterPassword_masterPwd }}
+NW_GetMasterPassword.masterPwd = {{ ci_masterpassword }}
+
+# Human readable form of the default login language to be preselected in SAPGUI. This Parameter is potentialy prompted in addition in the screen that also asks for the <SAPSID>. It is only prompted in systems that have an ABAP stack. It is prompted for installation but not for system copy. It is asked in those installations, that perform the ABAP load. That could be the database load installation in case of a distributed system szenario, or in case of a standard system installation with all instances on one host. This Parameter is saved in the 'DEFAULT' profile. It is has no influence on language settings in a Java stack. Valid names are stored in a table of subcomponent 'NW_languagesInLoadChecks'. The available languages must be declaired in the 'LANGUAGES_IN_LOAD' parameter of the 'product.xml' file . In this file, the one-character representation of the languages is used. Check the same table in subcomponent 'NW_languagesInLoadChecks'.
+# NW_GetSidNoProfiles.SAP_GUI_DEFAULT_LANGUAGE =
+
+# Unix only: The SAP mount directory path. Default value is '/sapmnt'.
+# NW_GetSidNoProfiles.sapmnt = /sapmnt
+
+# The SAP system ID <SAPSID> of the system to be installed
+NW_GetSidNoProfiles.sid = {{ ci_sapsid }}
+
+# Only use this parameter if recommended by SAP.
+# NW_GetSidNoProfiles.strictSidCheck = true
 
 # DEPRECATED, DO NOT USE!
-# NW_SAPCrypto.SAPCryptoFile =
+NW_SAPCrypto.SAPCryptoFile = {{ ci_dbindep_sapexedumppath }}
+
+# Enable the instance agent (sapstartsrv) data supplier to send operating system information to the System Landscape Directory (SLD). Default is 'false'.
+# NW_SLD_Configuration.configureSld = false
+
+# Host of the System Landscape Directory (SLD)
+# NW_SLD_Configuration.sldHost =
+
+# Port used to connect to the System Landscape Directory (SLD)
+# NW_SLD_Configuration.sldPort =
+
+# Use HTTPS. Default is 'false'.
+# NW_SLD_Configuration.sldUseHttps = false
+
+# The user that is to authenticate towards the System Landscape Directory (SLD)
+# NW_SLD_Configuration.sldUser =
+
+# User password to authenticate towards the System Landscape Directory (SLD). Note: The connection is not checked by Software Provisioning Manager.
+# NW_SLD_Configuration.sldUserPassword =
 
 # SAP INTERNAL USE ONLY
-NW_System.installSAPHostAgent = {{ System_installSAPHostAgent }}
+NW_System.installSAPHostAgent = false
 
 # DEPRECATED, DO NOT USE!
-# NW_Unpack.dbaToolsSar =
+NW_Unpack.dbaToolsSar = {{ ci_ora_dbatoolpath }}
 
 # DEPRECATED, DO NOT USE!
-# NW_Unpack.igsExeSar =
+NW_Unpack.igsExeSar = {{ ci_dbindep_igsexepath }}
 
 # DEPRECATED, DO NOT USE!
-# NW_Unpack.igsHelperSar =
+NW_Unpack.igsHelperSar = {{ ci_dbindep_igshelppath }}
 
 # DEPRECATED, DO NOT USE!
-# NW_Unpack.sapExeDbSar =
+NW_Unpack.sapExeDbSar = {{ ci_ora_sapexedbpath }}
 
 # DEPRECATED, DO NOT USE!
-# NW_Unpack.sapExeSar =
+NW_Unpack.sapExeSar = {{ ci_dbindep_sapexedumppath }}
+
+# The folder containing Installation media files_EXP1
+SAPINST.CD.PACKAGE.MIGRATION1= {{ ci_media_exportdump1 }}
+
+# The folder containing Installation media files_EXP2
+SAPINST.CD.PACKAGE.MIGRATION2= {{ ci_media_exportdump2 }}
+
+# The folder containing Installation media files_EXP3
+SAPINST.CD.PACKAGE.MIGRATION3= {{ ci_media_exportdump3 }}
 
 # DEPRECATED, DO NOT USE!
 # NW_Unpack.sapJvmSar =
@@ -68,41 +200,42 @@ NW_System.installSAPHostAgent = {{ System_installSAPHostAgent }}
 # DEPRECATED, DO NOT USE!
 # NW_Unpack.xs2Sar =
 
+# Number of Batch Work Processes. Leave empty for default.
+# NW_WPConfiguration.ciBtcWPNumber = 6
+
+# Number of Dialog Work Processes. Leave empty for default.
+# NW_WPConfiguration.ciDialogWPNumber = 10
+
 # SAP INTERNAL USE ONLY
 # NW_adaptProfile.templateFiles =
 
-# ABAP message server port for connecting to the message server, leave empty for default
-NW_checkMsgServer.abapMSPort = {{ checkMsgServer_abapMSPort }}
-
-# The database host
-NW_getDBInfoGeneric.dbhost = {{ getDBInfoGeneric_dbhost }}
-
 # The database ID (DBSID)
-NW_getDBInfoGeneric.dbsid = {{ getDBInfoGeneric_dbsid }}
+NW_getDBInfoGeneric.dbsid = {{ ci_dbsid }}
 
 # Only use this parameter if recommended by SAP.
 # NW_getDBInfoGeneric.strictDbSidCheck = true
 
 # The FQDN of the system
-NW_getFQDN.FQDN = {{ getFQDN_FQDN }}
+NW_getFQDN.FQDN = {{ ci_sapfqdn }}
 
 # SAP INTERNAL USE ONLY
-NW_getFQDN.resolve = {{ getFQDN_resolve }}
+# NW_getFQDN.resolve = true
 
 # Specify whether you want to set FQDN for the system.
-NW_getFQDN.setFQDN = {{ getFQDN_setFQDN }}
+# NW_getFQDN.setFQDN = true
+
+# Manual configuration and execution of Migration Monitor or manual native database copy method.
+# NW_getLoadType.importManuallyExecuted = false
 
 # The load type chosen by the user. Valid values are: 'SAP', 'STD', 'OBR', 'HCP', 'FLASHCOPY', 'MDA', 'HBR', 'SBR'
-NW_getLoadType.loadType = {{ getLoadType_loadType }}
+NW_getLoadType.loadType = SAP
 
-# ABAP system is Unicode (true|false), only needed if it cannot be determined from the system.
-NW_getUnicode.isUnicode = {{ getUnicode_isUnicode }}
+# The ASP device name where the SAP system will be in installed. The property is IBM i only.
+# Values from 1 to 256 can be specified. The default is 1, the System ASP.
+# OS4.DestinationASP =
 
-# Provide  'profile' directory of SAP Netweaver-based system.
-NW_readProfileDir.profileDir = {{ readProfileDir_profileDir }}
-
-# Windows only: The drive to use
-# NW_readProfileDir.sapdrive =
+# The folder containing all archives that have been downloaded from http://support.sap.com/swdc and are supposed to be used in this procedure
+archives.downloadBasket = {{ ci_commonarchive_dumppath }}
 
 # Windows only: The domain of the SAP Host Agent user
 # hostAgent.domain =
@@ -120,22 +253,123 @@ NW_readProfileDir.profileDir = {{ readProfileDir_profileDir }}
 # nwUsers.sapadmUID =
 
 # UNIX only: The group id of the 'sapsys' group, leave empty for default. The ID is ignored if the group already exists.
-nwUsers.sapsysGID = {{ sapsysGID }}
+nwUsers.sapsysGID = {{ ci_sapsys_gid }}
 
 # UNIX only: The user id of the <sapsid>adm user, leave empty for default. The ID is ignored if the user already exists.
-nwUsers.sidAdmUID = {{ sidAdmUID }}
+nwUsers.sidAdmUID = {{ ci_sidadm_uid }}
 
 # The password of the '<sapsid>adm' user
 # nwUsers.sidadmPassword =
 
-# Install Multitenant Pluggable DB, possible values are
-#         FALSE:    no pluggable installation (default value)
-#         CDB_PDB:  install CDB and PDB
-#         PDB_ONLY: install PDB only in an existing CDB.
-# ora.multitenant.installMT = FALSE
+# ora.IgnoreClientVersion = false
 
-# Name of the database ID (DBSID) of the Pluggable Database
-ora.multitenant.pdbsid = {{ ora_dbsid }}
+# Oracle 'SYS' password
+ora.SysPassword = {{ ci_oraclemaster_password }}
+
+# Oracle 'SYSTEM' password
+ora.SystemPassword = {{ ci_oraclemaster_password }}
+
+# User name of the Windows Service User for Oracle
+# ora.WinServiceUser = oracle
+
+# Password of the Windows Service User for Oracle
+# ora.WinServiceUserPassword =
+
+# Possible values for the Oracle Windows Service user: 'SERVICEUSER' (default), 'LOCALSYSTEM'
+# ora.WindowsServiceUserValue = SERVICEUSER
+
+# Checkbox 'chControlFile'. Possible values are: 'false', 'true'
+# ora.advanced.ControlFile = false
+
+# Checkbox 'chPolicy'. Possible values are: 'false', 'true'
+# ora.advanced.Policy = false
+
+# Checkbox 'chPolicyBW'. Possible values are: 'false', 'true'
+# ora.advanced.PolicyBW = false
+
+# Set Oracle advanced parameters. Default value is 'false'.
+# ora.advanced.parameter = false
+
+# Checkbox 'chTablespace'. Possible values are: 'false', 'true'
+# ora.advanced.policyTsp = false
+
+# List of tablespaces to compress in csv like format. The list is separated by a ';' and the format must be
+#     tblspName,policyActionType,policyDays;
+#     Valid policyActionType:
+#     'DEFAULT ILM ADD POLICY ROW STORE COMPRESS ADVANCED ROW AFTER'
+#     Example:
+#     PSAPSR3,DEFAULT ILM ADD POLICY ROW STORE COMPRESS ADVANCED ROW AFTER,40;
+#     PSAPSR3740,DEFAULT ILM ADD POLICY ROW STORE COMPRESS ADVANCED ROW AFTER,30;
+# ora.advanced.tablespaceList =
+
+# List of tablespaces to compress in csv like format. The list is separated by a ';' and the format must be
+#     tblspName,policyActionTypeBW,policyDaysBW;
+#     Valid policyActionTypeBW for Exadata:
+#     'DEFAULT ILM ADD POLICY COLUMN STORE COMPRESS FOR QUERY LOW ROW LEVEL LOCKING SEGMENT AFTER'
+#     Valid policyActionTypeBW for BW:
+#     'DEFAULT ILM ADD POLICY ROW STORE COMPRESS ADVANCED SEGMENT AFTER'
+#     Example BW:
+#     PSAPSR3,DEFAULT ILM ADD POLICY ROW STORE COMPRESS ADVANCED SEGMENT AFTER,300;
+#     Example Exadata:
+#     PSAPSR3,DEFAULT ILM ADD POLICY COLUMN STORE COMPRESS FOR QUERY LOW ROW LEVEL LOCKING SEGMENT AFTER,400;
+# ora.advanced.tablespaceListBW =
+
+# 'CREATE' if database statistics should be created after import, 'SKIP' to skip statistics creation.
+ora.createStatisticsCodeABAP = SKIP
+
+# 'CREATE' if database statistics should be created after import, 'SKIP' to skip statistics creation.
+# ora.createStatisticsCodeJAVA = CREATE
+
+# Enable oracle database vault
+# ora.databaseVault.enable = false
+
+# SECADMIN password
+# ora.databaseVault.secadminPassword =
+
+# dbInstanceRam value
+# ora.dbInstanceRam =
+
+# Path to ORACLE_HOME directory
+ora.dbhome = {{ ci_orahomepath }}
+
+# Oracle database vault.
+# ora.hasDatabaseVault = false
+
+# Oracle TDE.
+# ora.hasTDE = false
+
+# Set advanced parameter maxDatafileSize in MB. Default value is 2000.
+# ora.maxDatafileSize =
+
+# Oracle mirrlog drive.
+# ora.mirrlogDrive =
+
+# Oracle oraarch drive.
+# ora.oraarchDrive =
+
+# Password of the Oracle database software owner
+# ora.oraclePassword =
+
+# The password of the 'ora<dbsid>' user
+# ora.orasidPassword =
+
+# Oracle origlog drive.
+# ora.origlogDrive =
+
+# Radio button for database creation. Possible values are: 'CREATEDB', 'MCOD', 'PDBINST'
+# ora.rbDatabase =
+
+# Oracle sapdata drive.
+  ora.sapdataDrive1 = {{ ci_ora_sapdata1path }}
+
+# Oracle sapdata drive.
+  ora.sapdataDrive2 = {{ ci_ora_sapdata2path }}
+
+# Oracle sapdata drive.
+  ora.sapdataDrive3 = {{ ci_ora_sapdata3path }}
+
+# Oracle sapdata drive.
+  ora.sapdataDrive4 = {{ ci_ora_sapdata4path }}
 
 # possible values are
 #         isSingle:  Database on filesystem exist.
@@ -143,7 +377,7 @@ ora.multitenant.pdbsid = {{ ora_dbsid }}
 #         isASM:     Database on ASM.
 #         isRAC:     Database on RAC.
 #         isRacAsm:  Database on RAC and ASM.
-ora.whatInstallation = {{ ora_whatInstallation }}
+# ora.whatInstallation = isSingle
 
 # possible values are
 #         true:  Database on ASM.
@@ -155,20 +389,32 @@ ora.whatInstallation = {{ ora_whatInstallation }}
 #         false: Database Software installed as orasid user.
 # ora.whatIsOracleUser = true
 
+# ABAP schema password
+storageBasedCopy.abapSchemaPassword = {{ ci_oraclemaster_password }}
+
+# Sets the SAP<SAPSID>DB schema password using a  parameter file.
+storageBasedCopy.javaSchemaPassword = {{ ci_oraclemaster_password }}
+
 # ABAP schema
 # storageBasedCopy.ora.ABAPSchema =
 
+# Java schema, default is 'SAPSR3DB'
+# storageBasedCopy.ora.JavaSchema =
+
 # Oracle client version: 121, 112, ...
-storageBasedCopy.ora.clientVersion = {{ ora_clientVersion }}
+storageBasedCopy.ora.clientVersion = {{ ci_oraclient_version }}
 
 # Name of Oracle Listener. Default value is: LISTENER
-# storageBasedCopy.ora.listenerName =
+# storageBasedCopy.ora.listenerName = {{ ci_oralistener_name }}
 
 # Port of Oracle Listener. Default value ist: 1521
-# storageBasedCopy.ora.listenerPort =
+# storageBasedCopy.ora.listenerPort = {{ ci_oralistener_port }}
 
 # Oracle server version
-storageBasedCopy.ora.serverVersion = {{ ora_serverVersion }}
+storageBasedCopy.ora.serverVersion = {{ ci_oradb_version }}
+
+# User name of the Oracle database software owner. Default is 'oracle'.
+  storageBasedCopy.ora.swowner = {{ ci_ora_softowner }}
 
 # The folder containing Oracle_DB_Client
-SAPINST.CD.PACKAGE.ORACLI = {{ SAPINST_CD_PACKAGE_ORACLI_1 }}
+SAPINST.CD.PACKAGE.ORACLI = {{ ci_oracleclient_dumppath }}
