@@ -147,7 +147,7 @@ NW_GetSidNoProfiles.sid = {{ ci_sapsid }}
 # NW_GetSidNoProfiles.strictSidCheck = true
 
 # DEPRECATED, DO NOT USE!
-NW_SAPCrypto.SAPCryptoFile = {{ ci_dbindep_sapexedumppath }}
+NW_SAPCrypto.SAPCryptoFile = {{ ci_dbindep_crypto_sapexedumppath }}
 
 # Enable the instance agent (sapstartsrv) data supplier to send operating system information to the System Landscape Directory (SLD). Default is 'false'.
 # NW_SLD_Configuration.configureSld = false
