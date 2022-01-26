@@ -30,3 +30,7 @@
  ci_oradb_version: "19"
  ci_ora_softowner: "oracle"
  ci_oracleclient_dumppath: "/010_SHARED_INFRA/nw7.3_dump/NW_inst/Oracle_19c_Client/51054541"
+ ci_ora_sapdata1path: "/oracle/DAE/sapdata1"
+ ci_ora_sapdata2path: "/oracle/DAE/sapdata2"
+ ci_ora_sapdata3path: "/oracle/DAE/sapdata3"
+ ci_ora_sapdata4path: "/oracle/DAE/sapdata4"
