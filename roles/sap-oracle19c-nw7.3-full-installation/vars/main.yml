@@ -34,3 +34,4 @@
  ci_ora_sapdata2path: "/oracle/DAE/sapdata2"
  ci_ora_sapdata3path: "/oracle/DAE/sapdata3"
  ci_ora_sapdata4path: "/oracle/DAE/sapdata4"
+ swpm_path: "/010_SHARED_INFRA/DAE_Installation/SWPM"
