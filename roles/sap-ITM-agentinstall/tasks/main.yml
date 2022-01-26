@@ -1,0 +1,40 @@
+---
+# tasks file for oracle_db_creation
+
+- name: Creates directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: oracle
+    group: "{{ db_group_name }}"
+    mode: '0775'
+  with_items:
+  - "{{ control_file_path1 }}" 
+  - "{{ control_file_path2 }}"
+  register: createctrlpath
+
+- debug:
+    msg: "{{ createctrlpath }}"
+
+- name: "Process Oracle initfile Template"
+  template:
+    src: "{{ role_path }}/templates/{{ item }}"
+    dest: "/oracle/stage/"
+    owner: oracle
+    group: "{{ db_group_name }}"
+    mode: '0775'
+  with_items:
+  - create_call.sql
+  - init_test.ora
+  - Oracle_DBcreation_script.sh
+  register: initfilecopy
+
+- debug:
+    msg: "{{ initfilecopy }}"
+
+- name: Execute DB Creation script
+  shell: su - oracle -c "/oracle/stage/Oracle_DBcreation_script.sh"
+  register: dbcreatestatus
+
+- debug:
+    msg: "{{ dbcreatestatus }}"
