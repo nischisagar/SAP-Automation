@@ -1,9 +1,9 @@
 ---
 - name: SAP APPS Installation
-  hosts: xmpsa010secc1
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-silent-installation  
+  - role: sap-oracle19c-nw7.3-full-installation
     when: ansible_distribution | lower == "aix" 

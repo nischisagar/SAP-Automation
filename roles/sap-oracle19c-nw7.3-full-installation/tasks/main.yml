@@ -8,7 +8,7 @@
     group: sapinst
     mode: '0777'
   with_items:
-  - inifile_app.params
+  - inifile_nw73ora.params
   register: inputfile
 
 - debug:
