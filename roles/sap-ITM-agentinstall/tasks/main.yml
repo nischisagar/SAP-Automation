@@ -1,9 +1,16 @@
 ---
 # tasks file for oracle_db_creation
 
-- name: Copy dumps
-  shell: cp -rpf /010_SHARED_INFRA/Ansible_Hana_files/itmagent /tmp/itmagent
-  register: copytstatus
+- name: Install ITM Agent
+  shell:  |
+    cp -rpf /010_SHARED_INFRA/Ansible_Hana_files/itmagent/sa_071106000_aix526 /tmp/sa_071106000_aix526
+    export CANDLEHOME=/opt/IBM/ITM;export PATH=$PATH:$CANDLEHOME/bin;/tmp/sa_071106000_aix526/silentInstall.sh > /tmp/itminstallstatus.txt
+    /opt/IBM/ITM/bin/cinfo -i > /tmp/itmagentinfo.txt
+    hname=`hostname`
+    sed "s/dummyhost/$hname/g" /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile.txt > /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile1.txt
+    cat /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile1.txt >> /opt/IBM/ITM/config/sa.ini
+    cp -rpf /010_SHARED_INFRA/Ansible_Hana_files/itmagent/MissingSapLibsAix/* /opt/IBM/ITM/aix526/sa/lib/
+  register: itmagentinstall
 
 - debug:
-    msg: "{{ copytstatus }}"
+    msg: "{{ itmagentinstall }}"
