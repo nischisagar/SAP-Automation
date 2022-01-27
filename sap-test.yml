@@ -1,16 +1,30 @@
 ---
-- name: Add the title content in to report file
-  hosts: ampsv010bld0d
+- name: Enter NFS Mount action
+  hosts: localhost
+  vars: 
+    app_type: "{{ mountnfs }}"
+
+- name: Initiating Mount operation
+  hosts: nfstargetservername
   become: yes
   become_method: sudo
   gather_facts: false
   roles:
-  - role: report-store-application-validation-status
+  - role: nfs-mount-on-aix-linux-new
+    when: mountnfs | lower == "mount"
 
-- name: Validate system status
-  hosts: ampsv03340pjt
+- name: Initiating UnMount operation
+  hosts: nfstargetservername
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: false
   roles:
-  - role: sap_application_validation
+  - role: nfs-unmount-on-aix-linux-new
+    when: mountnfs | lower == "unmount"
+
+- name: Initiating UnMount operation
+  hosts: nfstargetservername
+  become: yes
+  become_method: sudo
+  roles:
+  - role: sap-ITM-agentinstall
