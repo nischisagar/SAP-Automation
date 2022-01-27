@@ -1,7 +1,7 @@
 ---
 # tasks file for oracle_db_creation
 
-- name: Creates directory
+- name: Creates directoryy
   file:
     path: "{{ item }}"
     state: directory
