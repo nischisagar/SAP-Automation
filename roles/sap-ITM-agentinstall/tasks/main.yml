@@ -7,9 +7,10 @@
     export CANDLEHOME=/opt/IBM/ITM;export PATH=$PATH:$CANDLEHOME/bin;/tmp/sa_071106000_aix526/silentInstall.sh > /tmp/itminstallstatus.txt
     /opt/IBM/ITM/bin/cinfo -i > /tmp/itmagentinfo.txt
     hname=`hostname`
-    sed "s/dummyhost/$hname/g" /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile.txt > /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile1.txt
-    cat /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile1.txt >> /opt/IBM/ITM/config/sa.ini
+    sed "s/dummyhost/$hname/g" /010_SHARED_INFRA/Ansible_Hana_files/itmagent/safile.txt > /tmp/safile1.txt
+    cat /tmp/safile1.txt >> /opt/IBM/ITM/config/sa.ini
     cp -rpf /010_SHARED_INFRA/Ansible_Hana_files/itmagent/MissingSapLibsAix/* /opt/IBM/ITM/aix526/sa/lib/
+    rm -rf /tmp/sa_071106000_aix526 /tmp/safile1.txt
   register: itmagentinstall
 
 - debug:
