@@ -1,9 +1,9 @@
 ---
-- name: SAP APPS Installation
-  hosts: xmpsa010secc0
+- name: SAP ci Installation
+  hosts: xmpsa020qewm0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-oracle19c-nw7.3-full-installation
+  - role: sap-CI-nw75-standardbuild-installation-hana2055db
     when: ansible_distribution | lower == "aix" 
