@@ -1,5 +1,4 @@
 ---
-
 - name: "Process Input param file"
   template:
     src: "{{ role_path }}/templates/{{ item }}"
