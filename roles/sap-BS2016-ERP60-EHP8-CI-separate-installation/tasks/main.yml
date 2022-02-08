@@ -27,12 +27,16 @@
 - debug:
     msg: "{{ inputfile }}"
 
-- name: echo execute installation step
+- name: "Create Installation Directory SWPM"
+  file:
+    path: "{{ install_path }}/SWPM"
+    owner: root
+    group: sapinst
+    mode: '0777'
+
+- name: "Execute installation step"
   shell: |
-    mkdir {{ install_path }}
-    chown root:sapinst {{ install_path }}
-    chmod 777 {{ install_path }}
-    cd {{ install_path }};touch testfile
+    cd {{ install_path }};
     #cd {{ install_path }};/010_SHARED_INFRA/SAP_Installaion/SWPM10SP30/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
   register: install_out
 
