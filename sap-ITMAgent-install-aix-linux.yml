@@ -1,6 +1,6 @@
 ---
 - name: Initiating Mount operation
-  hosts: nfstargetservername
+  hosts: nfstargetservername1
   become: yes
   become_method: sudo
   gather_facts: false
@@ -8,14 +8,14 @@
   - role: nfs-mount-on-aix-linux-new
 
 - name: Initiating SAP ITM Agent install process
-  hosts: nfstargetservername
+  hosts: nfstargetservername1
   become: yes
   become_method: sudo
   roles:
   - role: sap-ITM-agentinstall
 
 - name: Initiating UnMount operation
-  hosts: nfstargetservername
+  hosts: nfstargetservername1
   become: yes
   become_method: sudo
   gather_facts: false
