@@ -29,10 +29,14 @@
 
 - name: "Create Installation Directory SWPM"
   file:
-    path: "{{ install_path }}/SWPM"
+    path: "{{ install_path }}"
     owner: root
     group: sapinst
     mode: '0777'
+  register: pathcreate
+
+- debug:
+    msg: "{{ pathcreate }}"
 
 - name: "Execute installation step"
   shell: |
