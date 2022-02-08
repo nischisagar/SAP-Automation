@@ -31,7 +31,7 @@ var_ora_multitenant_pdbsid: "SE0"
 var_ora_whatInstallation: "false"
 var_storageBasedCopy_ora_clientVersion: "19"
 var_storageBasedCopy_ora_serverVersion: "19"
-swpm_path: "/010_SHARED_INFRA/SAP/install/SWPM/"
+install_path: "/usr/sap/SE0/SWPM/"
 
 
 
