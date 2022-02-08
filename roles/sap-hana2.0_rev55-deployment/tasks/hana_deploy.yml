@@ -29,9 +29,5 @@
     dest: "{{ tmpdir.path }}/configfile.cfg"
   register: cftemplate
 
-- name: Install SAP HANA
-  command: "./hdblcm --configfile={{ tmpdir.path }}/configfile.cfg -b"
-  register: installhana
-  args:
-    chdir: "{{ hana_source_path }}"
-  changed_when: "'SAP HANA Lifecycle Management' in installhana.stdout"
+- debug:
+    msg: "{{ cftemplate }}"

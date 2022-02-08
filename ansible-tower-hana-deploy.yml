@@ -1,6 +1,6 @@
 ---
 - name: Initiating Mount operation
-  hosts: xmpsa010secc0
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: false
@@ -8,7 +8,7 @@
   - role: nfs-mount-on-aix-linux-new
 
 - name: Build HANA using Ansible 
-  hosts: xmpsl020qhaw0
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: false
