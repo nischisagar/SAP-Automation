@@ -30,6 +30,7 @@
 - name: "Create Installation Directory SWPM"
   file:
     path: "{{ install_path }}"
+    state: directory
     owner: root
     group: sapinst
     mode: '0777'
