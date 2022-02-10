@@ -1,10 +1,10 @@
 ---
 - name: "Rename existing input file in target location"
   shell: |
-    cnt=`ls -lrt /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci.params|wc -l`
+    cnt=`ls -lrt /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params|wc -l`
     if [ $cnt -eq 1 ]
     then 
-    mv /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci.params /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci.params_`date +%d%m%M`
+    mv /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params_`date +%d%m%M`
     else
     echo "No mentioned input file found"
     fi
@@ -21,7 +21,7 @@
     group: sapinst
     mode: '0777'
   with_items:
-  - inifile_ci.params
+  - inifile_ci_BSERP6EHP8.params
   register: inputfile
 
 - debug:
@@ -42,7 +42,7 @@
 - name: "Execute installation step"
   shell: |
     cd {{ install_path }};
-    cd {{ install_path }};/010_SHARED_INFRA/SAP_Installaion/SWPM10SP30/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
+    cd {{ install_path }};/010_SHARED_INFRA/SAP_Installaion/SWPM10SP30/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
   register: install_out
 
 - debug:
