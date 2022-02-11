@@ -26,10 +26,19 @@
 
 - name: Copy Transport requests to patchlocation
   copy:
-    src: ./files/*
+    src: ./files/"{{ item }}"
     dest: "{{ patchpath }}/"
     owner: root     
     group: sapsys
     mode: '0775'
+  with_items:
+  - "{{ tp_data1 }}" 
+  - "{{ tp_data2 }}"
+  - "{{ tp_data2 }}"
+  - "{{ tp_data2 }}"
+  register: tpmovestatus
   when: (tmpfree | int) >= (300 | int)
+
+- debug:
+    msg: "{{ tpmovestatus }}"
 
