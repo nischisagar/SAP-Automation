@@ -26,16 +26,11 @@
 
 - name: Copy Transport requests to patchlocation
   copy:
-    src:  /files/"{{ item }}"
+    src:  ./files/K711_00142_DELETE.ITM
     dest: "{{ patchpath }}/"
     owner: root     
     group: sapsys
     mode: '0775'
-  with_items:
-  - "{{ tp_data1 }}" 
-  - "{{ tp_data2 }}"
-  - "{{ tp_data3 }}"
-  - "{{ tp_data4 }}"
   register: tpmovestatus
   when: (tmpfree | int) >= (300 | int)
 
