@@ -24,13 +24,15 @@
 - debug:
     msg: "tmpfree: {{ tmpfree }}"
 
-- name: Copy Transport requests to patchlocation
+- name: ITM TR move
   copy:
-    src:  ./files/K711_00142_DELETE.ITM
+    src: "{{ item.src }}" 
     dest: "{{ patchpath }}/"
-    owner: root     
-    group: sapsys
-    mode: '0775'
+    mode: "0755"
+  with_items:
+    - { src: 'files/K711_00142U.ITM' }
+    - { src: 'files/R711_00142U.ITM' }
+    - { src: 'files/R711_00142_DELETE.ITM' }
   register: tpmovestatus
   when: (tmpfree | int) >= (300 | int)
 
