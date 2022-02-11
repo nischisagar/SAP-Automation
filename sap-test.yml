@@ -1,49 +1,8 @@
---- 
-- name: Ensure Socks tunnel setup
-  hosts: localhost
-  gather_facts: no
-  roles:
-  - role: ansible-role-event-socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
-- name: Create the Global report file
-  hosts: windows_report_server
+---
+- name: ITM Agent Install
+  hosts: xmpsa020iewm0
   become: yes
-  become_method: runas
-  become_user: system
-  tasks:
-    - name: Create the global report file
-      win_copy:
-        content: 'Entity Name,Host_name,Kernel_Make,Patch_level,smd_version'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Prepare output file for saphost agent version details
-  hosts: target_update_servergroups_smdnew
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
+  become_method: sudo
+  gather_facts: yes
   roles:
-  - role: sap-hostagent-smdagent-version-collect-windows
-  tasks:
-    - name: Add the details to global report file
-      win_lineinfile:
-        dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_hbase }},{{ item.get_patch }},{{ item.get_smdda }}"
-      throttle: 1
-      loop:
-        - get_hname: "{{ thostname.results[0].stdout | trim }}"
-          get_hbase: "{{ hostbase.results[0].stdout | trim }}"
-          get_patch: "{{ hostpatch.results[0].stdout | trim }}"
-          get_smdda: "{{ smdpatch.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0 
-      
-
-
+  - role: sap-ITM-TRimport
