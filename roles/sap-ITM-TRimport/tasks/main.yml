@@ -93,6 +93,7 @@
     chmod 775 /tmp/R*.ITM /tmp/K*.ITM
     su - $i -c "cp -rpf /tmp/R*.ITM {{ item }}/data/"
     su - $i -c "cp -rpf /tmp/K*.ITM {{ item }}/cofiles/"
+    done
   with_items: "{{ trpath['stdout_lines'] }}"
   register: trfilecopy
 
