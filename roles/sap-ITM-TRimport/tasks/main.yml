@@ -65,13 +65,16 @@
     echo $sid1
     transpath=`cat /sapmnt/$sid1/profile/*$hname|grep -i DIR_TRANS|awk '{print $NF}'`
     domainfile="$transpath/bin/DOMAIN.CFG"
-    sys=`cat $domainfile|grep -i "Transport domain"|awk '{print $NF}'`
-    trdomain="TP_DOMAIN_""$sys".PFL
+    sys=`su - $j -c "cat $domainfile|grep -i 'DOMAIN_'|awk '{print $NF}'"`
+    trdomain="TP_""$sys".PFL
     echo $trdomain
     echo $sid1 $j $transpath $trdomain > /tmp/trfinal.txt
     done
     cat /tmp/trfinal.txt|awk '{print $3}'|uniq > /tmp/trpathfinal.txt
-  register: crypto_version
+  register: domainset
+
+- debug:
+    msg: "{{ domainset }}"
 
 - name: Find TR Path
   shell:  |
