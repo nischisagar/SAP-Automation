@@ -30,6 +30,7 @@
     dest: "{{ patchpath }}/"
     mode: "0755"
   with_items:
+    - { src: 'files/K711_00142_DELETE.ITM' }
     - { src: 'files/K711_00142U.ITM' }
     - { src: 'files/R711_00142U.ITM' }
     - { src: 'files/R711_00142_DELETE.ITM' }
@@ -38,4 +39,70 @@
 
 - debug:
     msg: "{{ tpmovestatus }}"
+
+- name: Preparing TR path and Domain controller file
+  shell: |
+    a=`df -m|grep -i sapmnt|awk '{print $NF}'|cut -d"/" -f3`
+    hname=`hostname`
+    for i in $a
+    do
+    systype=`cat /sapmnt/$i/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $NF}'`
+    if [ $systype == J2EE ]
+    then
+    echo "$i is Java system"
+    else
+    echo "$i is ABAP system"
+    s1=`echo $i|awk '{print tolower($0)}'`
+    b="$s1""adm"
+    echo $b >> /tmp/siduserlist.txt
+    fi
+    done
+    chmod 775 /tmp/siduserlist.txt
+
+    for j in `cat /tmp/siduserlist.txt`
+    do
+    sid1=`echo $j|cut -c 1-3|awk '{print toupper($0)}'`
+    echo $sid1
+    transpath=`cat /sapmnt/$sid1/profile/*$hname|grep -i DIR_TRANS|awk '{print $NF}'`
+    domainfile="$transpath/bin/DOMAIN.CFG"
+    sys=`cat $domainfile|grep -i "Transport domain"|awk '{print $NF}'`
+    trdomain="TP_DOMAIN_""$sys".PFL
+    echo $trdomain
+    echo $j $transpath $trdomain > /tmp/trfinal.txt
+    done
+    cat /tmp/trfinal.txt|awk '{print $2}'|uniq > /tmp/trpathfinal.txt
+  register: crypto_version
+
+- name: Find TR Path
+  shell:  |
+    cat /tmp/trpathfinal.txt
+  register: trpath
+
+- debug:
+    msg: "TRPATH: {{ trpath }}"
+
+- debug:
+    msg: "{{ item }}"
+  with_items: "{{ trpath['stdout_lines'] }}"
+
+- name: Copy Data and Confiles to target path
+  shell:  | 
+    cp -rpf /tmp/R*.ITM {{ item }}/data/
+    cp -rpf /tmp/K*.ITM {{ item }}/cofiles/
+  with_items: "{{ trpath['stdout_lines'] }}"
+  register: trfilecopy
+
+- debug:
+    msg: "{{ trfilecopy }}"
+
+
+  
+
+
+
+
+
+
+
+
 
