@@ -87,8 +87,12 @@
 
 - name: Copy Data and Confiles to target path
   shell:  | 
-    cp -rpf /tmp/R*.ITM {{ item }}/data/
-    cp -rpf /tmp/K*.ITM {{ item }}/cofiles/
+    for i in `cat /tmp/siduserlist.txt`
+    do
+    chown $i:sapsys /tmp/R*.ITM /tmp/K*.ITM
+    chmod 775 /tmp/R*.ITM /tmp/K*.ITM
+    su - $i -c "cp -rpf /tmp/R*.ITM {{ item }}/data/"
+    su - $i -c "cp -rpf /tmp/K*.ITM {{ item }}/cofiles/"
   with_items: "{{ trpath['stdout_lines'] }}"
   register: trfilecopy
 
