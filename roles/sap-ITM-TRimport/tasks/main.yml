@@ -68,9 +68,9 @@
     sys=`cat $domainfile|grep -i "Transport domain"|awk '{print $NF}'`
     trdomain="TP_DOMAIN_""$sys".PFL
     echo $trdomain
-    echo $j $transpath $trdomain > /tmp/trfinal.txt
+    echo $sid1 $j $transpath $trdomain > /tmp/trfinal.txt
     done
-    cat /tmp/trfinal.txt|awk '{print $2}'|uniq > /tmp/trpathfinal.txt
+    cat /tmp/trfinal.txt|awk '{print $3}'|uniq > /tmp/trpathfinal.txt
   register: crypto_version
 
 - name: Find TR Path
@@ -89,10 +89,13 @@
   shell:  | 
     for i in `cat /tmp/siduserlist.txt`
     do
+    sid2=`cat /tmp/trfinal.txt|grep -i $i|awk '{print $1}'`
+    domainid=`cat /tmp/trfinal.txt|grep -i $i|awk '{print $NF}'`
     chown $i:sapsys /tmp/R*.ITM /tmp/K*.ITM
     chmod 775 /tmp/R*.ITM /tmp/K*.ITM
     su - $i -c "cp -rpf /tmp/R*.ITM {{ item }}/data/"
     su - $i -c "cp -rpf /tmp/K*.ITM {{ item }}/cofiles/"
+    su - $i -c "tp addtobuffer {{ delete_tr }} $sid2 pf={{ item }}/bin/$domainid"
     done
   with_items: "{{ trpath['stdout_lines'] }}"
   register: trfilecopy
