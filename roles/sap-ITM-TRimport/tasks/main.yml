@@ -109,14 +109,3 @@
 - debug:
     msg: "{{ trfilecopy }}"
 
-
-  
-
-
-
-
-
-
-
-
-
