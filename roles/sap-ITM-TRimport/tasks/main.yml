@@ -101,7 +101,7 @@
     su - $i -c "tp addtobuffer {{ delete_tr }} $sid2 pf={{ item }}/bin/$domainid"
     su - $i -c "tp addtobuffer {{ import_tr }} $sid2 pf={{ item }}/bin/$domainid"
     su - $i -c "tp import {{ delete_tr }} $sid2 client=000 U126 pf={{ item }}/bin/$domainid"
-    su - $i -c "tp import {{ delete_tr }} $sid2 client=000 U126 pf={{ item }}/bin/$domainid"
+    su - $i -c "tp import {{ import_tr }} $sid2 client=000 U126 pf={{ item }}/bin/$domainid"
     done
   with_items: "{{ trpath['stdout_lines'] }}"
   register: trfilecopy
