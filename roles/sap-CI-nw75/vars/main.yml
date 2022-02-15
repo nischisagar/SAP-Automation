@@ -1,8 +1,8 @@
 ---
 # variables file for sap app installation
 var_HDBschemaName: "SAPQXW"
-var_HDBschemaPassword: "qxw4HANA
-var_Import_DialogmigmonJobNum: "48
+var_HDBschemaPassword: "qxw4HANA"
+var_Import_DialogmigmonJobNum: "48"
 var_CI_ascsInstanceNumber: "10"
 var_ascsVirtualHostname: "xmpsa020qewm0"
 var_ciInstanceNumber: "00"
@@ -10,7 +10,7 @@ var_ciVirtualHostname: "xmpsa020qewm0"
 var_scsVirtualHostname: "xmpsa020qewm0"
 var_needDDICPasswords: "false"
 var_masterPwd: "Qxw@20222022"
-var_GetSidNoProfiles.sid: "QXW"
+var_GetSidNoProfiles_sid: "QXW"
 var_HDB_abapSchemaName: "SAPQXW"
 var_HDB_abapSchemaPassword: "qxw4HANA"
 var_HDB_getdbhostname: "xmpsl020qhaw0"
