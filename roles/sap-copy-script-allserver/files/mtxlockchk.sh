@@ -11,6 +11,7 @@ sid=`echo $i|cut -d/ -f4`
 echo $sid >> $destpath/mutex_track_history.txt
 date >> $destpath/mutex_track_history.txt
 grep -i mtxlock $i|grep -i deadlock >> $destpath/mutex_track_history.txt
+echo 0 > $destpath/lockstatusfile.txt
 else
 echo "no lock error" > $destpath/noerror.txt
 fi
