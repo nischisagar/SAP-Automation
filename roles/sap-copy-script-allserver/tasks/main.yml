@@ -1,0 +1,12 @@
+---
+- name: "Create Directory to place script:"
+  file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: root
+    group: sapinst
+    mode: '0777'
+  register: pathcreate
+
+- debug:
+    msg: "{{ pathcreate }}"

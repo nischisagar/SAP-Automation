@@ -1,0 +1,8 @@
+---
+# variables file for sap app installation
+install_path: "/exploit/scripts/sap/mutex_lock_monitoring"
+
+
+
+
+
