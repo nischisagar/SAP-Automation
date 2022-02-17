@@ -1,6 +1,6 @@
 ---
 - name: Create recursive directory and copy script
-  hosts: all_entity_servers_new_feb17
+  hosts: all_entity_servers_new_feb1722
   become: yes
   become_method: sudo
   gather_facts: yes
