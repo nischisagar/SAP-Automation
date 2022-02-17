@@ -1,5 +1,5 @@
 ---
-- name: ITM Agent Install
+- name: Create recursive directory and copy script
   hosts: xmpsa010secc0
   become: yes
   become_method: sudo

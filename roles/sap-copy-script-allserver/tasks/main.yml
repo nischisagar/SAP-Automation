@@ -5,8 +5,22 @@
     state: directory
     owner: root
     group: sapinst
-    mode: '0777'
+    mode: '0755'
   register: pathcreate
 
 - debug:
     msg: "{{ pathcreate }}"
+
+- name: Copy scripts to "{{ install_path }}" Location
+  copy:
+    src: "{{ item.src }}" 
+    dest: "{{ install_path }}/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/checkoutfilestatus.sh' }
+    - { src: 'files/lockstatusfile.txt' }
+    - { src: 'files/mtxlockchk.sh' }
+  register: filemovestatus
+
+- debug:
+    msg: "{{ filemovestatus }}"
