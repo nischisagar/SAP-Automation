@@ -1,6 +1,6 @@
 ---
 - name: Create recursive directory and copy script
-  hosts: xmpsa010secc0
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   gather_facts: yes
