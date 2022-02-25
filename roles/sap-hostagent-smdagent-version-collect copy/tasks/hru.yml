@@ -3,8 +3,8 @@
   shell: |
     hostname > /tmp/test123.txt
     {{ path }} -version|grep -iE "variant|patch"|tail -2 >> /tmp/test123.txt
-    smdfilename=`find /usr/sap/*/*/SMDAgent/* -name smdagent.properties|tail -1`
-    grep -i "smdagent.classPath" $smdfilename >> /tmp/test123.txt
+    smdfilename=`find /usr/sap/*/*/SMDAgent/* -name runtime.properties|tail -1`
+    grep -i version $smdfilename >> /tmp/test123.txt
   register: hostversion
 
 - name: Get Host Name
@@ -23,6 +23,6 @@
   register: get_patch_level
 
 - name: Get smdagent version level
-  shell:  cat /tmp/test123.txt|grep -i "smdagent.classPath"|awk -Fpatch_ '{print $NF }' |cut -d. -f1-4
+  shell:  cat /tmp/test123.txt|grep -i version|cut -d"=" -f2|cut -d"." -f1-4
   loop: "{{ os_type_list }}"
   register: get_smd_version
