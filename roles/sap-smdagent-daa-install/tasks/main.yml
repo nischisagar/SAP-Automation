@@ -1,0 +1,9 @@
+---
+- name: echo execute DAA installation step
+  shell: |
+    cd {{ swpm_path }}
+    cd {{ swpm_path }};/usr/sap/DAA/DAA_DUMP/swpm/sapinst SAPINST_INPUT_PARAMETERS_URL=/usr/sap/DAA/inifile.params_daabkp SAPINST_EXECUTE_PRODUCT_ID=NW_DiagnosticsAgent:GENERIC.IND.PD SAPINST_SKIP_DIALOGS=true
+  register: install_out
+
+- debug:
+    msg: "{{ install_out }}"
