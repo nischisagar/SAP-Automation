@@ -239,7 +239,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the version from the standalone Oracle DB Servers
-  hosts: standalone_oracle_db 
+  hosts: standalone_oracle_db1 
   become: yes
   become_method: sudo
   vars: 
