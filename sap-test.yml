@@ -1,8 +1,8 @@
 ---
-- name: Add the title content in to report file
-  hosts: xmpsa012secc0
+- name: sap hana ci installation
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-smdagent-daa-install
+  - role: sap-CI-nw75
