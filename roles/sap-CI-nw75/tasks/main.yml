@@ -1,10 +1,10 @@
 ---
 - name: "Rename existing input file in target location"
   shell: |
-    cnt=`ls -lrt /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params|wc -l`
+    cnt=`ls -lrt /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params|wc -l`
     if [ $cnt -eq 1 ]
     then 
-    mv /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_ci_BSERP6EHP8.params_`date +%d%m%M`
+    mv /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params_`date +%d%m%M`
     else
     echo "No mentioned input file found"
     fi
@@ -21,7 +21,7 @@
     group: sapinst
     mode: '0777'
   with_items:
-  - inifile_ci_BSERP6EHP8.params
+  - inifile_sap_NW750HDB.params
   register: inputfile
 
 - debug:
@@ -42,7 +42,8 @@
 - name: "Execute installation step"
   shell: |
     cd {{ install_path }};
-    cd {{ swpm_path }};/010_SHARED_INFRA/SAP_Installaion/SWPM10SP33_aix_hana/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/Ansible_Hana_files/inifile.params_qxw SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true
+    #cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sap_NW750HDB.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true
+    echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sap_NW750HDB.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true" > commandcheck.txt
   register: install_out
 
 - debug:

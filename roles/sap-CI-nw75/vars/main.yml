@@ -33,6 +33,8 @@ var_SAPINST_CD_PACKAGE_MIGRATION3: "/010_SHARED_INFRA/SAP_Installaion/Installati
 var_nwUsers_sapsysGID: "1000"
 var_nwUsers_sidAdmUID: "213"
 install_path: "/usr/sap/QXW/SWPM/"
+swpm_sapinst_path: "/010_SHARED_INFRA/SAP_Installaion/SWPM10SP33_aix_hana"
+paramfile_path: "/010_SHARED_INFRA/SAP_Installaion/iniparamfiles"
 
 
 
