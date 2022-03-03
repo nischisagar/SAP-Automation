@@ -1,23 +1,49 @@
 ---
+- name: "Rename existing input file in target location"
+  shell: |
+    cnt=`ls -lrt {{ paramfile_path }}/inifile_sapaddapp_ERP6EHP8_ora.params|wc -l`
+    if [ $cnt -eq 1 ]
+    then 
+    mv {{ paramfile_path }}/inifile_sapaddapp_ERP6EHP8_ora.params {{ paramfile_path }}/inifile_sapaddapp_ERP6EHP8_ora.params_`date +%d%m%M`
+    else
+    echo "No mentioned input file found"
+    fi
+  register: renameinputfile
+
+- debug:
+    msg: "{{ renameinputfile }}"
 
 - name: "Process Input param file"
   template:
     src: "{{ role_path }}/templates/{{ item }}"
-    dest: "/010_SHARED_INFRA/SAP/install/"
+    dest: "{{ paramfile_path }}/"
     owner: root
     group: sapinst
     mode: '0777'
   with_items:
-  - inifile_app.params
+  - inifile_sapaddapp_ERP6EHP8_ora.params
   register: inputfile
 
 - debug:
     msg: "{{ inputfile }}"
 
-- name: echo execute installation step
+- name: "Create Installation Directory SWPM"
+  file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: root
+    group: sapinst
+    mode: '0777'
+  register: pathcreate
+
+- debug:
+    msg: "{{ pathcreate }}"
+
+- name: "Execute installation step"
   shell: |
-    cd {{ swpm_path }}
-    cd {{ swpm_path }};/010_SHARED_INFRA/SAP/install/SWPM_AIX/sapinst SAPINST_INPUT_PARAMETERS_URL=/010_SHARED_INFRA/SAP/install/inifile_app.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true
+    cd {{ install_path }};
+    #cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_ERP6EHP8_ora.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true  
+    echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_ERP6EHP8_ora.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true" > check1.txt  
   register: install_out
 
 - debug:
