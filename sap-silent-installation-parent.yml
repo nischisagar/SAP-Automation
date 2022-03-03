@@ -15,3 +15,4 @@
   roles:
   - role: sap-BS2016-ERP60-EHP8-CI-separate-installation
     when: ansible_distribution | lower == "aix" 
+    when: what_install | lower == "add_hanaapp"
