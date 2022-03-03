@@ -6,3 +6,5 @@
   gather_facts: yes
   roles:
   - role: sap-Additional-app-nw75-installation-hana2055db
+    when: ansible_distribution | lower == "aix" 
+    when: what_install | lower == "add_hanaapp"
