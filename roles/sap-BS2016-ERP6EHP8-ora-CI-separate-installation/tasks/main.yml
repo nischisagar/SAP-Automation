@@ -42,8 +42,7 @@
 - name: "Execute installation step"
   shell: |
     cd {{ install_path }};
-    #cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_ci_BSERP6EHP8.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true  
-    echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_ci_BSERP6EHP8.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true" > check.txt  
+    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_ci_BSERP6EHP8.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_CI:BS2016.ERP608.ORA.PD SAPINST_SKIP_DIALOGS=true  
   register: install_out
 
 - debug:

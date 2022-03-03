@@ -120,7 +120,7 @@ SAPINST.CD.PACKAGE.HANACLI= {{ var_SAPINST_CD_PACKAGE_HANACLI }}
 NW_checkMsgServer.abapMSPort = {{ var_NW_MsgServer_abapMSPort }}
 
 # The FQDN of the system
-# NW_getFQDN.FQDN =
+# NW_getFQDN.FQDN = {{ var_NW_getFQDN }}
 
 # SAP INTERNAL USE ONLY
 # NW_getFQDN.resolve = true
