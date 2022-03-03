@@ -5,6 +5,6 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-Additional-app-nw75-installation-hana2055db
+  - role: sap-Additional-app-BS16ERP6EHP8-ora-installation
     when: ansible_distribution | lower == "aix" 
     when: what_install | lower == "add_hanaapp"
