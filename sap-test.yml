@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-BS2016-ERP6EHP8-ora-CI-separate-installation
+  - role: sap-Additional-app-nw75-installation-hana2055db
