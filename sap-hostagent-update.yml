@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_hostagentupdate_nonprod4
+  hosts: xmpsa020dnw0
   become: yes
   become_method: sudo
   gather_facts: yes
