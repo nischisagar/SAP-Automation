@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: target_hostagentupdate_nonprod
+  hosts: target_hostagentupdate_nonprod1
   become: yes
   become_method: sudo
   gather_facts: yes
