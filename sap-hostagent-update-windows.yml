@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: sap_nonprod_windows_servers_mar23
+  hosts: windows_report_server
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: sap_nonprod_windows_servers_mar23
+- hosts: windows_report_server
   become: yes
   become_method: runas
   become_user: system
