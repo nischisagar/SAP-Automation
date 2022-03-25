@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: xmpsl045phan0
+  hosts: hana_prod_linux_servers_mar25
   become: yes
   become_method: sudo
   gather_facts: yes
