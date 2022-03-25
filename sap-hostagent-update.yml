@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: a01822pr
+  hosts: target_hostagentupdate_prod1
   become: yes
   become_method: sudo
   gather_facts: yes
