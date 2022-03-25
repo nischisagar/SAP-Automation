@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent
-  hosts: xmpsl020dhaw0
+  hosts: xmpsl045phan0
   become: yes
   become_method: sudo
   gather_facts: yes
