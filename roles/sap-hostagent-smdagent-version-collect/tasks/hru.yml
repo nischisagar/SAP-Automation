@@ -3,8 +3,20 @@
   shell: |
     hostname > /tmp/test123.txt
     {{ path }} -version|grep -iE "variant|patch"|tail -2 >> /tmp/test123.txt
-    smdfilename=`find /usr/sap/*/*/SMDAgent/* -name smdagent.properties|tail -1`
+    run1=`find /usr/sap/*/*/SMDAgent/* -name runtime.properties`
+    for i in $run1
+    do
+    hn=`cat $i|grep -i "connection.url"|cut -d\: -f2|cut -d. -f1`
+    b="//ampsv010m1"
+    if [ "$hn" == "$b" ]
+    then
+    smd1=`echo $i|cut -d/ -f4`
+    smdfilename=`find /usr/sap/$smd1/*/SMDAgent/smdagent.properties`
     grep -i "smdagent.classPath" $smdfilename >> /tmp/test123.txt
+    else
+    echo $hn not equal to $b
+    fi
+    done
   register: hostversion
 
 - name: Get Host Name
