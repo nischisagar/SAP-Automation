@@ -159,7 +159,7 @@
       delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_win_single_sid
+  hosts: sap_oradb_abap_host_name_win_single_sid_1
   become: yes
   become_method: runas
   become_user: system
