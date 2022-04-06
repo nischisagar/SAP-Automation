@@ -1,6 +1,6 @@
 ---
-- name: Update SAP Host Agent
-  hosts: target_update_servers_hostagent_red
+- name: Update SAP Host Agent1
+  hosts: xmpsl011dslt0
   become: yes
   become_method: sudo
   gather_facts: yes
