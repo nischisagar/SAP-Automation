@@ -1,9 +1,9 @@
 ---
-- name: Update SAP Host Agent1
-  hosts: target_update_servers_hostagent_red1
+- name: Update SAP Host Agent2
+  hosts: xmpsa011tecc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: sap-hostagent-update  
-    #when: ansible_distribution | lower == "aix" 
+    when: ansible_distribution | lower == "aix" 
