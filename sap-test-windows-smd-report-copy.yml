@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_update_servergroups_smdnew
+  hosts: target_update_servers_hostsmdnewapr2
   become: yes
   become_method: runas
   become_user: system
@@ -43,7 +43,4 @@
           get_hbase: "{{ hostbase.results[0].stdout | trim }}"
           get_patch: "{{ hostpatch.results[0].stdout | trim }}"
           get_smdda: "{{ smdpatch.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0 
-      
-
-
+      delegate_to: ampsw010saba0  
