@@ -24,9 +24,7 @@
     msg: "{{ copyconffile }}"
 
 - name: "Create CSR from key file and conf"
-  shell: |
-    cd {{ install_path }};
-    cd {{ install_path }};openssl req -new -key {{ install_path }}/{{ keyname }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/FRUN_010_NP_AIX_P1_SAINT_GOBAIN_NET.csr
+  shell: "FR_010 | openssl req -new -key {{ install_path }}/{{ keyname }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/FRUN_010_NP_AIX_P1_SAINT_GOBAIN_NET.csr"
   register: csroutput1
 
 - debug:
