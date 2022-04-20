@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare
-  hosts: "{{ hname1 }}"
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
