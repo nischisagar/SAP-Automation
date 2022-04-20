@@ -1,18 +1,4 @@
 ---
-- name: Getting current host info
-  shell: hostname
-  register: hname
-
-- debug:
-    msg: "{{ hname }}"
-
-- name: Setting facts - hname
-  set_fact:
-    hname: "{{ hname['stdout'] }}"
-
-- debug:
-    msg: "{{ hname }}"
-
 - name: "Generate CSR Using openssl"
   shell: |
     cd {{ install_path }};

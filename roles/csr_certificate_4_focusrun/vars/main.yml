@@ -1,10 +1,12 @@
 ---
 # variables file for sap app installation
+hostname1: "{{ hname }}"
+Entityno: "010"
 install_path: "/usr/sap/hostctrl/exe/csr_openssl"
-keyname: "FRUN_010_NP_AIX_private.key"
+keyname: "FRUN_010_NP_AIX_private_{{ hostname1 }}.key"
 hostnamewithfqdn: "xmpsa010secc0.dtc2.cf.saint-gobain.net"
-password1: "FR_010"
-cername: "FRUN_010_NP_AIX_P1_SAINT_GOBAIN_NET.csr"
+password1: "FR_{{ Entityno }}"
+cername: "FRUN_{{ Entityno }}_NP_AIX_P1_SAINT_GOBAIN_NET.csr"
 
 
 
