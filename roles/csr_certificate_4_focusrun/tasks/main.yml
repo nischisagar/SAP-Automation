@@ -30,6 +30,11 @@
 - debug:
     msg: "{{ fqdnh }}"
 
+- name: mkdir csr_openssl
+  file:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+    state: directory
+
 - name: "Generate CSR Using openssl"
   shell: |
     cd {{ install_path }};

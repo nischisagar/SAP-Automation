@@ -1,7 +1,6 @@
 ---
 # variables file for sap app installation
 hostname1: "{{ hname }}"
-Entityno: "010"
 install_path: "/usr/sap/hostctrl/exe/csr_openssl"
 keyname: "FRUN_AIX_private_{{ hostname1 }}.key"
 hostnamewithfqdn: "{{ fqdnh }}"
