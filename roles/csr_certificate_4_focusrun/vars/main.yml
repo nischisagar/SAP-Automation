@@ -3,10 +3,10 @@
 hostname1: "{{ hname }}"
 Entityno: "010"
 install_path: "/usr/sap/hostctrl/exe/csr_openssl"
-keyname: "FRUN_010_NP_AIX_private_{{ hostname1 }}.key"
-hostnamewithfqdn: "xmpsa010secc0.dtc2.cf.saint-gobain.net"
-password1: "FR_{{ Entityno }}"
-cername: "FRUN_{{ Entityno }}_NP_AIX_P1_SAINT_GOBAIN_NET.csr"
+keyname: "FRUN_AIX_private_{{ hostname1 }}.key"
+hostnamewithfqdn: "{{ fqdnh }}"
+password1: "FR_{{ hostname1 }}"
+cername: "FRUN_{{ hostname1 }}_AIX_P1_SAINT_GOBAIN_NET.csr"
 
 
 
