@@ -34,6 +34,9 @@
   file:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
     state: directory
+    owner: root
+    group: system
+    mode: '0755'
 
 - name: "Generate CSR Using openssl"
   shell: |

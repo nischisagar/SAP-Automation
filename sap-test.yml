@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare
-  hosts: xmpsa010secc0
+  hosts: ansible_servers
   become: yes
   become_method: sudo
   gather_facts: yes
