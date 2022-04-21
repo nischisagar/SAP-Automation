@@ -1,16 +1,16 @@
 ---
 - name: Focus RUN CSR Certificate prepare
-  hosts: xmpsa010secc0
+  hosts: target_csr_copychk
   become: yes
   become_method: sudo
   gather_facts: yes
-  #roles:
-  #- role: csr_certificate_4_focusrun_beforesign_steps
+  roles:
+  - role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
     - name: Fetch the file from the xmpsa010secc0 to master
       run_once: yes
-      fetch: src=/tmp/test456.txt dest=buffer/ flat=yes
-      when: "{{ inventory_hostname == 'xmpsa010secc0' }}"
+      fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_{{ hostname1 }}_AIX_P1_SAINT_GOBAIN_NET.csr dest=buffer/ flat=yes
+      when: "{{ inventory_hostname == '{{ hostname1 }}' }}"
 
 - name: Focus RUN CSR Certificate prepare2
   hosts: ampsv010bld0d
@@ -19,7 +19,7 @@
   gather_facts: yes
   tasks:
     - name: Copy the file from master to mwiapp02
-      copy: src=buffer/test456.txt dest=/tmp/
+      copy: src=buffer/FRUN_{{ hostname1 }}_AIX_P1_SAINT_GOBAIN_NET.csr dest=/tmp/
       when: "{{ inventory_hostname == 'ampsv010bld0d' }}"
 
 
