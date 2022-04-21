@@ -15,6 +15,7 @@
     - name: Copy the file from master to mwiapp02
       copy: src=buffer/test456.txt dest=/tmp/
       when: "{{ inventory_hostname == 'ampsv010bld0d' }}"
+      delegate_to: ampsv010bld0d
 
 
 
