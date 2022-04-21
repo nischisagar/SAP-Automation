@@ -9,12 +9,11 @@
   tasks:
     - name: copy output to bld0d server
       copy: 
-        src: "/usr/sap/hostctrl/exe/csr_openssl/"
+        src: "/usr/sap/hostctrl/exe/csr_openssl/test123.txt"
         dest: "/ansible/reports/"
       delegate_to: ampsv010bld0d
       register: syncfile
-      with_items:
-       - "FRUN_xmpsa010secc0_AIX_P1_SAINT_GOBAIN_NET.csr"
+
 
 
 
