@@ -3,17 +3,18 @@
   hosts: xmpsa010secc0
   become: yes
   become_method: sudo
-  gather_facts: yes
+  #gather_facts: yes
   #roles:
   #- role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
-    - name: copy output to bld0d server
-      copy:
-        src:  /tmp/test123.txt
-        dest: /ansible/reports/
-        remote_src: yes
-      delegate_to: ampsv010bld0d
-      register: syncfile
+    - name: Fetch the file from the xmpsa010secc0 to master
+      run_once: yes
+      fetch: src=/tmp/test456.txt dest=buffer/ flat=yes
+      when: "{{ xmpsa010secc0 == 'xmpsa010secc0' }}"
+
+    - name: Copy the file from master to mwiapp02
+      copy: src=buffer/test456.txt dest=/tmp/
+      when: "{{ ampsv010bld0d == 'ampsv010bld0d' }}"
 
 
 
