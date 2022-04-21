@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare
-  hosts: ansible_servers
+  hosts: target_csr_create_servers
   become: yes
   become_method: sudo
   gather_facts: yes
