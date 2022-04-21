@@ -1,6 +1,6 @@
 ---
 - name: Getting current host info
-  shell: hostname
+  shell: date +%T
   register: hname
 
 - debug:
@@ -15,5 +15,5 @@
 
 - name: "Renamefile"
   shell: |
-    mv /tmp/FRUN_configuration_file.conf /tmp/FRUN_configuration_file_{{ hname }}.conf
+    mv /ansible/reports/csrdir/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr /ansible/reports/csrdir/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr_{{ hname }}.csr
   register: move1
