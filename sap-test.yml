@@ -7,22 +7,6 @@
   roles:
   - role: csr_sourcesystem_copy
 
-- name: Focus RUN CSR Certificate prepare2
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  tasks:
-    - name: Copy the file from master to ampsv010bld0d
-      copy: src=buffer/FRUN_configuration_file.conf dest=/tmp/
-
-- name: "Renamefile"
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  roles: 
-  - role: csr_rename_target
-
 
 
 
