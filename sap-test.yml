@@ -6,3 +6,17 @@
   gather_facts: yes
   roles:
   - role: csr_certificate_4_focusrun
+  tasks:
+    - name: delegate output to bld0d server
+      tags: sync-push
+      synchronize:
+        src: "/usr/sap/hostctrl/exe/csr_openssl/"
+        dest: "/ansible/reports/"
+        mode: push
+      delegate_to: ampsv010bld0d
+      register: syncfile
+      with_items:
+       - "FRUN_xmpsa010secc0_AIX_P1_SAINT_GOBAIN_NET.csr"
+
+
+
