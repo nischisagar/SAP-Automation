@@ -9,8 +9,9 @@
   tasks:
     - name: copy output to bld0d server
       copy:
-        src=/tmp/test123.txt
-        dest=/ansible/reports/
+        src:  /tmp/test123.txt
+        dest: /ansible/reports/
+        remote_src: yes
       delegate_to: ampsv010bld0d
       register: syncfile
 
