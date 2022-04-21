@@ -16,7 +16,7 @@
   become: yes
   become_method: sudo
   roles: 
-    -role: csr_sourcesystem_copy
+    - role: csr_sourcesystem_copy
 
 - name: Focus RUN CSR Certificate prepare2
   hosts: ampsv010bld0d
@@ -32,7 +32,7 @@
   become: yes
   become_method: sudo
   roles: 
-    -role: csr_rename_target
+    - role: csr_rename_target
 
 
 
