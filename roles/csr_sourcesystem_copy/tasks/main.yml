@@ -1,0 +1,20 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Focus RUN CSR Certificate prepare
+  tasks:
+    - name: Fetch the file from the xmpsa010secc0 to master
+      run_once: yes
+      fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_configuration_file.conf dest=buffer/ flat=yes

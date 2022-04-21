@@ -1,0 +1,19 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: "Renamefile"
+  shell: |
+    mv /tmp/FRUN_configuration_file.conf /tmp/FRUN_configuration_file_{{ hname }}.conf
+  register: move1
