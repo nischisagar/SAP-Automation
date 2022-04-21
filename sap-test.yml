@@ -1,11 +1,11 @@
 ---
 - name: Focus RUN CSR Certificate prepare1
-  hosts: target_csr_copychk
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
-  roles:
-  - role: csr_certificate_4_focusrun_beforesign_steps
+  #roles:
+  #- role: csr_certificate_4_focusrun_beforesign_steps
     tasks:
     - name: Fetch the file from the xmpsa010secc0 to master
       run_once: yes
