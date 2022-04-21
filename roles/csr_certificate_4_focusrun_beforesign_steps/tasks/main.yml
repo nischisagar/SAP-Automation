@@ -1,4 +1,43 @@
 ---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: "Find FQDN"
+  shell: |
+    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
+    wfqdn=`nslookup $ip1|grep -i "name ="|tail -1|awk '{print $4}'|sed 's/.$//'`
+    echo $wfqdn
+  register: fqdnh
+
+- debug:
+    msg: "{{ fqdnh }}"
+
+- name: Setting facts - fqdnh
+  set_fact:
+    fqdnh: "{{ fqdnh['stdout'] }}"
+
+- debug:
+    msg: "{{ fqdnh }}"
+
+- name: mkdir csr_openssl
+  file:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+    state: directory
+    owner: root
+    group: system
+    mode: '0755'
+
 - name: "Generate CSR Using openssl"
   shell: |
     cd {{ install_path }};
