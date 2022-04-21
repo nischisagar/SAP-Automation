@@ -7,12 +7,10 @@
   #roles:
   #- role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
-    - name: delegate output to bld0d server
-      tags: sync-push
-      synchronize:
+    - name: copy output to bld0d server
+      copy: 
         src: "/usr/sap/hostctrl/exe/csr_openssl/"
         dest: "/ansible/reports/"
-        mode: push
       delegate_to: ampsv010bld0d
       register: syncfile
       with_items:
