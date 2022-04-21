@@ -3,18 +3,18 @@
   hosts: xmpsa010secc0
   become: yes
   become_method: sudo
-  #gather_facts: yes
+  gather_facts: yes
   #roles:
   #- role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
     - name: Fetch the file from the xmpsa010secc0 to master
       run_once: yes
       fetch: src=/tmp/test456.txt dest=buffer/ flat=yes
-      when: "{{ xmpsa010secc0 == 'xmpsa010secc0' }}"
+      when: "{{ inventory_hostname == 'xmpsa010secc0' }}"
 
     - name: Copy the file from master to mwiapp02
       copy: src=buffer/test456.txt dest=/tmp/
-      when: "{{ ampsv010bld0d == 'ampsv010bld0d' }}"
+      when: "{{ inventory_hostname == 'ampsv010bld0d' }}"
 
 
 
