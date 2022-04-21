@@ -4,8 +4,8 @@
   become: yes
   become_method: sudo
   gather_facts: yes
-  roles:
-  - role: csr_certificate_4_focusrun_beforesign_steps
+  #roles:
+  #- role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
     - name: delegate output to bld0d server
       tags: sync-push
