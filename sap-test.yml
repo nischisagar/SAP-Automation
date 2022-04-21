@@ -8,7 +8,9 @@
   #- role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
     - name: copy output to bld0d server
-      synchronize: src=/tmp/test123.txt dest=/tmp/test123.txt
+      copy:
+        src=/tmp/test123.txt
+        dest=/ansible/reports/
       delegate_to: ampsv010bld0d
       register: syncfile
 
