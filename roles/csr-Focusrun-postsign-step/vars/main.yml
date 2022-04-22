@@ -1,6 +1,7 @@
 ---
 hostname1: "{{ hname }}"
 install_path: "/usr/sap/hostctrl/exe/csr_openssl"
+exe_path: "/usr/sap/hostctrl/exe/"
 keyname: "FRUN_AIX_private_{{ hostname1 }}.key"
 hostnamewithfqdn: "{{ fqdnh }}"
 password1: "FR_{{ hostname1 }}"
