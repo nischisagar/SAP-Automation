@@ -1,0 +1,28 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Copy script to /usr/sap/hostctrl/exe/csr_openssl
+  copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: /usr/sap/hostctrl/exe/csr_openssl/
+    owner: root
+    group: system
+    mode: '0775'
+  with_items:
+  - root_inter.cer
+  - Saint_Gobain_Root_CA.cer
+  - Saint_Gobain_Server_CA.cer
+  - {{ hname }}_csr.txt
+
