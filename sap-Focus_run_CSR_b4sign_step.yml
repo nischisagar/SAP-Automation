@@ -1,5 +1,5 @@
 ---
-- name: Focus RUN CSR Certificate prepare1
+- name: Focus RUN CSR Certificate prepare and copy certificate in binary
   hosts: target_csr_copychk
   become: yes
   become_method: sudo
@@ -11,7 +11,7 @@
       run_once: yes
       fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr dest=buffer/ flat=yes
 
-- name: Focus RUN CSR Certificate prepare2
+- name: Transfer certificate to bld0d server
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
