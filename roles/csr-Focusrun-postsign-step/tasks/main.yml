@@ -24,5 +24,5 @@
   - root_inter.cer
   - Saint_Gobain_Root_CA.cer
   - Saint_Gobain_Server_CA.cer
-  - '{{ hname }}'_csr.txt
+  - "{{ hname }}_csr.txt"
 
