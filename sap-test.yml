@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare1
-  hosts: xmpsa010secc0
+  hosts: ampsv012bw0d
   become: yes
   become_method: sudo
   gather_facts: yes
