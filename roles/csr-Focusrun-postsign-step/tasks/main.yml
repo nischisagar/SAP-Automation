@@ -56,6 +56,9 @@
 
 - name: Final SSL process, updating env on .profile and setting sapadm
   shell: |
+    cp -pf /home/root/.profile /home/root/.profile_`date +%d%m`
+    echo "export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe" >> /home/root/.profile
+    echo "export SECUDIR=/usr/sap/hostctrl/exe/sec" >> /home/root/.profile
     export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse seclogin -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -O sapadm
     export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse get_my_name -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -v
   register: ssllast
