@@ -25,17 +25,5 @@
   - Saint_Gobain_Server_CA.cer
   - SG-RootCA-G2.cer
   - SG-ServersCA-G2.cer
-  - "{{ hname }}_csr.txt"
-
-- name: Create PKCS12 file
-  shell: |
-    cd {{ install_path }};
-    signfile=`ls {{ hname }}*`
-    echo "signfile = $signfile"
-    openssl pkcs12 -export -out certificate.pfx -inkey {{ install_path }}/{{ keyname }} -in {{ install_path }}/$signfile -certfile {{ install_path }}/root_inter.cer
-    {{ exe_path }}/sapgenpse import_p12 -r {{ install_path }}/Saint_Gobain_Server_CA.cer -r {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ install_path }}/SAPSSLS.pse {{ install_path }}/certificate.pfx
-  register: move1
-
-- debug:
-    msg: "{{ move1 }}"
+  - "{{ hname }}*.cer"
 
