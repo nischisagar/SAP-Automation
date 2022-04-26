@@ -15,7 +15,7 @@
 
 - name: Check SAPSSLS got created or not
   stat:
-    path: "{{ install_path }}/SAPSSLS.pse"
+    path: "{{ install_path }}/SAPSSLS2.pse"
   register: file_data
 
 - name: Create the file, if it doesnt exist already
