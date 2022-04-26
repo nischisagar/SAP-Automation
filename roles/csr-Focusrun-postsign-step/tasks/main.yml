@@ -25,8 +25,8 @@
     cp -pf {{ install_path }}/* {{ exe_path }}/sec/
     {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse
     {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse
-  regiester: ssls_out
   when: file_data.stat.exists
+  regiester: ssls_out
 
 - debug:
     msg: "{{ ssls_out }}"
