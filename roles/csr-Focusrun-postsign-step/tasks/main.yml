@@ -23,11 +23,9 @@
     cp -rpf {{ exe_path }}/sec {{ exe_path }}/sec_`date +%d%m`
     rm -f {{ exe_path }}/sec/*
     cp -pf {{ install_path }}/* {{ exe_path }}/sec/
-    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse
-    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse
+    chmod 775 {{ exe_path }}/sec/*
+    chown root:system {{ exe_path }}/sec/*
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
   when: file_data.stat.exists
-
-
-
-
 
