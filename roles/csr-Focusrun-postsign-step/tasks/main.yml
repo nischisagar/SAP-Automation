@@ -15,12 +15,22 @@
 
 - name: Check SAPSSLS got created or not
   stat:
-    path: "{{ install_path }}/SAPSSLS2.pse"
+    path: "{{ install_path }}/SAPSSLS.pse"
   register: file_data
 
-- name: Create the file, if it doesnt exist already
+- name: Copy files hostctrl sec path and update SAPSSLS
   shell: |
-    touch {{ install_path }}/filepresent.txt
+    cp -rpf {{ exe_path }}/sec {{ exe_path }}/sec_`date +%d%m`
+    rm -f {{ exe_path }}/sec/*
+    cp -pf {{ install_path }}/* {{ exe_path }}/sec/
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse
+  regiester: ssls_out
   when: file_data.stat.exists
+
+- debug:
+    msg: "{{ ssls_out }}"
+
+
 
 
