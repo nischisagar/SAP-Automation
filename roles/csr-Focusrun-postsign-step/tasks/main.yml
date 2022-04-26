@@ -25,13 +25,8 @@
     #echo "export SECUDIR=/usr/sap/hostctrl/exe/sec" >> /home/root/.profile
     {{ exe_path }}/sapgenpse seclogin -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -O sapadm
     {{ exe_path }}/sapgenpse get_my_name -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -v
-  when: file_data.stat.exists
-
-- name: Restart sap hostctrl
-  shell: |
-    /usr/sap/hostctrl/exe/saphostexec -stop
-    /usr/sap/hostctrl/exe/saphostexec -restart
-  register: hostctrl_restart
+  regiester: ssllast
 
 - debug:
-    msg: "{{ hostctrl_restart }}"
+    msg: "{{ ssllast }}"
+
