@@ -13,15 +13,14 @@
 - debug:
     msg: "{{ hname }}"
 
-- name: Create PKCS12 file
-  shell: |
-    cd {{ install_path }};
-    cat {{ install_path }}/SG-ServersCA-G2.cer {{ install_path }}/SG-RootCA-G2.cer > {{ install_path }}/root_inter.cer
-    openssl pkcs12 -export -out {{ install_path }}/certificate.pfx -passout pass:{{ password2 }} -inkey {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -in {{ install_path }}/{{ signfile }} -certfile {{ install_path }}/root_inter.cer
-    {{ exe_path }}/sapgenpse import_p12 -r {{ install_path }}/SG-ServersCA-G2.cer -r {{ install_path }}/SG-RootCA-G2.cer -p {{ install_path }}/SAPSSLS.pse -x {{ password2 }} -z {{ password2 }} {{ install_path }}/certificate.pfx
-  register: pkcsout
+- name: Check SAPSSLS got created or not
+  stat:
+    path: "{{ install_path }}/SAPSSLS.pse"
+  register: file_data
 
-- debug:
-    msg: "{{ pkcsout }}"
+- name: Create the file, if it doesnt exist already
+  shell: |
+    touch {{ install_path }}/filepresent.txt
+  when: file_data.stat.exists
 
 
