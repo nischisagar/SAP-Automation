@@ -25,7 +25,7 @@
     #echo "export SECUDIR=/usr/sap/hostctrl/exe/sec" >> /home/root/.profile
     {{ exe_path }}/sapgenpse seclogin -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -O sapadm
     {{ exe_path }}/sapgenpse get_my_name -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -v
-  regiester: ssllast
+  register: ssllast
 
 - debug:
     msg: "{{ ssllast }}"
