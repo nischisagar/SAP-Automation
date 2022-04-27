@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare1
-  hosts: target_csr_final3
+  hosts: target_csr_final4
   become: yes
   become_method: sudo
   gather_facts: yes
