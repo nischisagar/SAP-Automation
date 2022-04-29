@@ -1,0 +1,8 @@
+---
+- name: Focus RUN CSR Certificate prepare1
+  hosts: target_csr_final6
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: csr-Focusrun-postsign-step
