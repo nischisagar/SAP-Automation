@@ -43,7 +43,7 @@
   shell: |
     cd {{ install_path }};
     #echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:NW750.ORA.PD SAPINST_SKIP_DIALOGS=true" > /tmp/check1.txt
-    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:NW750.ORA.PD SAPINST_SKIP_DIALOGS=true &    
+    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params SAPINST_EXECUTE_PRODUCT_ID=NW_DI:NW750.ORA.PD SAPINST_SKIP_DIALOGS=true    
   register: install_out
 
 - debug:
