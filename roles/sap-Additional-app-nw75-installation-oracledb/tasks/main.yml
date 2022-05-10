@@ -1,0 +1,50 @@
+---
+- name: "Rename existing input file in target location"
+  shell: |
+    cnt=`ls -lrt {{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params|wc -l`
+    if [ $cnt -eq 1 ]
+    then 
+    mv {{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params {{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params_`date +%d%m%M`
+    else
+    echo "No mentioned input file found"
+    fi
+  register: renameinputfile
+
+- debug:
+    msg: "{{ renameinputfile }}"
+
+- name: "Process Input param file"
+  template:
+    src: "{{ role_path }}/templates/{{ item }}"
+    dest: "{{ paramfile_path }}/"
+    owner: root
+    group: sapinst
+    mode: '0777'
+  with_items:
+  - inifile_sapaddapp_NW750oracle.params
+  register: inputfile
+
+- debug:
+    msg: "{{ inputfile }}"
+
+- name: "Create Installation Directory SWPM"
+  file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: root
+    group: sapinst
+    mode: '0777'
+  register: pathcreate
+
+- debug:
+    msg: "{{ pathcreate }}"
+
+- name: "Execute installation step"
+  shell: |
+    cd {{ install_path }};
+    #cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true  
+    echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sapaddapp_NW750oracle.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true" > check1.txt  
+  register: install_out
+
+- debug:
+    msg: "{{ install_out }}"
