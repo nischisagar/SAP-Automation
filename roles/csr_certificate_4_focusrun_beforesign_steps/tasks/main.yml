@@ -16,12 +16,12 @@
 - name: "Find FQDN"
   shell: |
     ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
-    cnt1=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i $hname|tail -1|awk '{print $4}'|sed 's/.$//'|wc -l`
+    cnt1=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'|wc -l`
     if [ $cnt1 == 1 ]
     then
-    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i $hname|tail -1|awk '{print $4}'|sed 's/.$//'`
+    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'`
     else
-    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i $hname|tail -1|awk '{print $4}'|sed 's/.$//'`
+    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'`
     fi
     echo $wfqdn
   register: fqdnh
