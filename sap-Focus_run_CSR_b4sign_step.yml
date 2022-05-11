@@ -1,13 +1,13 @@
 ---
 - name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: target_csr_copychk
+  hosts: target_csrprepare_may11
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: csr_certificate_4_focusrun_beforesign_steps
   tasks:
-    - name: Fetch the file from the xmpsa010secc0 to master
+    - name: Fetch the file from the target to master
       run_once: yes
       fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr dest=buffer/ flat=yes
 
