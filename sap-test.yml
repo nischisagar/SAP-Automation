@@ -1,40 +1,8 @@
 ---
 - name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: target_csrprepare_may11_2
+  hosts: target_csrprepare_may11_3
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: csr_certificate_4_focusrun_beforesign_steps
-  tasks:
-    - name: Fetch the file from the target to master
-      run_once: yes
-      fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr dest=buffer/ flat=yes
-
-- name: Copy csrfile
-  hosts: target_csrprepare_may11_2
-  serial: 1
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  tasks:
-    - name: Fetch the file from the target to master
-      run_once: yes
-      fetch: src=/usr/sap/hostctrl/exe/csr_openssl/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr dest=buffer/ flat=yes
-
-- name: Transfer certificate to bld0d server
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  tasks:
-    - name: Copy the file from master to ampsv010bld0d
-      copy: src=buffer/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr dest=/ansible/reports/csrdir/
-
-- name: Rename file
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  roles:
-  - role: csr_rename_target
-
