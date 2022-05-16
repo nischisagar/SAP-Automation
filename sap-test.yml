@@ -1,6 +1,6 @@
 ---
 - name: Post sign step
-  hosts: target_csrprepare_poststep_may16
+  hosts: target_csrprepare_poststep1_may16
   become: yes
   become_method: sudo
   gather_facts: yes
