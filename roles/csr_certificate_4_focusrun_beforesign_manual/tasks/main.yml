@@ -13,23 +13,6 @@
 - debug:
     msg: "{{ hname }}"
 
-- name: "Find FQDN"
-  shell: |
-    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
-    wfqdn=`nslookup $ip1|grep -i "name ="|tail -1|awk '{print $4}'|sed 's/.$//'`
-    echo $wfqdn
-  register: fqdnh
-
-- debug:
-    msg: "{{ fqdnh }}"
-
-- name: Setting facts - fqdnh
-  set_fact:
-    fqdnh: "{{ fqdnh['stdout'] }}"
-
-- debug:
-    msg: "{{ fqdnh }}"
-
 - name: mkdir csr_openssl
   file:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
@@ -67,6 +50,8 @@
     cd {{ install_path }};
     openssl req -new -key {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/{{ cername }}
     cat {{ install_path }}/{{ cername }}
+    #cp -p {{ install_path }}/{{ cername }} {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
+    #echo {{ hname }} >> {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
   register: csroutput1
 
 - debug:
