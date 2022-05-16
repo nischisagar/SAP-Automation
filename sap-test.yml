@@ -1,8 +1,8 @@
 ---
-- name: Focus RUN CSR Certificate prepare and copy certificate in binary1
-  hosts: target_csrprepare_may11_3
+- name: Post sign step
+  hosts: ampsv031ecc0d
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr_certificate_4_focusrun_beforesign_steps
+  - role: csr-Focusrun-postsign-step
