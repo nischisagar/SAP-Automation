@@ -71,7 +71,7 @@
 - name: Executing root scripts
   shell:  |
     /oracle/oraInventory/orainstRoot.sh
-    /oracle/OTEST/19/root.sh
+    /oracle/{{ dbname }}/19/root.sh
   register: rootscript
 
 - debug:
