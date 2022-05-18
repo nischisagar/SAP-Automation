@@ -10,16 +10,15 @@
   - sap-maxdb-version-check.sh
   - sap-version-check-maxdb-ads-java.sh
 
-- name: Run the SAP version check script
-  shell: |
-    "su - {{ item.name }} -c /tmp/sap-maxdb-version-check.sh > /tmp/{{ item.name }}-dbversion.txt"
-    sleep 5
-    "su - {{ item.name }} -c /tmp/sap-version-check-maxdb-ads-java.sh"
-  changed_when: False
-  args:
-    warn: false
-  when: sidadm_maxdb_adsusr is defined
+- name: Run the SAP version check script1
+  shell: "su - {{ item.name }} -c /tmp/sap-maxdb-version-check.sh > /tmp/{{ item.name }}-dbversion.txt"
   loop: "{{ sidadm_maxdb_adsusr }}"
+  register: "script1_out"
+
+- name: Run the SAP version check script2
+  shell: "su - {{ item.name }} -c /tmp/sap-version-check-maxdb-ads-java.sh"
+  loop: "{{ sidadm_maxdb_adsusr }}"
+  register: "script2_out"
 
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-{{ sapads-maxdb-version.log }} | head -1"
