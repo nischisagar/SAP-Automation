@@ -3,8 +3,9 @@
   copy:
     src: "files/version-check-standalone-hana.sh"
     dest: "/tmp/version-check-standalone-hana.sh"
-    owner: "{{ sid_adm_usr_hanadb_abap }}"
-    mode: '0755'
+    owner: root
+    group: system
+    mode: '0775'
 
 - name: Run the version check script
   shell: "su - {{ sid_adm_usr_hanadb_abap }} -c /tmp/version-check-standalone-hana.sh"
