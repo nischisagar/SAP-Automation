@@ -7,7 +7,7 @@
     mode: '0755'
 
 - name: Run the version check script
-  shell: "su - {{ sid_adm_usr_hanadb_abap }}  -c /tmp/version-check-standalone-hana.sh"
+  shell: "su - {{ sid_adm_usr_hanadb_abap }} -c /tmp/version-check-standalone-hana.sh"
   changed_when: False
   args:
     warn: false
