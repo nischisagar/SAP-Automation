@@ -12,7 +12,7 @@
 
 - name: Run the SAP version check script
   shell: |
-    "su - {{ item.name }} -c /tmp/sap-maxdb-version-check.sh"
+    "su - {{ item.name }} -c /tmp/sap-maxdb-version-check.sh > /tmp/{{ item.name }}-dbversion.txt"
     sleep 5
     "su - {{ item.name }} -c /tmp/sap-version-check-maxdb-ads-java.sh"
   changed_when: False
