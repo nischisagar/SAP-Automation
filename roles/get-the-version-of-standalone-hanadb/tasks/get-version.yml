@@ -1,0 +1,47 @@
+---
+- name: Copy the script
+  copy:
+    src: "files/version-check-standalone-db2.sh"
+    dest: "/tmp/version-check-standalone-db2.sh"
+    owner: "{{ sid_adm_usr_db2 }}"
+    mode: '0700'
+
+- name: Run the version check script
+  shell: "su - {{ sid_adm_usr_db2 }}  -c /tmp/version-check-standalone-db2.sh"
+  changed_when: False
+  args:
+    warn: false
+
+- name: Get the SID name
+  shell: |
+    for i in `ls /tmp/ansible*dbversion.log`
+    do
+    cat $i | head -1
+    done
+  register: "get_sid_output"
+
+- name: Get the DB Name
+  shell: |
+    for i in `ls /tmp/ansible*dbversion.log`
+    do
+    cat $i | head -2 | tail -1
+    done
+  register: "get_dbn_output"
+
+- name: Get the DB Version
+  shell: |
+    for i in `ls /tmp/ansible*dbversion.log`
+    do
+    cat $i | head -3 | tail -1
+    done
+  register: "get_dbv_output"
+
+- name: Get the DB Size
+  shell: |
+    for i in `ls /tmp/ansible*dbversion.log`
+    do
+    cat $i | tail -1
+    done
+  register: "get_dbs_output"
+
+  
