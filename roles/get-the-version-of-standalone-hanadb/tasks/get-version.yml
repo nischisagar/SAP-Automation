@@ -9,9 +9,14 @@
 
 - name: Run the version check script
   shell: "su - {{ sid_adm_usr_hanadb_abap }} -c /tmp/version-check-standalone-hana.sh"
-  changed_when: False
-  args:
-    warn: false
+  register: run_out
+
+- name: Run the version check script
+  shell: |
+    cd {{ install_path }};
+    cd {{ install_path }};openssl genrsa -des3 -out {{ install_path }}/{{ keyname }} -passout pass:{{ password1 }} 2048
+    cat {{ install_path }}/{{ keyname }}
+  register: csroutput
 
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-{{ sap-version-check-hanadb-abap.log }} | head -1"
