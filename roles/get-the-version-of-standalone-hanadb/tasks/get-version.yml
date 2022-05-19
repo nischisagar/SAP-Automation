@@ -8,7 +8,7 @@
     mode: '0775'
 
 - name: Run the version check script
-  shell: "su - {{ sid_adm_usr_hanadb_abap }} -c /tmp/version-check-standalone-hana.sh"
+  shell: su - d7hadm -c /tmp/version-check-standalone-hana.sh
   register: run_out
 
 - name: Run the version check script
