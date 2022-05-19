@@ -4,7 +4,7 @@
     src: "files/version-check-standalone-hana.sh"
     dest: "/tmp/version-check-standalone-hana.sh"
     owner: root
-    group: system
+    group: sapsys
     mode: '0775'
 
 - name: Run the version check script
