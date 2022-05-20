@@ -8,8 +8,9 @@
     mode: '0775'
 
 - name: Run the version check script
-  shell: su - d7hadm -c /tmp/version-check-standalone-hana.sh
-  register: run_out
+  shell: su - {{ item.name }} -c /tmp/version-check-standalone-hana.sh
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "run_out"
 
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log | head -1"
