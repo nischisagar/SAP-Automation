@@ -11,7 +11,7 @@
       run_once: yes
 
 - name: Get the version from the standalone HANA Servers
-  hosts: nonsap_standalone_hanadb1
+  hosts: nonsap_standalone_hanadb
   become: yes
   become_method: sudo
   vars: 
