@@ -13,7 +13,7 @@ root_password: "pxw4HANA"
 sapadm_password: "pxw4HANA"
 hana_sid: "PXW"
 hana_instance_number: "20"
-hana_env_type: 'development'
+hana_env_type: 'production'
 hana_mem_restrict: 'n'
 hana_max_mem:
 common_master_password: "pxw4HANA"
