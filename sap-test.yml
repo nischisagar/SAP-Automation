@@ -10,7 +10,7 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the JAVA version from the Application Servers (Single SID)
+- name: Get Agile S4HANA multi tenant db
   hosts: s4hana_multitenantdb
   become: yes
   become_method: sudo
