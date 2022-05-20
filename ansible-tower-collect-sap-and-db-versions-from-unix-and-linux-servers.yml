@@ -33,7 +33,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the version from the standalone HANA Servers
-  hosts: sap_standalone_hanadb
+  hosts: nonsap_standalone_hanadb
   become: yes
   become_method: sudo
   vars: 
@@ -45,13 +45,13 @@
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }}'
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
       throttle: 1
-      with_together:
-        - "{{ get_sid_output.stdout_lines }}"
-        - "{{ get_dbn_output.stdout_lines }}"
-        - "{{ get_dbv_output.stdout_lines }}"
-        - "{{ get_dbs_output.stdout_lines }}"
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_dbn: "{{ get_dbn_output.results[0].stdout }}"
+          get_dbv: "{{ get_dbv_output.results[0].stdout }}"
+          get_dbs: "{{ get_dbs_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
