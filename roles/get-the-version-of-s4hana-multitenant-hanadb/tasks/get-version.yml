@@ -1,0 +1,36 @@
+---
+- name: Copy the script
+  copy:
+    src: "files/version-check-standalone-hana.sh"
+    dest: "/tmp/version-check-standalone-hana.sh"
+    owner: root
+    group: sapsys
+    mode: '0775'
+
+- name: Run the version check script
+  shell: su - {{ item.name }} -c /tmp/version-check-standalone-hana.sh
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "run_out"
+
+- name: Get the SID
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log | head -1"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_sid_output"
+
+- name: Get the DB name
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log | head -2 | tail -1 | awk '{print $1}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_dbn_output"  
+
+- name: Get the DB Version
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | head -2 | tail -1 |awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_dbv_output"
+
+- name: Get the DB Size
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_dbs_output"
+
+
+  
