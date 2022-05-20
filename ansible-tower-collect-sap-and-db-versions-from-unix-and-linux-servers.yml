@@ -11,7 +11,7 @@
       run_once: yes
 
 - name: Get the version from the standalone DB2 Servers
-  hosts: standalone_db2_withprod
+  hosts: standalone_db2_withoutprod
   become: yes
   become_method: sudo
   vars: 
