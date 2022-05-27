@@ -93,6 +93,31 @@
           get_dbs: "{{ get_db_size_output.results[2].stdout }}"
       delegate_to: ampsv010bld0d
 
+- name: Get MAXDB Java servers version detail
+  hosts: sap_maxdb_java_ads_solman
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
+    app_type: "JAVA"
+  roles:
+  - role: get-the-sap-version-maxdb-javanew
+  tasks:
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
+
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
   hosts: sap_oradb_abap_host_name_single_sid1
   become: yes
