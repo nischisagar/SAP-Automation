@@ -10,15 +10,15 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get Agile S4HANA multi tenant db
-  hosts: s4hana_multitenantdb
+- name: Get MAXDB Java servers version detail
+  hosts: sap_maxdb_java_single1
   become: yes
   become_method: sudo
   vars:
     ansible_python_interpreter: "/usr/bin/python"
-    app_type: "ABAP"
+    app_type: "JAVA"
   roles:
-  - role: get-the-version-of-s4hana-multitenant-hanadb
+  - role: get-the-sap-version-maxdb-newset
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
@@ -33,20 +33,6 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-        - get_sid: "{{ get_sid_output.results[1].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[1].stdout }}"
-          get_dbs: "{{ get_db_size_output.results[1].stdout }}"
-        - get_sid: "{{ get_sid_output.results[2].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[2].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[2].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[2].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[2].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[2].stdout }}"
-          get_dbs: "{{ get_db_size_output.results[2].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
@@ -57,7 +43,7 @@
     - name: Copy the file with date format
       copy: 
         src: "{{ report_file }}"
-        dest: "/ansible/reports/s4hana-{{ ansible_date_time.date }}.csv"
+        dest: "/ansible/reports/maxdbnew-{{ ansible_date_time.date }}.csv"
         remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
@@ -71,7 +57,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
-        - "/ansible/reports/s4hana-{{ ansible_date_time.date }}.csv"
+        - "/ansible/reports/maxdbnew-{{ ansible_date_time.date }}.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
