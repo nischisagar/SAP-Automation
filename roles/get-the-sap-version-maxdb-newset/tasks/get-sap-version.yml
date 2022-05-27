@@ -8,7 +8,8 @@
     mode: '0775'
 
 - name: Run the version check script
-  shell: su - dukadm -c /tmp/sap-version-check-maxdbnew.sh
+  shell: su - {{ item.name }} -c /tmp/sap-version-check-maxdbnew.sh
+  loop: "{{ sidadm_maxdb_adsusr }}"
   register: "run_out"
 
 - name: Get the SID
