@@ -1,17 +1,4 @@
 ---
-- name: Copy the script
-  copy:
-    src: "files/sap-version-check-maxdbnew.sh"
-    dest: "/tmp/sap-version-check-maxdbnew.sh"
-    owner: root
-    group: sapsys
-    mode: '0775'
-
-- name: Run the version check script
-  shell: su - {{ item.name }} -c /tmp/sap-version-check-maxdbnew.sh
-  loop: "{{ sidadm_maxdb_adsusr }}"
-  register: "run_out"
-
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-sapads-maxdb-version.log | head -1"
   loop: "{{ sidadm_maxdb_adsusr }}"
