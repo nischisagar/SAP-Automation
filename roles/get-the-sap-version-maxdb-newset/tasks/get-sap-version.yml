@@ -11,9 +11,9 @@
   shell: |
     su - {{ item.name }} -c /tmp/sap-version-check-maxdbnew.sh
     sid1=`df -g|grep -i sapdb|grep -i saplog|grep -v logbackup|awk '{print $NF}'|cut -d/ -f3`
-    sid1s=`echo $sid1|tr '[a-z]' '[A-Z]'`
+    sid1s=`echo $sid1|tr '[A-Z]' '[a-z]'`
     sid1adm="$sid1s""adm"
-    su - sid1adm -c $dbmcli -d $sid1 -U w -c "db_enum"|grep -i running|awk '{print $3}' >> /tmp/{{ item.name }}-sapads-maxdb-version.log
+    su - $sid1adm -c dbmcli -d $sid1 -U w -c "db_enum"|grep -i running|awk '{print $3}' >> /tmp/{{ item.name }}-sapads-maxdb-version.log
     echo "120" >> /tmp/{{ item.name }}-sapads-maxdb-version.log
   loop: "{{ sidadm_maxdb_adsusr }}"
   register: "run_out"
