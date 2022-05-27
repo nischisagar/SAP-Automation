@@ -50,7 +50,7 @@
 
 - name: Remove the script
   file:
-    path: "/tmp/sap-version-check-maxdbnew.sh""
+    path: "/tmp/sap-version-check-maxdbnew.sh"
     state: absent
 
 - name: Remove the log
