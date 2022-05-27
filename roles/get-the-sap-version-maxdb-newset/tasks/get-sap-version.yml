@@ -1,4 +1,23 @@
 ---
+- name: Copy the script
+  copy:
+    src: "files/sap-version-check-maxdbnew.sh"
+    dest: "/tmp/sap-version-check-maxdbnew.sh"
+    owner: root
+    group: sapsys
+    mode: '0775'
+
+- name: Run the version check script
+  shell: |
+    su - {{ item.name }} -c /tmp/sap-version-check-maxdbnew.sh
+    sid1=`df -g|grep -i sapdb|grep -i saplog|grep -v logbackup|awk '{print $NF}'|cut -d/ -f3`
+    sid1s=`echo $sid1|tr '[a-z]' '[A-Z]'`
+    sid1adm="$sid1s""adm"
+    su - sid1adm -c $dbmcli -d $sid1 -U w -c "db_enum"|grep -i running|awk '{print $3}' >> /tmp/{{ item.name }}-sapads-maxdb-version.log
+    echo "120" >> /tmp/{{ item.name }}-sapads-maxdb-version.log
+  loop: "{{ sidadm_maxdb_adsusr }}"
+  register: "run_out"
+
 - name: Get the SID
   shell: "cat /tmp/{{ item.name }}-sapads-maxdb-version.log | head -1"
   loop: "{{ sidadm_maxdb_adsusr }}"

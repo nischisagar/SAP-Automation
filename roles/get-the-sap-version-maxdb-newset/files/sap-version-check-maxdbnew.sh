@@ -9,5 +9,3 @@ echo $sid > /tmp/$sidadm-sapads-maxdb-version.log
 echo SAP NetWeaver $adsv SP $adsp >> /tmp/$sidadm-sapads-maxdb-version.log
 disp+work|egrep -i 'variant|number' >> /tmp/$sidadm-sapads-maxdb-version.log
 echo "MaxDB" >> /tmp/$sidadm-sapads-maxdb-version.log
-cat /tmp/$sidadm-dbversion.txt|grep -i running|tail -1|awk '{print $3}' >> /tmp/$sidadm-sapads-maxdb-version.log
-echo "100" >> /tmp/$sidadm-sapads-maxdb-version.log
