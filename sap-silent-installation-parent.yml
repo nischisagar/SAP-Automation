@@ -1,18 +1,9 @@
 ---
-- name: Initiating Mount operation
-  hosts: xmpsa010secc0
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  roles:
-  - role: nfs-mount-on-aix-linux-new
-
-- name: SAP ci Installation
-  hosts: xmpsa010secc0
+- name: SAP app installation for ora db nw 7.5
+  hosts: xmpsa010secc1
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-BS2016-ERP60-EHP8-CI-separate-installation
+  - role: sap-Additional-app-nw75-installation-oracledb
     when: ansible_distribution | lower == "aix" 
-    when: what_install | lower == "add_hanaapp"
