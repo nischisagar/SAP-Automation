@@ -18,7 +18,7 @@
     path: "/usr/sap/hostctrl/exe/csr_openssl"
     state: directory
     owner: root
-    group: system
+    group: sapsys
     mode: '0755'
 
 - name: "Generate CSR Using openssl"
@@ -36,7 +36,7 @@
     src: "{{ role_path }}/templates/{{ item }}"
     dest: "{{ install_path }}/"
     owner: root
-    group: system
+    group: sapsys
     mode: '0777'
   with_items:
   - FRUN_configuration_file.conf
@@ -50,6 +50,7 @@
     cd {{ install_path }};
     openssl req -new -key {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/{{ cername }}
     cat {{ install_path }}/{{ cername }}
+    cp -p {{ install_path }}/{{ cername }} /tmp/{{ cername }}
     #cp -p {{ install_path }}/{{ cername }} {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
     #echo {{ hname }} >> {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
   register: csroutput1
