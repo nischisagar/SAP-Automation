@@ -12,7 +12,9 @@
     msg: "{{ pathcreate }}"
 
 - name: "Execute installation step"
-  shell:  /010_SHARED_INFRA/SAP_Installaion/SWPM10SP30_aix_ora/sapinst SAPINST_INPUT_PARAMETERS_URL=/usr/sap/trans/SWPM/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.ORA.ABAP SAPINST_SKIP_DIALOGS=true
+  shell:  |
+    cd /usr/sap/DAE/SWPM
+    cd /usr/sap/DAE/SWPM;/010_SHARED_INFRA/SAP_Installaion/SWPM10SP30_aix_ora/sapinst SAPINST_INPUT_PARAMETERS_URL=/usr/sap/trans/SWPM/inifile.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.ORA.ABAP SAPINST_SKIP_DIALOGS=true
   register: install_out
 
 - debug:
