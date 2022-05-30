@@ -1,0 +1,50 @@
+---
+- name: "Rename existing input file in target location"
+  shell: |
+    cnt=`ls -lrt {{ paramfile_path }}/inifile_nw75_ci_full_ora19c.params|wc -l`
+    if [ $cnt -eq 1 ]
+    then 
+    mv {{ paramfile_path }}/inifile_nw75_ci_full_ora19c.params {{ paramfile_path }}/inifile_nw75_ci_full_ora19c.params_`date +%d%m%M`
+    else
+    echo "No mentioned input file found"
+    fi
+  register: renameinputfile
+
+- debug:
+    msg: "{{ renameinputfile }}"
+
+- name: "Process Input param file"
+  template:
+    src: "{{ role_path }}/templates/{{ item }}"
+    dest: "{{ paramfile_path }}/"
+    owner: root
+    group: sapinst
+    mode: '0777'
+  with_items:
+  - inifile_nw75_ci_full_ora19c.params
+  register: inputfile
+
+- debug:
+    msg: "{{ inputfile }}"
+
+- name: "Create Installation Directory SWPM"
+  file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: root
+    group: sapinst
+    mode: '0777'
+  register: pathcreate
+
+- debug:
+    msg: "{{ pathcreate }}"
+
+- name: "Execute installation step"
+  shell: |
+    cd {{ install_path }};
+    echo "{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_nw75_ci_full_ora19c.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW731.ORA.PI SAPINST_SKIP_DIALOGS=true" > check1.txt  
+    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_nw75_ci_full_ora19c.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW731.ORA.PI SAPINST_SKIP_DIALOGS=true  
+  register: install_out
+
+- debug:
+    msg: "{{ install_out }}"

@@ -1,0 +1,6 @@
+---
+# variables file for sap app installation
+ #swpm_path: "/010_SHARED_INFRA/DAE_Installation/SWPM"
+ install_path: "/usr/sap/DAE/SWPM/"
+ swpm_sapinst_path: "/010_SHARED_INFRA/SAP_Installaion/SWPM10SP30_aix_ora"
+ paramfile_path: "/010_SHARED_INFRA/SAP_Installaion/iniparamfiles"
