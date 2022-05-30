@@ -41,7 +41,7 @@
     path: "/usr/sap/hostctrl/exe/csr_openssl"
     state: directory
     owner: root
-    group: system
+    group: sapsys
     mode: '0755'
 
 - name: "Generate CSR Using openssl"
@@ -59,7 +59,7 @@
     src: "{{ role_path }}/templates/{{ item }}"
     dest: "{{ install_path }}/"
     owner: root
-    group: system
+    group: sapsys
     mode: '0777'
   with_items:
   - FRUN_configuration_file.conf
