@@ -1,40 +1,40 @@
 ---
 - name: Copy the script
   copy:
-    src: "files/sap-version-check-maxdbscmlc.sh"
-    dest: "/tmp/sap-version-check-maxdbscmlc.sh"
+    src: "files/sap-version-check-maxdb-content.sh"
+    dest: "/tmp/sap-version-check-maxdb-content.sh"
     owner: root
     group: sapsys
     mode: '0775'
 
 - name: Run the version check script
   shell: |
-    su - {{ item.name }} -c /tmp/sap-version-check-maxdbscmlc.sh
+    su - {{ item.name }} -c /tmp/sap-version-check-maxdb-content.sh
   loop: "{{ sidadm_maxdb_scmlcusr }}"
   register: "run_out"
 
 - name: Get the SID
-  shell: "cat /tmp/{{ item.name }}-sapscm-lc-version.log | head -1"
+  shell: "cat /tmp/{{ item.name }}-sap-content-version.log | head -1"
   loop: "{{ sidadm_maxdb_scmlcusr }}"
   register: "get_sid_output"
 
 - name: Get the DB name
-  shell: "cat /tmp/{{ item.name }}-sapscm-lc-version.log | head -2 | tail -1"
+  shell: "cat /tmp/{{ item.name }}-sap-content-version.log | head -2 | tail -1"
   loop: "{{ sidadm_maxdb_scmlcusr }}"
   register: "get_db_name_output"
   
 - name: Get the DB Version
-  shell: "cat /tmp/{{ item.name }}-sapscm-lc-version.log  | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-sap-content-version.log  | tail -1 | awk '{print $NF}'"
   loop: "{{ sidadm_maxdb_scmlcusr }}"
   register: "get_db_version_output"
 
 - name: Remove the script
   file:
-    path: "/tmp/sap-version-check-maxdbscmlc.sh"
+    path: "/tmp/sap-version-check-maxdb-content.sh"
     state: absent
 
 - name: Remove the log
   file:
-    path: "/tmp/{{ item.name }}-sapscm-lc-version.log"
+    path: "/tmp/{{ item.name }}-sap-content-version.log"
     state: absent
   loop: "{{ sidadm_maxdb_scmlcusr }}"
