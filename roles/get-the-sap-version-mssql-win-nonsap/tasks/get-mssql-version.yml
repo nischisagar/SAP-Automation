@@ -1,0 +1,30 @@
+---
+- name: Get the SID Name
+  win_shell: echo "{{ item.name }}"
+  loop: "{{ sid_mssql }}"
+  register: sid_name
+
+- name: collect the name of DB
+  win_shell: |
+    $sqln = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqln1 = ($sqln[2].Split("(")).split(")")
+    $sqln1[0]
+  register: db_name
+  loop: "{{ sid_mssql }}"
+  
+- name: collect the version of DB
+  win_shell: |
+    $sqlv = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "select @@version;"
+    $sqlv1 = ($sqlv[2].Split("(")).split(")")
+    $sqlv1[1]
+  register: db_version
+  loop: "{{ sid_mssql }}"
+  
+- name: collect the size of the DB
+  win_shell: |
+    $sql_db_size = sqlcmd -S {{ inventory_hostname }} -U {{ user_name }} -P {{ user_password }} -d {{ item.name }} -Q "SELECT (SUM(mf.size) * 8 / 1024) / 1024 AS Size_GBs, d.NAME FROM sys.master_files mf INNER JOIN sys.databases d ON d.database_id = mf.database_id WHERE d.database_id > 4 GROUP BY d.NAME ORDER BY d.NAME;" | Select-String -Pattern {{ item.name }}
+    $sql_db_size | %{ (-split $_)[0] }
+  register: db_size
+  loop: "{{ sid_mssql }}"
+ 
+
