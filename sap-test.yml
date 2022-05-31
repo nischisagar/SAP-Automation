@@ -22,7 +22,7 @@
       run_once: yes
 
 - name: Get the MS-SQL version from ABAP Windows Servers (Single SID)
-  hosts: nonsap_mssql_single_sid_windows
+  hosts: nonsap_mssql_single_sid_windows1
   become: yes
   become_method: runas
   become_user: system
