@@ -11,14 +11,14 @@
       run_once: yes
 
 - name: Get MAXDB SCM servers version detail
-  hosts: sap_maxdb_SCM_servers_single_sid_new
+  hosts: sap_maxdb_content_server_sid2
   become: yes
   become_method: sudo
   vars:
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "SAP-SCM"
   roles:
-  - role: get-the-sap-version-maxdb-scm-sid1
+  - role: get-the-sap-version-maxdb-contentserver-sid
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
@@ -29,6 +29,9 @@
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[1].stdout }}"        
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
