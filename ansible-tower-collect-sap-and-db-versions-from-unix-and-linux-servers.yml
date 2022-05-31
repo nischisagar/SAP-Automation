@@ -118,6 +118,27 @@
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
+- name: Get MAXDB SCM servers version detail
+  hosts: sap_maxdb_SCM_servers_single_sid
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
+    app_type: "SAP-SCM"
+  roles:
+  - role: get-the-sap-version-maxdb-scm-sid1
+  tasks:
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},NA'
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
+
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
   hosts: sap_oradb_abap_host_name_single_sid1
   become: yes
