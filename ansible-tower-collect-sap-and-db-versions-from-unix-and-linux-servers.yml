@@ -338,7 +338,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Two SIDs)
-  hosts: sap_oradb_java_host_name_two_sid2
+  hosts: sap_oradb_java_host_name_two_sid2_new
   become: yes
   become_method: sudo
   vars: 
