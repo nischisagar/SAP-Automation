@@ -10,7 +10,7 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get MAXDB Java servers version detail
+- name: Get MAXDB SCM servers version detail
   hosts: sap_maxdb_SCM_servers_single_sid
   become: yes
   become_method: sudo
