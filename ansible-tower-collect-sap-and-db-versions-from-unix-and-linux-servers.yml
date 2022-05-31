@@ -119,7 +119,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get MAXDB SCM servers version detail
-  hosts: sap_maxdb_SCM_servers_single_sid
+  hosts: sap_maxdb_SCM_servers_single_sid_new
   become: yes
   become_method: sudo
   vars:
