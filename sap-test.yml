@@ -1,8 +1,8 @@
 ---
-- name: HANA DB Install
+- name: HANA revision upgrade
   hosts: xmpsl010shan0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-hana2.0_rev55-deployment_withvariable
+  - role: sap-hana-revision-51-upgrade
