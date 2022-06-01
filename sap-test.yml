@@ -1,6 +1,6 @@
 ---
 - name: SAP DB Application Validation
-  hosts: target_app_validation_list1
+  hosts: target_app_validation_list2
   become: yes
   become_method: sudo
   gather_facts: yes
