@@ -1,8 +1,8 @@
 ---
-- name: HANA revision upgrade
-  hosts: xmpsl010shan0
+- name: SAP DB Application Validation
+  hosts: target_app_validation_list
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-hana-revision-51-upgrade
+  - role: sap_application_validation
