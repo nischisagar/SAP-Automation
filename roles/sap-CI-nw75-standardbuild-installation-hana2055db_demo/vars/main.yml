@@ -1,0 +1,42 @@
+---
+# variables file for sap app installation
+var_HDBschemaName: "SAPABC"
+var_HDBschemaPassword: "xxxxxxxx"
+var_Import_DialogmigmonJobNum: "48"
+var_CI_ascsInstanceNumber: "10"
+var_ascsVirtualHostname: "xmpsaxxxxxx"
+var_ciInstanceNumber: "00"
+var_ciVirtualHostname: "xmpsaxxxxxx"
+var_scsVirtualHostname: "xmpsaxxxxxx"
+var_needDDICPasswords: "false"
+var_masterPwd: "XXXXXXXXXXX"
+var_GetSidNoProfiles_sid: "ABC"
+var_HDB_abapSchemaName: "SAPABC"
+var_HDB_abapSchemaPassword: "xxxxxxxx"
+var_HDB_getdbhostname: "xmpslxxxxxx"
+var_HDB_getdbsid: "ABC"
+var_HDB_getinstanceNumber: "20"
+var_HDB_getDBsystemPassword: "xxxxxxxx"
+var_HDB_getDBsystemid: "ABC"
+var_SAPCrypto_sapexepath: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps/SAPEXE_900-80002577.SAR"
+var_installSAPHostAgent: "false"
+var_igsExeSarpath: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps/igsexe_13-80003182.sar"
+var_igsHelperSarpath: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps/igshelper_17-10010245.sar"
+var_sapExeDbSarpath: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps/SAPEXEDB_900-80002619.SAR"
+var_sapExeSarpath: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps/SAPEXE_900-80002577.SAR"
+var_NW_getFQDN: "dtc2.cf.saint-gobain.net"
+var_archives_downloadBasket: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Kernel_Dumps"
+var_SAPINST_CD_PACKAGE_HANACLI: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/HANA_DB_Client_Dumps/SAP_HANA_CLIENT"
+var_SAPINST_CD_PACKAGE_MIGRATION1: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Installn_Dump_NW7.5/NW_75_ABAP_INST_EXP/51050829_3/DATA_UNITS/EXP1"
+var_SAPINST_CD_PACKAGE_MIGRATION2: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Installn_Dump_NW7.5/NW_75_ABAP_INST_EXP/51050829_3/DATA_UNITS/EXP2"
+var_SAPINST_CD_PACKAGE_MIGRATION3: "/010_SHARED_INFRA/SAP_Installaion/Installation_dumps/NW7.5_HANA_SAP_DUMP/Installn_Dump_NW7.5/NW_75_ABAP_INST_EXP/51050829_3/DATA_UNITS/EXP3"
+var_nwUsers_sapsysGID: "1000"
+var_nwUsers_sidAdmUID: "213"
+install_path: "/usr/sap/ABC/SWPM/"
+swpm_sapinst_path: "/010_SHARED_INFRA/SAP_Installaion/SWPM10SP33_aix_hana"
+paramfile_path: "/010_SHARED_INFRA/SAP_Installaion/iniparamfiles"
+
+
+
+
+
