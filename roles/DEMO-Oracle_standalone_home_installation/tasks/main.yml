@@ -1,0 +1,78 @@
+---
+# tasks file for oracle_home_installation
+
+- name: "Copy Installation dump to Oracle Home path"
+  shell: |
+    echo "copy {{ Oracle_dump_path }}/* to {{ oracle_home_value }}/"
+    cp -rpf {{ Oracle_dump_path }}/* {{ oracle_home_value }}/
+  register: copystatus
+
+- debug:
+    msg: "{{ copystatus }}"
+
+- name: cat {{ dump_file_detail }}
+  shell: cat {{ dump_file_detail }}
+  register: dumpsarfiles
+
+- debug:
+    msg: "dumpsarfiles: {{ dumpsarfiles }}"
+
+- name: echo "unzip {{ item }}"
+  debug:
+    msg: echo "unzip {{ oracle_home_value }}/{{ item }}"
+  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
+  register: unzip_check
+
+- debug:
+    msg: "{{ unzip_check }}"
+
+- name: echo "actual unzip {{ item }}"
+  shell: |
+    cd {{ oracle_home_value }}
+    su - oracle -c "cd {{ oracle_home_value }}/;unzip {{ oracle_home_value }}/{{ item }}"    
+  with_items: "{{ dumpsarfiles['stdout_lines'] }}"
+  register: unzip_out
+
+- debug:
+    msg: "{{ unzip_out }}"
+
+- name: "Process Oracle Configfile Template"
+  template:
+    src: "{{ role_path }}/templates/db_install.rsp"
+    dest: "/oracle/stage/db_install.rsp"
+  register: cftemplate
+
+- debug:
+    msg: "{{ cftemplate }}"
+
+- name: "Replacing db response file"
+  shell: |
+    mv {{ oracle_home_value }}/install/response/db_install.rsp {{ oracle_home_value }}/install/response/db_install.rsp_`date +%d%h%y`
+    cp -rp /oracle/stage/db_install.rsp {{ oracle_home_value }}/install/response/
+    chown oracle:{{ db_group_name }} {{ oracle_home_value }}/install/response/db_install.rsp
+    chmod 775 {{ oracle_home_value }}/install/response/db_install.rsp
+  register: dbresponse
+
+- debug:
+    msg: "{{ dbresponse }}"
+
+- name: "Proceeding with Home Installation"
+  shell: |
+    {{ oracle_home_value }}/clone/rootpre.sh
+    su - oracle -c "{{ oracle_home_value }}/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile {{ oracle_home_value }}/install/response/db_install.rsp < /tmp/input.txt" > /oracle/stage/homeinstall.txt
+ 
+- name: "Validating home install status"
+  shell:  cat /oracle/stage/homeinstall.txt
+  register: homeinstall
+
+- debug:
+    msg: "{{ homeinstall }}"
+
+- name: Executing root scripts
+  shell:  |
+    /oracle/oraInventory/orainstRoot.sh
+    /oracle/{{ dbname }}/19/root.sh
+  register: rootscript
+
+- debug:
+    msg:  "{{ rootscript }}"

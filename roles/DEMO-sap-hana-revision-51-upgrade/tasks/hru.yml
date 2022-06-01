@@ -1,0 +1,34 @@
+---
+- name: Get SAP HANA Database Version before upgrade
+  shell: |
+    . ~/.bashrc
+    HDB version
+  become_user: "{{ hana_sid_adm_usr }}"
+  become: true
+  register: check_hdb_status
+  changed_when: False
+
+- debug:
+    msg: "{{ check_hdb_status.stdout_lines }}"
+
+- name: Upgrade the HANA Database revision
+  command: /hana/shared/{{ hana_sid }}/hdblcm/hdblcm --action=update \
+         --components=server,client --sid={{ hana_sid }} --component_dirs={{ component_medium }} \
+         --system_user={{ hana_db_system_user }} \
+         --system_user_password={{ hana_db_system_password }} -b
+  args:
+    chdir: "{{ component_medium }}"
+  changed_when: False
+
+- name: Get SAP HANA Database Version after upgrade
+  shell: |
+    . ~/.bashrc
+    HDB version
+  become_user: "{{ hana_sid_adm_usr }}"
+  become: true
+  register: check_hdb_status1
+  changed_when: False
+
+- debug:
+    msg: "{{ check_hdb_status1.stdout_lines }}"
+
