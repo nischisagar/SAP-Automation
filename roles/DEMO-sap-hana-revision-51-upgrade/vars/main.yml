@@ -1,8 +1,0 @@
----
-nfs: "/tempfs"
-component_medium: "/010_SHARED_INFRA/DB/HANA_revupgrade/SAP_HANA_DATABASE"
-nfs_mount: "ampsv010bld0d.p1.saint-gobain.net:/data/REAR/bigfix"
-hana_sid_adm_usr: "sh0adm"
-hana_sid: "SH0"
-hana_db_system_user: "SYSTEM"
-hana_db_system_password: "sh04HANA"
