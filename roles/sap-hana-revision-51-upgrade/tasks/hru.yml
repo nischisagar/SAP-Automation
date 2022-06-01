@@ -1,11 +1,4 @@
 ---
-- name: Mount the NFS share /tempfs
-  mount:
-    path: "{{ nfs }}"
-    src: "{{ nfs_mount }}"
-    fstype: nfs
-    state: mounted
-
 - name: Get SAP HANA Database Version before upgrade
   shell: |
     . ~/.bashrc
@@ -39,9 +32,3 @@
 - debug:
     msg: "{{ check_hdb_status1.stdout_lines }}"
 
-- name: Unmount the NFS share /tempfs
-  mount:
-    path: "{{ nfs }}"
-    src: "{{ nfs_mount }}"
-    fstype: nfs
-    state: absent
