@@ -1,0 +1,29 @@
+---
+- name: Copy the script
+  copy:
+    src: "files/sap-smd-restart.sh"
+    dest: "/tmp/sap-smd-restart.sh"
+    owner: root
+    group: sapsys
+    mode: '0775'
+
+- name: Initiate SMD Agent clean restart
+  shell: sh /tmp/sap-smd-restart.sh
+  register: "smd_restart"
+
+- debug:
+    msg: "{{ smd_restart }}"
+
+- name: View output of restart
+  shell: "cat /tmp/smdrestart.txt"
+  register: "cat_output"
+
+- debug:
+    msg: "{{ cat_output }}"
+  
+- name: Remove the script
+  file:
+    path: "/tmp/sap-smd-restart.sh"
+    state: absent
+
+  
