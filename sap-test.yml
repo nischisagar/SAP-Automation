@@ -1,6 +1,6 @@
 ---
 - name: SAP SMD Agent restart
-  hosts: xmpsl177dhan0
+  hosts: target_hana_servers_for_smd_restart
   become: yes
   become_method: sudo
   gather_facts: yes
