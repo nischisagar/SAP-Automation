@@ -1,8 +1,8 @@
 ---
-- name: SAP DB Application Validation
-  hosts: target_app_validation_list2
+- name: SAP SMD Agent restart
+  hosts: xmpsl177dhan0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap_application_validation
+  - role: sap-smdagent-restart-hanaservers
