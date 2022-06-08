@@ -1,15 +1,4 @@
 ---
-- name: Socks tunnel setup
-  hosts: xmpsl020thaw0
-  gather_facts: no
-  roles:
-  - role: socks-tunnel
-    run_once: true
-    delegate_to: localhost
-    vars:
-      acc_id: "sgi"
-      transaction_id: "{{ tower_job_id }}"
-
 - name: HANA DB Install
   hosts: xmpsl020thaw0
   become: yes
