@@ -1,9 +1,9 @@
 ---
-- name: SAP app installation for ora db nw 7.5
-  hosts: xmpsa010secc0
+- name: SAP 7.5 NW CI standard Installation on HANA 2.0
+  hosts: xmpsa020tewm0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-CI-nw75-standardbuild-installation-ora19c
+  - role: sap-CI-nw75-standardbuild-installation-hana2055db
     when: ansible_distribution | lower == "aix" 
