@@ -18,7 +18,7 @@
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "ABAP"
   roles:
-  - role: get-the-sap-version-hanadb-abap
+  - role: get-the-sap-version-hanadb-abap-FR177
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:

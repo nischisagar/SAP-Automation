@@ -1,15 +1,15 @@
 ---
 - name: Copy the script
   copy:
-    src: "{{ sap_version_check_script_source_hanadb_abap }}"
-    dest: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap}}"
+    src: "sap-version-check-hanadb-abap.sh"
+    dest: "/tmp/sap-version-check-hanadb-abap.sh"
     owner: "{{  item.name }}"
     mode: '0700'
   when: sid_adm_usr_hanadb_abap is defined
   loop: "{{ sid_adm_usr_hanadb_abap }}"
 
 - name: Run the SAP version check script
-  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap }}"
+  shell: "su - {{ item.name }} -c /tmp/sap-version-check-hanadb-abap.sh"
   changed_when: False
   args:
     warn: false
@@ -17,22 +17,22 @@
   loop: "{{ sid_adm_usr_hanadb_abap }}"
 
 - name: Get the SID
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }} | head -1"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log | head -1"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_sid_output"
   
 - name: Get the SAP Version
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -2 | tail -1"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | head -2 | tail -1"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_sap_version_output"
   
 - name: Get the Kernel make variant
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -3 | tail -1 | awk '{print $1}'"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | head -3 | tail -1 | awk '{print $1}'"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_kernel_make_variant_output"
 
 - name: Get the Kernel Patch Number
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -3 | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | head -3 | tail -1 | awk '{print $NF}'"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_patch_number_output"
 
@@ -43,23 +43,23 @@
   
 
 - name: Get the DB Version
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -4 | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | head -4 | tail -1 | awk '{print $NF}'"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_db_version_output"
 
 - name: Get the DB Size
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | tail -1 | awk '{print $NF}'"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log  | tail -1 | awk '{print $NF}'"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_db_size_output"
 
 - name: Remove the script
   file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap }}"
+    path: "/tmp/sap-version-check-hanadb-abap.sh"
     state: absent
   loop: "{{ sid_adm_usr_hanadb_abap }}"
 
 - name: Remove the log
   file:
-    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}"
+    path: "/tmp/{{ item.name }}-sap-version-check-hanadb-abap.log"
     state: absent
   loop: "{{ sid_adm_usr_hanadb_abap}}"
