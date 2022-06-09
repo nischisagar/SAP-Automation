@@ -30,7 +30,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
-  hosts: sap_oradb_abap_host_name_two_sid
+  hosts: sap_oradb_abap_host_name_two_sid2
   become: yes
   become_method: sudo
   vars: 
@@ -57,7 +57,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
-  hosts: sap_oradb_abap_host_name_three_sid
+  hosts: sap_oradb_abap_host_name_three_sid3
   become: yes
   become_method: sudo
   vars: 
