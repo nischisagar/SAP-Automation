@@ -37,7 +37,7 @@
   register: "get_patch_number_output"
 
 - name: Get the DB name
-  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap}} | head -4 | tail -1 | awk '{print $1}'"
+  shell: "cat /tmp/{{ item.name }}-sap-version-check-hanadb-abap.log | head -4 | tail -1 | awk '{print $1}'"
   loop: "{{ sid_adm_usr_hanadb_abap }}"
   register: "get_db_name_output"
   
