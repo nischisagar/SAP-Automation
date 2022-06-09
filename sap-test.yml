@@ -1,6 +1,6 @@
 ---
 - name: CSR Certificate post step
-  hosts: target_csrprepare_poststep1_june61
+  hosts: target_csrprepare_poststep1_june62
   become: yes
   become_method: sudo
   gather_facts: yes
