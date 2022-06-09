@@ -11,7 +11,7 @@
       run_once: yes
 
 - name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
-  hosts: sap_hanadb_abap_host_name_single_sid1
+  hosts: target_177_poststep1_june63
   become: yes
   become_method: sudo
   vars: 
@@ -43,7 +43,7 @@
     - name: Copy the file with date format
       copy: 
         src: "{{ report_file }}"
-        dest: "/ansible/reports/java_maxdb-{{ ansible_date_time.date }}.csv"
+        dest: "/ansible/reports/177_FR-{{ ansible_date_time.date }}.csv"
         remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
@@ -57,7 +57,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
-        - "/ansible/reports/java_maxdb-{{ ansible_date_time.date }}.csv"
+        - "/ansible/reports/177_FR-{{ ansible_date_time.date }}.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
