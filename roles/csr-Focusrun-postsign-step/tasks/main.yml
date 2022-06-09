@@ -66,6 +66,7 @@
     export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse seclogin -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -O sapadm
     export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse get_my_name -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -v
     chmod 775 {{ exe_path }}/sec/*
+    ls -lrt {{ exe_path }}/sec/
   register: ssllast
   when: file_data.stat.exists
 
