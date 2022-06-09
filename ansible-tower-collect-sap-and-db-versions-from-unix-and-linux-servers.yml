@@ -94,7 +94,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get MAXDB Java servers version detail
-  hosts: sap_maxdb_java_ads_solman
+  hosts: sap_maxdb_java_ads_solman_new
   become: yes
   become_method: sudo
   vars:
@@ -543,7 +543,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
-  hosts: sap_maxdb_abap_host_name_single_sid1_new
+  hosts: sap_maxdb_abap_host_name_single_sid1_new1
   become: yes
   become_method: sudo
   vars: 
