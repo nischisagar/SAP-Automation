@@ -1,64 +1,8 @@
 ---
-- name: Add the title content in to SAP Version Details Report
-  hosts: ampsv010bld0d
+- name: Add the title content in to report file
+  hosts: target_hana_servers_for_smd_restart_new1
   become: yes
   become_method: sudo
-  tasks:
-    - name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
-      copy:
-        content: 'Entity Name,Host Name,SID,Application Type,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size (in GB)'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
-  hosts: target_177_poststep1_june63
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-    app_type: "ABAP"
+  gather_facts: yes
   roles:
-  - role: get-the-sap-version-hanadb-abap-FR177
-  tasks:
-    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
-      throttle: 1
-      loop:
-        - get_sid: "{{ get_sid_output.results[0].stdout }}"
-          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
-          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
-          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
-          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
-          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-          get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
-
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  tasks:
-    - name: Copy the file with date format
-      copy: 
-        src: "{{ report_file }}"
-        dest: "/ansible/reports/177_FR-{{ ansible_date_time.date }}.csv"
-        remote_src: yes
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
-        body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan.Anbarasan@kyndryl.com
-        cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com       
-        attach:
-        - "/ansible/reports/177_FR-{{ ansible_date_time.date }}.csv"
-        headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
-        charset: us-ascii
+  - role: sap-smdagent-restart-hanaservers

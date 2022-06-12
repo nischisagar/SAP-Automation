@@ -8,7 +8,7 @@
     mode: '0775'
 
 - name: Initiate SMD Agent clean restart
-  shell: sh /tmp/sap-smd-restart.sh
+  shell: bash /tmp/sap-smd-restart.sh
   register: "smd_restart"
 
 - debug:
