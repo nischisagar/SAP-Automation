@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent3
-  hosts: atlas_nonprod_aix_servers_june0322
+  hosts: target_hostagentupdate_june131
   become: yes
   become_method: sudo
   gather_facts: yes
