@@ -1,6 +1,6 @@
 ---
 - name: CSR Preparation
-  hosts: target_csr_preparation_13062
+  hosts: target_csr_preparation_13063
   become: yes
   become_method: sudo
   gather_facts: yes
