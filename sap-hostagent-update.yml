@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent3
-  hosts: target_hostagent_update_hanal
+  hosts: target_hostagent_update_hana2
   become: yes
   become_method: sudo
   gather_facts: yes
