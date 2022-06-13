@@ -1,8 +1,8 @@
 ---
-- name: Add the title content in to report file
-  hosts: target_hana_servers_for_smd_restart_new2
+- name: CSR Preparation
+  hosts: target_csr_preparation_1306
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-smdagent-restart-hanaservers
+  - role: csr_certificate_4_focusrun_beforesign_steps
