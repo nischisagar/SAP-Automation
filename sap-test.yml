@@ -1,6 +1,6 @@
 ---
 - name: HASH Table find
-  hosts: ampsv03340pjt
+  hosts: target_oracle_servers_june
   become: yes
   become_method: sudo
   gather_facts: yes
