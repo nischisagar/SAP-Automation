@@ -10,4 +10,5 @@ spool off;
 exit
 EOF
 cat /tmp/$sidadm-hashtable.log|sed '/^$/d' >> /tmp/$hname-hashtable_final.log
+chmod 777 /tmp/$hname-hashtable_final.log
 echo "=====================================================================================================" >> /tmp/$hname-hashtable_final.log
