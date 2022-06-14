@@ -1,0 +1,36 @@
+---
+- name: Copy the script
+  copy:
+    src: "oracle_hashtablefind.sh"
+    dest: "/tmp/oracle_hashtablefind.sh"
+    owner: "{{  item.name }}"
+    mode: '0755'
+  when: sid_adm_usr_oradb_abap is defined
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+
+- name: Run the hash table find script
+  shell: "su - {{ item.name }} -c /tmp/oracle_hashtablefind.sh"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_oradb_abap is defined
+  loop: "{{ sid_adm_usr_oradb_abap }}"
+
+- name: Registering output file
+  shell: |
+    hname1=`hostname`
+    cat /tmp/$hname1-hashtable_final.log
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinal }}"
+ 
+- name: "Delicate output to bld0d server"
+  lineinfile:
+    path: "/tmp/hashtable_validation_status.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d
