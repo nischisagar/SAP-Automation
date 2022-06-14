@@ -1,8 +1,8 @@
 ---
-- name: CSR Preparation
-  hosts: target_csr_preparation_13063
+- name: HASH Table find
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr_certificate_4_focusrun_beforesign_manual
+  - role: get-the-table-reorg-hashentries
