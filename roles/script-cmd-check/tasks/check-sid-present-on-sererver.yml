@@ -1,4 +1,14 @@
 ---
+- name: Check script output1
+  shell: |
+    ls -lrt
+    df -g
+    exit
+  register: scriptout1
+
+- debug:
+    msg: "{{ scriptout1.stdout_lines }}"
+
 - name: Check script output
   shell: |
     script -a /tmp/scout.txt
