@@ -1,7 +1,8 @@
 ---
 - name: Registering output file
   shell: |
-    /usr/sap/hostctrl/exe/sapgenpse get_my_name -p /usr/sap/hostctrl/exe/sec/SAPSSLS.pse -x frun_sg
+    #/usr/sap/hostctrl/exe/sapgenpse get_my_name -p /usr/sap/hostctrl/exe/sec/SAPSSLS.pse -x frun_sg
+    ls -lrt /usr/sap/hostctrl/exe/sec/test/
   register : outputfinal
 
 - name: Demo set_facts final output
