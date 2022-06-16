@@ -1,6 +1,6 @@
 ---
 - name: script cmd check
-  hosts: xmpsa010secc0
+  hosts: ampsv023pjt0d
   become: yes
   become_method: sudo
   gather_facts: yes
