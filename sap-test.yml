@@ -1,8 +1,8 @@
 ---
-- name: script cmd check
-  hosts: ampsv023pjt0d
+- name: Focus RUN CSR Certificate prepare and copy certificate in binary
+  hosts: target_csr_preparation_1706
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: script-cmd-check
+  - role: csr_certificate_4_focusrun_beforesign_steps
