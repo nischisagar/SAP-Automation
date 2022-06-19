@@ -1,8 +1,8 @@
 ---
-- name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: target_csr_preparation_17061
+- name: SAP SMD Agent Restart
+  hosts: target_hana_servers_for_smd_restart_1906
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr_certificate_4_focusrun_beforesign_steps
+  - role: sap-smdagent-restart-hanaservers
