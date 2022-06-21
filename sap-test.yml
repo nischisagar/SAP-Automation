@@ -1,8 +1,8 @@
 ---
-- name: csr post step
-  hosts: xmpsl045than0
+- name: csr pre step
+  hosts: XMPSL011THAN0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr-Focusrun-postsign-step
+  - role: csr_certificate_4_focusrun_beforesign_steps
