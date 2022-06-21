@@ -1,8 +1,8 @@
 ---
-- name: script check
-  hosts: xmpsa010secc0
+- name: csr post step
+  hosts: target_csr_preparation_210622
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: script-cmd-check
+  - role: csr-Focusrun-postsign-step
