@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: target_update_servergroups_win1
+  hosts: target_windows_servers_check_2106
   gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_update_servergroups_win1
+  hosts: target_windows_servers_check_2106
   become: yes
   become_method: runas
   become_user: system
