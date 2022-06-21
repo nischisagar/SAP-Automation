@@ -1,8 +1,8 @@
 ---
-- name: SAP SMD Agent Restart
-  hosts: target_hana_servers_for_smd_restart_1906
+- name: script check
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-smdagent-restart-hanaservers
+  - role: script-cmd-check

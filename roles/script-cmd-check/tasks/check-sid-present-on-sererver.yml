@@ -1,8 +1,12 @@
 ---
 - name: Registering output file
   shell: |
+    bash /tmp/sc.sh
     #/usr/sap/hostctrl/exe/sapgenpse get_my_name -p /usr/sap/hostctrl/exe/sec/SAPSSLS.pse -x frun_sg
-    ls -lrt /usr/sap/hostctrl/exe/sec/test/
+    #ls -lrt /usr/sap/hostctrl/exe/sec/test/
+    ls -lt /tmp/
+    df -g
+    exit
   register : outputfinal
 
 - name: Demo set_facts final output
@@ -10,10 +14,5 @@
     outputfinal: "{{ outputfinal['stdout'] }}"
   
 - debug:
-    msg: "{{ outputfinal }}"
- 
-- name: "Delicate output to bld0d server"
-  lineinfile:
-    path: "/usr/sap/hostctrl/exe/sec/test/checkout.txt"
-    line: "{{ outputfinal }}"
-  delegate_to: ampsv023pjt0d
+    msg: "{{ outputfinal }}" 
+
