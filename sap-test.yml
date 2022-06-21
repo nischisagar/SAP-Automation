@@ -1,8 +1,8 @@
 ---
-- name: csr post step
-  hosts: target_csr_preparation_2106221
+- name: csr pre step
+  hosts: target_csr_preparation_2106222_pre
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr-Focusrun-postsign-step
+  - role: csr_certificate_4_focusrun_beforesign_steps
