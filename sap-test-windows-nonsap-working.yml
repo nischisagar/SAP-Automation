@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Get the MS-SQL version from ABAP Windows Servers (Single SID)
-  hosts: nonsap_mssql_single_sid_windows1
+  hosts: nonsap_mssql_single_sid_windows_2206
   become: yes
   become_method: runas
   become_user: system
@@ -50,7 +50,7 @@
   become_method: runas
   become_user: system
   vars:
-    report_file_with_date: "c:/temp/sap-db-version-windows-{{ ansible_date_time.date }}.csv"
+    report_file_with_date: "c:/temp/nonsap-db-version-windows-{{ ansible_date_time.date }}.csv"
   tasks:
     - name: Copy the file with date format
       win_copy: 
