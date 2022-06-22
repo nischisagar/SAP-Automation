@@ -36,13 +36,12 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}"
+        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},NA"
       throttle: 1
       loop:
         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
           get_dbn: "{{ db_name.results[0].stdout | trim }}"
           get_dbv: "{{ db_version.results[0].stdout | trim }}"
-          get_dbs: "{{ db_size.results[0].stdout | trim }}"
       delegate_to: ampsw010saba0
 
 - name: Send report to IBM Box folder
