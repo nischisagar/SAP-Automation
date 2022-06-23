@@ -7,18 +7,28 @@
     group: sapsys
     mode: '0775'
 
+- name: Check status of script file copied
+  stat:
+    path: "/tmp/sap-smd-restart.sh"
+  register: result
+
 - name: Initiate SMD Agent clean restart
   shell: bash /tmp/sap-smd-restart.sh
   register: "smd_restart"
-  changed_when: "false"
+  when: result.stat.exists
 
 - debug:
     msg: "{{ smd_restart }}"
 
+- name: Check status of output file exist
+  stat:
+    path: "/tmp/smdrestart.txt"
+  register: result1
+
 - name: View output of restart
   shell: "cat /tmp/smdrestart.txt"
   register: "cat_output"
-  changed_when: "false"
+  when: result1.stat.exists
 
 - debug:
     msg: "{{ cat_output }}"
