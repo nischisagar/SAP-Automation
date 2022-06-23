@@ -22,8 +22,8 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the MS-SQL version from ABAP Windows Servers (Single SID)
-  hosts: ampsv020boa0d
+- name: Get the MS-SQL version from NON-SAP Servers (Single SID)
+  hosts: nonsap_mssql_single_sid_windows_2206
   become: yes
   become_method: runas
   become_user: system
