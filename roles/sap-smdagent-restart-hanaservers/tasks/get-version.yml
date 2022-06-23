@@ -10,6 +10,7 @@
 - name: Initiate SMD Agent clean restart
   shell: bash /tmp/sap-smd-restart.sh
   register: "smd_restart"
+  changed_when: "false"
 
 - debug:
     msg: "{{ smd_restart }}"
@@ -17,6 +18,7 @@
 - name: View output of restart
   shell: "cat /tmp/smdrestart.txt"
   register: "cat_output"
+  changed_when: "false"
 
 - debug:
     msg: "{{ cat_output }}"
