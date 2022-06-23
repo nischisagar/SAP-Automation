@@ -23,12 +23,12 @@
       run_once: yes
 
 - name: Get the MS-SQL version from ABAP Windows Servers (Single SID)
-  hosts: nonsap_mssql_single_sid_windows_2206
+  hosts: ampsv020boa0d
   become: yes
   become_method: runas
   become_user: system
   vars:
-    app_type: "SAP-BOA"
+    app_type: "Standalone-DB"
   roles:
   - role: get-the-sap-version-mssql-win-nonsap
     delegate_to: ampsw010saba0
@@ -36,10 +36,11 @@
     - name: Add the details to global report file
       win_lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},NA"
+        line: "{{ entity_name }},{{ ansible_netbios_name | lower }},{{ item.get_sid }},{{ app_type }},{{ item.get_apv }},NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},NA"
       throttle: 1
       loop:
         - get_sid: "{{ sid_name.results[0].stdout | trim }}"
+          get_apv: "{{ app_version.results[0].stdout | trim }}"
           get_dbn: "{{ db_name.results[0].stdout | trim }}"
           get_dbv: "{{ db_version.results[0].stdout | trim }}"
       delegate_to: ampsw010saba0
