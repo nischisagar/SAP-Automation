@@ -1,8 +1,8 @@
 ---
 - name: Add the title content in to report file
-  hosts: xmpsl011dslt0
+  hosts: ampsv019han0d
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-smdagent-restart-hanaservers-slt
+  - role: sap-smdagent-restart-hanaservers
