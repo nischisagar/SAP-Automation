@@ -1,0 +1,16 @@
+---
+- name: SAP-SMD-AGENT_weekly_restart_on_suselinuxservers
+  hosts: target_hana_servers_for_smd_restart_2306
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: sap-smdagent-restart-hanaservers
+
+- name: SAP-SMD-AGENT_weekly_restart_on_redhatlinuxservers
+  hosts: redhat_linux_servers_2306
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: sap-smdagent-restart-hanaservers-slt
