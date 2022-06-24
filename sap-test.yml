@@ -1,8 +1,8 @@
 ---
-- name: Add the title content in to report file
-  hosts: ampsv019han0d
+- name: CSR Expiry check
+  hosts: ampsv023pjt0d
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-smdagent-restart-hanaservers
+  - role: csr_certificate_4_focusrun_expirycheck
