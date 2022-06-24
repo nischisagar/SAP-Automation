@@ -13,12 +13,14 @@
   shell: /tmp/csr_cert_expiry_check.sh
   register: "run_out"
 
+- name: Get color code
+  shell:  "cat /tmp/csr_cert_exp_status.log|tail -1"
+  loop: "{{ os_type_list }}"
+  register: get_color_code
+
 - name: Get validity status
   shell:  "cat /tmp/csr_cert_exp_status.log|head -1"
   loop: "{{ os_type_list }}"
   register: get_exp_status
 
-- name: Get color code
-  shell:  "cat /tmp/csr_cert_exp_status.log|tail -1"
-  loop: "{{ os_type_list }}"
-  register: get_color_code
+
