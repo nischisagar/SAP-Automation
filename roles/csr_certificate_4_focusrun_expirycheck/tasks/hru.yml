@@ -2,7 +2,7 @@
 - name: Copy script and month file to target server
   copy:
     src: "{{ item.src }}" 
-    dest: "{{ patchpath }}/"
+    dest: "/tmp/"
     mode: "0755"
   with_items:
     - { src: 'files/csr_cert_expiry_check.sh' }
