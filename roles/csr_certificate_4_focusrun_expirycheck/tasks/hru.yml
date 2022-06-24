@@ -1,4 +1,18 @@
 ---
+- name: Copy script and month file to target server
+  copy:
+    src: "{{ item.src }}" 
+    dest: "{{ patchpath }}/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/csr_cert_expiry_check.sh' }
+    - { src: 'files/m.txt' }
+  register: filecopystatus
+
+- name: Run the script
+  shell: /tmp/csr_cert_expiry_check.sh
+  register: "run_out"
+
 - name: Check SAP HOST AGENT VERSION
   shell: |
     hostname > /tmp/test123.txt
