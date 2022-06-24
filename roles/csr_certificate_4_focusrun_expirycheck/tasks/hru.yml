@@ -1,4 +1,25 @@
 ---
+- name: Register hostname as variable
+  shell: hostname
+  register: hname1
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ hname1 }}"
+
+- name: Register hname1 as hostname
+  set_fact:
+    hname1: "{{ hname1['stdout'] }}"
+  ignore_errors: yes
+
+- debug:
+    msg: "hname1: {{ hname1 }}"
+
+- name: Check existance of signed certficate file
+  stat:
+    path: "/usr/sap/hostctrl/exe/sec/{{ hname1 }}_net.cer"
+  register: result
+
 - name: Copy script and month file to target server
   copy:
     src: "{{ item.src }}" 
@@ -8,19 +29,23 @@
     - { src: 'files/csr_cert_expiry_check.sh' }
     - { src: 'files/m.txt' }
   register: filecopystatus
+  when: result.stat.exists
 
 - name: Run the script
   shell: /tmp/csr_cert_expiry_check.sh
   register: "run_out"
+  when: result.stat.exists
 
 - name: Get color code
   shell:  "cat /tmp/csr_cert_exp_status.log|tail -1"
   loop: "{{ os_type_list }}"
   register: get_color_code
+  when: result.stat.exists
 
 - name: Get validity status
   shell:  "cat /tmp/csr_cert_exp_status.log|head -1"
   loop: "{{ os_type_list }}"
   register: get_exp_status
+  when: result.stat.exists
 
 
