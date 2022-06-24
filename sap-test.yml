@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Find sap focus run csr certificate expiry status
-  hosts: ampsv020ecc9p
+  hosts: target_csr_certificate_expiry_check
   become: yes
   become_method: sudo
   vars: 
