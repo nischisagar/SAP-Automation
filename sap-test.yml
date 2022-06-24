@@ -29,6 +29,7 @@
         - get_col: "{{ get_color_code.results[0].stdout }}"
           get_exp: "{{ get_exp_status.results[0].stdout }}"
       delegate_to: ampsv010bld0d
+  ignore_errors: yes
 
 - name: Send e-mail
   hosts: ampsv010bld0d
