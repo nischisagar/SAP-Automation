@@ -8,7 +8,7 @@
   - role: sap-smdagent-restart-hanaservers
 
 - name: SAP-SMD-AGENT_weekly_restart_on_redhatlinuxservers
-  hosts: redhat_linux_servers_2306
+  hosts: redhat_linux_servers_23061
   become: yes
   become_method: sudo
   gather_facts: yes
