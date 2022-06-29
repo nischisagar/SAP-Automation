@@ -1,9 +1,9 @@
 ---
 - name: Update SAP Host Agent3
-  hosts: target_hostagent_update_suse29061
+  hosts: target_hostagent_update_suse29062
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: sap-hostagent-update  
-    #when: ansible_distribution | lower == "aix" 
+    when: ansible_distribution | lower == "aix"
