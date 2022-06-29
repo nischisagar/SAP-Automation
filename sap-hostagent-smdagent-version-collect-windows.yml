@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_update_servergroups_june06
+  hosts: target_update_servergroups_june29
   become: yes
   become_method: runas
   become_user: system
