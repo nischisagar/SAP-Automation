@@ -56,7 +56,6 @@
     owner: root
     group: system
     mode: '0755'
-  when: not register_name.stat.exists
 
 - name: check csr_openssl presense 
   stat:
