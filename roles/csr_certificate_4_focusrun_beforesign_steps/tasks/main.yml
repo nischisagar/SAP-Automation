@@ -42,8 +42,11 @@
     path: "/usr/sap/hostctrl/exe/csr_openssl"
   register: register_name
 
+- debug:
+    msg: "{{ register_name }}"
+
 - name: Move if csr_openssl already exist
-  command:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_`date`
+  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_`date`
   when: register_name.stat.exists
 
 - name: mkdir csr_openssl
@@ -59,6 +62,9 @@
   stat:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
   register: register_name1
+
+- debug:
+    msg: "{{ register_name1 }}"
 
 - name: "Generate CSR Using openssl"
   shell: |
