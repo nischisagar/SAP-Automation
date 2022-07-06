@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: ampsv019ecc1q
+  hosts: "{{ hostname_csr }}"
   become: yes
   become_method: sudo
   gather_facts: yes
