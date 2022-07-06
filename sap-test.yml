@@ -1,56 +1,8 @@
 ---
-- name: Create the Global report file
-  hosts: ampsv010bld0d
+- name: FRUN_ABAP_JAVA_Certificate_expirycheck
+  hosts: ampsv023pjt0d
   become: yes
   become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: Create the global report file
-      copy:
-        content: 'Entity Name,Host Name,Color_code,Expiry_status'
-        dest: "{{ report_file }}"
-      run_once: yes
-
-- name: Find sap focus run csr certificate expiry status
-  hosts: target_csr_certificate_expiry_check
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
+  gather_facts: yes
   roles:
-  - role: csr_certificate_4_focusrun_expirycheck
-  tasks:
-    - name: Update certifiate expiry status in report file
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_col }},{{ item.get_exp }}'
-      throttle: 1
-      loop:
-        - get_col: "{{ get_color_code.results[0].stdout }}"
-          get_exp: "{{ get_exp_status.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
-  ignore_errors: yes
-
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP FocusRun certificate expiry report
-        body: Hello Team, Please find the attached SAP FocusRun certificate expiry status report
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan.Anbarasan@kyndryl.com
-        cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com
-        attach:
-        - "{{ report_file }}"
-        headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
-        charset: us-ascii
+  - role: csr_certificate_copyto_usrpath

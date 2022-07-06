@@ -1,0 +1,33 @@
+---
+- name: check csr_cert presense 
+  stat:
+    path: "/usr/sap/csr_cert"
+  register: register_name1
+
+- debug:
+    msg: "{{ register_name1 }}"
+
+- name: mkdir csr_cert
+  file:
+    path: "/usr/sap/csr_cert"
+    state: directory
+    owner: root
+    group: sapsys
+    mode: '0755'
+  register: dircsr
+  when: register_name1.stat.exists
+
+- name: check csr_openssl presense 
+  stat:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+  register: register_name1
+
+- name: "Copy signed certificate"
+  shell: |
+    hn=`hostname`
+    cp -rp /usr/sap/hostctrl/exe/csr_openssl/$hn_net.cer /usr/sap/csr_cert/$hn_fruncsr.cer
+    ls -lrt /usr/sap/csr_cert/
+  register: copycert
+
+- debug:
+    msg: "{{ copycert }}"

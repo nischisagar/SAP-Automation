@@ -1,6 +1,6 @@
 ---
-- name: Getting current host info
-  shell: date +%T
+- name: Create directory csr_cert
+  shell: mkdir /usr/sap/csr_cert
   register: hname
 
 - debug:
