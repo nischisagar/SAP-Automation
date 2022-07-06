@@ -55,15 +55,22 @@
     mode: '0755'
   when: not register_name.stat.exists
 
+- name: check csr_openssl presense 
+  stat:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+  register: register_name1
+
 - name: "Generate CSR Using openssl"
   shell: |
     cd {{ install_path }};
     cd {{ install_path }};openssl genrsa -des3 -out {{ install_path }}/{{ keyname }} -passout pass:{{ password1 }} 2048
     cat {{ install_path }}/{{ keyname }}
   register: csroutput
+  when: register_name1.stat.exists
 
 - debug:
     msg: "{{ csroutput }}"
+  when: register_name1.stat.exists
 
 - name: "Process Input param file"
   template:
@@ -75,9 +82,11 @@
   with_items:
   - FRUN_configuration_file.conf
   register: copyconffile
+  when: register_name1.stat.exists
 
 - debug:
     msg: "{{ copyconffile }}"
+  when: register_name1.stat.exists
 
 - name: "Create CSR from key file and conf"
   shell: |
@@ -88,6 +97,8 @@
     #cp -p {{ install_path }}/{{ cername }} {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
     #echo {{ hname }} >> {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
   register: csroutput1
+  when: register_name1.stat.exists
 
 - debug:
     msg: "{{ csroutput1 }}"
+  when: register_name1.stat.exists
