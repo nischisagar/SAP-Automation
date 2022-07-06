@@ -1,6 +1,6 @@
 ---
 - name: FRUN_ABAP_JAVA_Certificate_expirycheck
-  hosts: ampsv023pjt0d
+  hosts: all_entity_servers_new_july0622
   become: yes
   become_method: sudo
   gather_facts: yes
