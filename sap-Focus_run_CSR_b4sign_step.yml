@@ -1,6 +1,6 @@
 ---
 - name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: target_csr_preparation_1706
+  hosts: ampsv019ecc1d
   become: yes
   become_method: sudo
   gather_facts: yes
