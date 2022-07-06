@@ -15,7 +15,7 @@
     group: sapsys
     mode: '0755'
   register: dircsr
-  when: register_name1.stat.exists
+  when: not register_name1.stat.exists
 
 - name: check csr_openssl presense 
   stat:
@@ -25,7 +25,7 @@
 - name: "Copy signed certificate"
   shell: |
     hn=`hostname`
-    cp -rp /usr/sap/hostctrl/exe/csr_openssl/$hn_net.cer /usr/sap/csr_cert/$hn_fruncsr.cer
+    cp -rp /usr/sap/hostctrl/exe/csr_openssl/'$hn'_net.cer /usr/sap/csr_cert/'$hn'_fruncsr.cer
     ls -lrt /usr/sap/csr_cert/
   register: copycert
 
