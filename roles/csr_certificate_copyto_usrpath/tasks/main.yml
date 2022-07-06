@@ -25,7 +25,7 @@
 - name: "Copy signed certificate"
   shell: |
     hn=`hostname`
-    cp -rp /usr/sap/hostctrl/exe/csr_openssl/'$hn'_net.cer /usr/sap/csr_cert/'$hn'_fruncsr.cer
+    cp -rp /usr/sap/hostctrl/exe/csr_openssl/"$hn"_net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
     ls -lrt /usr/sap/csr_cert/
   register: copycert
 
