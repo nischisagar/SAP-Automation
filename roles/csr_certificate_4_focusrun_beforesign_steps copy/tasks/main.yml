@@ -37,15 +37,6 @@
 - debug:
     msg: "{{ fqdnh }}"
 
-- name: check csr_openssl presense 
-  stat:
-    path: "/usr/sap/hostctrl/exe/csr_openssl"
-  register: register_name
-
-- name: Move if csr_openssl already exist
-  command:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_`date`
-  when: register_name.stat.exists
-
 - name: mkdir csr_openssl
   file:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
@@ -53,7 +44,6 @@
     owner: root
     group: system
     mode: '0755'
-  when: not register_name.stat.exists
 
 - name: "Generate CSR Using openssl"
   shell: |
