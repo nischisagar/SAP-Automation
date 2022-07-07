@@ -81,6 +81,6 @@ done
     k=0
     while let "(k=$k+1) <= $userdiff"
     do
-    echo "dummy" >> /tmp/siduserlist.txt
+    echo "dummy" >> /tmp/cerlist.txt
     done
     echo "dummy" > /tmp/dummy_csr_cert_exp_status.log
