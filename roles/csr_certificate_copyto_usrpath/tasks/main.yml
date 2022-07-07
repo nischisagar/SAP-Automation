@@ -20,7 +20,7 @@
 - name: check csr_openssl presense 
   stat:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
-  register: register_name1
+  register: register_name2
 
 - name: "Copy signed certificate"
   shell: |
@@ -28,6 +28,7 @@
     cp -rp /usr/sap/hostctrl/exe/csr_openssl/"$hn"_net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
     ls -lrt /usr/sap/csr_cert/
   register: copycert
+  when: register_name2.stat.exists
 
 - debug:
     msg: "{{ copycert }}"
