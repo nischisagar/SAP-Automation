@@ -1,0 +1,45 @@
+---
+- name: Copy script and month file to target server
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/csr_cert_expiry_check.sh' }
+    - { src: 'files/m.txt' }
+  register: filecopystatus
+  when: result.stat.exists
+
+- name: Run the script
+  shell: /tmp/csr_cert_expiry_check.sh
+  register: "run_out"
+  when: result.stat.exists
+
+- name: store user list
+  shell:  |
+    cat /tmp/cerlist.txt
+  register: userlistfinal
+
+- debug:
+    msg: "userlistfinal: {{ userlistfinal }}"
+
+- debug:
+    msg: "{{ item }}"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+
+- name: Get certificate Name
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_cert_output
+
+- name: Get Validity status
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -2|tail -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_valid
+
+- name: Get color code
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|tail -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_color
+
+
