@@ -8,12 +8,10 @@
     - { src: 'files/csr_cert_expiry_check.sh' }
     - { src: 'files/m.txt' }
   register: filecopystatus
-  when: result.stat.exists
 
 - name: Run the script
   shell: /tmp/csr_cert_expiry_check.sh
   register: "run_out"
-  when: result.stat.exists
 
 - name: store user list
   shell:  |
