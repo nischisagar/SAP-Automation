@@ -24,7 +24,7 @@
     - name: Add sap CRYPTO version to report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }}'
       throttle: 1
       loop:
         - get_hname: "{{ get_cert_output.results[0].stdout }}"
