@@ -1,9 +1,9 @@
 ---
 - name: Focus RUN CSR Certificate Post sign step and host restart
-  hosts: target_csr_postsign_29061
+  hosts: xmpsa144dbw0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
   - role: csr-Focusrun-postsign-step
-    #when: ansible_distribution | lower == "aix"
+    when: ansible_distribution | lower == "aix"
