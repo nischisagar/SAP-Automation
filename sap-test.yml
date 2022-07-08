@@ -1,8 +1,12 @@
 ---
-- name: shell cmd check
-  hosts: ampsv010m2
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  ansible.builtin.shell:  
-    cmd:  ls -lrt /usr/sap/csr_cert
+  - name: Shell Examples
+    hosts: ampsv010m2
+    tasks:
+
+    - name: Check Date with Shell command
+      shell:
+         "date"
+      register: datecmd
+      tags: datecmd
+
+    - debug: msg="{{datecmd.stdout}}"
