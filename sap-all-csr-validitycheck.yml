@@ -7,12 +7,12 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity Name,Host Name,certificate_name,Color_code,Expiry_status'
+        content: 'Entity_Name,Host_Name,certificate_name,Expiry_status,Color_code,Expiry_date'
         dest: "{{ report_file }}"
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: ampsv010m2
+  hosts: "{{ cert_exp_check_serverlist }}"
   become: yes
   become_method: sudo
   vars: 
@@ -24,24 +24,29 @@
     - name: Add sap CRYPTO version to report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }}'
       throttle: 1
       loop:
         - get_hname: "{{ get_cert_output.results[0].stdout }}"
           get_ssid1: "{{ get_valid.results[0].stdout }}"
           get_crypt: "{{ get_color.results[0].stdout }}"
+          get_expdt: "{{ get_expdate.results[0].stdout }}" 
         - get_hname: "{{ get_cert_output.results[1].stdout }}"
           get_ssid1: "{{ get_valid.results[1].stdout }}"
           get_crypt: "{{ get_color.results[1].stdout }}"
+          get_expdt: "{{ get_expdate.results[1].stdout }}" 
         - get_hname: "{{ get_cert_output.results[2].stdout }}"
           get_ssid1: "{{ get_valid.results[2].stdout }}"
           get_crypt: "{{ get_color.results[2].stdout }}"
+          get_expdt: "{{ get_expdate.results[2].stdout }}" 
         - get_hname: "{{ get_cert_output.results[3].stdout }}"
           get_ssid1: "{{ get_valid.results[3].stdout }}"
           get_crypt: "{{ get_color.results[3].stdout }}"
+          get_expdt: "{{ get_expdate.results[3].stdout }}" 
         - get_hname: "{{ get_cert_output.results[4].stdout }}"
           get_ssid1: "{{ get_valid.results[4].stdout }}"
           get_crypt: "{{ get_color.results[4].stdout }}"
+          get_expdt: "{{ get_expdate.results[4].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
