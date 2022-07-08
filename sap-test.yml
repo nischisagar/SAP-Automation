@@ -7,7 +7,7 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity Name,Host Name,certificate_name,Color_code,Expiry_status'
+        content: 'Entity_Name,Host_Name,certificate_name,Expiry_status,Color_code,Expiry_date'
         dest: "{{ report_file }}"
       run_once: yes
 
