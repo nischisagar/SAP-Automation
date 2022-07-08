@@ -36,8 +36,11 @@
   register: get_valid
 
 - name: Get color code
-  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|tail -1"
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -3|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_color
 
-
+- name: Get expiry date
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|tail -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_expdate
