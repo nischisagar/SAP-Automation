@@ -83,4 +83,4 @@ done
     do
     echo "dummy" >> /tmp/cerlist.txt
     done
-    echo "dummy" > /tmp/dummy_csr_cert_exp_status.log
+    echo "" > /tmp/dummy_csr_cert_exp_status.log
