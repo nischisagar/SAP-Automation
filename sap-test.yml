@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: ampsv010m2
+  hosts: "{{ cert_exp_check_serverlist }}"
   become: yes
   become_method: sudo
   vars: 
