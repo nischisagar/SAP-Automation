@@ -1,6 +1,6 @@
 ---
   - name: Shell Examples
-    hosts: ampsv010m2
+    hosts: ampsv010bld0d
     tasks:
 
     - name: Check Date with Shell command
