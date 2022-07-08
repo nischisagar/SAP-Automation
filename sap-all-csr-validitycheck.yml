@@ -49,6 +49,17 @@
           get_expdt: "{{ get_expdate.results[4].stdout }}"
       delegate_to: ampsv010bld0d
 
+- name: Shell Examples
+  hosts: ampsv010bld0d
+  tasks:
+    - name: Check Date with Shell command
+      shell:
+         "cat {{ report_file }}|grep -v dummy > {{ report_file1 }}"
+      register: dummymv
+      tags: dummymv
+
+    - debug: msg="{{dummymv.stdout}}"
+
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
@@ -67,7 +78,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "{{ report_file }}"
+        - "{{ report_file1 }}"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
