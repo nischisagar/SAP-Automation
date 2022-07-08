@@ -4,4 +4,4 @@
   become: yes
   become_method: sudo
   gather_facts: yes
-  cmd:  ls -lrt /usr/sap/csr_cert
+    shell:  ls -lrt /usr/sap/csr_cert
