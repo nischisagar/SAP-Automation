@@ -1,9 +1,9 @@
 ---
-- name: SAP 7.5 NW CI standard Installation on HANA 2.0
-  hosts: xmpsa020tewm0
+- name: Oracle standalone DB Installation
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-CI-nw75-standardbuild-installation-hana2055db
+  - role: Oracle_standalone_home_installation
     when: ansible_distribution | lower == "aix" 

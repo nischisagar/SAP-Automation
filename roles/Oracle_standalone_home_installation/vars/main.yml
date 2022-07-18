@@ -1,9 +1,9 @@
 ---
 # vars file for oracle_home_installation
 
-dbname: "OTEST"
+dbname: "DAE"
 Oracle_dump_path: "/{{ ename1 }}/DB/Oracle_DB_Install/Final_dump"
 dump_file_detail: "/{{ ename1 }}/DB/Oracle_DB_Install/ora_inst_zip.txt"
 db_group_name: "dba"
-oracle_home_value: "/oracle/OTEST/19"
-oracle_base_value: "/oracle/OTEST/"
+oracle_home_value: "/oracle/DAE/19.0.0"
+oracle_base_value: "/oracle/DAE/"
