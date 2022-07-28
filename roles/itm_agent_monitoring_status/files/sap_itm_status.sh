@@ -1,13 +1,13 @@
 #!/bin/ksh
-rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/sidfile.txt
+rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmuserlist.txt
 df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
 for j in `cat /tmp/sidfile_temp.txt`
 do
         systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
         echo "$systype $j" >> /tmp/sidlist_upd.txt
 done
-cat /tmp/sidlist_upd.txt|sort -r|grep -v J2EE|awk '{print $2}' > /tmp/sidfile.txt
-for k in `cat /tmp/sidfile.txt`
+cat /tmp/sidlist_upd.txt|sort -r|grep -v J2EE|awk '{print $2}' > /tmp/itmuserlist.txt
+for k in `cat /tmp/itmuserlist.txt`
 do
         sadm1=`echo $k|tr '[A-Z]' '[a-z]'`
         sadm=$sadm1"adm"
@@ -25,11 +25,11 @@ fi
 /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_$k.txt
 done
 
-itmuser_cnt=`cat /tmp/sidfile.txt|wc -l|awk '{print $0}'`
+itmuser_cnt=`cat /tmp/itmuserlist.txt|wc -l|awk '{print $0}'`
 userdiff=`expr 5 - $itmuser_cnt`
 k=0
 while let "(k=$k+1) <= $userdiff"
 do
-echo "dummy" >> /tmp/sidfile.txt
+echo "dummy" >> /tmp/itmuserlist.txt
 done
 echo "dummy" > /tmp/dummy_csr_cert_exp_status.log
