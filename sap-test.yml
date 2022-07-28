@@ -7,12 +7,12 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity_Name,Host_Name,certificate_name,Expiry_status,Color_code,Expiry_date'
+        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
         dest: "{{ report_file }}"
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: "{{ cert_exp_check_serverlist }}"
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   vars: 
