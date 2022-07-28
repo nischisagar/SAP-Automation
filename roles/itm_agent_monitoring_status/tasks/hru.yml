@@ -26,6 +26,6 @@
   register: get_color
 
 - name: Get expiry date
-  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|tail -5"
+  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_expdate
