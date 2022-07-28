@@ -43,7 +43,7 @@
     do
     echo "dummy" >> /tmp/itmuserlist.txt
     done
-    echo "dummy" > /tmp/dummy_csr_cert_exp_status.log
+    echo "dummy" > /tmp/itmuserstatus_dummy.txt
   register: crypto_version
 
 - debug:
