@@ -18,7 +18,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: csr_all_certificate_4_focusrun_expirycheck
+  - role: itm_agent_monitoring_status
     ignore_errors: yes
   tasks:
     - name: Add sap CRYPTO version to report File.
