@@ -1,0 +1,31 @@
+---
+- name: store user list
+  shell:  |
+    cat /tmp/itmuserlist.txt
+  register: userlistfinal
+
+- debug:
+    msg: "userlistfinal: {{ userlistfinal }}"
+
+- debug:
+    msg: "{{ item }}"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+- name: Get SID
+  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|head -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_cert_output
+
+- name: Get Validity status
+  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|head -2|tail -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_valid
+
+- name: Get color code
+  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|head -3|tail -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_color
+
+- name: Get expiry date
+  shell:  "cat /tmp/itmuserstatus_{{ item }}.txt|tail -5"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_expdate
