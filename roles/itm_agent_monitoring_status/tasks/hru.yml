@@ -55,7 +55,7 @@
     do
     echo "dummy" >> /tmp/itmuserlist.txt
     done
-    echo "dummy" > /tmp/itmuserstatus_dummy.txt
+    echo "dummy..running" > /tmp/itmuserstatus_dummy.txt
   register: itm_result
 
 - debug:
