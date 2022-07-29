@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: ampsv03340pjt
+  hosts: target_oracle_servers_june
   become: yes
   become_method: sudo
   vars: 
