@@ -11,13 +11,13 @@
 
 - name: Find number of SID present
   shell:  |
-    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmu*.txt /tmp/itms*.txt
+    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt
     df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
 
     for j in `cat /tmp/sidfile_temp.txt`
     do
     systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
-    cho "$systype $j" >> /tmp/sidlist_upd.txt
+    echo "$systype $j" >> /tmp/sidlist_upd.txt
     done
 
     cat /tmp/sidlist_upd.txt|sort -r|grep -v J2EE|awk '{print $2}' > /tmp/itmuserlist.txt
@@ -60,7 +60,7 @@
 
 - debug:
     msg:  "{{ itm_result }}"
-    
+
 - name: store user list
   shell:  |
     cat /tmp/itmuserlist.txt
