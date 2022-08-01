@@ -7,58 +7,28 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
+        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag'
         dest: "{{ report_file }}"
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: skp9
+  hosts: ampsv020han6i
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: itm_agent_monitoring_status
+  - role: itm_agent_monitoring_status_Hanaservers
     ignore_errors: yes
   tasks:
-    - name: Add sap CRYPTO version to report File.
+    - name: HANA Servers Agent user status
       lineinfile:
         dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }}'
-      throttle: 1
-      loop:
-        - get_hname: "{{ get_cert_output.results[0].stdout }}"
-          get_ssid1: "{{ get_valid.results[0].stdout }}"
-          get_crypt: "{{ get_color.results[0].stdout }}"
-          get_expdt: "{{ get_expdate.results[0].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[1].stdout }}"
-          get_ssid1: "{{ get_valid.results[1].stdout }}"
-          get_crypt: "{{ get_color.results[1].stdout }}"
-          get_expdt: "{{ get_expdate.results[1].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[2].stdout }}"
-          get_ssid1: "{{ get_valid.results[2].stdout }}"
-          get_crypt: "{{ get_color.results[2].stdout }}"
-          get_expdt: "{{ get_expdate.results[2].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[3].stdout }}"
-          get_ssid1: "{{ get_valid.results[3].stdout }}"
-          get_crypt: "{{ get_color.results[3].stdout }}"
-          get_expdt: "{{ get_expdate.results[3].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[4].stdout }}"
-          get_ssid1: "{{ get_valid.results[4].stdout }}"
-          get_crypt: "{{ get_color.results[4].stdout }}"
-          get_expdt: "{{ get_expdate.results[4].stdout }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ item.1 }}'
+      with_together:
+        - "{{ get_SID.stdout_lines }}"
+        - "{{ get_uflag.stdout_lines }}"
       delegate_to: ampsv010bld0d
-
-- name: Shell Examples
-  hosts: ampsv010bld0d
-  tasks:
-    - name: Check Date with Shell command
-      shell:
-         "cat {{ report_file }}|grep -v dummy > {{ report_file1 }}"
-      register: dummymv
-      tags: dummymv
-
-    - debug: msg="{{dummymv.stdout}}"
 
 - name: Send e-mail
   hosts: ampsv010bld0d
@@ -78,7 +48,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "{{ report_file1 }}"
+        - "{{ report_file }}"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
