@@ -15,8 +15,6 @@
     su - $sadm -c '/tmp/agentstatus.sh'
   register: scriptout
 
-- name: Find number of SID present
-  shell:  |
 - name: Get SID
   shell:  "cat /tmp/itmuserstatus_hanadb|head -1"
   register: get_SID
