@@ -18,7 +18,7 @@
     src: "{{ role_path }}/files/{{ item }}"
     dest: /usr/sap/hostctrl/exe/csr_openssl/
     owner: root
-    group: sapsys
+    group: system
     mode: '0775'
   with_items:
   - Saint_Gobain_Root_CA.cer
@@ -49,7 +49,7 @@
     rm -f {{ exe_path }}/sec/*
     cp -pf {{ install_path }}/* {{ exe_path }}/sec/
     chmod 775 {{ exe_path }}/sec/*
-    chown root:sapsys {{ exe_path }}/sec/*
+    chown root:system {{ exe_path }}/sec/*
     {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
     {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
   register: sapssl_out
