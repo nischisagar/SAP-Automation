@@ -1,4 +1,22 @@
 ---
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/agentstatus.sh' }
+  register: filecopystatus
+
+- name: Run the SAP version check script
+  shell: |
+    sid=`df -h|grep -i '/hana/data/'|awk '{print $NF}'|cut -d/ -f4|tr '[A-Z]' '[a-z]'`
+    sadm=$sid"adm"            
+    su - $sadm -c '/tmp/agentstatus.sh'
+  register: scriptout
+
+- name: Find number of SID present
+  shell:  |
 - name: Get SID
   shell:  "cat /tmp/itmuserstatus_hanadb|head -1"
   register: get_SID

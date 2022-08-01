@@ -1,13 +1,6 @@
 #!/bin/ksh
-idm=`id -u -n`
-scname=`cat /tmp/itmschema_$idm.txt`
-sqlplus -s sys/sys as sysdba<<EOF
-set feedback off
-set heading off
-set echo off
-spool /tmp/itmuserstatus.txt
-select instance_name from v\$instance;
-select UFLAG from $scname.usr02 where BNAME='IBMMON_AGENT' and MANDT='000';
-spool off;
-exit
-EOF
+sid=`hdbsql -U hcuser  -j -x -C "select database_name from m_databases" | egrep -vi database_name`
+SCHEMA=`hdbsql -U hcuser  -j -x -C "select schema_name from tables where table_name='USR02'" | egrep -vi schema_name`
+agstatus=`hdbsql -U hcuser  -j -x -C "select UFLAG from $SCHEMA.usr02 where BNAME='IBMMON_AGENT' and MANDT='000'"|tail -1`
+echo $sid > /tmp/itmuserstatus_hanadb
+echo $agstatus >> /tmp/itmuserstatus_hanadb
