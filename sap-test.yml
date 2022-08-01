@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: hana_nonprod_linux_servers_0607
+  hosts: xmpsl020qhan0
   become: yes
   become_method: sudo
   vars: 
