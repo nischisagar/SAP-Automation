@@ -18,9 +18,11 @@
   register: scriptout
 
 - name: Get SID
-  shell:  "cat /tmp/itmuserstatus_hanadb|head -1"
+  shell:  "cat /tmp/itmuserstatus_hanadb_{{ item.name }}|head -1"
+  loop: "{{ no_of_sid }}"
   register: get_SID
 
 - name: Get Userflag status
-  shell:  "cat /tmp/itmuserstatus_hanadb|tail -1"
+  shell:  "cat /tmp/itmuserstatus_hanadb_{{ item.name }}|tail -1"
+  loop: "{{ no_of_sid }}"
   register: get_uflag
