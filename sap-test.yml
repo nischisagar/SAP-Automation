@@ -1,6 +1,6 @@
 ---
 - name: Get multitenant hana db sap and unix agent status (Two SIDs)
-  hosts: xmpsl045dhan0
+  hosts: sap_hanadb_abap2_host_name_single_sid
   become: yes
   become_method: sudo
   vars: 
