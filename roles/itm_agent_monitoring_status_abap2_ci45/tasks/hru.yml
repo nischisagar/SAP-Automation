@@ -1,0 +1,28 @@
+---
+- name: Run the SAP version check script
+  shell: |
+    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmuserlist.txt
+    df -g|grep -i /sapmnt/|awk '{print $NF}'|cut -d/ -f3 > /tmp/itmuserlist.txt
+    for k in `cat /tmp/itmuserlist.txt`
+    do
+    cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|wc -l|tr -d ' '`
+    if [ $cnt -eq 1 ]
+    then
+            echo ""$k"_sa_itm_Running" > /tmp/itmuserstatus_$k.txt
+            /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_$k.txt
+    else
+            echo "$k_sa_itm_NotRunning" > /tmp/itmuserstatus_$k.txt
+            /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_$k.txt
+    fi
+    done
+  register: scriptout
+
+- name: Get SID
+  shell:  "cat /tmp/itmuserstatus_{{ item.name }}|head -1"
+  loop: "{{ no_of_sid }}"
+  register: get_SID
+
+- name: Get Userflag status
+  shell:  "cat /tmp/itmuserstatus_{{ item.name }}|tail -1"
+  loop: "{{ no_of_sid }}"
+  register: get_uflag
