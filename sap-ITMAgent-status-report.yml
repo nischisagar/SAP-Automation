@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: skp9
+  hosts: target_oracle_servers_june
   become: yes
   become_method: sudo
   vars: 
@@ -75,7 +75,7 @@
         state: touch
 
 - name: Collect SAP_HANA Servers IBMMON_AGENT User status
-  hosts: ampsv020han5i
+  hosts: sap_hanadb_abap_host_name_single_sid1
   become: yes
   become_method: sudo
   vars: 
@@ -105,7 +105,7 @@
         state: touch
 
 - name: Collect SAP and OS Agent running status on HANA CI Servers
-  hosts: ampsv020ecc1i
+  hosts: hana_ci_server_group1
   become: yes
   become_method: sudo
   vars: 
