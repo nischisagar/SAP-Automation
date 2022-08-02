@@ -51,8 +51,11 @@
 
 - name: Shell Examples
   hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
   tasks:
-    - name: Check Date with Shell command
+    - name: Remove dummy values from oracle output
       shell:
          "cat {{ report_file }}|grep -v dummy > {{ report_file1 }}"
       register: dummymv
