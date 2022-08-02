@@ -11,7 +11,7 @@
   tasks:
     - name: HANA CI Servers Agent user status
       lineinfile:
-        dest: "{{ report_file }}"
+        dest: "{{ report_file2 }}"
         line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ item.get_sap }}'
       throttle: 1
       loop:
