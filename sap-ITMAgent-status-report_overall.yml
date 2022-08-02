@@ -72,7 +72,7 @@
         state: touch
 
 - name: Collect SAP_HANA Servers IBMMON_AGENT User status
-  hosts: ampsv020han5i
+  hosts: hana_server_group
   become: yes
   become_method: sudo
   vars: 
@@ -102,7 +102,7 @@
         state: touch
 
 - name: Collect SAP and OS Agent running status on HANA CI Servers
-  hosts: ampsv020ecc1i
+  hosts: hana_ci_server_group
   become: yes
   become_method: sudo
   vars: 
