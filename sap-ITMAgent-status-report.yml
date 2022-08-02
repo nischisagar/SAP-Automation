@@ -18,7 +18,7 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: itm_agent_monitoring_status
+  - role: itm_agent_monitoring_status_oraservers
     ignore_errors: yes
   tasks:
     - name: Add sap CRYPTO version to report File.
