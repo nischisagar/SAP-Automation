@@ -123,6 +123,28 @@
         - "{{ get_ux_status.stdout_lines }}"
       delegate_to: ampsv010bld0d
 
+- name: Get multitenant hana db sap and unix agent status (Two SIDs)
+  hosts: sap_hanadb_abap2_host_name_single_sid
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: itm_agent_monitoring_status_abap2_45
+    ignore_errors: yes
+  tasks:
+    - name: HANA CI Servers Agent user status
+      lineinfile:
+        dest: "{{ report_file2 }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ item.get_sap }}'
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_SID.results[0].stdout }}"
+          get_sap: "{{ get_uflag.results[0].stdout }}"
+        - get_sid: "{{ get_SID.results[1].stdout }}"
+          get_sap: "{{ get_uflag.results[1].stdout }}"
+      delegate_to: ampsv010bld0d
+
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
