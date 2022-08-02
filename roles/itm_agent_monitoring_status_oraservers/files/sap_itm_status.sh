@@ -16,7 +16,7 @@ su - $sadm -c '/exploit/SAP/sql1.sh'
 sed '/^$/d' /tmp/itmuserstatus.txt|tr -d ' ' > /tmp/itmuserstatus_$k.txt
 rm -f /tmp/itmuserstatus.txt
 cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|wc -l|tr -d ' '`
-if [ $cnt -ge 1 ]
+if [ $cnt -eq 1 ]
 then
         echo ""$k"_sa_itm_Running" >> /tmp/itmuserstatus_$k.txt
 else
