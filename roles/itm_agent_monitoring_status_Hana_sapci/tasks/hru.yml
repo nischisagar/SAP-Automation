@@ -1,0 +1,34 @@
+---
+- name: Execute ITM Status find shell commands
+  shell: |
+    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmuserlist.txt
+    df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
+
+    for j in `cat /tmp/sidfile_temp.txt`
+    do
+    systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
+    echo "$systype $j" >> /tmp/sidlist_upd.txt
+    done
+    
+    cat /tmp/sidlist_upd.txt|sort -r|grep -v J2EE|awk '{print $2}' > /tmp/itmuserlist.txt
+
+    for k in `cat /tmp/itmuserlist.txt`
+    do
+    cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|wc -l|tr -d ' '`
+    if [ $cnt -eq 1 ]
+    then
+    echo ""$k"_sa_itm_Running" >> /tmp/itmuserstatus_ci.txt
+    else
+    echo ""$k"_sa_itm_NotRunning" >> /tmp/itmuserstatus_ci.txt
+    fi
+    /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_ci.txt
+    done
+  register: scriptout
+
+- name: Get SAP Agent status
+  shell:  "cat /tmp/itmuserstatus_ci.txt|head -1"
+  register: get_su_status
+
+- name: Get OS Agent status
+  shell:  "cat /tmp/itmuserstatus_ci.txt|tail -1"
+  register: get_ux_status

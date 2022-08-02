@@ -7,27 +7,27 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity_Name,Host_Name,SAP_agent_status,OS_agent_status'
+        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag'
         dest: "{{ report_file }}"
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: hana_ci_server_group
+  hosts: hana_server_group
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: itm_agent_monitoring_status_Hana_sapci
+  - role: itm_agent_monitoring_status_Hanaservers
     ignore_errors: yes
   tasks:
-    - name: HANA CI Servers Agent user status
+    - name: HANA Servers Agent user status
       lineinfile:
         dest: "{{ report_file }}"
         line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ item.1 }}'
       with_together:
-        - "{{ get_su_status.stdout_lines }}"
-        - "{{ get_ux_status.stdout_lines }}"
+        - "{{ get_SID.stdout_lines }}"
+        - "{{ get_uflag.stdout_lines }}"
       delegate_to: ampsv010bld0d
 
 - name: Send e-mail
