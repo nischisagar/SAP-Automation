@@ -1,0 +1,26 @@
+---
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/agentstatus_hcuser.sh' }
+    - { src: 'files/agentstatus_hcuser2.sh' }
+  register: filecopystatus
+
+- name: Run the SAP version check script
+  shell: |
+    sid=`df -h|grep -i '/hana/data/'|awk '{print $NF}'|cut -d/ -f4|tr '[A-Z]' '[a-z]'`
+    sadm=$sid"adm"            
+    su - $sadm -c '/tmp/agentstatus_hcuser.sh'
+    su - $sadm -c '/tmp/agentstatus_hcuser2.sh'
+  register: scriptout
+
+- name: Get SID
+  shell:  "cat /tmp/itmuserstatus_hanadb|head -1"
+  register: get_SID
+
+- name: Get Userflag status
+  shell:  "cat /tmp/itmuserstatus_hanadb|tail -1"
+  register: get_uflag
