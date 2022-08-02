@@ -1,6 +1,6 @@
 #!/bin/ksh
 rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmuserlist.txt
-df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
+df -g|grep -i /sapmnt/|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
 for j in `cat /tmp/sidfile_temp.txt`
 do
         systype=`cat /sapmnt/$j/profile/DEFAULT.PFL|grep -i "system/type"|awk '{print $3}'`
