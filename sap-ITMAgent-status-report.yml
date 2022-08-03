@@ -75,7 +75,7 @@
         state: touch
 
 - name: Collect SAP_HANA Servers IBMMON_AGENT User status
-  hosts: sap_hanadb_abap_host_name_single_sid1
+  hosts: sap_hanadb_abap_host_name_single_sid1_0308
   become: yes
   become_method: sudo
   vars: 
