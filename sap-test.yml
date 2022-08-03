@@ -1,6 +1,6 @@
 ---
 - name: ITM test
-  hosts: xmpsl177dhan0
+  hosts: "{{ itm_hosts }}"
   become: yes
   become_method: sudo
   gather_facts: yes
