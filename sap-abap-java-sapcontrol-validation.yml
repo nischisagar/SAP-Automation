@@ -8,7 +8,7 @@
   - role: report-store-application-validation-status
 
 - name: Validate system status
-  hosts: xmpsa010secc0
+  hosts: "{{ host_tovalidate }}"
   become: yes
   become_method: sudo
   gather_facts: yes
