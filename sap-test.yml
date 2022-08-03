@@ -11,7 +11,7 @@
   tasks:
     - name: HANA CI Servers Agent user status
       lineinfile:
-        dest: "{{ report_file2 }}"
+        dest: "{{ report_file3 }}"
         line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ item.get_sap }}'
       throttle: 1
       loop:
@@ -39,7 +39,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "{{ report_file }}"
+        - "{{ report_file3 }}"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
