@@ -1,0 +1,42 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/agentstatus177.sh' }
+  register: filecopystatus
+  when: hname == "xmpsl177dhan0"
+
+- name: Run the SAP version check script
+  shell: |
+    sid=`df -h|grep -i '/hana/data/'|awk '{print $NF}'|cut -d/ -f4|tr '[A-Z]' '[a-z]'`
+    sadm=$sid"adm"            
+    su - $sadm -c '/tmp/agentstatus.sh'
+  register: scriptout
+  when: hname == "xmpsl177dhan0"
+
+- name: Get SID
+  shell:  "cat /tmp/itmuserstatus_hanadb|head -1"
+  register: get_SID
+  when: hname == "xmpsl177dhan0"
+
+- name: Get Userflag status
+  shell:  "cat /tmp/itmuserstatus_hanadb|tail -1"
+  register: get_uflag
+  when: hname == "xmpsl177dhan0"
