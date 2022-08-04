@@ -4,6 +4,7 @@
     src: "{{ item.src }}" 
     dest: "/tmp/"
     mode: "0775"
+    group: "sapsys"
   with_items:
     - { src: 'files/agentstatus.sh' }
   register: filecopystatus

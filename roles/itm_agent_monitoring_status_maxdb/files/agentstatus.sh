@@ -23,11 +23,14 @@ EOF
 cat /tmp/resultitm.txt|sed 's/|/ /g'|head -3|tail -1 > /tmp/itmuserstatus_maxdb.txt
 cat /tmp/resultitm.txt|sed 's/|/ /g'|tail -1 >> /tmp/itmuserstatus_maxdb.txt
 cat /tmp/itmuserstatus_maxdb.txt|tr -d ' ' > /tmp/itmuserstatus_maxdb.txt
+
 k=`cat /tmp/itmuserstatus_maxdb.txt|head -1`
-cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|wc -l|tr -d ' '`
+cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|grep -i running|wc -l|tr -d ' '`
+
 if [ $cnt -eq 1 ]
 then
-echo ""$k"_sa_itm_Running" >> /tmp/itmuserstatus_maxdb.txt
+#echo ""$k"_sa_itm_Running" >> /tmp/itmuserstatus_maxdb.txt
+/opt/IBM/ITM/bin/cinfo -r|grep -i $k|grep -i running|awk '{print $6_$2_$7}' >> /tmp/itmuserstatus_maxdb.txt
 else
 echo ""$k"_sa_itm_NotRunning" >> /tmp/itmuserstatus_maxdb.txt
 fi
