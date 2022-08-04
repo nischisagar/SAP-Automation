@@ -1,8 +1,21 @@
 ---
-- name: ITM test
-  hosts: "{{ itm_hosts }}"
+- name: Collect MAXDB Servers IBMMON_AGENT User status
+  hosts: xmpsa020pnw0
   become: yes
   become_method: sudo
-  gather_facts: yes
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: itm_agent_monitoring_status_Hanaserverswith177
+  - role: itm_agent_monitoring_status_maxdb
+    ignore_errors: yes
+  tasks:
+    - name: MAXDB Servers Agent user status
+      lineinfile:
+        dest: "{{ report_file1 }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ item.1 }},{{ item.2 }},{{ item.3 }}'
+      with_together:
+        - "{{ get_sid.stdout_lines }}"
+        - "{{ get_uflag.stdout_lines }}"
+        - "{{ get_sa.stdout_lines }}"
+        - "{{ get_ux.stdout_lines }}"
+      delegate_to: ampsv010bld0d

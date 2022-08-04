@@ -1,0 +1,33 @@
+---
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0775"
+  with_items:
+    - { src: 'files/agentstatus.sh' }
+  register: filecopystatus
+
+- name: Run ITM Agent and user status check script
+  shell: "su - {{ item.name }} -c /tmp/agentstatus.sh"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_maxdb_abap is defined
+  loop: "{{ sid_adm_usr_maxdb_abap }}"
+
+- name: Get the SID
+  shell: "cat /tmp/itmuserstatus_maxdb.txt | head -1"
+  register: "get_sid"
+  
+- name: Get IBMMON_AGENT user status
+  shell: "cat /tmp/itmuserstatus_maxdb.txt  | head -2 | tail -1"
+  register: "get_uflag"
+  
+- name: Get Sap agent process running status
+  shell: "cat /tmp/itmuserstatus_maxdb.txt  | head -3 | tail -1"
+  register: "get_sa"
+
+- name: Get OS agent process running status
+  shell: "cat /tmp/itmuserstatus_maxdb.txt  | tail -1"
+  register: "get_ux"
