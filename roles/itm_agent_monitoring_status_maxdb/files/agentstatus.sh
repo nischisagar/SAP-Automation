@@ -34,4 +34,11 @@ then
 else
 echo ""$k"_sa_itm_NotRunning" >> /tmp/itmuserstatus_maxdb.txt
 fi
+
+cnt1=`/opt/IBM/ITM/bin/cinfo -r|grep -i ux|grep -i running|wc -l|tr -d ' '`
+if [ $cnt1 -eq 1 ]
+then
 /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_maxdb.txt
+else
+echo "UNIX_itm_NotRunning" >> /tmp/itmuserstatus_maxdb.txt
+fi
