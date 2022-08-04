@@ -1,5 +1,5 @@
 #!/bin/ksh
-rm -f /tmp/sidfileitm /tmp/schemafileitm /tmp/resultitm.txt
+rm -f /tmp/sidfileitm /tmp/schemafileitm /tmp/resultitm.txt /tmp/itmuserstatus_maxdb_tmp.txt
 sidadm=`id -u -n`
 sqlcli -U DEFAULT <<EOF
 \output /tmp/sidfileitm
@@ -20,9 +20,9 @@ select distinct serverdb from domain.users
 select UFLAG from $schema.usr02 where BNAME='IBMMON_AGENT' and MANDT='000'
 exit
 EOF
-cat /tmp/resultitm.txt|sed 's/|/ /g'|head -3|tail -1 > /tmp/itmuserstatus_maxdb.txt
-cat /tmp/resultitm.txt|sed 's/|/ /g'|tail -1 >> /tmp/itmuserstatus_maxdb.txt
-cat /tmp/itmuserstatus_maxdb.txt|tr -d ' ' > /tmp/itmuserstatus_maxdb.txt
+cat /tmp/resultitm.txt|sed 's/|/ /g'|head -3|tail -1 > /tmp/itmuserstatus_maxdb_tmp.txt
+cat /tmp/resultitm.txt|sed 's/|/ /g'|tail -1 >> /tmp/itmuserstatus_maxdb_tmp.txt
+cat /tmp/itmuserstatus_maxdb_tmp.txt|tr -d ' ' > /tmp/itmuserstatus_maxdb.txt
 
 k=`cat /tmp/itmuserstatus_maxdb.txt|head -1`
 cnt=`/opt/IBM/ITM/bin/cinfo -r|grep -i $k|grep -i running|wc -l|tr -d ' '`
