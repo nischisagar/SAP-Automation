@@ -25,8 +25,14 @@
 - name: "Copy signed certificate"
   shell: |
     hn=`hostname`
+    cn=`ls -lrt /usr/sap/csr_cert/"$hn"_fruncsr.cer|wc -l`
+    if [ $cn -eq 1 ]
+    then
+    echo "Certificate already found"
+    else
     cp -rp /usr/sap/hostctrl/exe/csr_openssl/"$hn"_net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
     ls -lrt /usr/sap/csr_cert/
+    fi
   register: copycert
   when: register_name2.stat.exists
 
