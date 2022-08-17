@@ -18,10 +18,10 @@
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: csr_all_certificate_4_focusrun_expirycheck
+  - role: csr_abap_java_focusrun_certificate_expiry_report
     ignore_errors: yes
   tasks:
-    - name: Add sap CRYPTO version to report File.
+    - name: Add Certificate expiry detail
       lineinfile:
         dest: "{{ report_file }}"
         line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }}'
