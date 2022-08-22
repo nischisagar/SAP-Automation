@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent3
-  hosts: xmpsa010secc0
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: yes
