@@ -55,7 +55,7 @@
     hostname
     /usr/sap/hostctrl/exe/saphostexec -version|grep -iE "variant|patch"|tail -2
   register: hostupdate
-  when: (hostfree | int) >= (200 | int)
+  when: (hostfree | int) >= (500 | int)
 
 - debug:
     msg: "{{ hostupdate }}"      
