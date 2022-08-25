@@ -1,6 +1,6 @@
 ---
 - name: Update SAP Host Agent3
-  hosts: "{{ hname1 }}"
+  hosts: hana_nonprod_linux_servers_0607
   become: yes
   become_method: sudo
   gather_facts: yes
