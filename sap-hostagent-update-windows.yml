@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: sap_prod_windows_servers_june0322
+- hosts: ampsv023bw0d
   become: yes
   become_method: runas
   become_user: system
