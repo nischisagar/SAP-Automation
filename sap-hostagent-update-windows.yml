@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: ampsv023bw0d
+- hosts: "{{ hname1 }}"
   become: yes
   become_method: runas
   become_user: system
