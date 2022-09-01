@@ -3,7 +3,7 @@
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  gather_facts: false
+  gather_facts: yes
   tasks:
     - name: Create the global report file
       copy:
