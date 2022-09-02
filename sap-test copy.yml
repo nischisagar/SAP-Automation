@@ -1,8 +1,0 @@
----
-- name: Focus RUN CSR Certificate prepare and copy certificate in binary
-  hosts: xmpsl023dhan0
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: csr_certificate_4_focusrun_beforesign_manual
