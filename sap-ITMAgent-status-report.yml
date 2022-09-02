@@ -168,7 +168,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Collect MAXDB Servers IBMMON_AGENT User status
-  hosts:  sap_maxdb_abap_host_name_single_sid1_new1
+  hosts:  sap_maxdb_abap_host_name_single_sid1_0209
   become: yes
   become_method: sudo
   vars:
