@@ -1,0 +1,34 @@
+---
+# tasks file for host_agent update
+
+- name: setfact target path
+  set_fact:
+    patchpath: /tmp
+
+- debug:
+    msg: "{{ patchpath }}"
+
+- name: Check free space for tmp, atleast 1 GB free space should be there
+  shell: df -m {{ patchpath }}|tail -1|awk '{print $3}'|awk '{print int($0)}'
+  register: tmpfree
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ tmpfree }}"
+
+- name: Register temp free space value
+  set_fact:
+    tmpfree: "{{ tmpfree['stdout'] }}"
+  ignore_errors: yes
+
+- debug:
+    msg: "tmpfree: {{ tmpfree }}"
+
+- name: Copy files to patchlocation
+  copy:
+    src: ./files/
+    dest: "{{ patchpath }}/"
+    owner: root     
+    group: sapsys
+    mode: '0777'
+  when: (tmpfree | int) >= (200 | int)
