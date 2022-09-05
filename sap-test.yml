@@ -1,8 +1,8 @@
 ---
-- name: Transfer file from local to aix
-  hosts: xmpsa010secc0
+- name: csr copy to usrpath
+  hosts: all_entity_servers_new_sept02_22
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
-  - role: Transfer-file-from-desktopto-aixserver
+  - role: csr_certificate_copyto_usrpath
