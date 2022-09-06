@@ -1,17 +1,17 @@
 ---
-- name: Create the Global report file
+- name: Create the Oracle report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: yes
   tasks:
-    - name: Create the global report file
+    - name: Create the Oracle report file
       copy:
         content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the SAP CRYPTO version from indiduval server
+- name: Get the SAP ITM Agent status for oracle DB SAP servers
   hosts: target_oracle_servers_june
   become: yes
   become_method: sudo
@@ -21,7 +21,7 @@
   - role: itm_agent_monitoring_status_oraservers
     ignore_errors: yes
   tasks:
-    - name: Add sap CRYPTO version to report File.
+    - name: Add SAP ITM Agent status to report File.
       lineinfile:
         dest: "{{ report_file }}"
         line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }}'
@@ -63,13 +63,13 @@
 
     - debug: msg="{{dummymv.stdout}}"
 
-- name: Create the Global report file
+- name: Create the HANA ITM report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: false
   tasks:
-    - name: Create the global report file
+    - name: Create the HANA ITM report file
       file:
         path: "{{ report_file2 }}"
         state: touch
@@ -115,13 +115,13 @@
           get_sap: "{{ get_uflag.results[1].stdout }}"
       delegate_to: ampsv010bld0d
 
-- name: Create the Global report file
+- name: Create the HANA CI ITM report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: false
   tasks:
-    - name: Create the global report file
+    - name: Create the HANA CI ITM report file
       file:
         path: "{{ report_file3 }}"
         state: touch
@@ -167,6 +167,17 @@
           get_sap: "{{ get_uflag.results[1].stdout }}"
       delegate_to: ampsv010bld0d
 
+- name: Create the Maxdb report file
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: Create the Maxdb report file
+      file:
+        path: "{{ report_file_maxdb }}"
+        state: touch
+
 - name: Collect MAXDB Servers IBMMON_AGENT User status
   hosts:  sap_maxdb_abap_host_name_single_sid1_0209
   become: yes
@@ -188,6 +199,20 @@
         - "{{ get_ux.stdout_lines }}"
       delegate_to: ampsv010bld0d
 
+- name: Join all outputs
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: Join all server outputs
+      shell:
+         "/ansible/reports/itm_agent_status_report/alljoin.sh"
+      register: joinout
+      tags: joinout
+
+    - debug: msg="{{joinout.stdout}}"
+
 - name: Send e-mail
   hosts: ampsv010bld0d
   become: yes
@@ -206,7 +231,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "{{ report_file1 }}"
+        - "{{ report_final_itmstatus }}"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
