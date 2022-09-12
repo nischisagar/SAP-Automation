@@ -13,6 +13,11 @@
 - debug:
     msg: "{{ hname }}"
 
+- name: "Move existing csr_openssl"
+  shell: |
+    mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_sigold
+  register: mvoutold
+
 - name: mkdir csr_openssl
   file:
     path: "/usr/sap/hostctrl/exe/csr_openssl"
