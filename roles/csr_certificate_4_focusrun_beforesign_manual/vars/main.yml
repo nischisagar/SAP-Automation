@@ -3,7 +3,8 @@
 hostname1: "{{ hname }}"
 install_path: "/usr/sap/hostctrl/exe/csr_openssl"
 keyname: "FRUN_AIX_private_{{ hostname1 }}.key"
-hostnamewithfqdn: "xmpsl045than0.dtc2.cf.saint-gobain.net"
+hostnamewithfqdn: "ampsv019ecc6p.p1.saint-gobain.net"
+hostnamewithfqdn1: "ampsv019ecc6p.dtc2.cf.saint-gobain.net"
 password1: "frun_sg"
 cername: "FRUN_{{ hostname1 }}_AIX_P1_SAINT_GOBAIN_NET.csr"
 
