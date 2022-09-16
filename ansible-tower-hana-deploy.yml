@@ -14,4 +14,4 @@
   gather_facts: false
 
   roles:
-  - role: sap-hana2.0_rev55-deployment
+  - role: sap-hana2.0_rev55-deployment_withvariable
