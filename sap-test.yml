@@ -1,8 +1,8 @@
 ---
-- name: csr copy to usrpath
-  hosts: all_entity_servers_new_sept02_22
+- name: Rename qxe env files
+  hosts: "{{ qxeas }}"
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
-  - role: csr_certificate_copyto_usrpath
+  - role: qxe_envupdate

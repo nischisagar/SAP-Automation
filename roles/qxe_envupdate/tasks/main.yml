@@ -1,0 +1,17 @@
+---
+- name: "Rename qxeadm env files"
+  shell: |
+    hname=`hostname`
+    mv /home/qxeadm/.sapenv_xmpsa020qecc7.sh /home/qxeadm/.sapenv_$hname.sh
+    mv /home/qxeadm/.sapenv_xmpsa020qecc7.csh /home/qxeadm/.sapenv_$hname.csh
+    mv /home/qxeadm/.sapsrc_xmpsa020qecc7.sh /home/qxeadm/.sapsrc_$hname.sh
+    mv /home/qxeadm/.sapsrc_xmpsa020qecc7.csh /home/qxeadm/.sapsrc_$hname.csh
+    mv /home/qxeadm/.dbsrc_xmpsa020qecc7.sh /home/qxeadm/.dbsrc_$hname.sh
+    mv /home/qxeadm/.dbsrc_xmpsa020qecc7.csh /home/qxeadm/.dbsrc_$hname.csh
+    mv /home/qxeadm/.dbenv_xmpsa020qecc7.sh /home/qxeadm/.dbenv_$hname.sh
+    mv /home/qxeadm/.dbenv_xmpsa020qecc7.csh /home/qxeadm/.dbenv_$hname.csh
+    ls -lrta |grep -i sh
+  register: renameout
+
+- debug:
+    msg: "{{ renameout }}"
