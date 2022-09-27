@@ -10,7 +10,7 @@
     mv /home/qxeadm/.dbsrc_xmpsa020qecc7.csh /home/qxeadm/.dbsrc_$hname.csh
     mv /home/qxeadm/.dbenv_xmpsa020qecc7.sh /home/qxeadm/.dbenv_$hname.sh
     mv /home/qxeadm/.dbenv_xmpsa020qecc7.csh /home/qxeadm/.dbenv_$hname.csh
-    ls -lrta |grep -i sh
+    ls -lrta /home/qxeadm/.*.*sh
   register: renameout
 
 - debug:
