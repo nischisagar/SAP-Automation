@@ -6,4 +6,13 @@
   gather_facts: yes
   roles:
   - role: csr-Focusrun-postsign-step
-    #when: ansible_distribution | lower == "aix"
+    when: ansible_distribution | lower == "aix"
+
+- name: Transfer signed certificate to usr path
+  hosts: "{{ hostname_csr }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: csr_certificate_copyto_usrpath
+    when: ansible_distribution | lower == "aix"
