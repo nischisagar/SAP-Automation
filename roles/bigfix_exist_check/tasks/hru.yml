@@ -1,0 +1,43 @@
+---
+- name: Run bigfix exist check command
+  shell: |
+    df -m|grep -i BESClient > /tmp/bigfix_chk.txt
+    ps -ef|grep -i BESClient >> /tmp/bigfix_chk.txt
+    cnt=`cat /tmp/bigfix_chk.txt|wc -l`
+    if [ $cnt -ge 1 ]
+    then
+    hostname >> /tmp/bigfix_chk.txt
+    else
+    echo "no bigfix"
+    fi
+  register: bigfix_check
+
+- name: Check for result
+  shell: |
+    cnt1=`cat /tmp/bigfix_chk.txt|wc -l`
+  register: bcnt
+
+- debug:
+    msg: "BCNT: {{ bcnt }}"
+
+- name: Setting facts - bigfix count
+  set_fact:
+    bcnt: "{{ bcnt['stdout'] | trim }}"
+
+- debug:
+    msg: "BCNT: {{ bcnt }}"
+
+- name: Get Hostname
+  shell:  "cat /tmp/bigfix_chk.txt|tail -1"
+  register: get_hname
+  when: bcnt | int >= 1
+
+- name: Get df status
+  shell:  "cat /tmp/bigfix_chk.txt|head -1"
+  register: get_dfstatus
+  when: bcnt | int >= 1
+
+- name: Get pf status
+  shell:  "cat /tmp/bigfix_chk.txt|head -2|tail -1"
+  register: get_pfstatus
+  when: bcnt | int >= 1

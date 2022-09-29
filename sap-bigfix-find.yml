@@ -1,0 +1,32 @@
+---
+- name: Create the Global report file
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+    - name: Create the global report file
+      copy:
+        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
+        dest: "{{ report_file }}"
+      run_once: yes
+
+- name: Get the SAP HOST AGENT version from indiduval server
+  hosts: target_update_servers_hagentdemo3
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: sap-hostagent-version
+  tasks:
+    - name: Add sap host agent version to report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_make }},{{ item.get_patch }}"
+      throttle: 1
+      loop:
+        - get_hname: "{{ get_hname_output.results[0].stdout }}"
+          get_make: "{{ get_make_value.results[0].stdout }}"
+          get_patch: "{{ get_patch_level.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
