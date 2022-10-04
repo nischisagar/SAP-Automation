@@ -7,26 +7,26 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
+        content: 'Host_Name,df_status,pf_status'
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the SAP HOST AGENT version from indiduval server
-  hosts: target_update_servers_hagentdemo3
+- name: Get BIGFIX Install status
+  hosts: all
   become: yes
   become_method: sudo
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: sap-hostagent-version
+  - role: bigfix_exist_check
   tasks:
-    - name: Add sap host agent version to report File.
+    - name: Add bigfix status
       lineinfile:
         dest: "{{ report_file }}"
-        line: "{{ entity_name }},{{ item.get_hname }},{{ item.get_make }},{{ item.get_patch }}"
+        line: "{{ item.get_hnam1 }},{{ item.get_df }},{{ item.get_pf }}"
       throttle: 1
       loop:
-        - get_hname: "{{ get_hname_output.results[0].stdout }}"
-          get_make: "{{ get_make_value.results[0].stdout }}"
-          get_patch: "{{ get_patch_level.results[0].stdout }}"
+        - get_hname1: "{{ get_hname.results[0].stdout }}"
+          get_df: "{{ get_dfstatus.results[0].stdout }}"
+          get_pf: "{{ get_pfstatus.results[0].stdout }}"
       delegate_to: ampsv010bld0d
