@@ -1,8 +1,72 @@
 ---
-- name: Rename qxe env files
-  hosts: "{{ qxeas }}"
-  become: yes
-  become_method: sudo
-  gather_facts: no
-  roles:
-  - role: qxe_envupdate
+- hosts: xmpsa010secc0
+  gather_facts: False
+  tasks:
+   - name: check the status of the besclient
+     shell: "/usr/bin/ps -ef |grep -v grep|grep -i besclient |awk {'print $8'}"
+     register: besclient_output
+
+   - name: display the besclient information
+     debug:
+       msg: "{{ besclient_output.stdout }}"
+
+   - name: Stop the besclient on the OS level
+     shell: "/etc/rc.d/rc2.d/SBESClientd stop"
+     register: SBESClientd_output
+
+   - name: check whether besclient running or not
+     debug:
+       msg: SBESClientd_output.stdout
+
+   - name: list the besclient pacakges
+     shell: "/usr/sbin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
+     register: installed_besclient
+
+   - name: Display the installedbesclient
+     debug:
+       msg: "{{ installed_besclient.stdout }}"
+
+   - name: Remove the package besclient package
+     installp:
+       action: deinstall
+       install_list: BESClient
+
+   - name: check the besclient pacakges uninstalled or not
+     shell: "/usr/sbin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
+     register: uninstalled
+
+   - name: Display the installedbesclient
+     debug:
+       msg: "{{ uninstalled.stdout }}"
+
+   - name: umount the besclient mountpoint
+     aix_filesystem:
+       filesystem: /var/opt/BESClient
+       state: unmounted
+
+   - name: rename the lvvarBESclt
+     shell: "/usr/sbin/chlv -n lvvaransible lvvarBESclt"
+     register: newlvname
+
+   - name: Display the newlvname
+     debug:
+       msg: "{{ newlvname.stdout }}"
+
+   - name: rename the filesystem name /var/opt/BESClient
+     shell: "/usr/sbin/chfs -m /var/opt/ansilble_new /var/opt/BESClient"
+     register: newfilesystem
+
+   - name: display the newfilesytem
+     debug:
+       msg: "{{ newfilesystem.stdout }}"
+
+   - name: mount the newfilesystem
+     mount:
+       mount_dir: /dev/lvvaransible
+       mount_over_dir: /var/opt/ansilble_new
+
+   - name: show the new mounted ansible filesystem
+     aix_filesystem:
+       device: lvvaransible
+       filesystem: /var/opt/ansilble_new
+       state: present
