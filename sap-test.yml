@@ -1,6 +1,6 @@
 ---
 - name: Bigfix removal
-  hosts: xmpsa010secc0
+  hosts: xmpsa010sdb0
   become: yes
   become_method: sudo
   gather_facts: yes
