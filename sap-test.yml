@@ -27,9 +27,8 @@
        msg: "{{ installed_besclient.stdout }}"
 
    - name: Remove the package besclient package
-     installp:
-       action: deinstall
-       install_list: BESClient
+     shell: "installp -u BESClient"
+     register: installed_uninstall
 
    - name: check the besclient pacakges uninstalled or not
      shell: "/usr/sbin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
