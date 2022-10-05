@@ -40,29 +40,66 @@
     filesystem: /var/opt/BESClient
     state: unmounted
 
-- name: rename the lvvarBESclt
-  shell: "/usr/sbin/chlv -n lvvaransible lvvarBESclt"
-  register: newlvname
+- name: Remove BESClient filesystem
+  shell: "rmfs /var/opt/BESClient"
+  register: rmfsbesclient
 
-- name: Display the newlvname
+- name: Remove BESClient filesystem
   debug:
-    msg: "{{ newlvname.stdout }}"
+    msg: "{{ rmfsbesclient.stdout }}"
 
-- name: rename the filesystem name /var/opt/BESClient
-  shell: "/usr/sbin/chfs -m /var/opt/ansilble_new /var/opt/BESClient"
-  register: newfilesystem
+- name: Check BESClient filesystem existance on Monitoring file
+  shell: |
+    cnt1=`cat /opt/IBM/ITM/smitools/config/K07_filesystem.param|grep -i BESClient|wc -l`
+  register: fscnt
 
-- name: display the newfilesytem
+- debug:
+    msg: "fscnt: {{ fscnt }}"
+
+- name: Setting facts - bigfix count
+  set_fact:
+    fscnt: "{{ fscnt['stdout'] | trim }}"
+
+- debug:
+    msg: "fscnt: {{ fscnt }}"
+
+- name: Remove BESClient entry from file system monitoring file
+  shell: |
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_`date +%d%m%y`
+    mv /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_tempans
+    sed '/BESClient/d' /opt/IBM/ITM/smitools/config/K07_filesystem.param_tempans > /opt/IBM/ITM/smitools/config/K07_filesystem.param
+    cat /opt/IBM/ITM/smitools/config/K07_filesystem.param
+  register: removefsmon
+  when: fscnt | int >= 1
+
+- name: check whether besclient running or not
   debug:
-    msg: "{{ newfilesystem.stdout }}"
+    msg: "{{ removefsmon }}"
 
-- name: mount the newfilesystem
-  mount:
-    mount_dir: /dev/lvvaransible
-    mount_over_dir: /var/opt/ansilble_new
+- name: Check BESClient process existance on Monitoring file
+  shell: |
+    cnt1=`cat /opt/IBM/ITM/smitools/config/K07_process.param|grep -i BESClient|wc -l`
+  register: pfcnt
 
-- name: show the new mounted ansible filesystem
-  aix_filesystem:
-    device: lvvaransible
-    filesystem: /var/opt/ansilble_new
-    state: present
+- debug:
+    msg: "pfcnt: {{ pfcnt }}"
+
+- name: Setting facts - bigfix count
+  set_fact:
+    pfcnt: "{{ pfcnt['stdout'] | trim }}"
+
+- debug:
+    msg: "pfcnt: {{ pfcnt }}"
+
+- name: Remove BESClient entry from process monitoring file
+  shell: |
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_`date +%d%m%y`
+    mv /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_tempans
+    sed '/BESClient/d' /opt/IBM/ITM/smitools/config/K07_process.param_tempans > /opt/IBM/ITM/smitools/config/K07_process.param
+    cat /opt/IBM/ITM/smitools/config/K07_process.param
+  register: removepfmon
+  when: pfcnt | int >= 1
+
+- name: check whether besclient running or not
+  debug:
+    msg: "{{ removepfmon }}"
