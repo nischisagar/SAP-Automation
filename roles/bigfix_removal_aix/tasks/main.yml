@@ -1,34 +1,56 @@
 ---
-- name: check the status of the besclient
-  shell: "/usr/bin/ps -ef |grep -v grep|grep -i besclient |awk {'print $8'}"
-  register: besclient_output
+- name: check the existance of the besclient
+  shell: "/usr/bin/ps -ef |grep -v grep|grep -i besclient |awk {'print $9'}|wc -l"
+  register: psbescnt
 
-- name: display the besclient information
-  debug:
-    msg: "{{ besclient_output.stdout }}"
+- debug:
+    msg: "psbescnt: {{ psbescnt }}"
+
+- name: Setting facts - bigfix count
+  set_fact:
+    psbescnt: "{{ psbescnt['stdout'] | trim }}"
+
+- debug:
+    msg: "psbescnt: {{ psbescnt }}"
 
 - name: Stop the besclient on the OS level
   shell: "/etc/rc.d/rc2.d/SBESClientd stop"
   register: SBESClientd_output
+  when: psbescnt | int >= 1
 
 - name: check whether besclient running or not
   debug:
     msg: SBESClientd_output.stdout
 
 - name: list the besclient pacakges
-  shell: "/usr/sbin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
+  shell: "/usr/bin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
   register: installed_besclient
 
 - name: Display the installedbesclient
   debug:
     msg: "{{ installed_besclient.stdout }}"
 
+- name: list the besclient pacakges
+  shell: "/usr/bin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1|wc -l"
+  register: lslppcnt
+
+- debug:
+    msg: "lslppcnt: {{ lslppcnt }}"
+
+- name: Setting facts - bigfix count
+  set_fact:
+    lslppcnt: "{{ lslppcnt['stdout'] | trim }}"
+
+- debug:
+    msg: "lslppcnt: {{ lslppcnt }}"
+
 - name: Remove the package besclient package
   shell: "installp -u BESClient"
   register: installed_uninstall
+  when: lslppcnt | int >= 1
 
 - name: check the besclient pacakges uninstalled or not
-  shell: "/usr/sbin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
+  shell: "/usr/bin/lslpp -l |grep -i besclient |awk {'print $1'}|head -n 1"
   register: uninstalled
 
 - name: Display the installedbesclient
@@ -39,18 +61,21 @@
   aix_filesystem:
     filesystem: /var/opt/BESClient
     state: unmounted
+  when: lslppcnt | int >= 1
 
 - name: Remove BESClient filesystem
   shell: "rmfs /var/opt/BESClient"
   register: rmfsbesclient
+  when: lslppcnt | int >= 1
 
 - name: Remove BESClient filesystem
   debug:
     msg: "{{ rmfsbesclient.stdout }}"
+  when: lslppcnt | int >= 1
 
 - name: Check BESClient filesystem existance on Monitoring file
   shell: |
-    cnt1=`cat /opt/IBM/ITM/smitools/config/K07_filesystem.param|grep -i BESClient|wc -l`
+    cat /opt/IBM/ITM/smitools/config/K07_filesystem.param|grep -i BESClient|wc -l
   register: fscnt
 
 - debug:
@@ -78,7 +103,7 @@
 
 - name: Check BESClient process existance on Monitoring file
   shell: |
-    cnt1=`cat /opt/IBM/ITM/smitools/config/K07_process.param|grep -i BESClient|wc -l`
+    cat /opt/IBM/ITM/smitools/config/K07_process.param|grep -i BESClient|wc -l
   register: pfcnt
 
 - debug:
