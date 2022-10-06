@@ -3,7 +3,7 @@
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  gather_facts: false
+  gather_facts: no
   tasks:
     - name: Create the global report file
       copy:
@@ -12,9 +12,10 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: all
+  hosts: all_entity_servers_new_sept02_22
   become: yes
   become_method: sudo
+  gather_facts: no
   vars: 
     ansible_python_interpreter: "/usr/bin/python"
   roles:
