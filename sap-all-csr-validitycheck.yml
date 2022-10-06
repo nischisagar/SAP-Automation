@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP CRYPTO version from indiduval server
-  hosts: all_entity_servers_new_sept02_22
+  hosts: all
   become: yes
   become_method: sudo
   vars: 
@@ -74,7 +74,7 @@
         body: Hello Team, Please find the attached sap crypto version details for AIX Servers
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan.Anbarasan@kyndryl.com
+        - DL-Kyndryl-SG-SAP@kyndryl.com
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
