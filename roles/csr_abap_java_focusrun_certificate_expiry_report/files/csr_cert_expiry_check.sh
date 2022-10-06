@@ -2,6 +2,7 @@
 hname=`hostname`
 #cerf="$hname"_net.cer
 #cerlist=`ls -lrt /usr/sap/csr_cert/*.cer|awk '{print $NF}'|cut -d/ -f5`
+rm -f /tmp/*_csr_cert_exp_status.log
 ls -lrt /usr/sap/csr_cert/*.cer|awk '{print $NF}'|cut -d/ -f5 > /tmp/cerlist.txt
 for i in `cat /tmp/cerlist.txt`
 do
