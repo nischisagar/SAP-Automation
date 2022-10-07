@@ -1,0 +1,24 @@
+---
+- name: check the existance of the besclient
+  shell: |
+    echo "Printer Name: $pname"
+    ping -c 2 -w 5 $pname > /tmp/ping_"$pname"_status.txt
+    #cnt=`cat /tmp/ping_"$pname"_status.txt|tail -1|cut -d, -f2|awk '{print $1}'`
+    cnt="100"
+    echo $cnt
+    if [ $cnt -eq 100 ]
+    then
+    echo "Printer is 100% reachable"
+    lpstat -p$pname|head -10 > /tmp/printer_"$pname"_status.txt
+    pjobid=`lpstat -p$pname|head -3 |tail -1|awk '{print $4}'`
+    echo "First Job ID = $pjobid" >> /tmp/printer_"$pname"_status.txt
+    #/usr/bin/enq  -P "$pname" -x '$pjobid'
+    lpstat -p$pname|head -10 >> /tmp/printer_"$pname"_status.txt
+    else
+    echo "Printer Not reachable" > /tmp/printer_"$pname"_status.txt
+    fi
+  register: psbescnt
+
+- debug:
+    msg: "psbescnt: {{ psbescnt }}"
+
