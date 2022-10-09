@@ -1,8 +1,8 @@
 ---
-- name: Bigfix removal
-  hosts: xmpsa010sdb0
+- name: Printer first job kill
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: bigfix_removal_aix
+  - role: aprinter_firstjob_kill
