@@ -7,12 +7,12 @@
   tasks:
     - name: Create the global report file
       copy:
-        content: 'Entity_Name,Host_Name,certificate_name,Expiry_status,Color_code,Expiry_date'
+        content: 'Entity_Name,Host_Name,certificate_name,Expiry_status,Color_code,Expiry_date,Certificate_type'
         dest: "{{ report_file }}"
       run_once: yes
 
 - name: Collect CSR Certificates Expiry report
-  hosts: a01830pj
+  hosts: all_entity_servers_new_sept02_22
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -60,7 +60,7 @@
   tasks:
     - name: Check Date with Shell command
       shell:
-         "cat {{ report_file }}|grep -v dummy > {{ report_file1 }}"
+         "cat {{ report_file }}|grep -v dummy|sort -n > {{ report_file1 }}"
       register: dummymv
       tags: dummymv
 
