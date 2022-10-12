@@ -11,7 +11,7 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the SAP CRYPTO version from indiduval server
+- name: Collect CSR Certificates Expiry report
   hosts: all_entity_servers_new_sept02_22
   become: yes
   become_method: sudo
@@ -71,8 +71,8 @@
       mail:
         host: smtp.mail.saint-gobain.net
         port: 25
-        subject: Ansible Report - SAP CRYPTO Version
-        body: Hello Team, Please find the attached sap crypto version details for AIX Servers
+        subject: Ansible Report - SAP CSR Signed Certificate Expiry Report
+        body: Hello Team, Please find the attached SAP CSR Signed Certificate Expiration Report
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - DL-Kyndryl-SG-SAP@kyndryl.com
