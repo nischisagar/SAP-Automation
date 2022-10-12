@@ -11,6 +11,13 @@ cerexpdate=`cat /tmp/certexp.txt|cut -d= -f2`
 eyear=`cat /tmp/certexp.txt|grep -i NotAfter|awk '{print $4}'`
 cyear=`date +%d:%m:%Y|cut -d: -f3`
 dyear=`expr $eyear - $cyear`
+certtype=`ls -lrt /usr/sap/csr_cert/$i|grep -i frun|wc -l`
+if [ $certtype -eq 1 ]
+then
+        echo "FocusRun Certificate" >> /tmp/"$i"_csr_cert_exp_status.log
+else
+        echo "ABAP-Java Certificate" >> /tmp/"$i"_csr_cert_exp_status.log
+fi
 if [ $dyear -ge 2 ]
 then
         echo $i > /tmp/"$i"_csr_cert_exp_status.log
