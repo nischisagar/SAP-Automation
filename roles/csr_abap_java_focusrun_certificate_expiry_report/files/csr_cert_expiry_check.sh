@@ -20,7 +20,7 @@ else
 fi
 if [ $dyear -ge 2 ]
 then
-        echo $i > /tmp/"$i"_csr_cert_exp_status.log
+        echo $i >> /tmp/"$i"_csr_cert_exp_status.log
         echo "Certificate has more than or equilavent of 2 year of validity" >> /tmp/"$i"_csr_cert_exp_status.log
         echo "GREEN" >> /tmp/"$i"_csr_cert_exp_status.log
         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
@@ -33,12 +33,12 @@ then
         then
                 eminN=`cat m.txt|grep -i $emon|awk '{print $5}'`
                 xminN=`expr $eminN - $cminN`
-                echo $i > /tmp/"$i"_csr_cert_exp_status.log
+                echo $i >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "Critical:Certificate expire in Less than or equivalent to 3 Months" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "YELLOW" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
         else
-                echo $i > /tmp/"$i"_csr_cert_exp_status.log
+                echo $i >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "Certificate has more than 3 months of Validity" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "GREEN" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
@@ -56,12 +56,12 @@ then
         then
                 if [ $dminN -gt 3 ]
                 then
-                        echo $i > /tmp/"$i"_csr_cert_exp_status.log
+                        echo $i >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "Certificate has more than 3 months of Validity" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "GREEN" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
                 else
-                        echo $i > /tmp/"$i"_csr_cert_exp_status.log
+                        echo $i >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "Critical:Certificate expire in Less than or equivalent to 3 Months: $emon $edays" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "YELLOW" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
@@ -73,21 +73,21 @@ then
                 ddays=`expr $edays - $cdays`
                 if [ $ddays -lt 0 ]
                 then
-                        echo "Error:Certificate already expired on : $emon $edays" > /tmp/"$i"_csr_cert_exp_status.log
+                        echo "Error:Certificate already expired on : $emon $edays" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "BLACK" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
                 else
-                        echo "Fatal: Certificate expiring by this Month: $emon in $ddays Days" > /tmp/"$i"_csr_cert_exp_status.log
+                        echo "Fatal: Certificate expiring by this Month: $emon in $ddays Days" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "RED" >> /tmp/"$i"_csr_cert_exp_status.log
                         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
                 fi
         else
-                echo "Error:Certificate already expired on : $emon $edays" > /tmp/"$i"_csr_cert_exp_status.log
+                echo "Error:Certificate already expired on : $emon $edays" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "BLACK" >> /tmp/"$i"_csr_cert_exp_status.log
                 echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
         fi
 else
-        echo "Error:Certificate already expired on : $eyear" > /tmp/"$i"_csr_cert_exp_status.log
+        echo "Error:Certificate already expired on : $eyear" >> /tmp/"$i"_csr_cert_exp_status.log
         echo "BLACK" >> /tmp/"$i"_csr_cert_exp_status.log
         echo "$cerexpdate" >> /tmp/"$i"_csr_cert_exp_status.log
 fi
