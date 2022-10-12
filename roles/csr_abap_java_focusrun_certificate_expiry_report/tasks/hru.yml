@@ -26,17 +26,17 @@
   with_items: "{{ userlistfinal['stdout_lines'] }}"
 
 - name: Get certificate Name
-  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -1"
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -2|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_cert_output
 
 - name: Get Validity status
-  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -2|tail -1"
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -3|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_valid
 
 - name: Get color code
-  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -3|tail -1"
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -4|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_color
 
@@ -44,3 +44,8 @@
   shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|tail -1"
   with_items: "{{ userlistfinal['stdout_lines'] }}"
   register: get_expdate
+
+- name: Get certificate type
+  shell:  "cat /tmp/{{ item }}_csr_cert_exp_status.log|head -1"
+  with_items: "{{ userlistfinal['stdout_lines'] }}"
+  register: get_cert_type
