@@ -22,7 +22,15 @@ then
 else
         echo "$k_sa_itm_NotRunning" >> /tmp/itmuserstatus_$k.txt
 fi
-/opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_$k.txt
+done
+
+cnt1=`/opt/IBM/ITM/bin/cinfo -r|grep -i ux|wc -l|tr -d ' '`
+if [ $cnt1 -eq 1 ]
+then
+        /opt/IBM/ITM/bin/cinfo -r|grep -i ux|awk '{print $2_$7}' >> /tmp/itmuserstatus_$k.txt
+else
+        echo "UNIX_itm_NotRunning" >> /tmp/itmuserstatus_$k.txt
+fi
 done
 
 itmuser_cnt=`cat /tmp/itmuserlist.txt|wc -l|awk '{print $0}'`
