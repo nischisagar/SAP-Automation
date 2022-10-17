@@ -1,11 +1,11 @@
 ---
-- name: Create the Oracle report file
+- name: Create the ITM Report file
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
   gather_facts: yes
   tasks:
-    - name: Create the Oracle report file
+    - name: Create the ITM Report file
       copy:
         content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
         dest: "{{ report_file }}"
@@ -223,11 +223,11 @@
       mail:
         host: smtp.mail.saint-gobain.net
         port: 25
-        subject: Ansible Report - SAP CRYPTO Version
-        body: Hello Team, Please find the attached sap crypto version details for AIX Servers
+        subject: Ansible Report - ITM Agent and ITM user status Report for AIX Servers
+        body: Hello Team, Please find the attached ITM Agent and ITM user status Report for AIX Servers
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan.Anbarasan@kyndryl.com
+        - DL-Kyndryl-SG-SAP@kyndryl.com
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
