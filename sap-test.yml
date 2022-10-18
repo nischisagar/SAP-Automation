@@ -1,8 +1,13 @@
 ---
-- name: Printer first job kill
+- name: Shell Examples
   hosts: ampsv03340pjt
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: aprinter_firstjob_kill
+  tasks:
+    - name: Check Date with Shell command
+      dest: "/ansible/reports/test123.csv"
+      shell:
+         "cat /tmp/itmuserstatus_TE6.txt"
+      register: dummymv
+      tags: dummymv
+  delegate_to: ampsv010bld0d
+
+    - debug: msg="{{dummymv.stdout}}"
