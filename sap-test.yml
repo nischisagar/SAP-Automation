@@ -1,11 +1,33 @@
 ---
-- name: Shell Examples
-  hosts: ampsv03340pjt
+- name: Add the title content in to SAP Version Details Report
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
   tasks:
-    - name: Check Date with Shell command
-      dest: "/ansible/reports/test123.csv"
-      shell:
-         "cat /tmp/itmuserstatus_TE6.txt"
-      register: dummymv
-      tags: dummymv
-  delegate_to: ampsv010bld0d
+    - name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
+      copy:
+        content: 'Entity Name,Host Name,OS_Name,OS_Version,SID,Application Type,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size (in GB)'
+        dest: "{{ report_file }}"
+      run_once: yes
+
+- name: Get the version from the standalone DB2 Servers
+  hosts: standalone_db2
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    app_type: "Standalone-DB"
+  roles:
+  - role: get-the-version-of-standalone-db2
+  tasks:
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ item.0 }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }}'
+      throttle: 1
+      with_together:
+        - "{{ get_sid_output.stdout_lines }}"
+        - "{{ get_dbn_output.stdout_lines }}"
+        - "{{ get_dbv_output.stdout_lines }}"
+        - "{{ get_dbs_output.stdout_lines }}"
+      delegate_to: ampsv010bld0d
