@@ -9,5 +9,3 @@
       register: dummymv
       tags: dummymv
   delegate_to: ampsv010bld0d
-
-    - debug: msg="{{dummymv.stdout}}"
