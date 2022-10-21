@@ -13,8 +13,9 @@
     $val = Get-Content "$filepath2\tempfile1.html" -tail 7 
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
-    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 > $filepath2\tempfile2.html
-    Get-Content "$filepath2\tempfile2.html" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
+    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 > $filepath2\tempfile2.txt
+    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 >> $filepath2\tempfile3.txt
+    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
     }
   register: sgrp_report
 
