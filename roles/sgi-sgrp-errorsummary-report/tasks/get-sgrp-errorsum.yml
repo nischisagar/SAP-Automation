@@ -1,6 +1,6 @@
 ---
 - name: Extract SGRP Error summary
-  win_shell: |
+  win_command: |
     $filepath1 = "C:\CheckSAP\HTMLReports.sav"
     $filepath2 = "C:\CheckSAP\sgrperrtemp"
     $da = Get-Date -UFormat "%Y-%m-%d"
