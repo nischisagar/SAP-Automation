@@ -14,7 +14,7 @@
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
     copy $filename 1.txt
-    Select-String -Pattern "#FF0000" -Path "1.txt" -Context 3,3 > $filepath2\errorout.html
+    Select-String -Pattern "#FF0000" -Path "1.txt" -Context 3,3 | out-file -width 3000 $filepath2\errorout.html -append
     $content = Get-Content "$filepath2\errorout.html"
     ForEach ($item in $content) {
     Write-Output $item
