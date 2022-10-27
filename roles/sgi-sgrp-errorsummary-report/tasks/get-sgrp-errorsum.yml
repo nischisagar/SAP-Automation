@@ -14,9 +14,9 @@
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
     $val1 = Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3
-    echo $val1 > $filepath2\tempfile2.txt
-    echo $val1 >> $filepath2\tempfile3.txt
-    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
+    Write-Output $val1 > $filepath2\tempfile2.txt
+    Write-Output $val1 >> $filepath2\tempfile3.txt
+    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[3] } >> $filepath2\sgrpoutputfile.html
     }
   register: sgrp_report
 
