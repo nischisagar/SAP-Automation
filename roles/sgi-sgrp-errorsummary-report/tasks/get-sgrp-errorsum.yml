@@ -10,16 +10,11 @@
     $fileName = $_.Name
     echo $filename
     Get-Content "$filepath1\$filename" -head 26 > $filepath2\tempfile1.html
-    $val = Get-Content "$filepath2\tempfile1.html" -tail 7 
+    $val = Get-Content "$filepath2\tempfile1.html" -tail 7
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
-    copy $filename 1.txt
-    Select-String -Pattern "#FF0000" -Path "1.txt" -Context 3,3 | out-file -width 3000 $filepath2\errorout.html -append
-    $content = Get-Content "$filepath2\errorout.html"
-    ForEach ($item in $content) {
-    Write-Output $item
-    Write-Output $item | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
-    }
+    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 | out-file -width 3000 $filepath2\tempfile2.txt -append
+    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
     }
   register: sgrp_report
 
