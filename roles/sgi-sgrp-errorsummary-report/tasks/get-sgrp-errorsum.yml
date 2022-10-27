@@ -13,12 +13,15 @@
     $val = Get-Content "$filepath2\tempfile1.html" -tail 7 
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
-    $val1 = Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3
-    Write-Output $val1 > $filepath2\tempfile2.txt
-    Write-Output $val1 >> $filepath2\tempfile3.txt
-    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[3] } >> $filepath2\sgrpoutputfile.html
+    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 > $filepath2\errorout.txt
+    $content = Get-Content "$filepath2\errorout.txt"
+    ForEach ($item in $content) {
+    Write-Output $item
+    Write-Output $item | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
+    }
     }
   register: sgrp_report
 
 - debug:
     msg: "{{ sgrp_report.stdout_lines }}"
+    
