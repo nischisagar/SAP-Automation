@@ -13,7 +13,8 @@
     $val = Get-Content "$filepath2\tempfile1.html" -tail 7 
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
-    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 > $filepath2\errorout.txt
+    copy $filename 1.html
+    Select-String -Pattern "#FF0000" -Path "1.html" -Context 3,3 > $filepath2\errorout.txt
     $content = Get-Content "$filepath2\errorout.txt"
     ForEach ($item in $content) {
     Write-Output $item
@@ -24,4 +25,3 @@
 
 - debug:
     msg: "{{ sgrp_report.stdout_lines }}"
-    
