@@ -14,8 +14,8 @@
     echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
     copy $filename 1.txt
-    Select-String -Pattern "#FF0000" -Path "1.txt" -Context 3,3 > $filepath2\errorout.txt
-    $content = Get-Content "$filepath2\errorout.txt"
+    Select-String -Pattern "#FF0000" -Path "1.txt" -Context 3,3 > $filepath2\errorout.html
+    $content = Get-Content "$filepath2\errorout.html"
     ForEach ($item in $content) {
     Write-Output $item
     Write-Output $item | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
