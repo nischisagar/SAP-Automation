@@ -13,6 +13,6 @@
  
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/ansible/reports/itm_agent_status_report/sudouserstatus.txt"
+    path: "/data/sudouserstatus.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
