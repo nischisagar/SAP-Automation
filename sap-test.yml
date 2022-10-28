@@ -3,6 +3,6 @@
   hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
   - role: sudo_access_check
