@@ -1,0 +1,27 @@
+---
+- name: Register hostname as variable
+  shell: hostname
+  register: hname1
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ hname1 }}"
+
+- name: Register hname1 as hostname
+  set_fact:
+    hname1: "{{ hname1['stdout'] }}"
+  ignore_errors: yes
+
+- debug:
+    msg: "hname1: {{ hname1 }}"
+
+- name: Run the script
+  shell: |
+    hostname > /tmp/sudouserlist.txt
+    echo "----------------------------------------------" >> /tmp/sudouserlist.txt
+    grep -i ALL /etc/sudoers.d/901_sudoers.local |grep -Ev "^#|^$"  | awk '{ print $1}'| grep -Ev Defaults | grep -Ev "%" >> /tmp/sudouserlist.txt
+  register: "run_out"
+
+- name: Get output
+  shell:  "cat /tmp/sudouserlist.txt"
+  register: get_value

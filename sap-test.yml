@@ -1,39 +1,31 @@
 ---
-- name: Role ensures that the socks tunnel is setup
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
-    acc_id: "{{ blueid_shortcode }}"
-    transaction_id: "{{ tower_job_id }}"
-  roles:
-    - role: ansible-role-event-socks-tunnel
-
-- hosts: ampsw010saba0
+- name: Create the Global report file
+  hosts: ampsv010bld0d
   become: yes
-  become_method: runas
-  become_user: system
+  become_method: sudo
   gather_facts: false
-  vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
-  roles:
-    - role: sgi-sgrp-errorsummary-report
-      ignore_errors: yes
-
-- name: Send report to IBM Box folder
-  hosts: ampsw010saba0
-  become: yes
-  become_method: runas
-  become_user: system
-  vars:
-    report_file: "C:/CheckSAP/sgrperrtemp/sgrpoutputfile.html"
-    report_file_with_date: "C:/CheckSAP/sgrperrtemp/sgrpoutputfile-{{ ansible_date_time.date }}.html"
   tasks:
-    - name: Copy the file with date format
-      win_copy: 
-        src: "{{ report_file }}"
-        dest: "{{ report_file_with_date }}"
-        remote_src: yes
-    - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+    - name: Create the global report file
+      copy:
+        content: 'Sudo_user_status'
+        dest: "{{ report_file }}"
+      run_once: yes
+
+- name: Find sudo access user details
+  hosts: a01830pj
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  roles:
+  - role: sudo_access_check
+  tasks:
+    - name: Find sudo access user details task
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ item.get_val }}'
+      throttle: 1
+      loop:
+        - get_val: "{{ get_value.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
+  ignore_errors: yes
