@@ -1,8 +1,8 @@
 ---
-- hosts: a01830pj
-  tasks:
-  - name: transfer data from machine1 to machine2
-    copy:
-     src=/tmp/sudouserlist.txt
-     dest="{{ report_file }}"
-    delegate_to: ampsv010bld0d
+- name: sudo user check
+  hosts: a01830pj
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: sudo_access_check

@@ -1,23 +1,25 @@
 ---
-- name: Register hostname as variable
-  shell: hostname
-  register: hname1
-  ignore_errors: yes
-
-- debug:
-    msg: "{{ hname1 }}"
-
-- name: Register hname1 as hostname
-  set_fact:
-    hname1: "{{ hname1['stdout'] }}"
-  ignore_errors: yes
-
-- debug:
-    msg: "hname1: {{ hname1 }}"
-
 - name: Run the script
   shell: |
     hostname > /tmp/sudouserlist.txt
     echo "----------------------------------------------" >> /tmp/sudouserlist.txt
     grep -i ALL /etc/sudoers.d/901_sudoers.local |grep -Ev "^#|^$"  | awk '{ print $1}'| grep -Ev Defaults | grep -Ev "%" >> /tmp/sudouserlist.txt
   register: "run_out"
+
+- name: Registering output file
+  shell: |
+    cat /tmp/sudouserlist.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinal }}"
+ 
+- name: "Delicate output to bld0d server"
+  lineinfile:
+    path: "/ansible/reports/itm_agent_status_report/sudouserstatus.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d
