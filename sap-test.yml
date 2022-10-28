@@ -11,21 +11,10 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Find sudo access user details
-  hosts: a01830pj
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
-  roles:
-  - role: sudo_access_check
+- hosts: a01830pj
   tasks:
-    - name: Find sudo access user details task
-      lineinfile:
-        dest: "{{ report_file }}"
-        line: '{{ item.get_val }}'
-      throttle: 1
-      loop:
-        - get_val: "{{ get_value.results[0].stdout }}"
+    - name: Transfer file from ServerA to ServerB
+      synchronize:
+        src: /tmp/sudouserlist.txt
+        dest: /ansible/reports/itm_agent_status_report/sudouserstatus.txt
       delegate_to: ampsv010bld0d
-  ignore_errors: yes

@@ -21,7 +21,3 @@
     echo "----------------------------------------------" >> /tmp/sudouserlist.txt
     grep -i ALL /etc/sudoers.d/901_sudoers.local |grep -Ev "^#|^$"  | awk '{ print $1}'| grep -Ev Defaults | grep -Ev "%" >> /tmp/sudouserlist.txt
   register: "run_out"
-
-- name: Get output
-  shell:  "cat /tmp/sudouserlist.txt"
-  register: get_value
