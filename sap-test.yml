@@ -1,6 +1,6 @@
 ---
 - name: sudo user check
-  hosts: "{{ hostname_sudo }}"
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: no
