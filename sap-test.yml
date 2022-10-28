@@ -1,5 +1,6 @@
 ---
 - name: sudo user check
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: yes
