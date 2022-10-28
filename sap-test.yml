@@ -1,6 +1,5 @@
 ---
 - name: sudo user check
-  hosts: "{{ hostname_sudo }}"
   become: yes
   become_method: sudo
   gather_facts: yes
