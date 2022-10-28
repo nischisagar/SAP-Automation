@@ -4,6 +4,7 @@
     hostname > /tmp/sudouserlist.txt
     echo "----------------------------------------------" >> /tmp/sudouserlist.txt
     grep -i ALL /etc/sudoers.d/901_sudoers.local |grep -Ev "^#|^$"  | awk '{ print $1}'| grep -Ev Defaults | grep -Ev "%" >> /tmp/sudouserlist.txt
+    echo "----------------------------------------------" >> /tmp/sudouserlist.txt
   register: "run_out"
 
 - name: Registering output file
