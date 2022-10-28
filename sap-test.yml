@@ -16,5 +16,5 @@
     - name: Transfer file from ServerA to ServerB
       synchronize:
         src: /tmp/sudouserlist.txt
-        dest: /ansible/reports/itm_agent_status_report/sudouserstatus.txt
+        dest: "{{ report_file }}"
       delegate_to: ampsv010bld0d
