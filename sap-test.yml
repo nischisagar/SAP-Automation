@@ -13,8 +13,8 @@
 
 - hosts: a01830pj
   tasks:
-    - name: Transfer file from ServerA to ServerB
-      synchronize:
-        src: /tmp/sudouserlist.txt
-        dest: "{{ report_file }}"
-      delegate_to: ampsv010bld0d
+  - name: transfer data from machine1 to machine2
+    copy:
+     src=/tmp/sudouserlist.txt
+     dest="{{ report_file }}"
+    delegate_to: ampsv010bld0d
