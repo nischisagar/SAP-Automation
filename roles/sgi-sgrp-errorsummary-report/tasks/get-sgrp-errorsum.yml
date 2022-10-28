@@ -4,17 +4,17 @@
     $filepath1 = "C:\CheckSAP\HTMLReports.sav"
     $filepath2 = "C:\CheckSAP\sgrperrtemp"
     $da = Get-Date -UFormat "%Y-%m-%d"
-    Get-Content "$filepath2\template.html" | out-file -width 3000 $filepath2\sgrpoutputfile.html
+    Get-Content "$filepath2\template.html" > $filepath2\sgrpoutputfile.html
     Get-ChildItem $filepath1 *$da*.html |
     ForEach-Object{
     $fileName = $_.Name
     echo $filename
-    Get-Content "$filepath1\$filename" -head 26 | out-file -width 3000 $filepath2\tempfile1.html
+    Get-Content "$filepath1\$filename" -head 26 > $filepath2\tempfile1.html
     $val = Get-Content "$filepath2\tempfile1.html" -tail 7
-    echo $val | out-file -width 3000 $filepath2\sgrpoutputfile.html
+    echo $val >> $filepath2\sgrpoutputfile.html
     cd $filepath1
     Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 | out-file -width 3000 $filepath2\tempfile2.txt
-    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } | out-file -width 3000 $filepath2\sgrpoutputfile.html
+    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
     }
   register: sgrp_report
 
