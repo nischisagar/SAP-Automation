@@ -93,7 +93,7 @@ else
 fi
 done
     cert_cnt=`cat /tmp/cerlist.txt|wc -l|awk '{print $0}'`
-    userdiff=`expr 5 - $cert_cnt`
+    userdiff=`expr 21 - $cert_cnt`
     k=0
     while let "(k=$k+1) <= $userdiff"
     do
