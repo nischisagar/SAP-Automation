@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Collect CSR Certificates Expiry report
-  hosts: "{{ hostname_csr }}"
+  hosts: "{{ cert_exp_check_serverlist }}"
   become: yes
   become_method: sudo
   gather_facts: yes
