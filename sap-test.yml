@@ -1,16 +1,4 @@
 ---
-- name: Create the Global report file
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
-  gather_facts: false
-  tasks:
-    - name: Create the global report file
-      copy:
-        content: 'Sudo_user_status'
-        dest: "{{ report_file }}"
-      run_once: yes
-
 - hosts: a01830pj
   tasks:
   - name: transfer data from machine1 to machine2
