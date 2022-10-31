@@ -9,7 +9,7 @@
   roles:
     - role: ansible-role-event-socks-tunnel
 
-- hosts: ampsv03360prd
+- hosts: ampsv010rep0d
   become: yes
   become_method: runas
   become_user: system
