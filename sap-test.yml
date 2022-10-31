@@ -9,7 +9,7 @@
   roles:
     - role: ansible-role-event-socks-tunnel
 
-- hosts: ampsv010rep0d
+- hosts: ampsw010saba0
   become: yes
   become_method: runas
   become_user: system
@@ -22,7 +22,7 @@
       ignore_errors: yes
 
 - name: Send report to IBM Box folder
-  hosts: ampsv010rep0d
+  hosts: ampsw010saba0
   become: yes
   become_method: runas
   become_user: system
