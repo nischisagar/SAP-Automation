@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Collect CSR Certificates Expiry report
-  hosts: a01830pj
+  hosts: all_entity_servers_new_oct3122
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -53,6 +53,11 @@
           get_crypt: "{{ get_color.results[4].stdout }}"
           get_expdt: "{{ get_expdate.results[4].stdout }}"
           get_ctype: "{{ get_cert_type.results[4].stdout }}"
+        - get_hname: "{{ get_cert_output.results[5].stdout }}"
+          get_ssid1: "{{ get_valid.results[5].stdout }}"
+          get_crypt: "{{ get_color.results[5].stdout }}"
+          get_expdt: "{{ get_expdate.results[5].stdout }}"
+          get_ctype: "{{ get_cert_type.results[5].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Shell Examples
