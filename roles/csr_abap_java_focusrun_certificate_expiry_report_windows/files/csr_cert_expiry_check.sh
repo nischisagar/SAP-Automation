@@ -1,17 +1,15 @@
 #!/bin/ksh
 hname=`hostname`
-#cerf="$hname"_net.cer
-#cerlist=`ls -lrt /usr/sap/csr_cert/*.cer|awk '{print $NF}'|cut -d/ -f5`
 rm -f /tmp/*_csr_cert_exp_status.log
-ls -lrt /usr/sap/csr_cert/*.cer|awk '{print $NF}'|cut -d/ -f5 > /tmp/cerlist.txt
+ls -lrt /010_SHARED_INFRA/csr_windows_certificates/*.cer|awk '{print $NF}'|cut -d/ -f4 > /tmp/cerlist.txt
 for i in `cat /tmp/cerlist.txt`
 do
-openssl x509 -enddate -noout -in /usr/sap/csr_cert/$i > /tmp/certexp.txt
+openssl x509 -enddate -noout -in /010_SHARED_INFRA/csr_windows_certificates/$i > /tmp/certexp.txt
 cerexpdate=`cat /tmp/certexp.txt|cut -d= -f2`
 eyear=`cat /tmp/certexp.txt|grep -i NotAfter|awk '{print $4}'`
 cyear=`date +%d:%m:%Y|cut -d: -f3`
 dyear=`expr $eyear - $cyear`
-certtype=`ls -lrt /usr/sap/csr_cert/$i|grep -i frun|wc -l`
+certtype=`ls -lrt /010_SHARED_INFRA/csr_windows_certificates/$i|grep -i frun|wc -l`
 echo $i|cut -d_ -f1 >> /tmp/"$i"_csr_cert_exp_status.log
 if [ $certtype -eq 1 ]
 then
