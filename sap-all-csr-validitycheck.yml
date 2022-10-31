@@ -91,7 +91,7 @@
     - name: Add Certificate expiry detail
       lineinfile:
         dest: "{{ report_file2 }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }},{{ item.get_ctype }}'
+        line: '{{ entity_name }},{{ item.get_oname }},{{ item.get_cname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }},{{ item.get_ctype }}'
       throttle: 1
       loop:
         - get_oname: "{{ get_hname.results[0].stdout }}"
