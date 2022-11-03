@@ -1,4 +1,38 @@
 ---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}"
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/agentstatus.sh' }
+  register: filecopystatus
+  when: hname != "xmpsl177dhan0" or hname != "xmpsl177phan0"
+
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0755"
+  with_items:
+    - { src: 'files/agentstatus177.sh' }
+  register: filecopystatus
+  when: hname == "xmpsl177dhan0" or hname == "xmpsl177phan0"
+
 - name: Copy itm agent userstatus check script
   copy:
     src: "{{ item.src }}" 
@@ -9,6 +43,19 @@
     - { src: 'files/agentstatus.sh' }
     - { src: 'files/scitm.sh' }
   register: filecopystatus
+  when: hname != "ampsv013pi0d"
+
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0775"
+    group: "sapsys"
+  with_items:
+    - { src: 'files/agentstatus_100.sh' }
+    - { src: 'files/scitm.sh' }
+  register: filecopystatus
+  when: hname = "ampsv013pi0d"
 
 - name: Find number of SID present
   shell:  |
