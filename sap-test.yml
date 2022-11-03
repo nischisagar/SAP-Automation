@@ -9,7 +9,7 @@
   roles:
     - role: ansible-role-event-socks-tunnel
 
-- hosts: ampsv010rep0d
+- hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: runas
   become_user: system
