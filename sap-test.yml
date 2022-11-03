@@ -36,4 +36,4 @@
         dest: "{{ report_file_with_date }}"
         remote_src: yes
     - name: Send report to Team Mail
-      win_shell: "Send-MailMessage -From 'ampsv010rep0d.za.if.atcsg.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Subject 'SGRP REPORT' -Body 'Hello Team, Please find the SGRP REPORT.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+      win_shell: "Send-MailMessage -From 'ampsv010rep0d.za.if.atcsg.net@saint-gobain.com (Ansible Tower)' -To '1c093b34.kyndryl.com@amer.teams.ms' -Subject 'SGRP REPORT' -Body 'Hello Team, Please find the SGRP REPORT Error Summary.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
