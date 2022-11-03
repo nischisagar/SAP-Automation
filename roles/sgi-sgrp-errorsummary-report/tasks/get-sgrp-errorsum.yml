@@ -1,8 +1,8 @@
 ---
 - name: Extract SGRP Error summary
   win_shell: |
-    $filepath1 = "D:\CheckSAP\HTMLReports.sav"
-    $filepath2 = "D:\CheckSAP\sgrperrtemp"
+    $filepath1 = "C:\CheckSAP\HTMLReports.sav"
+    $filepath2 = "C:\CheckSAP\sgrperrtemp"
     $da = Get-Date -UFormat "%Y-%m-%d"
     Get-Content "$filepath2\template.html" > $filepath2\sgrpoutputfile.html
     Get-ChildItem $filepath1 *$da*.html |
