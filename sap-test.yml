@@ -20,3 +20,20 @@
   roles:
     - role: sgi-sgrp-errorsummary-report
       ignore_errors: yes
+
+- name: Send report to IBM Box folder
+  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: runas
+  become_user: system
+  vars:
+    report_file: "C:/CheckSAP/sgrperrtemp/sgrpoutputfile.html"
+    report_file_with_date: "C:/CheckSAP/sgrperrtemp/sgrpoutputfile-{{ ansible_date_time.date }}.html"
+  tasks:
+    - name: Copy the file with date format
+      win_copy: 
+        src: "{{ report_file }}"
+        dest: "{{ report_file_with_date }}"
+        remote_src: yes
+    - name: Send report to Team Mail
+      win_shell: "Send-MailMessage -From 'ampsv010rep0d.za.if.atcsg.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Subject 'SGRP REPORT' -Body 'Hello Team, Please find the SGRP REPORT.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
