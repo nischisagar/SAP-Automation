@@ -1,4 +1,9 @@
 ---
+- name: Remove scripts
+  shell:  |
+    rm -f /tmp/agentstatus.sh /tmp/scitm.sh
+  register: rem_script
+
 - name: Getting current host info
   shell: hostname
   register: hname
@@ -15,26 +20,6 @@
 
 - name: Copy itm agent userstatus check script
   copy:
-    src: "{{ item.src }}"
-    dest: "/tmp/"
-    mode: "0755"
-  with_items:
-    - { src: 'files/agentstatus.sh' }
-  register: filecopystatus
-  when: hname != "xmpsl177dhan0" or hname != "xmpsl177phan0"
-
-- name: Copy itm agent userstatus check script
-  copy:
-    src: "{{ item.src }}" 
-    dest: "/tmp/"
-    mode: "0755"
-  with_items:
-    - { src: 'files/agentstatus177.sh' }
-  register: filecopystatus
-  when: hname == "xmpsl177dhan0" or hname == "xmpsl177phan0"
-
-- name: Copy itm agent userstatus check script
-  copy:
     src: "{{ item.src }}" 
     dest: "/tmp/"
     mode: "0775"
@@ -45,7 +30,7 @@
   register: filecopystatus
   when: hname != "ampsv013pi0d"
 
-- name: Copy itm agent userstatus check script
+- name: Copy itm agent userstatus check script to DAP
   copy:
     src: "{{ item.src }}" 
     dest: "/tmp/"
@@ -55,6 +40,12 @@
     - { src: 'files/agentstatus_100.sh' }
     - { src: 'files/scitm.sh' }
   register: filecopystatus
+  when: hname = "ampsv013pi0d"
+
+- name: Renaming Agent file
+  shell: |
+    mv /tmp/agentstatus_100.sh /tmp/agentstatus.sh 
+  register: renamefile
   when: hname = "ampsv013pi0d"
 
 - name: Find number of SID present
