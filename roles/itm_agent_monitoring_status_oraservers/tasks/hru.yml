@@ -12,7 +12,7 @@
 
 - name: Find number of SID present
   shell:  |
-    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt
+    rm -f /tmp/sidfile_temp.txt /tmp/sidlist_upd.txt /tmp/itmuserlist.txt
     df -g|grep -i sapmnt|awk '{print $NF}'|cut -d/ -f3 > /tmp/sidfile_temp.txt
 
     for j in `cat /tmp/sidfile_temp.txt`
