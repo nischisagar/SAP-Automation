@@ -3,18 +3,42 @@
   win_shell: |
     $filepath1 = "C:\CheckSAP\HTMLReports.sav"
     $filepath2 = "C:\CheckSAP\sgrperrtemp"
+    echo " " > $filepath2\fine.html
     $da = Get-Date -UFormat "%Y-%m-%d"
-    Get-Content "$filepath2\template.html" > $filepath2\sgrpoutputfile.html
     Get-ChildItem $filepath1 *$da*.html |
     ForEach-Object{
     $fileName = $_.Name
     echo $filename
-    Get-Content "$filepath1\$filename" -head 26 > $filepath2\tempfile1.html
-    $val = Get-Content "$filepath2\tempfile1.html" -tail 7
-    echo $val >> $filepath2\sgrpoutputfile.html
-    cd $filepath1
-    Select-String -Pattern "#FF0000" -Path "$filename" -Context 3,3 | out-file -width 3000 $filepath2\tempfile2.txt
-    Get-Content "$filepath2\tempfile2.txt" | ForEach-Object { $_.split(":")[2] } >> $filepath2\sgrpoutputfile.html
+    Select-String -Pattern "BR CLEAR" -Path "$filepath1\$filename" > $filepath2\t1.html
+    Get-Content "$filepath2\t1.html" | ForEach-Object { $_.split(":")[2] } > $filepath2\t2.html
+    $valc = Get-Content "$filepath2\t2.html"
+    ForEach ($file in $valc) {
+    $b1 = Get-Content "$filepath2\b.html"
+    $c1 = $file - $b1
+    echo $file
+    echo -----------------
+    echo $c1
+    Get-Content "$filepath1\$fileName" -head $file > $filepath2\temp1.html
+    $tempval = Get-Content "$filepath2\temp1.html" -tail $c1
+    echo $tempval > $filepath2\t_$file.html
+    Get-Content "$filepath2\t_$file.html" | Select-String -Pattern "<h1>" > $filepath2\host1.html
+    Get-Content "$filepath2\host1.html" -head 02 > $filepath2\host2.html
+    $hosval1 = Get-Content "$filepath2\host2.html" -tail 1
+    Get-Content "$filepath2\t_$file.html" | Select-String -Pattern "nowrap" > $filepath2\host3.html
+    Get-Content "$filepath2\host3.html" -head 02 > $filepath2\host4.html
+    $hosval2 = Get-Content "$filepath2\host4.html" -tail 1
+    Get-Content "$filepath2\template1.html" >> $filepath2\fine.html
+    echo $hosval1 >> $filepath2\fine.html
+    Get-Content "$filepath2\template2.html" >> $filepath2\fine.html
+    echo $hosval2 >> $filepath2\fine.html
+    Get-Content "$filepath2\template3.html" >> $filepath2\fine.html
+    Select-String -Pattern "#FF0000" -Path "$filepath2\t_$file.html" -Context 3,3 | out-file -width 3000 $filepath2\takt.txt
+    Get-Content "$filepath2\takt.txt" | ForEach-Object { $_.split(":")[3] } >> $filepath2\fine.html
+    Get-Content "$filepath2\template4.html" >> $filepath2\fine.html
+    echo $tempval >> $filepath2\fullt.html
+    echo $file > $filepath2\b.html
+    }
+    echo 0 > $filepath2\b.html
     }
   register: sgrp_report
 
