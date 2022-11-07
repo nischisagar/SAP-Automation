@@ -3,7 +3,7 @@
   win_shell: |
     $filepath1 = "C:\CheckSAP\HTMLReports.sav"
     $filepath2 = "C:\CheckSAP\sgrperrtemp"
-    echo " " > $filepath2\fine.html
+    echo " " > $filepath2\sgrpoutputfile.html
     $da = Get-Date -UFormat "%Y-%m-%d"
     Get-ChildItem $filepath1 *$da*.html |
     ForEach-Object{
@@ -27,14 +27,14 @@
     Get-Content "$filepath2\t_$file.html" | Select-String -Pattern "nowrap" > $filepath2\host3.html
     Get-Content "$filepath2\host3.html" -head 02 > $filepath2\host4.html
     $hosval2 = Get-Content "$filepath2\host4.html" -tail 1
-    Get-Content "$filepath2\template1.html" >> $filepath2\fine.html
-    echo $hosval1 >> $filepath2\fine.html
-    Get-Content "$filepath2\template2.html" >> $filepath2\fine.html
-    echo $hosval2 >> $filepath2\fine.html
-    Get-Content "$filepath2\template3.html" >> $filepath2\fine.html
+    Get-Content "$filepath2\template1.html" >> $filepath2\sgrpoutputfile.html
+    echo $hosval1 >> $filepath2\sgrpoutputfile.html
+    Get-Content "$filepath2\template2.html" >> $filepath2\sgrpoutputfile.html
+    echo $hosval2 >> $filepath2\sgrpoutputfile.html
+    Get-Content "$filepath2\template3.html" >> $filepath2\sgrpoutputfile.html
     Select-String -Pattern "#FF0000" -Path "$filepath2\t_$file.html" -Context 3,3 | out-file -width 3000 $filepath2\takt.txt
-    Get-Content "$filepath2\takt.txt" | ForEach-Object { $_.split(":")[3] } >> $filepath2\fine.html
-    Get-Content "$filepath2\template4.html" >> $filepath2\fine.html
+    Get-Content "$filepath2\takt.txt" | ForEach-Object { $_.split(":")[3] } >> $filepath2\sgrpoutputfile.html
+    Get-Content "$filepath2\template4.html" >> $filepath2\sgrpoutputfile.html
     echo $tempval >> $filepath2\fullt.html
     echo $file > $filepath2\b.html
     }
