@@ -9,7 +9,7 @@
   roles:
     - role: ansible-role-event-socks-tunnel
 
-- hosts: ampsw010saba0
+- hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: runas
   become_user: system
@@ -22,7 +22,7 @@
       ignore_errors: yes
 
 - name: Send report to IBM Box folder
-  hosts: ampsw010saba0
+  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: runas
   become_user: system
@@ -35,5 +35,5 @@
         src: "{{ report_file }}"
         dest: "{{ report_file_with_date }}"
         remote_src: yes
-    - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+    - name: Send report to Team Mail
+      win_shell: "Send-MailMessage -From 'ampsv010rep0d.za.if.atcsg.net@saint-gobain.com (Ansible Tower)' -To '1c093b34.kyndryl.com@amer.teams.ms' -Subject 'SGRP REPORT' -Body 'Hello Team, Please find the SGRP REPORT Error Summary.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
