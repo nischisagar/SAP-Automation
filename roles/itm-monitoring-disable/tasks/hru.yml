@@ -2,6 +2,11 @@
 - name: Enable/Disable ITM Monitoring
   shell:  |
     echo "{{ sid_list }}" > /tmp/itm_sidlist.txt
+    cat /tmp/itm_sidlist.txt|cut -d, -f1 > itmsid.txt
+    cat /tmp/itm_sidlist.txt|cut -d, -f2 >> itmsid.txt
+    cat /tmp/itm_sidlist.txt|cut -d, -f3 >> itmsid.txt
+    cat /tmp/itm_sidlist.txt|cut -d, -f4 >> itmsid.txt
+    grep . /tmp/itmsid.txt > /tmp/itm_sidlist.txt
   register: sidlist1
 
 - debug:
