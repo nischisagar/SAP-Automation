@@ -1,0 +1,8 @@
+---
+- name: Enable/Disable ITM Monitoring
+  shell:  |
+    echo "{{ sid_list }}" > /tmp/itm_sidlist.txt
+  register: sidlist1
+
+- debug:
+    msg:  "{{ sidlist1 }}"
