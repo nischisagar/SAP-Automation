@@ -1,5 +1,5 @@
 ---
-- name: Focus RUN CSR Certificate prepare1
+- name: ITM Monitoring Enable/Disable action
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
