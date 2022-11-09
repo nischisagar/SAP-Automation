@@ -32,7 +32,7 @@
   shell:  |
     sed -e 's/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
   register: disable_all
-  when: fword == "ALL" and fword == "all"
+  when: fword == "ALL" or fword == "all"
 
 - debug:
     msg:  "{{ disable_all.stdout_lines }}"
