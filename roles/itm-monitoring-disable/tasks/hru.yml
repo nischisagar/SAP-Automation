@@ -6,7 +6,7 @@
     cat /tmp/itm_sidlist.txt|cut -d, -f2 >> /tmp/itmsid.txt
     cat /tmp/itm_sidlist.txt|cut -d, -f3 >> /tmp/itmsid.txt
     cat /tmp/itm_sidlist.txt|cut -d, -f4 >> /tmp/itmsid.txt
-    grep . /tmp/itmsid.txt > /tmp/itm_sidlist.txt
+    grep . /tmp/itmsid.txt|uniq > /tmp/itm_sidlist.txt
     cat /tmp/itm_sidlist.txt
   register: sidlist1
 
