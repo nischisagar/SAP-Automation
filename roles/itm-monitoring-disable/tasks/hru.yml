@@ -34,5 +34,17 @@
   register: disable_all
   when: fword == "ALL" or fword == "all"
 
+- name: Disable sap monitoring alone
+  shell:  |
+    sed -e '/mysap/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
+  register: disable_sap
+  when: fword == "mysap"
+
+- name: Disable aix monitoring alone
+  shell:  |
+    sed -e '/aix/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
+  register: disable_aix
+  when: fword == "mysap"
+
 - debug:
     msg:  "{{ disable_all.stdout_lines }}"
