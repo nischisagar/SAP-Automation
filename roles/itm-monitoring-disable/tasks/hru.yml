@@ -19,10 +19,14 @@
   register: fword
 
 - debug:
-    msg:  "{{ fword.stdout_lines }}"
+    msg: "{{ fword }}"
+
+- name: Setting facts - fword
+  set_fact:
+    fword: "{{ fword['stdout'] }}"
 
 - debug:
-    msg: "{{ fword }}"  
+    msg: "{{ fword }}"
 
 - name: Disable full monitoring
   shell:  |
