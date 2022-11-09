@@ -46,3 +46,9 @@
   register: disable_aix
   when: fword == "aix"
 
+- name: Disable specific SID monitoring alone
+  shell:  |
+    sed -e '/aix/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out1
+  register: disable_sid
+  when: fword != "aix" or fword != "mysap" or fword != "ALL" or fword != "all"
+
