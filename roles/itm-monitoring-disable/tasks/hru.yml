@@ -48,7 +48,14 @@
 
 - name: Disable specific SID monitoring alone
   shell:  |
-    sed -e '/aix/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out1
+    for i in `cat /tmp/itm_sidlist.txt`
+    do
+    echo $i
+    j=`echo $i|tr '[:upper:]' '[:lower:]'`
+    echo $j
+    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
+    mv /tmp/K07_p.param_out /tmp/K07_p.param
+    done
   register: disable_sid
   when: fword != "aix" or fword != "mysap" or fword != "ALL" or fword != "all"
 
