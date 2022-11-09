@@ -44,7 +44,7 @@
   shell:  |
     sed -e '/aix/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
   register: disable_aix
-  when: fword == "mysap"
+  when: fword == "aix"
 
 - debug:
     msg:  "{{ disable_all.stdout_lines }}"
