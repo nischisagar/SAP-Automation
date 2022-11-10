@@ -42,9 +42,13 @@
 
 - name: Disable suse monitoring alone
   shell:  |
+    cp -rpf /tmp/K08_p.param /tmp/K08_p.paramcheck
     sed -e '/suse/s/^/#/' /tmp/K08_p.param > /tmp/K08_p.param_out
   register: disable_suse
   when: fword == "OS" or fword == "os"
+
+- debug:
+    msg:  "{{ disable_suse.stdout_lines }}"
 
 - name: Disable specific SID monitoring alone
   shell:  |
