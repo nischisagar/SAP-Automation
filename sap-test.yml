@@ -6,3 +6,13 @@
   gather_facts: no
   roles:
   - role: itm-monitoring-disable
+    when: ansible_distribution | lower == "aix"
+
+- name: ITM Monitoring Enable/Disable action
+  hosts: ampsv03340pjt
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  roles:
+  - role: itm-monitoring-disable
+    when: ansible_distribution | lower == "sles_sap"
