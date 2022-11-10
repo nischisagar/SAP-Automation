@@ -14,5 +14,5 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: itm-monitoring-disable
+  - role: itm-monitoring-disable-suse
     when: ansible_distribution | lower == "sles_sap"
