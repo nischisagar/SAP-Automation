@@ -3,7 +3,7 @@
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
-  gather_facts: no
+  gather_facts: yes
   roles:
   - role: itm-monitoring-disable
     when: ansible_distribution | lower == "aix"
@@ -12,7 +12,7 @@
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
-  gather_facts: no
+  gather_facts: yes
   roles:
   - role: itm-monitoring-disable
     when: ansible_distribution | lower == "sles_sap"
