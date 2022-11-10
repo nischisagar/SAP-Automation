@@ -1,6 +1,6 @@
 ---
 - name: ITM Monitoring Enable/Disable action
-  hosts: ampsv03340pjt
+  hosts: "{{ itmhost }}"
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -9,7 +9,7 @@
     when: ansible_distribution | lower == "aix"
 
 - name: ITM Monitoring Enable/Disable action
-  hosts: ampsv03340pjt
+  hosts: "{{ itmhost }}"
   become: yes
   become_method: sudo
   gather_facts: yes
