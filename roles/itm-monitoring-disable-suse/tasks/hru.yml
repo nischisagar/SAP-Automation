@@ -28,6 +28,13 @@
 - debug:
     msg: "{{ fword }}"
 
+- name: Check already Monitoring disabled or not
+  tasks:
+  - name: Task name
+    stat:
+      path: /tmp/itmmontest/mon_disabled
+    register: file_data
+
 - name: Disable full monitoring for SUSE-LINUX
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
@@ -35,6 +42,7 @@
     awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param
   register: disable_all_linux
   when: fword == "ALL" or fword == "all"
+  when: not file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
