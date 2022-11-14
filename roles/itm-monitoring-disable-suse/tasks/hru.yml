@@ -42,7 +42,8 @@
 
 - name: Disable suse monitoring alone
   shell:  |
-    sed -e '/suse/s/^/#/' /tmp/K08_p.param > /tmp/K08_p.param_out
+    #sed -e '/suse/s/^/#/' /tmp/K08_p.param > /tmp/K08_p.param_out
+    awk '{gsub(/suse/,"#suse");  print}' /tmp/K08_p.param > /tmp/K08_p.param_outnew
   register: disable_suse
   when: fword == "OS" or fword == "os"
 
