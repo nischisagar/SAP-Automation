@@ -24,4 +24,4 @@
   gather_facts: yes
   roles:
   - role: itm-monitoring-disable-redhat
-    when: ansible_distribution | lower == "sles_sap"
+    when: ansible_distribution | lower == "redhat"
