@@ -28,21 +28,23 @@
 - debug:
     msg: "{{ fword }}"
 
-- name: Disable full monitoring
+- name: Disable full monitoring for AIX
   shell:  |
-    sed -e 's/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
-  register: disable_all
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
+    sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
+  register: disable_all_aix
   when: fword == "ALL" or fword == "all"
 
 - name: Disable sap monitoring alone
   shell:  |
-    sed -e '/mysap/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
+    sed -e '/mysap/s/^/#/' /tmp/itmmontest/K07_process.param > /tmp/itmmontest/K07_process.param_out
   register: disable_sap
   when: fword == "mysap"
 
 - name: Disable aix monitoring alone
   shell:  |
-    sed -e '/aix/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
+    sed -e '/aix/s/^/#/' /tmp/itmmontest/K07_process.param > /tmp/itmmontest/K07_process.param_out
   register: disable_aix
   when: fword == "OS" or fword == "os"
 
@@ -53,9 +55,9 @@
     echo $i
     j=`echo $i|tr '[:upper:]' '[:lower:]'`
     echo $j
-    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/K07_p.param > /tmp/K07_p.param_out
-    mv /tmp/K07_p.param_out /tmp/K07_p.param
+    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param > /tmp/itmmontest/K07_process.param_out
+    mv /tmp/itmmontest/K07_process.param_out /tmp/itmmontest/K07_process.param
     done
   register: disable_sid
-  when: fword != "aix" or fword != "mysap" or fword != "ALL" or fword != "all"
+  when: fword != "OS" or fword != "os" or fword != "mysap" or fword != "ALL" or fword != "all"
 

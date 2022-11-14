@@ -28,7 +28,7 @@
 - debug:
     msg: "{{ fword }}"
 
-- name: Disable full monitoring for SUSE-LINUX
+- name: Disable full monitoring for REDHAT-LINUX
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
@@ -42,11 +42,14 @@
   register: disable_sap
   when: fword == "mysap"
 
-- name: Disable suse monitoring alone
+- name: Disable redhat monitoring alone
   shell:  |
-    awk '{gsub(/^suse/,"#suse");  print}' /tmp/itmmontest/K08_process.param > /tmp/itmmontest/K08_process.param_outnew
-  register: disable_suse
-  when: fword == "OS" or fword == "os"
+    awk '{gsub(/^redhat/,"#redhat");  print}' /tmp/itmmontest/K08_process.param > /tmp/itmmontest/K08_process.param_outnew
+  register: disable_redhat
+  when: fword == "OS"
+
+- debug:
+    msg:  "{{ disable_suse.stdout_lines }}"
 
 - name: Disable specific SID monitoring alone
   shell:  |
