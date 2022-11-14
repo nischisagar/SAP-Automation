@@ -28,9 +28,7 @@
 - debug:
     msg: "{{ fword }}"
 
-- name: Check already Monitoring disabled or not
-  tasks:
-  - name: Task name
+- name: Task name
     stat:
       path: /tmp/itmmontest/mon_disabled
     register: file_data

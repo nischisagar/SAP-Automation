@@ -28,8 +28,6 @@
 - debug:
     msg: "{{ fword }}"
 
-
-
 - name: Disable full monitoring for REDHAT-LINUX
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
