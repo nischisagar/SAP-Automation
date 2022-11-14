@@ -28,10 +28,20 @@
 - debug:
     msg: "{{ fword }}"
 
-- name: Disable full monitoring
+- name: Disable full monitoring for AIX
   shell:  |
-    sed -e 's/^/#/' /tmp/K08_p.param > /tmp/K08_p.param_out
-  register: disable_all
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
+    sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
+  register: disable_all_aix
+  when: fword == "ALL" or fword == "all"
+
+- name: Disable full monitoring for LINUX
+  shell:  |
+    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
+    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
+    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param
+  register: disable_all_linux
   when: fword == "ALL" or fword == "all"
 
 - name: Disable sap monitoring alone
@@ -40,12 +50,23 @@
   register: disable_sap
   when: fword == "mysap"
 
+- name: Disable aix monitoring alone
+  shell:  |
+    awk '{gsub(/^aix/,"#aix");  print}' /tmp/K08_p.param > /tmp/K08_p.param_outnew
+  register: disable_ai
+  when: fword == "OS"
+
 - name: Disable suse monitoring alone
   shell:  |
-    #sed -e '/suse/s/^/#/' /tmp/K08_p.param > /tmp/K08_p.param_out
-    awk '{gsub(/suse/,"#suse");  print}' /tmp/K08_p.param > /tmp/K08_p.param_outnew
+    awk '{gsub(/^suse/,"#suse");  print}' /tmp/K08_p.param > /tmp/K08_p.param_outnew
   register: disable_suse
-  when: fword == "OS" or fword == "os"
+  when: fword == "OS"
+
+- name: Disable redhat monitoring alone
+  shell:  |
+    awk '{gsub(/^redhat/,"#redhat");  print}' /tmp/K08_p.param > /tmp/K08_p.param_outnew
+  register: disable_redhat
+  when: fword == "OS"
 
 - debug:
     msg:  "{{ disable_suse.stdout_lines }}"
@@ -61,5 +82,5 @@
     mv /tmp/K08_p.param_out /tmp/K08_p.param
     done
   register: disable_sid
-  when: fword != "suse" or fword != "mysap" or fword != "ALL" or fword != "all"
+  when: fword != "OS" or fword != "mysap" or fword != "ALL" or fword != "all"
 
