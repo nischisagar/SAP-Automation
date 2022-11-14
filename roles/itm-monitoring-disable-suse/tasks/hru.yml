@@ -28,10 +28,10 @@
 - debug:
     msg: "{{ fword }}"
 
-- name: Task name
-    stat:
-      path: /tmp/itmmontest/mon_disabled
-    register: file_data
+- name: check Monitoring already disabled 
+  stat:
+    path: "/tmp/itmmontest/mon_disabled"
+  register: file_data
 
 - name: Disable full monitoring for SUSE-LINUX
   shell:  |
@@ -41,6 +41,12 @@
   register: disable_all_linux
   when: fword == "ALL" or fword == "all"
   when: not file_data.stat.exists
+
+- name: Update Monitoring already disabled
+  shell:  |
+    echo "Monitoring already disabled" > /tmp/itmmontest/monstatus
+  register: mon_status
+  when: file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
