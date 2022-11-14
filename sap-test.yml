@@ -1,4 +1,12 @@
 ---
+- name: Check already Monitoring disabled or not
+  hosts: "{{ itmhost }}"
+  tasks:
+  - name: Task name
+    stat:
+      path: /tmp/itmmontest/mon_disabled
+    register: register_name
+
 - name: ITM Monitoring Disable for AIX
   hosts: "{{ itmhost }}"
   become: yes
@@ -7,6 +15,7 @@
   roles:
   - role: itm-monitoring-disable-aix
     when: ansible_distribution | lower == "aix"
+    when: register_name.stat.exists
 
 - name: ITM Monitoring Disable for SUSE
   hosts: "{{ itmhost }}"
@@ -16,6 +25,7 @@
   roles:
   - role: itm-monitoring-disable-suse
     when: ansible_distribution | lower == "sles_sap"
+    when: register_name.stat.exists
 
 - name: ITM Monitoring Disable for REDHAT
   hosts: "{{ itmhost }}"
@@ -25,3 +35,4 @@
   roles:
   - role: itm-monitoring-disable-redhat
     when: ansible_distribution | lower == "redhat"
+    when: register_name.stat.exists

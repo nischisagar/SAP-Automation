@@ -28,6 +28,8 @@
 - debug:
     msg: "{{ fword }}"
 
+
+
 - name: Disable full monitoring for REDHAT-LINUX
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
@@ -47,9 +49,6 @@
     awk '{gsub(/^redhat/,"#redhat");  print}' /tmp/itmmontest/K08_process.param > /tmp/itmmontest/K08_process.param_outnew
   register: disable_redhat
   when: fword == "OS"
-
-- debug:
-    msg:  "{{ disable_suse.stdout_lines }}"
 
 - name: Disable specific SID monitoring alone
   shell:  |
