@@ -35,6 +35,7 @@
 
 - name: Disable full monitoring for AIX
   shell:  |
+    echo "inside full_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
@@ -44,6 +45,7 @@
 
 - name: Disable sap monitoring alone
   shell:  |
+    echo "inside sap_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/mysap/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
@@ -53,6 +55,7 @@
 
 - name: Disable aix monitoring alone
   shell:  |
+    echo "inside aix_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/aix/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
@@ -67,6 +70,7 @@
     echo $i
     j=`echo $i|tr '[:upper:]' '[:lower:]'`
     echo $j
+    echo "inside sid_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
