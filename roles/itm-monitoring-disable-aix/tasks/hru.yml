@@ -65,17 +65,17 @@
 
 - name: Disable specific SID monitoring alone
   shell:  |
+    echo "inside sid_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
+    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     for i in `cat /tmp/itm_sidlist.txt`
     do
     echo $i
     j=`echo $i|tr '[:upper:]' '[:lower:]'`
     echo $j
-    echo "inside sid_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
     done
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_sid
   when: fword != "OS" or fword != "os" or fword != "mysap" or fword != "ALL" or fword != "all" and not file_data.stat.exists
 
