@@ -7,7 +7,9 @@
     cat /tmp/itm_sidlist.txt|cut -d, -f3 >> /tmp/itmsid.txt
     cat /tmp/itm_sidlist.txt|cut -d, -f4 >> /tmp/itmsid.txt
     grep . /tmp/itmsid.txt|uniq > /tmp/itm_sidlist.txt
+    echo "SID" > /tmp/itmmontest/sidcheck
     cat /tmp/itm_sidlist.txt
+
   register: sidlist1
 
 - debug:
@@ -40,6 +42,7 @@
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_all_aix
   when: fword == "ALL" or fword == "all" and not file_data.stat.exists
 
@@ -50,6 +53,7 @@
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/mysap/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_sap
   when: fword == "mysap" and not file_data.stat.exists
 
@@ -60,8 +64,24 @@
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/aix/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_aix
   when: fword == "OS" or fword == "os" and not file_data.stat.exists
+
+- name: check sid present
+  shell:  |
+    cat /tmp/itmmontest/sidcheck|head -1
+  register: fword1
+
+- debug:
+    msg: "{{ fword1 }}"
+
+- name: Setting facts - fword1
+  set_fact:
+    fword1: "{{ fword1['stdout'] }}"
+
+- debug:
+    msg: "{{ fword1 }}"
 
 - name: Disable specific SID monitoring alone
   shell:  |
@@ -78,7 +98,7 @@
     done
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_sid
-  when: fword != "OS" or fword != "os" or fword != "mysap" or fword != "ALL" or fword != "all" and not file_data.stat.exists
+  when: fword1 == "SID" and not file_data.stat.exists
 
 - name: Update Monitoring already disabled
   shell:  |
