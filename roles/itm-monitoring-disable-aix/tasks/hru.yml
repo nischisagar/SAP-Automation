@@ -37,18 +37,16 @@
 
 - name: Disable full monitoring for AIX
   shell:  |
-    echo "inside full_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
     echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_all_aix
-  when: fword == "ALL" or fword == "all" and not file_data.stat.exists
+  when: fword == "ALL" and not file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
-    echo "inside sap_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/mysap/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
@@ -59,7 +57,6 @@
 
 - name: Disable aix monitoring alone
   shell:  |
-    echo "inside aix_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e '/aix/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
@@ -85,7 +82,6 @@
 
 - name: Disable specific SID monitoring alone
   shell:  |
-    echo "inside sid_`date +%d%m%y%T`" >> /tmp/itmmontest/contfile.txt
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     for i in `cat /tmp/itm_sidlist.txt`
