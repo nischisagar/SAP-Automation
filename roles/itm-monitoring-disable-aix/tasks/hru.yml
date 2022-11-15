@@ -73,7 +73,8 @@
     echo $i
     j=`echo $i|tr '[:upper:]' '[:lower:]'`
     echo $j
-    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
+    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param > /tmp/itmmontest/K07_process.param_temp
+    mv /tmp/itmmontest/K07_process.param_temp /tmp/itmmontest/K07_process.param
     done
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_sid
