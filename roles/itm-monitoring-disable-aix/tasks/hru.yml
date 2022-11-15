@@ -66,7 +66,7 @@
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
     echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_aix
-  when: fword == "OS" or fword == "os" and not file_data.stat.exists
+  when: fword == "OS" and not file_data.stat.exists
 
 - name: check sid present
   shell:  |
