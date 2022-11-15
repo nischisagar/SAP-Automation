@@ -40,8 +40,7 @@
     sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_all_aix
-  when: fword == "ALL" or fword == "all"
-  when: not file_data.stat.exists
+  when: fword == "ALL" or fword == "all" and not file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
