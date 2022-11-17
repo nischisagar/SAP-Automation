@@ -1,0 +1,27 @@
+---
+- name: ITM Monitoring Disable for AIX
+  hosts: "{{ itmhost }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: itm-monitoring-disable-aix
+    when: ansible_distribution | lower == "aix"
+
+- name: ITM Monitoring Disable for SUSE
+  hosts: "{{ itmhost }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: itm-monitoring-disable-suse
+    when: ansible_distribution | lower == "sles_sap"
+
+- name: ITM Monitoring Disable for REDHAT
+  hosts: "{{ itmhost }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: itm-monitoring-disable-redhat
+    when: ansible_distribution | lower == "redhat"

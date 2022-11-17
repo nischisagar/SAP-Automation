@@ -1,8 +1,0 @@
----
-- name: Transfer file from local to aix
-  hosts: xmpsa010secc0
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: Transfer-file-from-desktopto-aixserver
