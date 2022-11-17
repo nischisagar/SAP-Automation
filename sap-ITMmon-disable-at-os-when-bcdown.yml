@@ -1,6 +1,6 @@
 ---
 - name: ITM Monitoring Disable for AIX
-  hosts: "{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com
+  hosts: '"{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com'
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -9,7 +9,7 @@
     when: ansible_distribution | lower == "aix"
 
 - name: ITM Monitoring Disable for SUSE
-  hosts: "{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com
+  hosts: '"{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com'
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -18,7 +18,7 @@
     when: ansible_distribution | lower == "sles_sap"
 
 - name: ITM Monitoring Disable for REDHAT
-  hosts: "{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com
+  hosts: '"{{ itmhost }}".ux1.ibmfr.bluecare.ibm.com'
   become: yes
   become_method: sudo
   gather_facts: yes
