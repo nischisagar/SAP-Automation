@@ -41,6 +41,10 @@
     cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
     sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param_temp
     awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_process.param_temp > /tmp/itmmontest/K07_process.param
+    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused
+    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_`date +%d%m%y%T`
+    sed -e '/^;/s/^/#/' /tmp/itmmontest/K07_filesystem.param_lastused > /tmp/itmmontest/K07_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_filesystem.param_temp > /tmp/itmmontest/K07_filesystem.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
     echo "nosid" > /tmp/itmmontest/sidcheck
   register: disable_all_aix
