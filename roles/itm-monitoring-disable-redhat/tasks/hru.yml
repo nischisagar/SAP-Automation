@@ -37,7 +37,12 @@
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param
+    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_all_linux
   when: fword == "ALL" and not file_data.stat.exists
@@ -46,7 +51,12 @@
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^mysap/,"#mysap");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param
+    awk '{gsub(/^mysap/,"#mysap");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^;mysap/,"#mysap");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_sap
   when: fword == "mysap" and not file_data.stat.exists
@@ -55,7 +65,12 @@
   shell:  |
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
     cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^redhat/,"#redhat");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param
+    awk '{gsub(/^redhat/,"#redhat");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
+    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^;redhat/,"#redhat");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
     echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
   register: disable_redhat
   when: fword == "OS" and not file_data.stat.exists
