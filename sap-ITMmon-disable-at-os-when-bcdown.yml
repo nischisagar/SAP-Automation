@@ -1,27 +1,27 @@
 ---
 - name: ITM Monitoring Disable for AIX
-  hosts: '{{ itmhost }}.ux1.ibmfr.bluecare.ibm.com'
+  hosts: "{{ itmhost }}"
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
   - role: itm-monitoring-disable-aix
     when: ansible_distribution | lower == "aix"
 
 - name: ITM Monitoring Disable for SUSE
-  hosts: '{{ itmhost }}.ux1.ibmfr.bluecare.ibm.com'
+  hosts: "{{ itmhost }}"
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
   - role: itm-monitoring-disable-suse
     when: ansible_distribution | lower == "sles_sap"
 
 - name: ITM Monitoring Disable for REDHAT
-  hosts: '{{ itmhost }}.ux1.ibmfr.bluecare.ibm.com'
+  hosts: "{{ itmhost }}"
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
   - role: itm-monitoring-disable-redhat
     when: ansible_distribution | lower == "redhat"
