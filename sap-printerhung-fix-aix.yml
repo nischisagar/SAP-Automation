@@ -1,0 +1,8 @@
+---
+- name: SAP Printer Issue
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: printer_firstjob_kill
