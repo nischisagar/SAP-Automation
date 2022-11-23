@@ -278,8 +278,13 @@
   hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  gather_facts: false
+  gather_facts: yes
   tasks:
+    - name: Copy the file with date format
+      copy: 
+        src: "{{ report_file1 }}"
+        dest: "/ansible/reports/csr_cert_expiry_check/csr_certificate_expiry_report-{{ ansible_date_time.date }}.csv"
+        remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
         host: smtp.mail.saint-gobain.net
@@ -292,7 +297,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
         attach:
-        - "{{ report_file1 }}"
+        - "/ansible/reports/csr_cert_expiry_check/csr_certificate_expiry_report-{{ ansible_date_time.date }}.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
