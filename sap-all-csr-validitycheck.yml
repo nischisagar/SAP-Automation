@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Collect CSR Certificates Expiry report
-  hosts: all_entity_servers_new_oct3122
+  hosts: all_entity_servers_new_nov2311
   become: yes
   become_method: sudo
   gather_facts: yes
