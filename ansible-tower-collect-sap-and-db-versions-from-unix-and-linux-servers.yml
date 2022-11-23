@@ -164,7 +164,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_single_sid1
+  hosts: sap_oradb_abap_host_name_single_sid1_2311
   become: yes
   become_method: sudo
   vars: 
@@ -189,7 +189,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
-  hosts: sap_oradb_abap_host_name_two_sid2
+  hosts: sap_oradb_abap_host_name_two_sid2_2311
   become: yes
   become_method: sudo
   vars: 
@@ -313,7 +313,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
-  hosts: sap_oradb_java_host_name_single_sid_new1
+  hosts: sap_oradb_java_host_name_single_sid_2311
   become: yes
   become_method: sudo
   vars: 
@@ -338,7 +338,7 @@
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Two SIDs)
-  hosts: sap_oradb_java_host_name_two_sid2_new
+  hosts: sap_oradb_java_host_name_two_sid2_2311
   become: yes
   become_method: sudo
   vars: 
