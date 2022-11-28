@@ -5,5 +5,5 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: csr_certificate_4_focusrun_beforesign_steps
+  - role: csr_certificate_4_focusrun_beforesign_manual
     #when: ansible_distribution | lower == "aix"
