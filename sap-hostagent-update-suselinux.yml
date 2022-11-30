@@ -5,5 +5,5 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-hostagent-update  
-    when: ansible_distribution | lower == "aix"
+  - role: sap-hostagent-update-linux 
+    when: ansible_distribution | lower == "sles_sap"
