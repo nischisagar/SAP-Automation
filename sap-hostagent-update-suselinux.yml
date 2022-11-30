@@ -6,4 +6,4 @@
   gather_facts: yes
   roles:
   - role: sap-hostagent-update-linux 
-    when: ansible_distribution | lower == "RedHat"
+    when: ansible_distribution | lower == "redhat"
