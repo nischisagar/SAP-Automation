@@ -4,10 +4,14 @@
     path: "/tmp/itmmontest/mon_disabled"
   register: file_data
 
-- name: Disable full monitoring for SUSE-LINUX
+- name: Enable full monitoring for SUSE-LINUX
   shell:  |
-    mv /tmp/itmmontest/K08_process.param_lastused /tmp/itmmontest/K08_process.param
-    mv /tmp/itmmontest/K08_filesystem.param_lastused /tmp/itmmontest/K08_filesystem.param
+    for i in `ls /tmp/itmmontest/*lastused`
+    do
+    echo $i
+    fne=`echo $i|cut -d. -f1`
+    mv $i $fne.param
+    done
     rm -f /tmp/itmmontest/mon_disabled
     echo "Monitoring enabled back at `date +%d%m%y_%T` by "{{ muser }}"" >> /tmp/itmmontest/mon_enabled
   register: disable_all_linux
