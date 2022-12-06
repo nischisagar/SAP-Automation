@@ -1,33 +1,4 @@
 ---
-- name: Enable/Disable ITM Monitoring
-  shell:  |
-    echo "{{ sid_list }}" > /tmp/itm_sidlist.txt
-    cat /tmp/itm_sidlist.txt|cut -d, -f1 > /tmp/itmsid.txt
-    cat /tmp/itm_sidlist.txt|cut -d, -f2 >> /tmp/itmsid.txt
-    cat /tmp/itm_sidlist.txt|cut -d, -f3 >> /tmp/itmsid.txt
-    cat /tmp/itm_sidlist.txt|cut -d, -f4 >> /tmp/itmsid.txt
-    grep . /tmp/itmsid.txt|uniq > /tmp/itm_sidlist.txt
-    cat /tmp/itm_sidlist.txt
-  register: sidlist1
-
-- debug:
-    msg:  "{{ sidlist1.stdout_lines }}"
-
-- name: Get first word
-  shell:  |
-    cat /tmp/itm_sidlist.txt|head -1
-  register: fword
-
-- debug:
-    msg: "{{ fword }}"
-
-- name: Setting facts - fword
-  set_fact:
-    fword: "{{ fword['stdout'] }}"
-
-- debug:
-    msg: "{{ fword }}"
-
 - name: check Monitoring already disabled 
   stat:
     path: "/tmp/itmmontest/mon_disabled"
@@ -35,49 +6,9 @@
 
 - name: Disable full monitoring for SUSE-LINUX
   shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    mv /tmp/itmmontest/K08_process.param_lastused /tmp/itmmontest/K08_process.param
+    mv /tmp/itmmontest/K08_filesystem.param_lastused /tmp/itmmontest/K08_filesystem.param
+    rm -f /tmp/itmmontest/mon_disabled
+    echo "Monitoring enabled back at `date +%d%m%y_%T` by "{{ muser }}"" >> /tmp/itmmontest/mon_enabled
   register: disable_all_linux
-  when: fword == "ALL" and not file_data.stat.exists
-
-- name: Disable sap monitoring alone
-  shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^mysap/,"#mysap");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^;mysap/,"#mysap");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-  register: disable_sap
-  when: fword == "mysap" and not file_data.stat.exists
-
-- name: Disable suse monitoring alone
-  shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^suse/,"#suse");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^;suse/,"#suse");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-  register: disable_suse
-  when: fword == "OS" and not file_data.stat.exists
-
-- name: Update Monitoring already disabled
-  shell:  |
-    echo "Monitoring already disabled" > /tmp/itmmontest/monstatus
-  register: mon_status
   when: file_data.stat.exists
-
