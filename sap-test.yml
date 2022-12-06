@@ -1,9 +1,9 @@
 ---
-- name: SAP Connection test
-  hosts: ampsv03340pjt
+- name: Update SAP Host Agent3
+  hosts:  "{{ hname1 }}"
   become: yes
   become_method: sudo
-  gather_facts: false
-  tasks:
-  - name : Test Run
-    shell: "df -m > /tmp/test1.txt"
+  gather_facts: yes
+  roles:
+  - role: sap-hostagent-update  
+    when: ansible_distribution | lower == "sles_sap"
