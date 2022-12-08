@@ -15,27 +15,28 @@
   shell: ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k6 -n | tail -6
   register: process_network
 
-- name: Print results in HTML format
-  debug:
-    msg: "<table>
-            <tr>
-              <th>Category</th>
-              <th>Processes</th>
-            </tr>
-            <tr>
-              <td>CPU</td>
-              <td>{{ process_cpu.stdout }}</td>
-            </tr>
-            <tr>
-              <td>Memory</td>
-              <td>{{ process_memory.stdout }}</td>
-            </tr>
-            <tr>
-              <td>Disk IO</td>
-              <td>{{ process_disk.stdout }}</td>
-            </tr>
-            <tr>
-              <td>Network IO</td>
-              <td>{{ process_network.stdout }}</td>
-            </tr>
-          </table>"
+- name: check
+  shell:  |
+    echo "<table>" > /tmp/check1.html
+    echo    "<tr>"  >> /tmp/check1.html
+    echo      "<th>Category</th>" >> /tmp/check1.html
+    echo      "<th>Processes</th>" /tmp/check1.html
+    echo    "</tr>" >> /tmp/check1.html
+    echo    "<tr>"  >> /tmp/check1.html
+    echo      "<td>CPU</td>" >> /tmp/check1.html
+    echo      "<td>{{ process_cpu.stdout }}</td>" >> /tmp/check1.html
+    echo    "</tr>" >> /tmp/check1.html
+    echo    "<tr>"  >> /tmp/check1.html
+    echo      "<td>Memory</td>" >> /tmp/check1.html
+    echo      "<td>{{ process_memory.stdout }}</td>" >> /tmp/check1.html
+    echo    "</tr>" >> /tmp/check1.html
+    echo    "<tr>"  >> /tmp/check1.html
+    echo      "<td>Disk IO</td>" >> /tmp/check1.html
+    echo      "<td>{{ process_disk.stdout }}</td>" >> /tmp/check1.html
+    echo    "</tr>" >> /tmp/check1.html
+    echo    "<tr>"  >> /tmp/check1.html
+    echo      "<td>Network IO</td>" >> /tmp/check1.html
+    echo      "<td>{{ process_network.stdout }}</td>" >> /tmp/check1.html
+    echo    "</tr>" >> /tmp/check1.html
+    echo "</table>" >> /tmp/check1.html
+
