@@ -1,0 +1,41 @@
+---
+- name: Get top 6 processes with highest CPU usage in the last 30 minutes
+  command: ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k3 -n | tail -6
+  register: process_cpu
+
+- name: Get top 6 processes with highest memory usage in the last 30 minutes
+  command: ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k4 -n | tail -6
+  register: process_memory
+
+- name: Get top 6 processes with highest disk IO usage in the last 30 minutes
+  command: ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k5 -n | tail -6
+  register: process_disk
+
+- name: Get top 6 processes with highest network IO usage in the last 30 minutes
+  command: ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k6 -n | tail -6
+  register: process_network
+
+- name: Print results in HTML format
+   debug:
+     msg: "<table>
+             <tr>
+               <th>Category</th>
+               <th>Processes</th>
+             </tr>
+             <tr>
+               <td>CPU</td>
+               <td>{{ process_cpu.stdout }}</td>
+             </tr>
+             <tr>
+               <td>Memory</td>
+               <td>{{ process_memory.stdout }}</td>
+             </tr>
+             <tr>
+               <td>Disk IO</td>
+               <td>{{ process_disk.stdout }}</td>
+             </tr>
+             <tr>
+               <td>Network IO</td>
+               <td>{{ process_network.stdout }}</td>
+             </tr>
+           </table>"
