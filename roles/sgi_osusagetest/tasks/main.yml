@@ -16,26 +16,26 @@
   register: process_network
 
 - name: Print results in HTML format
-   debug:
-     msg: "<table>
-             <tr>
-               <th>Category</th>
-               <th>Processes</th>
-             </tr>
-             <tr>
-               <td>CPU</td>
-               <td>{{ process_cpu.stdout }}</td>
-             </tr>
-             <tr>
-               <td>Memory</td>
-               <td>{{ process_memory.stdout }}</td>
-             </tr>
-             <tr>
-               <td>Disk IO</td>
-               <td>{{ process_disk.stdout }}</td>
-             </tr>
-             <tr>
-               <td>Network IO</td>
-               <td>{{ process_network.stdout }}</td>
-             </tr>
-           </table>"
+  debug:
+    msg: "<table>
+            <tr>
+              <th>Category</th>
+              <th>Processes</th>
+            </tr>
+            <tr>
+              <td>CPU</td>
+              <td>{{ process_cpu.stdout }}</td>
+            </tr>
+            <tr>
+              <td>Memory</td>
+              <td>{{ process_memory.stdout }}</td>
+            </tr>
+            <tr>
+              <td>Disk IO</td>
+              <td>{{ process_disk.stdout }}</td>
+            </tr>
+            <tr>
+              <td>Network IO</td>
+              <td>{{ process_network.stdout }}</td>
+            </tr>
+          </table>"
