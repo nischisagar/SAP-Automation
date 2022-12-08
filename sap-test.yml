@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: a01830pj
+  hosts: ampsv019han0q
   become: yes
   become_method: sudo
   gather_facts: yes
