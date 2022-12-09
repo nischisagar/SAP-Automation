@@ -36,7 +36,7 @@
     echo "<table>" > /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
     echo      "<th>Category</th>" >> /tmp/check1.html
-    echo      "<th>Processes</th>" /tmp/check1.html
+    echo      "<th>Processes</th>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
     echo      "<td>CPU</td>" >> /tmp/check1.html
