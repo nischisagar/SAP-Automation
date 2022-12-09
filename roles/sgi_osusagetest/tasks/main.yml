@@ -39,19 +39,19 @@
     echo      "<th>Processes</th>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
-    echo      "<td>CPU</td>" >> /tmp/check1.html
+    echo      "<td>Top 6 processes with highest CPU</td>" >> /tmp/check1.html
     echo      "<td>{{ process_cpu.stdout }}</td>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
-    echo      "<td>Memory</td>" >> /tmp/check1.html
+    echo      "<td>Top 6 processes with highest memory</td>" >> /tmp/check1.html
     echo      "<td>{{ process_memory.stdout }}</td>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
-    echo      "<td>Disk IO</td>" >> /tmp/check1.html
+    echo      "<td>Top 6 processes with highest disk IO usage</td>" >> /tmp/check1.html
     echo      "<td>{{ process_disk.stdout }}</td>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo    "<tr>"  >> /tmp/check1.html
-    echo      "<td>Network IO</td>" >> /tmp/check1.html
+    echo      "<td>Top 6 processes with highest network IO usage</td>" >> /tmp/check1.html
     echo      "<td>{{ process_network.stdout }}</td>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo "</table>" >> /tmp/check1.html
