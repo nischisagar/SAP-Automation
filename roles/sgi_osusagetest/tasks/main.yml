@@ -2,6 +2,7 @@
 - name: Get top 6 processes with highest CPU usage in the last 30 minutes
   shell: |
     ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k3 -n | tail -6 > /tmp/protest_temp.txt
+    echo "----------------------------------------------------------------------------------------------------------------" >> /tmp/protest_temp.txt
     awk '{print $0, "</br>"}' /tmp/protest_temp.txt > /tmp/protest.txt
     cat /tmp/protest.txt
   register: process_cpu
@@ -9,6 +10,7 @@
 - name: Get top 6 processes with highest memory usage in the last 30 minutes
   shell: |
     ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k4 -n | tail -6 > /tmp/protest_temp.txt
+    echo "----------------------------------------------------------------------------------------------------------------" >> /tmp/protest_temp.txt
     awk '{print $0, "</br>"}' /tmp/protest_temp.txt > /tmp/protest.txt
     cat /tmp/protest.txt  
   register: process_memory
@@ -16,6 +18,7 @@
 - name: Get top 6 processes with highest disk IO usage in the last 30 minutes
   shell: |
     ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k5 -n | tail -6 > /tmp/protest_temp.txt
+    echo "----------------------------------------------------------------------------------------------------------------" >> /tmp/protest_temp.txt
     awk '{print $0, "</br>"}' /tmp/protest_temp.txt > /tmp/protest.txt
     cat /tmp/protest.txt  
   register: process_disk
@@ -23,6 +26,7 @@
 - name: Get top 6 processes with highest network IO usage in the last 30 minutes
   shell:  |
     ps -ef | grep '[[:digit:]]\{1,2\}:[[:digit:]]\{1,2\}' | sort -k6 -n | tail -6 > /tmp/protest_temp.txt
+    echo "----------------------------------------------------------------------------------------------------------------" >> /tmp/protest_temp.txt
     awk '{print $0, "</br>"}' /tmp/protest_temp.txt > /tmp/protest.txt
     cat /tmp/protest.txt  
   register: process_network
