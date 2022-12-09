@@ -51,4 +51,3 @@
     echo      "<td>{{ process_network.stdout }}</td>" >> /tmp/check1.html
     echo    "</tr>" >> /tmp/check1.html
     echo "</table>" >> /tmp/check1.html
-
