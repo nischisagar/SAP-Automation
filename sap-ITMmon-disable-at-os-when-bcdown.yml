@@ -25,11 +25,3 @@
   roles:
   - role: itm-monitoring-disable-redhat
     when: ansible_distribution | lower == "redhat"
-
-- name: ITM Monitoring Enable for AIX_LINUX
-  hosts: "{{ itmhost }}"
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: itm-monitoring-enable-back
