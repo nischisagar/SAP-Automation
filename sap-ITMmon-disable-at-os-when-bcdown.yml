@@ -6,7 +6,7 @@
   gather_facts: yes
   roles:
   - role: itm-monitoring-disable-aix
-    when: ansible_distribution | lower == "aix" and what_action == "disable"
+    when: ansible_distribution | lower == "aix"
 
 - name: ITM Monitoring Disable for SUSE
   hosts: "{{ itmhost }}"
@@ -15,7 +15,7 @@
   gather_facts: yes
   roles:
   - role: itm-monitoring-disable-suse
-    when: ansible_distribution | lower == "sles_sap" and what_action == "disable"
+    when: ansible_distribution | lower == "sles_sap"
 
 - name: ITM Monitoring Disable for REDHAT
   hosts: "{{ itmhost }}"
@@ -24,7 +24,7 @@
   gather_facts: yes
   roles:
   - role: itm-monitoring-disable-redhat
-    when: ansible_distribution | lower == "redhat" and what_action == "disable"
+    when: ansible_distribution | lower == "redhat"
 
 - name: ITM Monitoring Enable for AIX_LINUX
   hosts: "{{ itmhost }}"
@@ -32,5 +32,4 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: itm-monitoring-enable-back and what_action == "enable"
-    when: what_action | lower == "enable"
+  - role: itm-monitoring-enable-back
