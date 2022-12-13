@@ -13,6 +13,12 @@
   ignore_errors: yes
   when: register_name.stat.exists
 
+- name:  check the data in config1
+  shell: "echo "proxy file not exist""
+  register: prodata
+  ignore_errors: yes
+  when: not register_name.stat.exists
+
 - name: Print the result
   debug:
     var: prodata.stdout_lines
