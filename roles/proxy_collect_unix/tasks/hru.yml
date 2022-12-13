@@ -8,16 +8,27 @@
     msg: "{{ register_name }}"
 
 - name:  check the data in config
-  shell: "echo `hostname`;grep 'export' /etc/profile.d/proxy.sh;echo '---------------------------------------------------------------------------------------------------'"
-  register: prodata
+  shell: |
+    echo `hostname` > /tmp/proxytest.txt
+    grep 'export' /etc/profile.d/proxy.sh >> /tmp/proxytest.txt
+    echo '---------------------------------------------------------------------------------------------------' >> /tmp/proxytest.txt
+  register: value1
   ignore_errors: yes
   when: register_name.stat.exists
 
-- name:  check the data in config1
-  shell: "echo `hostname`;echo 'proxy file not exist';echo '---------------------------------------------------------------------------------------------------'"
-  register: prodata
+- name:  check the data in config
+  shell: |
+    echo `hostname` > /tmp/proxytest.txt
+    echo 'proxy file not exist' >> /tmp/proxytest.txt
+    echo '---------------------------------------------------------------------------------------------------' >> /tmp/proxytest.txt
+  register: value2
   ignore_errors: yes
   when: not register_name.stat.exists
+
+- name:  check the data in config
+  shell: |
+    cat /tmp/proxytest.txt
+  register: prodata
 
 - name: Print the result
   debug:
