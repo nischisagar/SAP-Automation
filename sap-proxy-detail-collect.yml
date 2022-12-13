@@ -10,7 +10,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com
+- hosts: ampsv026bw0d.ux1.ibmfr.bluecare.ibm.com:ampsv026bw0q.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: runas
   become_user: system
