@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: xmpsl010pans0cm.ux1.ibmfr.bluecare.ibm.com:ampsl019dopt0.ux1.ibmfr.bluecare.ibm.com:ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: yes
