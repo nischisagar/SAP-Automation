@@ -20,7 +20,7 @@
 
 - name: "Delegate output to ampsw010saba0 server"
   lineinfile:
-    path: "C:\temp\proxyout_final.txt"
+    path: C:\temp\proxyout_final.txt
     line: "{{ prodata }}"
   delegate_to: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com
 
