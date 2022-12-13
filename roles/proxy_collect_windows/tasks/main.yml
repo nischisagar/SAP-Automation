@@ -1,0 +1,79 @@
+---
+# tasks file for host_agent update
+
+- name: Hostagent Update
+  set_fact:
+    patchpath: C:\saphostagent\
+
+- debug:
+    msg: "{{ patchpath }}"
+
+- name: Remove directory saphostagent under c drive 
+  win_file:
+    path: '{{ patchpath }}'
+    state: absent
+
+- name: Create directory saphostagent under c drive
+  win_file:
+    path: '{{ patchpath }}'
+    state: directory
+
+- name: Copy host agent dump SAR file and SAPCAR to directory saphostagent under c drive
+  win_copy:
+    src: "files/"
+    dest: '{{ patchpath }}'
+
+- name: Check and Display Current hostagent version
+  win_command: saphostexec.exe -version
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  register: host_version
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_version.stdout_lines }}"   
+
+- name: Uncar SAPHOST AGENT Dump in directory saphostagent under c drive
+  win_command:  SAPCAR.exe -xvf {{ patch_name }}
+  args:
+    chdir: '{{ patchpath }}'
+  register: host_uncar
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_uncar.stdout_lines }}"
+
+- name: Update Host Agent to target version
+  win_command:  saphostexec.exe -upgrade
+  args:
+    chdir: '{{ patchpath }}'
+  register: host_update
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_update.stdout_lines }}"
+
+- name: Display Latest hostagent version
+  win_command: saphostexec.exe -version
+  args:
+    chdir: 'C:\Program Files\SAP\hostctrl\exe'
+  register: host_version1
+  become: yes
+  become_method: runas
+  become_user: system
+
+- debug:
+    msg: "{{ host_version1.stdout_lines }}"  
+
+- name: Remove directory saphostagent under c drive 
+  win_file:
+    path: '{{ patchpath }}'
+    state: absent
+
+
