@@ -1,17 +1,17 @@
 ---
-- name: Check file exist or not
-  shell: "test -f /etc/profile.d/proxy.sh && echo 'file found'"
-  register: dat
+- name: check file exist or not
+  stat:
+    path: "/etc/profile.d/proxy.sh"
+  register: register_name
 
-- name: Validate
-  debug:
-    msg: "Prosy file found"
-  when: dat.stdout == 'file found'
+- debug:
+    msg: "{{ register_name }}"
 
 - name:  check the data in config
   shell: "grep 'export' /etc/profile.d/proxy.sh"
   register: prodata
   ignore_errors: yes
+  when: register_name.stat.exists
 
 - name: Print the result
   debug:
