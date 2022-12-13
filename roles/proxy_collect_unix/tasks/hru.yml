@@ -1,0 +1,32 @@
+---
+- name: Check file exist or not
+  shell: "test -f /etc/profile.d/proxy.sh && echo 'file found'"
+  register: dat
+
+- name: Validate
+  debug:
+    msg: "Prosy file found"
+  when: dat.stdout == 'file found'
+
+- name:  check the data in config
+  shell: "grep 'export' /etc/profile.d/proxy.sh"
+  register: prodata
+  ignore_errors: yes
+
+- name: Print the result
+  debug:
+    var: prodata.stdout_lines
+
+- name: Demo set_facts final output
+  set_fact:
+    prodata: "{{ prodata['stdout'] }}"
+  
+- debug:
+    msg: "{{ prodata }}"
+
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/proxyout.txt"
+    line: "{{ prodata }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+

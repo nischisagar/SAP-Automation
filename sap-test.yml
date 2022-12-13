@@ -1,8 +1,8 @@
 ---
 - name: Add the title content in to report file
-  hosts: ampsv019han0q
+  hosts: xmpsl010pans0cm.ux1.ibmfr.bluecare.ibm.com:ampsl019dopt0.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sgi_osusagetest
+  - role: proxy_collect_unix
