@@ -20,5 +20,11 @@
     trans_num: "{{ tower_job_id }}"
   roles:
     - role: proxy_collect_windows
-      ignore_errors: yes  
+      ignore_errors: yes
+  tasks:
+    - name: Add the details to global report file
+      win_lineinfile:
+        dest: C:\temp\proxyout_final.txt
+        line: "{{ prodata }}"
+      delegate_to: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com
       
