@@ -1,6 +1,6 @@
 ---
 - name: Check free space in file system
-  command: df -g /usr/sap/DAA
+  command: df -g /usr/sap/DAA|tail -1
   register: fs_info
 
 - name: Calculate size to extend
