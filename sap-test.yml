@@ -1,8 +1,8 @@
 ---
 - name: Add the title content in to report file
-  hosts: sgi_grp_cred_linux
+  hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
-  - role: proxy_collect_unix
+  - role: sap_oracle_tablespace_growth_monitor
