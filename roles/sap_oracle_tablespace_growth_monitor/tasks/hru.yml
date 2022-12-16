@@ -6,7 +6,7 @@
 - name: Calculate size to extend
   set_fact:
     extend_size: "{{ ((fs_info.stdout.split(' ')[10] | int * 100) / fs_info.stdout.split(' ')[9] | int) - 100 }}"
-  when: fs_info.stdout.split(' ')[10] | int * 100 / fs_info.stdout.split(' ')[9] | int >= 95
+  when: fs_info.stdout.split(' ')[10] | int * 100 / fs_info.stdout.split(' ')[9] | int >= 20
 
 - debug:
     msg: "{{ extend_size }}"
