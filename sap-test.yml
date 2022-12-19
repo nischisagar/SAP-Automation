@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: no
   roles:
-  - role: sap_oracle_tablespace_growth_monitor
+  - role: sap_stad_check
