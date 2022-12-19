@@ -1,14 +1,12 @@
-- name: Collect SAP transaction performance data
-  sapcontrol:
+---
+- name: Gather SAP parameters
+  sap_parameters:
     sid: "{{ sap_sid }}"
-    username: "{{ sap_username }}"
     password: "{{ sap_password }}"
-    action: StartTransactionRecording
-    transaction_code: STAD
-    recording_mode: All
-    start_time: "{{ 'now' | date('YYYYMMDDhhmmss') }}"
-    end_time: "{{ 'now + 5 minutes' | date('YYYYMMDDhhmmss') }}"
-  register: stad_data
+    parameter_file: "{{ lookup('file', 'sap_params.yml') }}"
 
-- debug:
-    msg: "{{ stad_data }}"
+- name: Output SAP parameters in CSV format
+  csv:
+    path: "{{ lookup('file', 'sap_params.csv') }}"
+    fields: ["parameter_name", "parameter_value"]
+    with_items: "{{ lookup('file', 'sap_params.yml') | from_yaml }}"
