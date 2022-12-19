@@ -1,13 +1,14 @@
----
-- name: Gather SAP system info
-  sap_system_info:
+- name: Collect SAP transaction performance data
+  sapcontrol:
     sid: "{{ sap_sid }}"
     username: "{{ sap_username }}"
     password: "{{ sap_password }}"
-    system_info_file: "{{ lookup('file', '/tmp/sap_system_info.yml') }}"
+    action: StartTransactionRecording
+    transaction_code: STAD
+    recording_mode: All
+    start_time: "{{ 'now' | date('YYYYMMDDhhmmss') }}"
+    end_time: "{{ 'now + 5 minutes' | date('YYYYMMDDhhmmss') }}"
+  register: stad_data
 
-- name: Output SAP system info in CSV format
-  csv:
-    path: "{{ lookup('file', '/tmp/sap_system_info.csv') }}"
-    fields: ["name", "value"]
-    with_items: "{{ lookup('file', '/tmp/sap_system_info.yml') | from_yaml }}"
+- debug:
+    msg: "{{ stad_data }}"
