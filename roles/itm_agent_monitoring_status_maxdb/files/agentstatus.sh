@@ -40,5 +40,5 @@ if [ $cnt1 -eq 1 ]
 then
 /opt/IBM/ITM/bin/cinfo -r|grep -iE 'ux|lz'|awk '{print $2_$7}' >> /tmp/itmuserstatus_maxdb.txt
 else
-echo "UNIX_itm_Not_Running" >> /tmp/itmuserstatus_maxdb.txt
+echo "OS_ITM_Agent_NotRunning" >> /tmp/itmuserstatus_maxdb.txt
 fi
