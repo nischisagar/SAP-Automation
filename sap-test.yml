@@ -3,6 +3,6 @@
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
-  gather_facts: no
+  gather_facts: yes
   roles:
   - role: sap_stad_check
