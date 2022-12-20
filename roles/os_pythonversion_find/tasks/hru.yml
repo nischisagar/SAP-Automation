@@ -2,7 +2,3 @@
 - name: Check python version
   shell: python -V
   register: python_version
-
-- name: Save python version to CSV
-  local_action: copy content="{{ inventory_hostname }},{{ python_version.stdout }}" dest=/tmp/python_versions.csv
-  delegate_to: ampsw010saba0
