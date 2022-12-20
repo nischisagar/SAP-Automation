@@ -182,7 +182,7 @@
       delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_win_single_sid_1_may3022
+  hosts: sap_oradb_abap_host_name_win_single_sid_1_june032222
   become: yes
   become_method: runas
   become_user: system
@@ -207,7 +207,7 @@
       delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from ABAP Windows Servers (Two SIDs)
-  hosts: sap_oradb_abap_host_name_win_two_sid_may3022
+  hosts: sap_oradb_abap_host_name_win_two_sid_june032222
   become: yes
   become_method: runas
   become_user: system
@@ -239,7 +239,7 @@
       delegate_to: ampsw010saba0
 
 - name: Get the Oracle DB version from JAVA Windows Servers (Single SID)
-  hosts: sap_oradb_java_host_name_win_single_sid_may3022
+  hosts: sap_oradb_java_host_name_win_single_sid_june032222
   become: yes
   become_method: runas
   become_user: system
@@ -264,7 +264,7 @@
       delegate_to: ampsw010saba0
     
 - name: Get the Oracle DB version from JAVA Windows Servers (Two SIDs)
-  hosts: sap_oradb_java_host_name_win_two_sid_may3022
+  hosts: sap_oradb_java_host_name_win_two_sid_june032222
   become: yes
   become_method: runas
   become_user: system
