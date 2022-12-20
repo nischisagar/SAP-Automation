@@ -11,4 +11,3 @@
   tasks:
     - name: Add the output
       local_action: copy content="{{ ansible_nodename.split(".")[0] | lower }},{{ python_version.stdout }}" dest=/tmp/python_versions.csv
-      delegate_to: ampsv010bld0d
