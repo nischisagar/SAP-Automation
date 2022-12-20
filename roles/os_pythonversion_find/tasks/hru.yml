@@ -1,6 +1,8 @@
 ---
 - name: Check python version
-  shell: python -V
+  shell: |
+    python -V > /tmp/python_versions.csv
+    cat /tmp/python_versions.csv
   register: prodata
 
 - name: Print the result
