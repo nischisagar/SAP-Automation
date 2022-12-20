@@ -1,13 +1,8 @@
 ---
-- name: Collect python version
+- name: Add the title content in to report file
   hosts: ampsv03340pjt
   become: yes
   become_method: sudo
   gather_facts: yes
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
   roles:
   - role: os_pythonversion_find
-  tasks:
-    - name: Add the output
-      local_action: copy content="{{ ansible_nodename.split(".")[0] | lower }},{{ python_version.stdout }}" dest=/tmp/python_versions.csv

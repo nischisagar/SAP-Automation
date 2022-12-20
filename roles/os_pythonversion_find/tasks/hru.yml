@@ -2,3 +2,7 @@
 - name: Check python version
   shell: python -V
   register: python_version
+
+- name: get output
+  debug:
+    msg: "{{ python_version.stdout }}"
