@@ -1,0 +1,12 @@
+---
+- name: Gather SAP parameters
+  sap_parameters:
+    sid: "{{ sap_sid }}"
+    password: "{{ sap_password }}"
+    parameter_file: "{{ lookup('file', 'sap_params.yml') }}"
+
+- name: Output SAP parameters in CSV format
+  csv:
+    path: "{{ lookup('file', 'sap_params.csv') }}"
+    fields: ["parameter_name", "parameter_value"]
+    with_items: "{{ lookup('file', 'sap_params.yml') | from_yaml }}"
