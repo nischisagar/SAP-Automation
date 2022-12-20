@@ -1,8 +1,15 @@
 ---
 - name: Check python version
   shell: python -V
-  register: python_version
+  register: prodata
 
-- name: get output
+- name: Print the result
   debug:
-    msg: "{{ python_version.stdout }}"
+    var: prodata.stdout_lines
+
+- name: Demo set_facts final output
+  set_fact:
+    prodata: "{{ prodata['stdout'] }}"
+  
+- debug:
+    msg: "{{ prodata }}"
