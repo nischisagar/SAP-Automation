@@ -1,6 +1,6 @@
 ---
 - name: Get the Python version
-  hosts: ampsv03340pjt:a01830pj:ampsv019han0d:xmpsl011dslt0
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: yes
