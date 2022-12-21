@@ -5,10 +5,6 @@
     cat /tmp/python_versions.csv
   register: prodata
 
-- name: Print the result
-  debug:
-    var: prodata.stdout_lines
-
 - name: Demo set_facts final output
   set_fact:
     prodata: "{{ prodata['stdout'] }}"

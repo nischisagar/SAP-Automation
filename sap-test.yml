@@ -1,8 +1,18 @@
 ---
-- name: Add the title content in to report file
-  hosts: ampsv03340pjt
+- name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
+  hosts: ampsv03340pjt:a01830pj:ampsv019han0d:xmpsl011dslt0
   become: yes
   become_method: sudo
-  gather_facts: yes
+  vars: 
+    report_file: "/ansible/reports/itm_agent_status_report/python_version.csv"
   roles:
   - role: os_pythonversion_find
+  tasks:
+    - name: Add the python version details
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_pyv }},{{ ansible_distribution }},{{ ansible_distribution_version }}'
+      throttle: 1
+      loop:
+        - get_pyv: "{{ prodata.results[0].stdout }}"
+      delegate_to: ampsv010bld0d
