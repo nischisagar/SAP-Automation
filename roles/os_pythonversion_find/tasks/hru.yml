@@ -11,3 +11,8 @@
   
 - debug:
     msg: "{{ prodata }}"
+
+- name: Get the python version
+  shell: |
+    cat /tmp/python_versions.csv
+  register: "python_version"
