@@ -1,7 +1,7 @@
 ---
 - name: Check python version
   shell: |
-    python -V > /tmp/python_versions.csv
+    python -V > /tmp/python_versions.csv 2>&1> 
     cat /tmp/python_versions.csv
   register: prodata
 
