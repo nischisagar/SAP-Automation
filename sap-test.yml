@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: collect_system_info
+  - role: proxy_collect_unix
