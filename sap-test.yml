@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com:a01830pj.ux1.ibmfr.bluecare.ibm.com
+  hosts: sgi_smartinventory_it6_unix
   become: yes
   become_method: sudo
   gather_facts: no
