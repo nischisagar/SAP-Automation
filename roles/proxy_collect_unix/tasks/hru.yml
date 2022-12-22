@@ -1,33 +1,20 @@
 ---
-- name: check file exist or not
-  stat:
-    path: "/etc/profile.d/proxy.sh"
-  register: register_name
-
-- debug:
-    msg: "{{ register_name }}"
-
 - name:  check the data in config
   shell: |
-    echo `hostname` > /tmp/proxytest.txt
-    grep 'export' /etc/profile.d/proxy.sh >> /tmp/proxytest.txt
-    echo '---------------------------------------------------------------------------------------------------' >> /tmp/proxytest.txt
+    date;uname -a > /tmp/osinfocollect.txt
+    echo "**************************netstat_rn_Output**************************************" >> /tmp/osinfocollect.txt
+    netstat -rn >> /tmp/osinfocollect.txt
+    echo "**************************lsattr_EHl_inet0_output**************************************" >> /tmp/osinfocollect.txt
+    lsattr -EHl inet0 >> /tmp/osinfocollect.txt
+    echo "**************************ifconfig_output**************************************" >> /tmp/osinfocollect.txt
+    ifconfig -a >> /tmp/osinfocollect.txt
+    echo "========================================================================================================" >> /tmp/osinfocollect.txt
   register: value1
   ignore_errors: yes
-  when: register_name.stat.exists
 
 - name:  check the data in config
   shell: |
-    echo `hostname` > /tmp/proxytest.txt
-    echo 'proxy file not exist' >> /tmp/proxytest.txt
-    echo '---------------------------------------------------------------------------------------------------' >> /tmp/proxytest.txt
-  register: value2
-  ignore_errors: yes
-  when: not register_name.stat.exists
-
-- name:  check the data in config
-  shell: |
-    cat /tmp/proxytest.txt
+    cat /tmp/osinfocollect.txt
   register: prodata
 
 - name: Print the result
@@ -43,7 +30,7 @@
 
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/data/proxyout.txt"
+    path: "/data/os_info.txt"
     line: "{{ prodata }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
