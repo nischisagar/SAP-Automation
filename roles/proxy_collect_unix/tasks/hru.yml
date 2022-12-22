@@ -1,7 +1,8 @@
 ---
 - name:  check the data in config
   shell: |
-    date;uname -a > /tmp/osinfocollect.txt
+    uname -a > /tmp/osinfocollect.txt
+    echo " " >> /tmp/osinfocollect.txt
     echo "**************************netstat_rn_Output**************************************" >> /tmp/osinfocollect.txt
     netstat -rn >> /tmp/osinfocollect.txt
     echo "**************************lsattr_EHl_inet0_output**************************************" >> /tmp/osinfocollect.txt
@@ -9,6 +10,7 @@
     echo "**************************ifconfig_output**************************************" >> /tmp/osinfocollect.txt
     ifconfig -a >> /tmp/osinfocollect.txt
     echo "========================================================================================================" >> /tmp/osinfocollect.txt
+    echo " " >> /tmp/osinfocollect.txt
   register: value1
   ignore_errors: yes
 
