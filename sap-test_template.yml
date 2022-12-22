@@ -1,8 +1,19 @@
 ---
-- name: Focus RUN CSR Certificate prepare1
-  hosts: target_csr_final6
+- name: Get the Python version
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: yes
+  vars: 
+    report_file: "/ansible/reports/itm_agent_status_report/python_version.csv"
   roles:
-  - role: csr-Focusrun-postsign-step
+  - role: os_pythonversion_find
+  tasks:
+    - name: Add the python version details
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }}'
+      throttle: 1
+      with_together:
+        - "{{ python_version.stdout_lines }}"
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
