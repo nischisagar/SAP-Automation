@@ -3,6 +3,6 @@
   hosts: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com:a01830pj.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
-  gather_facts: yes
+  gather_facts: no
   roles:
   - role: proxy_collect_unix
