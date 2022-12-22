@@ -32,7 +32,7 @@
 
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/data/os_info.txt"
+    path: "/usr/sap/TE6/os_info.csv"
     line: "{{ prodata }}"
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
 
