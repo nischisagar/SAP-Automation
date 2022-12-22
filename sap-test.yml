@@ -1,6 +1,6 @@
 ---
-- name: Add the title content in to report file
-  hosts: sgi_smartinventory_it6_unix
+- name: Collect OS Information
+  hosts: all
   become: yes
   become_method: sudo
   gather_facts: no

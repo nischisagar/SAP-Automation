@@ -1,5 +1,5 @@
 ---
-- name:  check the data in config
+- name:  Collect OS Information
   shell: |
     uname -a > /tmp/osinfocollect.txt
     echo " " >> /tmp/osinfocollect.txt
@@ -14,7 +14,7 @@
   register: value1
   ignore_errors: yes
 
-- name:  check the data in config
+- name:  Collect OS Information
   shell: |
     cat /tmp/osinfocollect.txt
   register: prodata
