@@ -1,6 +1,6 @@
 ---
 - name: Collect OS Information
-  hosts: ampsv023pjt0q.ux1.ibmfr.bluecare.ibm.com:ampsv031ecc0d.ux1.ibmfr.bluecare.ibm.com
+  hosts: all
   become: yes
   become_method: sudo
   gather_facts: no
