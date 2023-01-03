@@ -2,7 +2,7 @@
 - name:  check the data in config
   shell: |
     h1=`hostname`
-    s1=`grep ^relayhost /etc/postfix/main.cf`
+    s1=`grep ^relayhost /etc/postfix/main.cf|awk '{print $3}'`
     echo "$h1   $s1" > /tmp/smtpvalue.txt
   register: value1
   ignore_errors: yes
