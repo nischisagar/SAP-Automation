@@ -1,8 +1,8 @@
 ---
-- name: Collect OS Information
-  hosts: all
+- name: Collect smtp Information
+  hosts: "{{ at_prox }}"
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
-  - role: proxy_collect_unix
+  - role: sg_atlas_smtp_serverdetail
