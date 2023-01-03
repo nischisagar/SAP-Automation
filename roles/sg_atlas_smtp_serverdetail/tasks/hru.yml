@@ -2,7 +2,7 @@
 - name:  check the data in config
   shell: |
     h1=`hostname`
-    s1=`cat /etc/mail/sendmail.cf|grep -i DSsmtp|grep -v '#'|grep -v Mdsmtp`
+    s1=`grep ^relayhost /etc/postfix/main.cf`
     echo "$h1   $s1" > /tmp/smtpvalue.txt
   register: value1
   ignore_errors: yes
@@ -25,7 +25,7 @@
 
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/data/smtpvalue_aix.txt"
+    path: "/data/smtpvalue_linux.txt"
     line: "{{ prodata }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
