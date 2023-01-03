@@ -1,0 +1,31 @@
+---
+- name:  check the data in config
+  shell: |
+    h1=`hostname`
+    s1=`cat /etc/mail/sendmail.cf|grep -i DSsmtp|grep -v '#'|grep -v Mdsmtp`
+    echo "$h1   $s1" > /tmp/smtpvalue.txt
+  register: value1
+  ignore_errors: yes
+
+- name:  check the data in config
+  shell: |
+    cat /tmp/smtpvalue.txt
+  register: prodata
+
+- name: Print the result
+  debug:
+    var: prodata.stdout_lines
+
+- name: Demo set_facts final output
+  set_fact:
+    prodata: "{{ prodata['stdout'] }}"
+  
+- debug:
+    msg: "{{ prodata }}"
+
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/smtpvalue_aix.txt"
+    line: "{{ prodata }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+
