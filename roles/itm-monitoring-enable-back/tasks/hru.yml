@@ -12,7 +12,7 @@
     fne=`echo $i|cut -d. -f1`
     mv $i $fne.param
     done
-    rm -f /tmp/itmmontest/mon_disabled
+    rm -f /tmp/itmmontest/mon_disabled /tmp/itmmontest/*param_temp
     echo "Monitoring enabled back at `date +%d%m%y_%T` by "{{ muser }}"" >> /tmp/itmmontest/mon_enabled
   register: disable_all_linux
   when: file_data.stat.exists
