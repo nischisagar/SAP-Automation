@@ -1,21 +1,20 @@
 ---
-- name:  check the data in config
+- name:  Upgrade loginventory version
   shell: |
     echo -e '\x1dclose\x0d' | telnet 10.124.72.254 443
     if [ $? -eq 0 ]
     then
-    echo "telnet port connection test is working fine"
-    
+    echo "telnet port connection test is working fine" > /tmp/loginventlog.txt
+    rpm -qa | grep -i login >> /tmp/loginventlog.txt
+    rpm -Uvh /tmp/SG-loginfox-cf-aix-9.1.4.14828-4.aix7.2.noarch.rpm
+    sleep 30
+    rpm -qa | grep -i login >> /tmp/loginventlog.txt
+    /opt/loginfox-cf/loginfox-cf.sh
     else
-    echo "telnet port check not working"
+    echo "telnet port check not working" > /tmp/loginventlog.txt
     fi
-  register: value1
-  ignore_errors: yes
-
-- name:  check the data in config
-  shell: |
-    cat /tmp/smtpvalue.txt
   register: prodata
+  ignore_errors: yes
 
 - name: Print the result
   debug:
@@ -27,10 +26,3 @@
   
 - debug:
     msg: "{{ prodata }}"
-
-- name: "Delegate output to bld0d server"
-  lineinfile:
-    path: "/data/smtpvalue_linux.txt"
-    line: "{{ prodata }}"
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
-
