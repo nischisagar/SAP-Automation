@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: no
   roles:
-  - role: Transfer-file-from-desktopto-aixserver
+  - role: sg-loginventory-installation
