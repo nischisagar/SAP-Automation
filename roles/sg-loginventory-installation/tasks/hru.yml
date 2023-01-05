@@ -1,0 +1,36 @@
+---
+- name:  check the data in config
+  shell: |
+    echo -e '\x1dclose\x0d' | telnet 10.124.72.254 443
+    if [ $? -eq 0 ]
+    then
+    echo "telnet port connection test is working fine"
+    
+    else
+    echo "telnet port check not working"
+    fi
+  register: value1
+  ignore_errors: yes
+
+- name:  check the data in config
+  shell: |
+    cat /tmp/smtpvalue.txt
+  register: prodata
+
+- name: Print the result
+  debug:
+    var: prodata.stdout_lines
+
+- name: Demo set_facts final output
+  set_fact:
+    prodata: "{{ prodata['stdout'] }}"
+  
+- debug:
+    msg: "{{ prodata }}"
+
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/smtpvalue_linux.txt"
+    line: "{{ prodata }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+
