@@ -19,4 +19,4 @@
   lineinfile:
     path: "/data/loginventory_version_update.txt"
     line: "{{ prodata }}"
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: ampsv010bld0d
