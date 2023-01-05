@@ -1,8 +1,36 @@
 ---
 - name: Loginventory upgrade
-  hosts: xmpsa010secc0
+  hosts: "{{ lhname }}"
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
   - role: sg-loginventory-installation
+
+- name: Send e-mail
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Copy the file with date format
+      copy: 
+        src: "/data/loginventory_version_update.txt"
+        dest: "/data/loginventory_version_update.txt-{{ ansible_date_time.date }}.csv"
+        remote_src: yes
+    - name: Send e-mail to a bunch of users, attaching files
+      mail:
+        host: smtp.mail.saint-gobain.net
+        port: 25
+        subject: Ansible Report - Loginventory version Update
+        body: Hello Team, Please find the attached Loginventory version Update details
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Kalaikannan.Anbarasan@kyndryl.com
+        cc: 
+        - Kalaikannan.Anbarasan@kyndryl.com       
+        attach:
+        - "/data/loginventory_version_update.txt-{{ ansible_date_time.date }}.csv"
+        headers:
+        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
+        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
+        charset: us-ascii

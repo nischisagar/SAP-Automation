@@ -1,20 +1,59 @@
 ---
+- name: setfact target path
+  set_fact:
+    patchpath: /tmp
+
+- debug:
+    msg: "{{ patchpath }}"
+
+- name: Check free space for tmp, atleast 100 MB free space should be there
+  shell: df -m {{ patchpath }}|tail -1|awk '{print $3}'|awk '{print int($0)}'
+  register: tmpfree
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ tmpfree }}"
+
+- name: Register temp free space value
+  set_fact:
+    tmpfree: "{{ tmpfree['stdout'] }}"
+  ignore_errors: yes
+
+- debug:
+    msg: "tmpfree: {{ tmpfree }}"
+
+- name: Copy dump files to tmp location
+  copy:
+    src: ./files/
+    dest: "{{ patchpath }}/"
+    owner: root     
+    group: sapsys
+    mode: '0777'
+  when: (tmpfree | int) >= (100 | int)
+
 - name:  Upgrade loginventory version
   shell: |
     echo -e '\x1dclose\x0d' | telnet 10.124.72.254 443
     if [ $? -eq 0 ]
     then
-    echo "telnet port connection test is working fine" > /tmp/loginventlog.txt
-    rpm -qa | grep -i login >> /tmp/loginventlog.txt
+    echo "telnet port connection test is working fine"
+    b4v=`rpm -qa | grep -i login`
     rpm -Uvh /tmp/SG-loginfox-cf-aix-9.1.4.14828-4.aix7.2.noarch.rpm
     sleep 30
-    rpm -qa | grep -i login >> /tmp/loginventlog.txt
+    atv=`rpm -qa | grep -i login`
     /opt/loginfox-cf/loginfox-cf.sh
+    h1=`hostname`
+    echo "$h1   $b4v    $atv" > /tmp/loginventlog.txt 
     else
-    echo "telnet port check not working" > /tmp/loginventlog.txt
+    echo "`hostname` telnet port check not working" > /tmp/loginventlog.txt
     fi
-  register: prodata
+  register: vdata
   ignore_errors: yes
+
+- name:  Check version output status
+  shell: |
+    cat /tmp/loginventlog.txt
+  register: prodata
 
 - name: Print the result
   debug:
@@ -26,3 +65,9 @@
   
 - debug:
     msg: "{{ prodata }}"
+
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/loginventory_version_update.txt"
+    line: "{{ prodata }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
