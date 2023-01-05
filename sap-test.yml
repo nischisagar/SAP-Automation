@@ -1,8 +1,8 @@
 ---
-- name: Collect smtp Information
-  hosts: "{{ at_prox }}"
+- name: Loginventory upgrade
+  hosts: xmpsa010secc0
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
-  - role: sg_atlas_smtp_serverdetail
+  - role: Transfer-file-from-desktopto-aixserver
