@@ -1,18 +1,18 @@
 ---
 - name: check Monitoring already disabled 
   stat:
-    path: "/tmp/itmmontest/mon_disabled"
+    path: "/opt/IBM/ITM/smitools/config/mon_disabled"
   register: file_data
 
 - name: Enable full monitoring for SUSE-LINUX
   shell:  |
-    for i in `ls /tmp/itmmontest/*lastused`
+    for i in `ls /opt/IBM/ITM/smitools/config/*lastused`
     do
     echo $i
     fne=`echo $i|cut -d. -f1`
     mv $i $fne.param
     done
-    rm -f /tmp/itmmontest/mon_disabled /tmp/itmmontest/*param_temp
-    echo "Monitoring enabled back at `date +%d%m%y_%T` by "{{ muser }}"" >> /tmp/itmmontest/mon_enabled
+    rm -f /opt/IBM/ITM/smitools/config/mon_disabled /opt/IBM/ITM/smitools/config/*param_temp
+    echo "Monitoring enabled back at `date +%d%m%y_%T` by "{{ muser }}"" >> /opt/IBM/ITM/smitools/config/mon_enabled
   register: disable_all_linux
   when: file_data.stat.exists
