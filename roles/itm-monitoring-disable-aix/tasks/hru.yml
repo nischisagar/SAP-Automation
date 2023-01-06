@@ -7,7 +7,7 @@
     cat /tmp/itm_sidlist.txt|cut -d, -f3 >> /tmp/itmsid.txt
     cat /tmp/itm_sidlist.txt|cut -d, -f4 >> /tmp/itmsid.txt
     grep . /tmp/itmsid.txt|uniq > /tmp/itm_sidlist.txt
-    echo "SID" > /tmp/itmmontest/sidcheck
+    echo "SID" > /opt/IBM/ITM/smitools/config/sidcheck
     cat /tmp/itm_sidlist.txt
 
   register: sidlist1
@@ -32,57 +32,57 @@
 
 - name: check Monitoring already disabled 
   stat:
-    path: "/tmp/itmmontest/mon_disabled"
+    path: "/opt/IBM/ITM/smitools/config/mon_disabled"
   register: file_data
 
 - name: Disable full monitoring for AIX
   shell:  |
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
-    sed -e 's/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_process.param_temp > /tmp/itmmontest/K07_process.param
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_`date +%d%m%y%T`
-    sed -e '/^;/s/^/#/' /tmp/itmmontest/K07_filesystem.param_lastused > /tmp/itmmontest/K07_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_filesystem.param_temp > /tmp/itmmontest/K07_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-    echo "nosid" > /tmp/itmmontest/sidcheck
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_`date +%d%m%y%T`
+    sed -e 's/^/#/' /opt/IBM/ITM/smitools/config/K07_process.param_lastused > /opt/IBM/ITM/smitools/config/K07_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_process.param_temp > /opt/IBM/ITM/smitools/config/K07_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_`date +%d%m%y%T`
+    sed -e '/^;/s/^/#/' /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K07_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
+    echo "nosid" > /opt/IBM/ITM/smitools/config/sidcheck
   register: disable_all_aix
   when: fword == "ALL" and not file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
-    sed -e '/mysap/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_process.param_temp > /tmp/itmmontest/K07_process.param
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_`date +%d%m%y%T`
-    sed -e '/;mysap/s/^/#/' /tmp/itmmontest/K07_filesystem.param_lastused > /tmp/itmmontest/K07_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_filesystem.param_temp > /tmp/itmmontest/K07_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-    echo "nosid" > /tmp/itmmontest/sidcheck
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_`date +%d%m%y%T`
+    sed -e '/mysap/s/^/#/' /opt/IBM/ITM/smitools/config/K07_process.param_lastused > /opt/IBM/ITM/smitools/config/K07_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_process.param_temp > /opt/IBM/ITM/smitools/config/K07_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_`date +%d%m%y%T`
+    sed -e '/;mysap/s/^/#/' /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K07_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
+    echo "nosid" > /opt/IBM/ITM/smitools/config/sidcheck
   register: disable_sap
   when: fword == "mysap" and not file_data.stat.exists
 
 - name: Disable aix monitoring alone
   shell:  |
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
-    sed -e '/aix/s/^/#/' /tmp/itmmontest/K07_process.param_lastused > /tmp/itmmontest/K07_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_process.param_temp > /tmp/itmmontest/K07_process.param
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_`date +%d%m%y%T`
-    sed -e '/;aix/s/^/#/' /tmp/itmmontest/K07_filesystem.param_lastused > /tmp/itmmontest/K07_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_filesystem.param_temp > /tmp/itmmontest/K07_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-    echo "nosid" > /tmp/itmmontest/sidcheck
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_`date +%d%m%y%T`
+    sed -e '/aix/s/^/#/' /opt/IBM/ITM/smitools/config/K07_process.param_lastused > /opt/IBM/ITM/smitools/config/K07_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_process.param_temp > /opt/IBM/ITM/smitools/config/K07_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_`date +%d%m%y%T`
+    sed -e '/;aix/s/^/#/' /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K07_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
+    echo "nosid" > /opt/IBM/ITM/smitools/config/sidcheck
   register: disable_aix
   when: fword == "OS" and not file_data.stat.exists
 
 - name: check sid present
   shell:  |
-    cat /tmp/itmmontest/sidcheck|head -1
+    cat /opt/IBM/ITM/smitools/config/sidcheck|head -1
   register: fword1
 
 - debug:
@@ -97,33 +97,33 @@
 
 - name: Disable specific SID monitoring alone
   shell:  |
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_lastused1
-    cp -rpf /tmp/itmmontest/K07_process.param /tmp/itmmontest/K07_process.param_`date +%d%m%y%T`
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_lastused1
-    cp -rpf /tmp/itmmontest/K07_filesystem.param /tmp/itmmontest/K07_filesystem.param_`date +%d%m%y%T`
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_lastused1
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_process.param /opt/IBM/ITM/smitools/config/K07_process.param_`date +%d%m%y%T`
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused1
+    cp -rpf /opt/IBM/ITM/smitools/config/K07_filesystem.param /opt/IBM/ITM/smitools/config/K07_filesystem.param_`date +%d%m%y%T`
     for i in `cat /tmp/itm_sidlist.txt`
     do
     echo $i
     j=`echo $i|tr '[:upper:]' '[:lower:]'`
     echo $j
-    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_process.param_lastused1 > /tmp/itmmontest/K07_process.param_temp
-    mv /tmp/itmmontest/K07_process.param_temp /tmp/itmmontest/K07_process.param_lastused1
-    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /tmp/itmmontest/K07_filesystem.param_lastused1 > /tmp/itmmontest/K07_filesystem.param_temp
-    mv /tmp/itmmontest/K07_filesystem.param_temp /tmp/itmmontest/K07_filesystem.param_lastused1
+    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /opt/IBM/ITM/smitools/config/K07_process.param_lastused1 > /opt/IBM/ITM/smitools/config/K07_process.param_temp
+    mv /opt/IBM/ITM/smitools/config/K07_process.param_temp /opt/IBM/ITM/smitools/config/K07_process.param_lastused1
+    sed -e '/'$i'/s/^/#/' -e '/'$j'/s/^/#/' /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused1 > /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp
+    mv /opt/IBM/ITM/smitools/config/K07_filesystem.param_temp /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused1
     done
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_process.param_lastused1 > /tmp/itmmontest/K07_process.param
-    rm -f /tmp/itmmontest/K07_process.param_lastused1
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K07_filesystem.param_lastused1 > /tmp/itmmontest/K07_filesystem.param
-    rm -f /tmp/itmmontest/K07_filesystem.param_lastused1
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_process.param_lastused1 > /opt/IBM/ITM/smitools/config/K07_process.param
+    rm -f /opt/IBM/ITM/smitools/config/K07_process.param_lastused1
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused1 > /opt/IBM/ITM/smitools/config/K07_filesystem.param
+    rm -f /opt/IBM/ITM/smitools/config/K07_filesystem.param_lastused1
   register: disable_sid
   when: fword1 == "SID" and not file_data.stat.exists
 
 - name: Update Monitoring already disabled
   shell:  |
-    echo "Monitoring already disabled" > /tmp/itmmontest/monstatus
+    echo "Monitoring already disabled" > /opt/IBM/ITM/smitools/config/monstatus
   register: mon_status
   when: file_data.stat.exists
 
