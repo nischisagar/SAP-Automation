@@ -1,0 +1,55 @@
+---
+- name: Memory collection
+  hosts: all
+  gather_facts: no
+  tasks:
+  - name: Create a directory if it does not exist
+    become: true
+    become_user: root
+    ansible.builtin.file:
+      path: /exploit/scripts/sap/memory_collection
+      state: directory
+      mode: '0755'
+      recurse: yes
+      owner: root
+      group: sapsys
+
+  - name: Launch collection
+    become: true
+    become_user: root
+    shell: |
+      #!/bin/ksh
+      datum=`date +"%d-%m"`
+      logfile="/exploit/scripts/sap/memory_collection/${datum}_logfile.log"
+      processfile="/exploit/scripts/sap/memory_collection/process_id_list.txt"
+      echo " " >> $logfile
+      echo "################################################" >> $logfile
+      date >> $logfile
+      echo "################################################" >> $logfile
+      echo " " >> $logfile
+      echo " ## " >> $logfile
+      lsps -s >> $logfile
+      echo " " >> $logfile
+      echo " ## " >> $logfile
+      svmon -U -t 10 -O summary=basic,unit=MB,maxbufsize=4MB >> $logfile
+      echo " " >> $logfile
+      echo " ## " >> $logfile
+      ps aux | sort -rn +5 | tail -1 >> $logfile
+      ps aux | head -1; ps aux | sort -rn +5 | head -10 >> $logfile
+      echo " " >> $logfile
+      echo " ## " >> $logfile
+      ps aux | head -1; ps aux | sort -rn +5 | head -10 | awk '{print $ 2}' > $processfile
+      process_number="10"
+      
+      for i in 1 2 3 4 5 6 7 8 9 10
+      do
+      echo " " >> $logfile
+      process_pid[$i]=`cat $processfile | head -$i | tail -1`
+      echo " " >> $logfile
+      echo "Process PID :" ${process_pid[$i]} >> $logfile
+      proctree -T -p ${process_pid[$i]} >> $logfile
+      done
+      echo " " >> $logfile
+      echo " ## " >> $logfile
+      
+      find /exploit/scripts/sap/memory_collection/*logfile.log -mtime +7 -exec rm {} \;
