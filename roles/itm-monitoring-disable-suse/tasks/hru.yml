@@ -30,54 +30,54 @@
 
 - name: check Monitoring already disabled 
   stat:
-    path: "/tmp/itmmontest/mon_disabled"
+    path: "/opt/IBM/ITM/smitools/config/mon_disabled"
   register: file_data
 
 - name: Disable full monitoring for SUSE-LINUX
   shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_`date +%d%m%y%T`
+    awk '{gsub(/^/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_lastused > /opt/IBM/ITM/smitools/config/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_temp > /opt/IBM/ITM/smitools/config/K08_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K08_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
   register: disable_all_linux
   when: fword == "ALL" and not file_data.stat.exists
 
 - name: Disable sap monitoring alone
   shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^mysap/,"#mysap");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^;mysap/,"#mysap");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_`date +%d%m%y%T`
+    awk '{gsub(/^mysap/,"#mysap");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_lastused > /opt/IBM/ITM/smitools/config/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_temp > /opt/IBM/ITM/smitools/config/K08_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^;mysap/,"#mysap");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K08_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
   register: disable_sap
   when: fword == "mysap" and not file_data.stat.exists
 
 - name: Disable suse monitoring alone
   shell:  |
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_lastused
-    cp -rpf /tmp/itmmontest/K08_process.param /tmp/itmmontest/K08_process.param_`date +%d%m%y%T`
-    awk '{gsub(/^suse/,"#suse");  print}' /tmp/itmmontest/K08_process.param_lastused > /tmp/itmmontest/K08_process.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_process.param_temp > /tmp/itmmontest/K08_process.param
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_lastused
-    cp -rpf /tmp/itmmontest/K08_filesystem.param /tmp/itmmontest/K08_filesystem.param_`date +%d%m%y%T`
-    awk '{gsub(/^;suse/,"#suse");  print}' /tmp/itmmontest/K08_filesystem.param_lastused > /tmp/itmmontest/K08_filesystem.param_temp
-    awk '{gsub(/^##/,"#");  print}' /tmp/itmmontest/K08_filesystem.param_temp > /tmp/itmmontest/K08_filesystem.param
-    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /tmp/itmmontest/mon_disabled
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_process.param /opt/IBM/ITM/smitools/config/K08_process.param_`date +%d%m%y%T`
+    awk '{gsub(/^suse/,"#suse");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_lastused > /opt/IBM/ITM/smitools/config/K08_process.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_process.param_temp > /opt/IBM/ITM/smitools/config/K08_process.param
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused
+    cp -rpf /opt/IBM/ITM/smitools/config/K08_filesystem.param /opt/IBM/ITM/smitools/config/K08_filesystem.param_`date +%d%m%y%T`
+    awk '{gsub(/^;suse/,"#suse");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_lastused > /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp
+    awk '{gsub(/^##/,"#");  print}' /opt/IBM/ITM/smitools/config/K08_filesystem.param_temp > /opt/IBM/ITM/smitools/config/K08_filesystem.param
+    echo "Monitoring disabled at `date +%d%m%y_%T` by "{{ muser }}"" > /opt/IBM/ITM/smitools/config/mon_disabled
   register: disable_suse
   when: fword == "OS" and not file_data.stat.exists
 
 - name: Update Monitoring already disabled
   shell:  |
-    echo "Monitoring already disabled" > /tmp/itmmontest/monstatus
+    echo "Monitoring already disabled" > /opt/IBM/ITM/smitools/config/monstatus
   register: mon_status
   when: file_data.stat.exists
 
