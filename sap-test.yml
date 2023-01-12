@@ -1,6 +1,6 @@
 ---
-- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_single_sid1_2311
+- name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Five SIDs)
+  hosts: sap_oradb_abap_host_name_five_sid
   become: yes
   become_method: sudo
   vars: 
@@ -24,5 +24,42 @@
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
           get_hmv: "{{ get_make_value.results[0].stdout }}"
           get_hpv: "{{ get_patch_level.results[0].stdout }}"
-          get_smv: "{{ get_smd_version.results[0].stdout }}"   
+          get_smv: "{{ get_smd_version.results[0].stdout }}"    
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[1].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[1].stdout }}"
+          get_hmv: "{{ get_make_value.results[1].stdout }}"
+          get_hpv: "{{ get_patch_level.results[1].stdout }}"
+          get_smv: "{{ get_smd_version.results[1].stdout }}"
+        - get_sid: "{{ get_sid_output.results[2].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[2].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[2].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[2].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[2].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[2].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[2].stdout }}"
+          get_hmv: "{{ get_make_value.results[2].stdout }}"
+          get_hpv: "{{ get_patch_level.results[2].stdout }}"
+          get_smv: "{{ get_smd_version.results[2].stdout }}"    
+        - get_sid: "{{ get_sid_output.results[3].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[3].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[3].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[3].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[3].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[3].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[3].stdout }}"
+          get_hmv: "{{ get_make_value.results[3].stdout }}"
+          get_hpv: "{{ get_patch_level.results[3].stdout }}"
+          get_smv: "{{ get_smd_version.results[3].stdout }}"    
+        # - get_sid: "{{ get_sid_output.results[4].stdout }}"
+        #   get_sap: "{{ get_sap_version_output.results[4].stdout }}"
+        #   get_kmv: "{{ get_kernel_make_variant_output.results[4].stdout }}"
+        #   get_kpn: "{{ get_patch_number_output.results[4].stdout }}"
+        #   get_dbn: "{{ get_db_name_output.results[4].stdout }}"
+        #   get_dbv: "{{ get_db_version_output.results[4].stdout }}"
+        #   get_dbs: "{{ get_db_size_output.results[4].stdout }}"
       delegate_to: ampsv010bld0d
