@@ -7,7 +7,7 @@
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "Standalone-DB"
   roles:
-  - role: get-the-version-of-standalone-hanadb
+  - role: get-the-version-of-standalone-hanadb_withsmdhost
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
