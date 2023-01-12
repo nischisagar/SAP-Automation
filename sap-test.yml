@@ -1,13 +1,13 @@
 ---
-- name: Get MAXDB SCM servers version detail
-  hosts: sap_maxdb_SCM_servers_single_sid_new
+- name: Get MAXDB Content servers version detail 2 Sid
+  hosts: sap_maxdb_content_server_sid2
   become: yes
   become_method: sudo
   vars:
     ansible_python_interpreter: "/usr/bin/python"
-    app_type: "SAP-SCM/Content-Server"
+    app_type: "SAP-Content-server"
   roles:
-  - role: get-the-sap-version-maxdb-scm-sid1_withsmdhost
+  - role: get-the-sap-version-maxdb-contentserver-sid_withsmdhost
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
@@ -20,5 +20,11 @@
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_hmv: "{{ get_make_value.results[0].stdout }}"
           get_hpv: "{{ get_patch_level.results[0].stdout }}"
-          get_smv: "{{ get_smd_version.results[0].stdout }}"    
+          get_smv: "{{ get_smd_version.results[0].stdout }}"   
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[1].stdout }}"
+          get_hmv: "{{ get_make_value.results[1].stdout }}"
+          get_hpv: "{{ get_patch_level.results[1].stdout }}"
+          get_smv: "{{ get_smd_version.results[1].stdout }}"      
       delegate_to: ampsv010bld0d
