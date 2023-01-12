@@ -23,7 +23,7 @@
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }}'
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.0 }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},NA,NA,NA,{{ item.1 }},{{ item.2 }},{{ item.3 }},NA,NA,NA'
       throttle: 1
       with_together:
         - "{{ get_sid_output.stdout_lines }}"
