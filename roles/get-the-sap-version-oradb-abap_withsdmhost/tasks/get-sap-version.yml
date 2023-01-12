@@ -72,17 +72,17 @@
 
 - name: Get Make value
   shell:  "cat /tmp/test123.txt|grep -i variant|awk '{print $4}'"
-  loop: "{{ sid_adm_s4hana }}"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
   register: get_make_value
 
 - name: Get patch level
   shell:  "cat /tmp/test123.txt|grep -i patch|awk '{print $3}'"
-  loop: "{{ sid_adm_s4hana }}"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
   register: get_patch_level
 
 - name: Get smdagent version level
   shell:  cat /tmp/test123.txt|grep -i "smdagent.classPath"|awk -Fpatch_ '{print $NF }' |cut -d. -f1-4
-  loop: "{{ sid_adm_s4hana }}"
+  loop: "{{ sid_adm_usr_oradb_abap }}"
   register: get_smd_version
 
 - name: Remove the script
