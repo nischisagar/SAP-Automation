@@ -40,18 +40,21 @@
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "Standalone-DB"
   roles:
-  - role: get-the-version-of-standalone-hanadb
+  - role: get-the-version-of-standalone-hanadb_withsmdhost
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},NA,NA,NA,{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }},{{ item.get_hmv }},{{ item.get_hpv }},{{ item.get_smv }}'
       throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_dbn: "{{ get_dbn_output.results[0].stdout }}"
           get_dbv: "{{ get_dbv_output.results[0].stdout }}"
           get_dbs: "{{ get_dbs_output.results[0].stdout }}"
+          get_hmv: "{{ get_make_value.results[0].stdout }}"
+          get_hpv: "{{ get_patch_level.results[0].stdout }}"
+          get_smv: "{{ get_smd_version.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Get Agile S4HANA multi tenant db
