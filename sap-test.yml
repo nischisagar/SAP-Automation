@@ -1,36 +1,48 @@
 ---
-- name: Loginventory upgrade
-  hosts: "{{ lhname }}"
+- name: Get Agile S4HANA multi tenant db
+  hosts: s4hana_multitenantdb
   become: yes
   become_method: sudo
-  gather_facts: no
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
+    app_type: "ABAP"
   roles:
-  - role: sg-loginventory-installation
-
-- name: Send e-mail
-  hosts: ampsv010bld0d
-  become: yes
-  become_method: sudo
+  - role: get-the-version-of-s4hana-multitenant-hanadb_withsmdhost
   tasks:
-    - name: Copy the file with date format
-      copy: 
-        src: "/data/loginventory_version_update.txt"
-        dest: "/data/loginventory_version_update.txt-{{ ansible_date_time.date }}.csv"
-        remote_src: yes
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - Loginventory version Update
-        body: Hello Team, Please find the attached Loginventory version Update details
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Kalaikannan.Anbarasan@kyndryl.com
-        cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com       
-        attach:
-        - "/data/loginventory_version_update.txt-{{ ansible_date_time.date }}.csv"
-        headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
-        charset: us-ascii
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+      lineinfile:
+        dest: "/ansible/reports/verscheck.csv"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[0].stdout }}"
+          get_hmv: "{{ get_make_value.results[0].stdout }}"
+          get_hpv: "{{ get_patch_level.results[0].stdout }}"
+          get_smv: "{{ get_smd_version.results[0].stdout }}"
+        - get_sid: "{{ get_sid_output.results[1].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[1].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[1].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[1].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[1].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[1].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[1].stdout }}"
+          get_hmv: "{{ get_make_value.results[1].stdout }}"
+          get_hpv: "{{ get_patch_level.results[1].stdout }}"
+          get_smv: "{{ get_smd_version.results[1].stdout }}"
+        - get_sid: "{{ get_sid_output.results[2].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[2].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[2].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[2].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[2].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[2].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[2].stdout }}"
+          get_hmv: "{{ get_make_value.results[2].stdout }}"
+          get_hpv: "{{ get_patch_level.results[2].stdout }}"
+          get_smv: "{{ get_smd_version.results[2].stdout }}"
+      delegate_to: ampsv010bld0d
