@@ -657,7 +657,7 @@
   vars:
     ansible_python_interpreter: "/usr/bin/python"
   roles:
-    - role: get-sap-db2hana-app-version
+    - role: get-sap-db2hana-app-version_withsmdhost
 
 - name: Send e-mail
   hosts: ampsv010bld0d
@@ -667,7 +667,7 @@
     - name: Copy the file with date format
       copy: 
         src: "{{ report_file }}"
-        dest: "/ansible/reports/sap-db-OS-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+        dest: "/ansible/reports/sap-db-OS-smd-host-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
@@ -681,7 +681,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
-        - "/ansible/reports/sap-db-OS-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+        - "/ansible/reports/sap-db-OS-smd-host-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
