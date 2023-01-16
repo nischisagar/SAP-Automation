@@ -37,6 +37,18 @@
   register: filecopystatus
   when: hname == "ampsv013pi0d"
 
+- name: Copy itm agent userstatus check script
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0775"
+    group: "sapsys"
+  with_items:
+    - { src: 'files/agentstatus_1601prd.sh' }
+    - { src: 'files/scitm.sh' }
+  register: filecopystatus
+  when: hname == "ampsv013pi0d"
+
 - name: Rename agent file
   shell: mv /tmp/agentstatus_13pi0d.sh /tmp/agentstatus.sh
   register: mvfname
