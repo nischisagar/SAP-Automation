@@ -1,0 +1,99 @@
+---
+- name: Copy the script
+  copy:
+    src: "{{ sap_version_check_script_source_hanadb_abap }}"
+    dest: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap}}"
+    owner: "{{  item.name }}"
+    mode: '0700'
+  when: sid_adm_usr_hanadb_abap is defined
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+
+- name: Run the SAP version check script
+  shell: "su - {{ item.name }} -c /tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap }}"
+  changed_when: False
+  args:
+    warn: false
+  when: sid_adm_usr_hanadb_abap is defined
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+
+- name: Check SAP HOST AGENT VERSION
+  shell: |
+    {{ path }} -version|grep -iE "variant|patch"|tail -2 > /tmp/test123.txt
+    run1=`find /usr/sap/*/*/SMDAgent/* -name runtime.properties`
+    for i in $run1
+    do
+    hn=`cat $i|grep -i "connection.url"|cut -d\: -f2|cut -d. -f1`
+    b="//ampsv010m1"
+    if [ "$hn" == "$b" ]
+    then
+    smd1=`echo $i|cut -d/ -f4`
+    smdfilename=`find /usr/sap/$smd1/*/SMDAgent/smdagent.properties`
+    grep -i "smdagent.classPath" $smdfilename >> /tmp/test123.txt
+    else
+    echo $hn not equal to $b
+    fi
+    done
+  register: hostversion
+
+- name: Get the SID
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }} | head -1"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_sid_output"
+  
+- name: Get the SAP Version
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -2 | tail -1"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_sap_version_output"
+  
+- name: Get the Kernel make variant
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -3 | tail -1 | awk '{print $1}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_kernel_make_variant_output"
+
+- name: Get the Kernel Patch Number
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -3 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_patch_number_output"
+
+- name: Get the DB name
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap}} | head -4 | tail -1 | awk '{print $1}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_db_name_output"
+  
+
+- name: Get the DB Version
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | head -4 | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_db_version_output"
+
+- name: Get the DB Size
+  shell: "cat /tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}  | tail -1 | awk '{print $NF}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_db_size_output"
+
+- name: Get Make value
+  shell:  "cat /tmp/test123.txt|grep -i variant|awk '{print $4}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_make_value"
+
+- name: Get patch level
+  shell:  "cat /tmp/test123.txt|grep -i patch|awk '{print $3}'"
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_patch_level"
+
+- name: Get smdagent version level
+  shell:  cat /tmp/test123.txt|grep -i "smdagent.classPath"|awk -Fpatch_ '{print $NF }' |cut -d. -f1-4
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+  register: "get_smd_version"
+
+- name: Remove the script
+  file:
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_script_hanadb_abap }}"
+    state: absent
+  loop: "{{ sid_adm_usr_hanadb_abap }}"
+
+- name: Remove the log
+  file:
+    path: "/tmp/{{ item.name }}-{{ sap_version_check_log_hanadb_abap }}"
+    state: absent
+  loop: "{{ sid_adm_usr_hanadb_abap}}"

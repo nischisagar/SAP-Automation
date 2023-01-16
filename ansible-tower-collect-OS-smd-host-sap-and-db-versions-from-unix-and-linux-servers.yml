@@ -574,12 +574,12 @@
     ansible_python_interpreter: "/usr/bin/python"
     app_type: "ABAP"
   roles:
-  - role: get-the-sap-version-hanadb-abap
+  - role: get-the-sap-version-hanadb-abap_withsmdhost
   tasks:
     - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
       lineinfile:
         dest: "{{ report_file }}"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }}'
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }},{{ item.get_hmv }},{{ item.get_hpv }},{{ item.get_smv }}'
       throttle: 1
       loop:
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
@@ -589,6 +589,9 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
+          get_hmv: "{{ get_make_value.results[0].stdout }}"
+          get_hpv: "{{ get_patch_level.results[0].stdout }}"
+          get_smv: "{{ get_smd_version.results[0].stdout }}"
       delegate_to: ampsv010bld0d
 
 - name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Single SID)
