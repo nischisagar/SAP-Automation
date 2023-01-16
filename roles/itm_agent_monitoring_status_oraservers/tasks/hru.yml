@@ -23,7 +23,7 @@
     - { src: 'files/agentstatus.sh' }
     - { src: 'files/scitm.sh' }
   register: filecopystatus
-  when: "{{ hname }}" =! ampsv013pi0d
+  when: hname != "ampsv013pi0d"
 
 - name: Copy itm agent userstatus check script
   copy:
@@ -35,12 +35,12 @@
     - { src: 'files/agentstatus_13pi0d.sh' }
     - { src: 'files/scitm.sh' }
   register: filecopystatus
-  when: "{{ hname }}" == ampsv013pi0d
+  when: hname == "ampsv013pi0d"
 
 - name: Rename agent file
   shell: mv /tmp/agentstatus_13pi0d.sh /tmp/agentstatus.sh
   register: mvfname
-  when: "{{ hname }}" == ampsv013pi0d
+  when: hname == "ampsv013pi0d"
 
 - name: Find number of SID present
   shell:  |
