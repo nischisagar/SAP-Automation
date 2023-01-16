@@ -12,7 +12,7 @@
       run_once: yes
 
 - name: Get the SAP ITM Agent status for oracle DB SAP servers
-  hosts: ampsv013pi0d:ampsv03340pjt:a01830pj
+  hosts: ampsv013pi0d:ampsv03340pjt:ampsv01601prd
   become: yes
   become_method: sudo
   vars: 
