@@ -1,8 +1,4 @@
 ---
-- name: Move old output files to /ansible/reports/csr_cert_expiry_check/old_csv
-  shell: mv -f /ansible/reports/csr_cert_expiry_check/csr_*csv /ansible/reports/csr_cert_expiry_check/old_csv/
-  register: move_file
-
 - name: Copy script and month file to target server
   copy:
     src: "{{ item.src }}" 

@@ -11,6 +11,12 @@
         dest: "{{ report_file }}"
       run_once: yes
 
+- name: Launch collection
+  hosts: ampsv010bld0d
+  become: yes
+  become_method: sudo
+  shell: mv -f /ansible/reports/csr_cert_expiry_check/csr_*csv /ansible/reports/csr_cert_expiry_check/old_csv/
+      
 - name: Find sap focus run csr certificate expiry status
   hosts: target_csr_certificate_expiry_check
   become: yes
