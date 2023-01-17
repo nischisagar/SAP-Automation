@@ -1,50 +1,8 @@
 ---
-- name: Create the ITM Report file
-  hosts: ampsv010bld0d
+- name: Add the title content in to report file
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: yes
-  tasks:
-    - name: Create the ITM Report file
-      copy:
-        content: 'Entity_Name,Host_Name,SID,IBMMON_Agent_uflag,sap_agent_status,ux_sa_status'
-        dest: "/ansible/reports/itm_test.csv"
-      run_once: yes
-
-- name: Get the SAP ITM Agent status for oracle DB SAP servers
-  hosts: ampsv013pi0d:a01822pr:ampsv01601prd:ampsv163ecc0p
-  become: yes
-  become_method: sudo
-  vars: 
-    ansible_python_interpreter: "/usr/bin/python"
   roles:
-  - role: itm_agent_monitoring_status_oraservers
-    ignore_errors: yes
-  tasks:
-    - name: Add SAP ITM Agent status to report File.
-      lineinfile:
-        dest: "/ansible/reports/itm_test.csv"
-        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_hname }},{{ item.get_ssid1 }},{{ item.get_crypt }},{{ item.get_expdt }}'
-      throttle: 1
-      loop:
-        - get_hname: "{{ get_cert_output.results[0].stdout }}"
-          get_ssid1: "{{ get_valid.results[0].stdout }}"
-          get_crypt: "{{ get_color.results[0].stdout }}"
-          get_expdt: "{{ get_expdate.results[0].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[1].stdout }}"
-          get_ssid1: "{{ get_valid.results[1].stdout }}"
-          get_crypt: "{{ get_color.results[1].stdout }}"
-          get_expdt: "{{ get_expdate.results[1].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[2].stdout }}"
-          get_ssid1: "{{ get_valid.results[2].stdout }}"
-          get_crypt: "{{ get_color.results[2].stdout }}"
-          get_expdt: "{{ get_expdate.results[2].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[3].stdout }}"
-          get_ssid1: "{{ get_valid.results[3].stdout }}"
-          get_crypt: "{{ get_color.results[3].stdout }}"
-          get_expdt: "{{ get_expdate.results[3].stdout }}" 
-        - get_hname: "{{ get_cert_output.results[4].stdout }}"
-          get_ssid1: "{{ get_valid.results[4].stdout }}"
-          get_crypt: "{{ get_color.results[4].stdout }}"
-          get_expdt: "{{ get_expdate.results[4].stdout }}"
-      delegate_to: ampsv010bld0d
+  - role: sap-copy-script-allserver
