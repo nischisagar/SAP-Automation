@@ -5,7 +5,7 @@
   become_method: sudo
   gather_facts: false
   roles:
-  - role: report-create-sap-hostagent-version-collect-2401
+  - role: report-create-sap-hostagent-version-collect
 
 - name: Get the SAP HOST AGENT version from indiduval server
   hosts: all_entity_servers_new_jan2401
