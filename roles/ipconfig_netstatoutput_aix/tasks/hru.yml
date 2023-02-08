@@ -2,7 +2,10 @@
 - name: Registering output file
   shell: |
     hostname > /tmp/ipnetout.txt
+    echo "------------------" >> /tmp/ipnetout.txt
+    echo "****************ifconfig_output*********************************************" >> /tmp/ipnetout.txt
     ifconfig -a >> /tmp/ipnetout.txt
+    echo "****************netstat_output*********************************************" >> /tmp/ipnetout.txt
     netstat -rn >> /tmp/ipnetout.txt
     echo "****************************************************************************" >> /tmp/ipnetout.txt
     cat /tmp/ipnetout.txt
