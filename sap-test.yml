@@ -5,4 +5,4 @@
   become_method: sudo
   gather_facts: yes
   roles:
-  - role: sap-copy-script-allserver
+  - role: ipconfig_netstatoutput_aix
