@@ -1,0 +1,25 @@
+---
+- name: Registering output file
+  shell: |
+    h1=`hostname` > /tmp/ipnetout.txt
+    echo "------------------" >> /tmp/ipnetout.txt
+    echo "****************ifconfig_output*********************************************" >> /tmp/ipnetout.txt
+    ifconfig -a >> /tmp/ipnetout.txt
+    echo "****************netstat_output*********************************************" >> /tmp/ipnetout.txt
+    netstat -rn >> /tmp/ipnetout.txt
+    echo "****************************************************************************" >> /tmp/ipnetout.txt
+    cat /tmp/ipnetout.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- debug:
+    msg: "{{ outputfinal }}"
+ 
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/netipfinal.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
