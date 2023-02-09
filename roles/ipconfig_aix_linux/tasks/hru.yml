@@ -1,7 +1,13 @@
 ---
 - name: Registering output file
   shell: |
+    str1=`ifconfig -a|grep -iE 'netmask|Bcast'|grep -v 127.0.0.1|awk '{print $2}'|head -1|cut -c1-4`
+    if [ $str1 == addr ]
+    then
+    ifconfig -a|grep -iE 'netmask|inet'|grep -v 127.0.0.1|awk '{print b1,$2,$3,$4}' b1=`hostname` > /tmp/ifconfout.txt
+    else
     ifconfig -a|grep -i netmask|grep -v 127.0.0.1|awk '{print b1,$2,$4,$6}' b1=`hostname` > /tmp/ifconfout.txt
+    fi
     cat /tmp/ifconfout.txt
   register : outputfinal
 
