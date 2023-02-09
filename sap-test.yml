@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: "{{ hname1 }}"
+  hosts: sgi_grp_cred_linux
   become: yes
   become_method: sudo
   gather_facts: no
