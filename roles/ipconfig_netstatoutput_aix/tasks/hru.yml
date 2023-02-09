@@ -20,6 +20,6 @@
  
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/oracle/DAE/netipfinal.txt"
+    path: "/data/netipfinal.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
