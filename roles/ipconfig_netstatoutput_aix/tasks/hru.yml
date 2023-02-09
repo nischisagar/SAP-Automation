@@ -22,4 +22,4 @@
   lineinfile:
     path: "/oracle/DAE/netipfinal.txt"
     line: "{{ outputfinal }}"
-  delegate_to: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
