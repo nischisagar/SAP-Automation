@@ -5,6 +5,7 @@
     echo "-------------------------------" >> /tmp/etccont.txt
     cat /etc/hosts|grep -v ^#|grep -v '^ *$' >> /tmp/etccont.txt
     echo "--------------------------------------------------------------------------------" >> /tmp/etccont.txt
+    cat /tmp/etccont.txt
   register : outputfinal
 
 - name: Demo set_facts final output
