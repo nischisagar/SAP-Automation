@@ -2,6 +2,7 @@
 - name: Registering output file
   shell: |
     hostname > /tmp/etccont.txt
+    echo "go host" >> /tmp/etccont.txt
     echo "-------------------------------" >> /tmp/etccont.txt
     cat /etc/hosts|grep -v ^#|grep -v '^ *$' >> /tmp/etccont.txt
     echo "--------------------------------------------------------------------------------" >> /tmp/etccont.txt
