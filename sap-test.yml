@@ -1,8 +1,8 @@
 ---
 - name: Add the title content in to report file
-  hosts: all
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: no
   roles:
-  - role: etc_hosts_retrive_aix
+  - role: etc_ntpconf_retrive_aix
