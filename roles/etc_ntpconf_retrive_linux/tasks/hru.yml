@@ -13,9 +13,6 @@
   set_fact:
     outputfinal: "{{ outputfinal['stdout'] }}"
   
-- debug:
-    msg: "{{ outputfinal }}"
- 
 - name: "Delegate output to bld0d server"
   lineinfile:
     path: "/data/etcntpconf_linux.txt"
