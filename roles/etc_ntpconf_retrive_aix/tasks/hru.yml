@@ -15,6 +15,6 @@
  
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/oracle/DAE/etcntpconf_aix.txt"
+    path: "/oracle/SE0/etcntpconf_aix.txt"
     line: "{{ outputfinal }}"
-  delegate_to: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: xmpsa010sdb0.ux1.ibmfr.bluecare.ibm.com
