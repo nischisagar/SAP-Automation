@@ -17,4 +17,4 @@
   lineinfile:
     path: "/oracle/DAE/etcntpconf_aix.txt"
     line: "{{ outputfinal }}"
-  delegate_to: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
