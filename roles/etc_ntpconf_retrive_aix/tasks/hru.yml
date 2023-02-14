@@ -1,0 +1,20 @@
+---
+- name: Registering output file
+  shell: |
+    hostname > /tmp/etcntpconf.txt
+    echo "go host" >> /tmp/etcntpconf.txt
+    echo "-------------------------------" >> /tmp/etcntpconf.txt
+    cat /etc/ntp.conf|grep -v ^#|grep -v '^ *$' >> /tmp/etcntpconf.txt
+    echo "--------------------------------------------------------------------------------" >> /tmp/etcntpconf.txt
+    cat /tmp/etcntpconf.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+ 
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/oracle/DAE/etcntpconf_aix.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
