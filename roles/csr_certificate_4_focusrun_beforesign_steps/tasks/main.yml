@@ -15,8 +15,8 @@
 
 - name: "Find FQDN"
   shell: |
-    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
-    #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1`
+    #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
+    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1`
     cnt1=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'|wc -l`
     if [ $cnt1 == 1 ]
     then
