@@ -2,7 +2,7 @@
 - name: Registering output file
   shell: |
     h1=`hostname`
-    cat /etc/hosts/|grep -v ^#|grep -v '^ *$'|sed 's/^/'$h1' '/g > /tmp/etccont.txt
+    cat /etc/hosts|grep -v ^#|grep -v '^ *$'|sed 's/^/'$h1' '/g > /tmp/etccont.txt
     cat /tmp/etccont.txt
   register : outputfinal
 
