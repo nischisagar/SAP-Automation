@@ -1,9 +1,7 @@
 ---
 - name: Registering output file
   shell: |
-    h1=`hostname`
-    cat /etc/hosts|grep -v ^#|grep -v '^ *$'|sed 's/^/'$h1' '/g > /tmp/etccont.txt
-    cat /tmp/etccont.txt
+    echo "test"
   register : outputfinal
 
 - name: Demo set_facts final output
@@ -12,9 +10,3 @@
   
 - debug:
     msg: "{{ outputfinal }}"
- 
-- name: "Delegate output to bld0d server"
-  lineinfile:
-    path: "/data/etchost_aixlinux.txt"
-    line: "{{ outputfinal }}"
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
