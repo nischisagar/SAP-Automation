@@ -1,5 +1,5 @@
 ---
-- name: Add the title content in to report file
+- name: Add the title content in to report 
   hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
