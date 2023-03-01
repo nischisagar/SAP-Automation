@@ -1,0 +1,37 @@
+---
+- name: Collect file output
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  tasks:
+    - name: Cat process file
+      shell:  |
+        hostname > /tmp/itm_process.txt
+        echo "------------------------------" >> /tmp/itm_process.txt
+        echo "Process ITM Config file" >> /tmp/itm_process.txt
+        echo "------------------------------" >> /tmp/itm_process.txt
+        cat /opt/IBM/ITM/smitools/config/K08_process.param >> /tmp/itm_process.txt
+        echo " " >> /tmp/itm_process.txt
+        echo "------------------------------" >> /tmp/itm_process.txt
+        echo "Filesystem ITM Config file" >> /tmp/itm_process.txt
+        echo "------------------------------" >> /tmp/itm_process.txt
+        cat /opt/IBM/ITM/smitools/config/K08_filesystem.param >> /tmp/itm_process.txt
+        echo " " >> /tmp/itm_process.txt
+        cat /tmp/itm_process.txt
+      register: check_out1file
+
+    - name: Demo set_facts final output
+      set_fact:
+        output_store_suc: "{{ output_store_suc['stdout'] }}"
+      
+    - debug:
+        msg: "{{ output_store_suc }}"
+    
+    - name: "Delegate output to bld0d server"
+      lineinfile:
+        path: "/oracle/DAE/itmfile_exist.txt"
+        line: "{{ output_store_suc }}"
+      delegate_to: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
