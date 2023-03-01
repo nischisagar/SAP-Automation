@@ -21,7 +21,7 @@
         cat /opt/IBM/ITM/smitools/config/K08_filesystem.param >> /tmp/itm_process.txt
         echo " " >> /tmp/itm_process.txt
         cat /tmp/itm_process.txt
-      register: check_out1file
+      register: output_store_suc
 
     - name: Demo set_facts final output
       set_fact:
