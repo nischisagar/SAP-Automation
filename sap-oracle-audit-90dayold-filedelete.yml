@@ -1,0 +1,35 @@
+---
+- name: Playbook to delete 90 days old Oracle Audit files
+  hosts: a01830pj
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+  tasks:
+    - name: Check count of audit files
+      shell: |
+        #!/bin/ksh
+        alist=`df -g|grep -i oracle|grep -i audit|awk '{print $NF}'`
+        for i in $alist
+        do
+        echo $i
+        #find $i -type f -name '*' -mtime +90 -exec ls -lrt|wc -l {} \;
+        cnt=`cd $i;ls -lrt|wc -l`
+        echo "$i $cnt" >> /tmp/auditcount.txt
+        cat /tmp/auditcount.txt
+        done
+      register: audit_count
+
+    - name: Demo set_facts final output
+      set_fact:
+        audit_count: "{{ audit_count['stdout'] }}"
+      
+    - debug:
+        msg: "{{ audit_count }}"
+    
+    - name: "Delegate output to bld0d server"
+      lineinfile:
+        path: "/oracle/DAE/auditcountnew.txt"
+        line: "{{ audit_count }}"
+      delegate_to: xmpsa010secc0
