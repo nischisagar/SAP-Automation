@@ -1,6 +1,6 @@
 ---
 - name: Playbook to delete 90 days old Oracle Audit files
-  hosts: a01830pj
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: False
@@ -16,7 +16,7 @@
         echo $i
         #find $i -type f -name '*' -mtime +90 -exec ls -lrt|wc -l {} \;
         cnt=`cd $i;ls -lrt|wc -l`
-        echo "$i $cnt" >> /tmp/auditcount.txt
+        echo "`hostname` $i $cnt" >> /tmp/auditcount.txt
         cat /tmp/auditcount.txt
         done
       register: audit_count
