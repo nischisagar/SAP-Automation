@@ -111,4 +111,4 @@
   lineinfile:
     path: "/tmp/application_validation_status.txt"
     line: "{{ outputfinal }}"
-  delegate_to: ampsv010bld0d
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
