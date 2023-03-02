@@ -1,6 +1,6 @@
 ---
 - name: Playbook to delete 90 days old Oracle Audit files
-  hosts: target_oracle_servers_2311
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: False
