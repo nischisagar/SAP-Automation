@@ -7,7 +7,7 @@
     - name: Copy the file with date format
       copy: 
         src: "/ansible/reports/unix-linux-sap-db-versions.csv"
-        dest: "sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        dest: "/ansible/reports/sap-db-versions-unix-linux-2023-03-16_copy.csv"
         remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
@@ -21,7 +21,7 @@
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
-        - "sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        - "/ansible/reports/sap-db-versions-unix-linux-2023-03-16_copy.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
