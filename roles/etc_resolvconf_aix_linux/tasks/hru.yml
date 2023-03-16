@@ -1,0 +1,20 @@
+---
+- name: Registering output file
+  shell: |
+    hostname > /tmp/etcresolconf.txt
+    echo "go host" >> /tmp/etcresolconf.txt
+    echo "-------------------------------" >> /tmp/etcresolconf.txt
+    cat /etc/resolv.conf >> /tmp/etcresolconf.txt
+    echo "--------------------------------------------------------------------------------" >> /tmp/etcresolconf.txt
+    cat /tmp/etcresolconf.txt
+  register : outputfinal
+
+- name: Demo set_facts final output
+  set_fact:
+    outputfinal: "{{ outputfinal['stdout'] }}"
+  
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/data/etcresolconf_aixlinux.txt"
+    line: "{{ outputfinal }}"
+  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
