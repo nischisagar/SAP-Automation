@@ -1,8 +1,28 @@
 ---
-- name: Add the title content in to report file 
-  hosts: "{{ hname1 }}"
+- name: Send e-mail
+  hosts: ampsv010bld0d
   become: yes
   become_method: sudo
-  gather_facts: no
-  roles:
-  - role: etc_hosts_retrive_latest
+  tasks:
+    - name: Copy the file with date format
+      copy: 
+        src: "/ansible/reports/unix-linux-sap-db-versions.csv"
+        dest: "sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        remote_src: yes
+    - name: Send e-mail to a bunch of users, attaching files
+      mail:
+        host: smtp.mail.saint-gobain.net
+        port: 25
+        subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
+        body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
+        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Shared Infra Reports <010reports@Kyndryl.com>
+        cc: 
+        - Kalaikannan.Anbarasan@kyndryl.com       
+        attach:
+        - "sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        headers:
+        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
+        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
+        charset: us-ascii

@@ -6,7 +6,7 @@
     - name: Copy the file with date format
       copy: 
         src: "/ansible/reports/unix-linux-sap-db-versions.csv"
-        dest: "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+        dest: "sap-db-versions-unix-linux-2023-03-16_copy.csv"
         remote_src: yes
     - name: Send e-mail to a bunch of users, attaching files
       mail:
@@ -16,11 +16,11 @@
         body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Monthly SAP JAVA and DB version Report <ANS_DB_.edh6g777bvz7zb9w@u.box.com>
+        - Shared Infra Reports <010reports@Kyndryl.com>
         cc: 
         - Kalaikannan.Anbarasan@kyndryl.com       
         attach:
-        - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
+        - "sap-db-versions-unix-linux-2023-03-16_copy.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
