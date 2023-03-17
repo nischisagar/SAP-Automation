@@ -8,13 +8,13 @@
       mail:
         host: smtp.mail.saint-gobain.net
         port: 25
-        subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
-        body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
+        subject: Ansible Report
+        body: Hello Team
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - DL-Kyndryl-SG-SAP@kyndryl.com
         cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com       
+        - DL-Kyndryl-SG-SAP@kyndryl.com       
         attach:
         - "/ansible/reports/unix-linux-sap-db-versions.csv"
         headers:
