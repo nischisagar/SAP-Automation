@@ -13,10 +13,14 @@
         alist=`df -g|grep -i oracle|grep -i audit|awk '{print $NF}'`
         for i in $alist
         do
-        hostname
-        df -g $i|tail -1|awk '{print "$i " "Beforefree_space: " $3, "Used_%: " $4}'
+        h1=`hostname`
+        f1=`df -g $i|tail -1|awk '{print $3}'`
+        p1=`df -g $i|tail -1|awk '{print $4}'`
+        echo "B4_Run_freespace_used%: $h1 $i $f1 $p1"
         #find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
-        df -g $i|tail -1|awk '{print "$i " "Afterfree_space: " $3, "Used_%: " $4}'
+        f1=`df -g $i|tail -1|awk '{print $3}'`
+        p1=`df -g $i|tail -1|awk '{print $4}'`
+        echo "After_Run_freespace_used%: $h1 $i $f1 $p1"
         done
       register: auditcount
 
