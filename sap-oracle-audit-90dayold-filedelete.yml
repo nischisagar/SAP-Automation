@@ -13,11 +13,9 @@
         alist=`df -g|grep -i oracle|grep -i audit|awk '{print $NF}'`
         for i in $alist
         do
-        #echo $i
-        #find $i -type f -name '*' -mtime +90 -exec ls -lrt|wc -l {} \;
-        cnt=`cd $i;ls -lrt|wc -l`
-        echo "`hostname` $i $cnt" >> /tmp/auditcount.txt
-        cat /tmp/auditcount.txt
+        df -g $i|tail -1|awk '{print "$i " "Beforefree_space: " $3, "Used_%: " $4}'
+        find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
+        df -g $i|tail -1|awk '{print "$i " "Afterfree_space: " $3, "Used_%: " $4}'
         done
       register: audit_count
 
@@ -26,10 +24,4 @@
         audit_count: "{{ audit_count['stdout'] }}"
       
     - debug:
-        msg: "{{ audit_count }}"
-    
-    - name: "Delegate output to bld0d server"
-      lineinfile:
-        path: "/oracle/DAE/auditcountnew.txt"
-        line: "{{ audit_count }}"
-      delegate_to: xmpsa010secc0
+        msg: "{{ audit_count }}"    
