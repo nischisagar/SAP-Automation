@@ -25,4 +25,4 @@
         auditcount: "{{ auditcount['stdout'] }}"
       
     - debug:
-        msg: "{{ auditcount_stdout_lines }}"    
+        msg: "{{ auditcount.stdout_lines }}"    
