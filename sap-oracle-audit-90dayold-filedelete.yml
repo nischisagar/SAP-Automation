@@ -13,15 +13,16 @@
         alist=`df -g|grep -i oracle|grep -i audit|awk '{print $NF}'`
         for i in $alist
         do
+        hostname
         df -g $i|tail -1|awk '{print "$i " "Beforefree_space: " $3, "Used_%: " $4}'
-        find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
+        #find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
         df -g $i|tail -1|awk '{print "$i " "Afterfree_space: " $3, "Used_%: " $4}'
         done
-      register: audit_count
+      register: auditcount
 
     - name: Demo set_facts final output
       set_fact:
-        audit_count: "{{ audit_count['stdout'] }}"
+        auditcount: "{{ auditcount['stdout'] }}"
       
     - debug:
-        msg: "{{ audit_count }}"    
+        msg: "{{ auditcount_stdout_lines }}"    
