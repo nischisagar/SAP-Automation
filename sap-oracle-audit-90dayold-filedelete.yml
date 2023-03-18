@@ -20,9 +20,7 @@
         done
       register: auditcount
 
-    - name: Demo set_facts final output
-      set_fact:
-        auditcount: "{{ auditcount['stdout'] }}"
-      
-    - debug:
-        msg: "{{ auditcount.stdout_lines }}"    
+    - name: Print the result
+      debug:
+        var: auditcount.stdout_lines
+
