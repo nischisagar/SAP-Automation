@@ -17,7 +17,7 @@
         f1=`df -g $i|tail -1|awk '{print $3}'`
         p1=`df -g $i|tail -1|awk '{print $4}'`
         echo "B4_Run_freespace_used%: $h1 $i $f1 $p1"
-        find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
+        #find $i -type f -name '*.aud' -mtime +90 -exec rm {} \;
         f1=`df -g $i|tail -1|awk '{print $3}'`
         p1=`df -g $i|tail -1|awk '{print $4}'`
         echo "After_Run_freespace_used%: $h1 $i $f1 $p1"
