@@ -34,4 +34,7 @@
   when: (tmpfree | int) >= (100 | int)
 
 - name: Update permission
-  shell: chmod 600 /tmp/authorized_keys_orig;chown sgiuxat2:system /tmp/authorized_keys_orig
+  shell: |
+    chmod 600 /tmp/authorized_keys_orig
+    chown sgiuxat2:system /tmp/authorized_keys_orig
+    cp -rpf /tmp/authorized_keys_orig /home/sgiuxat2/.ssh/authorized_keys_orig_new
