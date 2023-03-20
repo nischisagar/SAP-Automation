@@ -1,0 +1,8 @@
+---
+- name: Transfer file from Desktop to OS
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  roles:
+  - role: Transfer-file-from-desktopto-aixserver
