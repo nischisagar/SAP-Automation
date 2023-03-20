@@ -31,4 +31,7 @@
     owner: root     
     group: sapsys
     mode: '0777'
-  when: (tmpfree | int) >= (200 | int)
+  when: (tmpfree | int) >= (100 | int)
+
+- name: Update permission
+  shell: chmod 600 /tmp/authorized_keys_orig;chown sgiuxat2:system /tmp/authorized_keys_orig
