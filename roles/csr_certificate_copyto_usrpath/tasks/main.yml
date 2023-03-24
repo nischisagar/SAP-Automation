@@ -22,17 +22,10 @@
     path: "/usr/sap/hostctrl/exe/csr_openssl"
   register: register_name2
 
-- name: "Copy signed certificate"
-  shell: |
+- name: "Copy signed certificate to /usr/sap/csr_cert/"
+  shell:  |
     hn=`hostname`
-    cn=`ls -lrt /usr/sap/csr_cert/"$hn"_fruncsr.cer|wc -l`
-    if [ $cn -eq 1 ]
-    then
-    echo "Certificate already found"
-    else
-    cp -rp /usr/sap/hostctrl/exe/csr_openssl/"$hn"_net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
-    ls -lrt /usr/sap/csr_cert/
-    fi
+    cp -rpf /usr/sap/hostctrl/exe/csr_openssl/"$hn"_net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
   register: copycert
   when: register_name2.stat.exists
 
