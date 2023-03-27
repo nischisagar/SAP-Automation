@@ -12,9 +12,9 @@
         body: Hello Team
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - DL-Kyndryl-SG-SAP@kyndryl.com
+        - Kalaikannan.Anbarasan@kyndryl.com
         cc: 
-        - DL-Kyndryl-SG-SAP@kyndryl.com
+        - Kalaikannan.Anbarasan@kyndryl.com
         attach:
         - "/ansible/reports/sap-db-versions-unix-linux-2023-03-16_copy.csv"
         headers:
