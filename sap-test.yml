@@ -16,7 +16,7 @@
         cc: 
         - Shared Infra Reports <010reports@Kyndryl.com>
         attach:
-        - "sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        - "/ansible/reports/sap-db-versions-unix-linux-2023-03-16_copy.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
