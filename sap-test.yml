@@ -12,11 +12,11 @@
         body: Hello Team
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan.Anbarasan@kyndryl.com
+        - Shared Infra Reports <010reports@Kyndryl.com>
         cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com
+        - Shared Infra Reports <010reports@Kyndryl.com>
         attach:
-        - "/ansible/reports/sap-db-versions-unix-linux-2023-03-16_copy.csv"
+        - "/ansible/reports/rhel_fs_write_check.csv"
         headers:
         - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
