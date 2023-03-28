@@ -18,6 +18,6 @@
         attach:
         - "/ansible/reports/rhel_fs_write_check.csv"
         headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
+        - Reply-To=010reports@Kyndryl.com
         - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
         charset: us-ascii
