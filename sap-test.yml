@@ -1,23 +1,9 @@
 ---
-- name: Send e-mail
-  hosts: ampsv010bld0d
+- name: SAP Connection test
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
+  gather_facts: false
   tasks:
-    - name: Send e-mail to a bunch of users, attaching files
-      mail:
-        host: smtp.mail.saint-gobain.net
-        port: 25
-        subject: Ansible Report - SAP, JAVA, DB2, Oracle, HANA and MAX DB versions
-        body: Hello Team
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
-        to:
-        - Shared Infra Reports <010reports@Kyndryl.com>
-        cc: 
-        - Shared Infra Reports <010reports@Kyndryl.com>
-        attach:
-        - "/ansible/reports/rhel_fs_write_check.csv"
-        headers:
-        - Reply-To=010reports@Kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
-        charset: us-ascii
+  - name : Test Run
+    shell: "df -m > /tmp/mntcheck.txt"
