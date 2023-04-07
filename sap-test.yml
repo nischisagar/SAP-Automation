@@ -6,4 +6,4 @@
   gather_facts: false
   tasks:
   - name : Test Run
-    shell: "su - adminkyndryl -c df -m > /tmp/mntcheck.txt"
+    shell: "df -m > /tmp/mntcheck.txt"
