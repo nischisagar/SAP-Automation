@@ -15,8 +15,9 @@
 
 - name: "Find FQDN"
   shell: |
-    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
+    #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
     #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1`
+    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1|awk '{print $NF}'`
     cnt1=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'|wc -l`
     if [ $cnt1 == 1 ]
     then
@@ -46,7 +47,7 @@
     msg: "{{ register_name }}"
 
 - name: Move if csr_openssl already exist
-  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_old1
+  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_firstrenew
   when: register_name.stat.exists
 
 - name: mkdir csr_openssl
@@ -98,7 +99,7 @@
     cd {{ install_path }};
     openssl req -new -key {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/{{ cername }}
     cat {{ install_path }}/{{ cername }}
-    cp -p {{ install_path }}/{{ cername }} /tmp/{{ cername }}
+    cp -p {{ install_path }}/{{ cername }} /tmp/{{ cername }}_`date +%d%m%y`
     #cp -p {{ install_path }}/{{ cername }} {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
     #echo {{ hname }} >> {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
   register: csroutput1
