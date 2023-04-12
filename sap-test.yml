@@ -1,6 +1,6 @@
 ---
 - name: SAP Connection test
-  hosts: all
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: sudo
   gather_facts: false
