@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: all_entity_nonprod_servers_jan2401
+  hosts: all_entity_prod_servers_jan2401
   become: yes
   become_method: sudo
   gather_facts: yes
