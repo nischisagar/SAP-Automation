@@ -115,4 +115,4 @@
   lineinfile:
     path: "/tmp/server_info_collect.txt"
     line: "{{ outputfinal }}"
-  delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
+  delegate_to: ampsv010bld0d
