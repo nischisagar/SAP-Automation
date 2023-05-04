@@ -24,12 +24,15 @@
 - debug:
     msg: "tmpfree: {{ tmpfree }}"
 
-- name: Copy files to patchlocation
-  copy:
-    src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
-    dest: "{{ patchpath }}/"
-    owner: root     
-    group: sapsys
-    mode: '0777'
-  when: (tmpfree | int) >= (100 | int)
-
+- name: Ansible Copy Example Local to Remote
+  hosts: remoteserver
+  tasks:
+    - name: copying file with playbook
+      become: true 
+      copy:
+        src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
+        dest: "{{ patchpath }}/"
+        owner: root
+        group: sapsys       
+        mode: '0777'
+      when: (tmpfree | int) >= (100 | int)
