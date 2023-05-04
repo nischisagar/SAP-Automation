@@ -5,7 +5,7 @@
     - name: copying file with playbook
       become: true 
       copy:
-        remote_src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
+        remote_src: ~/Downloads/tfilecopy.txt
         dest: /tmp/
         owner: root
         group: sapsys       
