@@ -36,3 +36,14 @@
         group: sapsys       
         mode: '0777'
       when: (tmpfree | int) >= (100 | int)
+
+- name: Add the title content in to Hard Disk Version Report
+  hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Add the title content in Report File
+      copy:
+        content: 'servername  pvname  boot  PVID volgroupID  hdisk ref manufacturer  type/model ROS Z0 Z1 serial'
+        dest: "/oracle/DAE/aix_hdisk_info_new.csv"
+      run_once: yes

@@ -1,8 +1,12 @@
 ---
-- name: Transfer file from Desktop to OS
-  hosts: "{{ hname1 }}"
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: Transfer-file-from-desktopto-aixserver
+- name: Ansible Copy Example Local to Remote
+  hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  tasks:
+    - name: copying file with playbook
+      become: true 
+      copy:
+        src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
+        dest: "{{ patchpath }}/"
+        owner: root
+        group: sapsys       
+        mode: '0777'
