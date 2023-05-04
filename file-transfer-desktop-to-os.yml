@@ -1,12 +1,15 @@
 ---
-- name: Ansible Copy Example Local to Remote
+- name: Sync Pull task - Executed on  the Destination host
   hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
-  tasks:
-    - name: copying file with playbook
-      become: true 
-      copy:
-        remote_src: ~/Downloads/tfilecopy.txt
-        dest: /tmp/
-        owner: root
-        group: sapsys       
-        mode: '0777'
+  tasks:   
+    - name: Copy the file from mwiapp01 to mwiapp02 using Method Pull
+      tags: sync-pull
+      synchronize:
+        src: "{{ item }}"
+        dest: "{{ item }}"
+        mode: pull
+      delegate_to: xmpsa010secc1.ux1.ibmfr.bluecare.ibm.com
+      register: syncfile
+      run_once: true
+      with_items:
+       - "/tmp/testcopyf.txt"
