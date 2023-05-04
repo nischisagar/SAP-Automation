@@ -6,7 +6,7 @@
       become: true 
       copy:
         src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
-        dest: "{{ patchpath }}/"
+        dest: /tmp/
         owner: root
         group: sapsys       
         mode: '0777'
