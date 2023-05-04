@@ -26,15 +26,10 @@
 
 - name: Copy files to patchlocation
   copy:
-    src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy.txt
+    src: C:\Users\KalaikannanAnbarasan\Desktop\hostagent_aix\tfilecopy
     dest: "{{ patchpath }}/"
     owner: root     
     group: sapsys
     mode: '0777'
   when: (tmpfree | int) >= (100 | int)
 
-- name: Update permission
-  shell: |
-    chmod 600 /tmp/authorized_keys_orig
-    chown sgiuxat2:system /tmp/authorized_keys_orig
-    cp -rpf /tmp/authorized_keys_orig /home/sgiuxat2/.ssh/authorized_keys_orig_new
