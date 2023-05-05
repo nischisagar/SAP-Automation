@@ -17,7 +17,9 @@
   # become_method: runas
   # become_user: system
   vars:
+    account_code: "sgi"
     hname1: host.domain.com
+    trans_num: "{{ tower_job_id }}"
   gather_facts: no
 
   tasks:
