@@ -28,7 +28,24 @@
         separator: '\'
       no_log: yes
 
-    - name: Copy CrowdStrike Falcon sensor installation setup from Repository server if URL download failed
+    - name: Hostagent Update
+      set_fact:
+        patchpath: C:\saphostagent\
+
+    - debug:
+        msg: "{{ patchpath }}"
+
+    - name: Remove directory saphostagent under c drive 
+      win_file:
+        path: '{{ patchpath }}'
+        state: absent
+
+    - name: Create directory saphostagent under c drive
+      win_file:
+        path: '{{ patchpath }}'
+        state: directory
+
+    - name: Copy HostAgent Dump to C:\saphostagent\ Location
       win_copy:
         src: '\\ampsv010rep0d\Ansible_repo\hostagent_win\SAPHOSTAGENT60_60-80004825_windows.SAR'
         dest: 'C:\saphostagent\'
