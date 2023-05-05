@@ -10,15 +10,35 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- hosts: "{{ hname1 }}"
-  become: yes
-  become_method: runas
-  become_user: system
-  gather_facts: false
+- name: CrowdStrike Falcon sensor installation on windows servers
+  hosts: "{{ hname1 }}"
+  # become: yes
+  # become_method: runas
+  # become_user: system
   vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
-  roles:
-    - role: sap-hostagent-update-windows
-      ignore_errors: yes  
+    hname1: host.domain.com
+  gather_facts: no
+
+  tasks:
+
+    - name: Load user and password variables
+      set_fact:
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        separator: '\'
+      no_log: yes
+
+    - name: Copy CrowdStrike Falcon sensor installation setup from Repository server if URL download failed
+      win_copy:
+        src: '\\ampsv010rep0d\Ansible_repo\hostagent_win\SAPHOSTAGENT60_60-80004825_windows.SAR'
+        dest: 'C:\saphostagent\'
+        remote_src: yes
+      become: True
+      become_method: runas
+      become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ password }}"
+        ansible_remote_tmp: 'C:\saphostagent'
+
       
