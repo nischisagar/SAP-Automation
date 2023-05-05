@@ -8,21 +8,6 @@
 - debug:
     msg: "{{ patchpath }}"
 
-- name: Remove directory saphostagent under c drive 
-  win_file:
-    path: '{{ patchpath }}'
-    state: absent
-
-- name: Create directory saphostagent under c drive
-  win_file:
-    path: '{{ patchpath }}'
-    state: directory
-
-- name: Copy host agent dump SAR file and SAPCAR to directory saphostagent under c drive
-  win_copy:
-    src: "files/"
-    dest: '{{ patchpath }}'
-
 - name: Check and Display Current hostagent version
   win_command: saphostexec.exe -version
   args:

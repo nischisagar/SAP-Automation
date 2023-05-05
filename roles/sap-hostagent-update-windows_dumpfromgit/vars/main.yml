@@ -1,0 +1,3 @@
+---
+patch_name: "SAPHOSTAGENT59_59-80004825_windows.SAR"
+sapcar_path:  'C:\Program Files\SAP\hostctrl\exe\SAPCAR.exe'
