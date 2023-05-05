@@ -7,10 +7,10 @@
     run_once: true
     delegate_to: localhost
     vars:
-      acc_id: "sgi"
+      account_code: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- name: CrowdStrike Falcon sensor installation on windows servers
+- name: SAP Host Agent Update on windows servers
   hosts: "{{ hname1 }}"
   # become: yes
   # become_method: runas
