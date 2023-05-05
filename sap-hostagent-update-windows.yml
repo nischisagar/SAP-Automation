@@ -57,15 +57,3 @@
         ansible_become_user: "{{ user }}"
         ansible_become_password: "{{ password }}"
         ansible_remote_tmp: 'C:\saphostagent'
-
-- hosts: "{{ hname1 }}"
-  become: yes
-  become_method: runas
-  become_user: system
-  gather_facts: false
-  vars:
-    account_code: "sgi"
-    trans_num: "{{ tower_job_id }}"
-  roles:
-    - role: sap-hostagent-update-windows
-      ignore_errors: yes      
