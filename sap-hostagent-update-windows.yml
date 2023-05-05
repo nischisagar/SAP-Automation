@@ -8,6 +8,7 @@
     delegate_to: localhost
     vars:
       account_code: "sgi"
+      acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
 - name: SAP Host Agent Update on windows servers
