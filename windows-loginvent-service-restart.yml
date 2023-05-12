@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: windows_report_server
+  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
   gather_facts: yes
   roles:
   - role: ansible-role-event-socks-tunnel
