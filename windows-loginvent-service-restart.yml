@@ -11,7 +11,7 @@
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- name: SAP Host Agent Update on windows servers
+- name: Restart Loginventory services call
   hosts: "{{ hname1 }}"
   # become: yes
   # become_method: runas
@@ -27,7 +27,7 @@
       win_shell: |
         # Set variables for the service name, list of computers, and email recipients
         $serviceName = "LOGINfoSvc9"
-        $computerList = Get-Content "D:\Script\Wintel Scripts\Uptime\Loginfoservers.txt"
+        $computerList = Get-Content "D:\logcheck\wintelserver.txt"
         #$recipients = "K.Thiyagarajan@kyndryl.com"
         $date=(get-date).ToString('dd-MM-yyyy')
 
@@ -59,7 +59,6 @@
                 }
             }
         }
-        # Export the results to a CSV file
-        $results | Export-Csv "D:\Script\Wintel Scripts\Uptime\Reports\Loginventoryagent_ServiceRestart_$date.csv" -NoTypeInformation
-      register: loginvent_out
 
+        # Export the results to a CSV file
+        $results | Export-Csv "D:\logcheck\Reports\Loginventoryagent_ServiceRestart_$date.csv" -NoTypeInformation
