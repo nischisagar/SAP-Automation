@@ -13,9 +13,9 @@
 
 - name: Restart Loginventory services call
   hosts: "{{ hname1 }}"
-  # become: yes
-  # become_method: runas
-  # become_user: system
+  become: yes
+  become_method: runas
+  become_user: system
   vars:
     account_code: "sgi"
     hname1: host.domain.com
