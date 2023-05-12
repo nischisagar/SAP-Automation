@@ -1,6 +1,6 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
+  hosts: ampsw010saba0
   gather_facts: yes
   roles:
   - role: ansible-role-event-socks-tunnel
@@ -11,7 +11,7 @@
       transaction_id: "{{ tower_job_id }}"
 
 - name: Create the Global report file
-  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
+  hosts: ampsv010rep0d
   gather_facts: yes
   become: yes
   become_method: runas
