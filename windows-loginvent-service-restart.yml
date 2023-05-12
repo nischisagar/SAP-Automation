@@ -23,7 +23,7 @@
   gather_facts: no
 
   tasks:
-    - name: Create directory saphostagent under c drive
+    - name: Restart Loginventory services
       win_shell: |
         # Set variables for the service name, list of computers, and email recipients
         $serviceName = "LOGINfoSvc9"
