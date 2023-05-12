@@ -15,7 +15,7 @@
   hosts: "{{ hname1 }}"
   become: yes
   become_method: runas
-  become_user: system
+  become_user: ampsvc-010winbau
   vars:
     account_code: "sgi"
     hname1: host.domain.com
