@@ -11,7 +11,7 @@
       transaction_id: "{{ tower_job_id }}"
 
 - name: Create the Global report file
-  hosts: ampsv010rep0d
+  hosts: ampsv010rep0d.ux1.ibmfr.bluecare.ibm.com
   gather_facts: yes
   become: yes
   become_method: runas
