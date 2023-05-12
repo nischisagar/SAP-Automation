@@ -1,21 +1,65 @@
 --- 
 - name: Ensure Socks tunnel setup
-  hosts: ampsw010saba0
-  gather_facts: yes
+  hosts: windows_report_server
+  gather_facts: no
   roles:
   - role: ansible-role-event-socks-tunnel
     run_once: true
     delegate_to: localhost
     vars:
+      account_code: "sgi"
       acc_id: "sgi"
       transaction_id: "{{ tower_job_id }}"
 
-- name: Create the Global report file
-  hosts: ampsv010rep0d
-  gather_facts: yes
-  become: yes
-  become_method: runas
-  become_user: system
-  roles:
-  - role: win-loginvent-service-restart      
+- name: SAP Host Agent Update on windows servers
+  hosts: "{{ hname1 }}"
+  # become: yes
+  # become_method: runas
+  # become_user: system
+  vars:
+    account_code: "sgi"
+    hname1: host.domain.com
+    trans_num: "{{ tower_job_id }}"
+  gather_facts: no
+
+  tasks:
+    - name: Create directory saphostagent under c drive
+      win_shell: |
+        # Set variables for the service name, list of computers, and email recipients
+        $serviceName = "LOGINfoSvc9"
+        $computerList = Get-Content "D:\Script\Wintel Scripts\Uptime\Loginfoservers.txt"
+        #$recipients = "K.Thiyagarajan@kyndryl.com"
+        $date=(get-date).ToString('dd-MM-yyyy')
+
+        # Create an empty array to hold the results of the service restarts
+        $results = @()
+
+        # Loop through each computer in the list and restart the service
+        foreach ($computer in $computerList) {
+            # Attempt to restart the service
+            try {
+                $service = Get-Service -ComputerName $computer -Name $serviceName -ErrorAction Stop
+                $service.Stop()
+                Start-Sleep -Seconds 5
+                $service.Start()
+
+                # Add a success message to the results array
+                $results += [PSCustomObject]@{
+                    ComputerName = $computer
+                    Status = "Success"
+                    Message = "The $serviceName service was restarted successfully."
+                }
+            }
+            # If the service restart fails, add an error message to the results array
+            catch {
+                $results += [PSCustomObject]@{
+                    ComputerName = $computer
+                    Status = "Error"
+                    Message = "Failed to restart the $serviceName service. $($Error[0].Exception.Message)"
+                }
+            }
+        }
+        # Export the results to a CSV file
+        $results | Export-Csv "D:\Script\Wintel Scripts\Uptime\Reports\Loginventoryagent_ServiceRestart_$date.csv" -NoTypeInformation
+      register: loginvent_out
 

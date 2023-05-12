@@ -1,0 +1,21 @@
+--- 
+- name: Ensure Socks tunnel setup
+  hosts: ampsw010saba0
+  gather_facts: yes
+  roles:
+  - role: ansible-role-event-socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Create the Global report file
+  hosts: ampsv010rep0d
+  gather_facts: yes
+  become: yes
+  become_method: runas
+  become_user: system
+  roles:
+  - role: win-loginvent-service-restart      
+
