@@ -25,40 +25,40 @@
   tasks:
     - name: Restart Loginventory services
       win_shell: |
-        # Set variables for the service name, list of computers, and email recipients
-        $serviceName = "LOGINfoSvc9"
-        $computerList = Get-Content "D:\logcheck\wintelserver.txt"
-        #$recipients = "K.Thiyagarajan@kyndryl.com"
+        # List of servers to check
+        $servers = Get-Content "D:\Script\Wintel Scripts\Uptime\servers.txt"
         $date=(get-date).ToString('dd-MM-yyyy')
 
-        # Create an empty array to hold the results of the service restarts
+        # Output CSV file path
+        $outputFile = "D:\Script\Wintel Scripts\Uptime\Reports\Windows_servers_Ipaddress_$date.csv"
+
+        # Initialize an array to store the results
         $results = @()
 
-        # Loop through each computer in the list and restart the service
-        foreach ($computer in $computerList) {
-            # Attempt to restart the service
-            try {
-                $service = Get-Service -ComputerName $computer -Name $serviceName -ErrorAction Stop
-                $service.Stop()
-                Start-Sleep -Seconds 5
-                $service.Start()
+        # Loop through each server
+        foreach ($server in $servers) {
+            # Retrieve network interface information
+            $networkInterfaces = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -ComputerName $server -Filter "IPEnabled = 'True'"
 
-                # Add a success message to the results array
-                $results += [PSCustomObject]@{
-                    ComputerName = $computer
-                    Status = "Success"
-                    Message = "The $serviceName service was restarted successfully."
+            # Loop through each network interface
+            foreach ($interface in $networkInterfaces) {
+                # Create an object to store the results
+                $result = [PSCustomObject] @{
+                    Server   = $server
+                    Interface = $interface.Description
+                    IPAddress = $interface.IPAddress -join ", "
+                    SubnetMask = $interface.IPSubnet -join ", "
+                    Gateway   = $interface.DefaultIPGateway -join ", "
+                    DNS       = $interface.DNSServerSearchOrder -join ", "
                 }
-            }
-            # If the service restart fails, add an error message to the results array
-            catch {
-                $results += [PSCustomObject]@{
-                    ComputerName = $computer
-                    Status = "Error"
-                    Message = "Failed to restart the $serviceName service. $($Error[0].Exception.Message)"
-                }
+
+                # Add the result to the array
+                $results += $result
             }
         }
 
         # Export the results to a CSV file
-        $results | Export-Csv "D:\logcheck\Reports\Loginventoryagent_ServiceRestart_$date.csv" -NoTypeInformation
+        $results | Export-Csv -Path $outputFile -NoTypeInformation
+
+        # Display a confirmation message
+        Write-Host "Output saved to: $outputFile"
