@@ -1,0 +1,8 @@
+---
+- name: Build HANA using Ansible 
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  roles:
+  - role: sap-hana2.0_rev66-deployment
