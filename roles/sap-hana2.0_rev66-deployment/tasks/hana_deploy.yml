@@ -17,6 +17,12 @@
   set_fact:
     hana_source_path: "{{ sapcar_path }}/SAP_HANA_DATABASE"
 
+- name: Giving executable permission
+  shell:  |
+    chmod 777 /tempfs/GF_LINUX_HANA/SAP_HANA_DATABASE
+    chmod 777 /tempfs/GF_LINUX_HANA/SAP_HANA_CLIENT
+  register: chgmode
+
 - name: create temporary directory to store the processed template
   tempfile:
     state: directory
