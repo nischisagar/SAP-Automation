@@ -42,9 +42,9 @@
         body: Hello Team, Please find the attached sap host agent version details for AIX Servers
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan.Anbarasan@kyndryl.com,vandhiyadevan.n@kyndryl.com
-        cc: 
         - Kalaikannan.Anbarasan@kyndryl.com
+        cc: 
+        - Kalaikannan.Anbarasan@kyndryl.com,vandhiyadevan.n@kyndryl.com
         attach:
         - "{{ report_file }}"
         headers:
