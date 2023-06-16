@@ -1,4 +1,4 @@
-- name: Check the status of BCT on Oracle DB servers
+- name: Check the status of BCT on Oracle DB servers_test
   hosts: xmpsl010pda20ap
   become: yes
   become_method: sudo
