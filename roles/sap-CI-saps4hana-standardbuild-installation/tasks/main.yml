@@ -1,27 +1,13 @@
 ---
-- name: "Rename existing input file in target location"
-  shell: |
-    cnt=`ls -lrt /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params|wc -l`
-    if [ $cnt -eq 1 ]
-    then 
-    mv /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params /010_SHARED_INFRA/SAP_Installaion/iniparamfiles/inifile_sap_NW750HDB.params_`date +%d%m%M`
-    else
-    echo "No mentioned input file found"
-    fi
-  register: renameinputfile
-
-- debug:
-    msg: "{{ renameinputfile }}"
-
 - name: "Process Input param file"
   template:
     src: "{{ role_path }}/templates/{{ item }}"
-    dest: "/010_SHARED_INFRA/SAP_Installaion/iniparamfiles/"
+    dest: "{{ paramfile_path }}/"
     owner: root
     group: sapinst
     mode: '0777'
   with_items:
-  - inifile_sap_NW750HDB.params
+  - inifile_s4hana.params
   register: inputfile
 
 - debug:
@@ -39,11 +25,34 @@
 - debug:
     msg: "{{ pathcreate }}"
 
-- name: "Execute installation step"
-  shell: |
-    cd {{ install_path }};
-    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_s4hana.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:S4HANA2022.FNDN.HDB.ABAP SAPINST_SKIP_DIALOGS=true
-  register: install_out
+#- name: "Execute installation step"
+#  shell: |
+#    cd {{ install_path }};
+#    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_s4hana.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:S4HANA2022.FNDN.HDB.ABAP SAPINST_SKIP_DIALOGS=true
+#  register: install_out
 
-- debug:
-    msg: "{{ install_out }}"
+#- debug:
+#    msg: "{{ install_out }}"
+
+- name: Install SAP S4HANA
+  shell: |
+    ./sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_s4hana.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:S4HANA2022.FNDN.HDB.ABAP SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false
+  args:
+    chdir: "{{ swpm_sapinst_path }}"
+  async: 7200
+  poll: 0
+  register: installs4hana
+
+- name: Wait for SAP S4HANA installation to complete
+  async_status:
+    jid: "{{ installs4hana.ansible_job_id }}"
+  register: check_install
+  until: check_install.finished
+  retries: 600
+  delay: 10
+  changed_when:
+    - "'SAPinst build information' in (check_install.stdout | default(''))"
+    - "'An empty directory is required for a new SAP system installation' not in (check_install.stdout | default(''))"
+  failed_when:
+    - (check_install.rc | default(0)) > 0
+    - "'An empty directory is required for a new SAP system installation' not in (check_install.stdout | default(''))"
