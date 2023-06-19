@@ -42,7 +42,7 @@
 - name: "Execute installation step"
   shell: |
     cd {{ install_path }};
-    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_sap_NW750HDB.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:NW750.HDB.ABAP SAPINST_SKIP_DIALOGS=true    
+    cd {{ install_path }};{{ swpm_sapinst_path }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ paramfile_path }}/inifile_s4hana.params SAPINST_EXECUTE_PRODUCT_ID=NW_ABAP_OneHost:S4HANA2022.FNDN.HDB.ABAP SAPINST_SKIP_DIALOGS=true
   register: install_out
 
 - debug:
