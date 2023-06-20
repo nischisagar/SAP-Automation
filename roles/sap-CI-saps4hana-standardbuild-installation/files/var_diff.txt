@@ -1,0 +1,136 @@
+21c21
+< HDB_Schema_Check_Dialogs.schemaName = {{ var_HDBschemaName }}
+---
+> HDB_Schema_Check_Dialogs.schemaName = SAPHANADB
+24c24
+< HDB_Schema_Check_Dialogs.schemaPassword = {{ var_HDBschemaPassword }}
+---
+> HDB_Schema_Check_Dialogs.schemaPassword = S4hanapoc2@2023 
+84c84
+< NW_ABAP_SPAM_Update.SPAMUpdateArchive = {{ var_SPAMUpdateArchive }}
+---
+> NW_ABAP_SPAM_Update.SPAMUpdateArchive = /tempfs/Soft/S4HANA_2022/KD75784.SAR
+101c101
+< NW_ABAP_TMSConfig.transportPassword = {{ var_TMStransportPassword }} 
+---
+> NW_ABAP_TMSConfig.transportPassword = S4hanapoc2@2023 
+110c110
+< NW_CI_Instance.ascsInstanceNumber = {{ var_CI_ascsInstanceNumber }}
+---
+> NW_CI_Instance.ascsInstanceNumber = 05
+113c113
+< NW_CI_Instance.ascsVirtualHostname = {{ var_ascsVirtualHostname }}
+---
+> NW_CI_Instance.ascsVirtualHostname = A81SL010SS4H0
+116c116
+< NW_CI_Instance.ciInstanceNumber = {{ var_ciInstanceNumber }}
+---
+> NW_CI_Instance.ciInstanceNumber = 00
+125c125
+< NW_CI_Instance.ciVirtualHostname = {{ var_ciVirtualHostname }}
+---
+> NW_CI_Instance.ciVirtualHostname = A81SL010SS4H0
+146c146
+< NW_CI_Instance.scsVirtualHostname = {{ var_scsVirtualHostname }}
+---
+> NW_CI_Instance.scsVirtualHostname = A81SL010SS4H0
+182c182
+< NW_DDIC_Password.needDDICPasswords = {{ var_needDDICPasswords }}
+---
+> NW_DDIC_Password.needDDICPasswords = false
+188c188
+< NW_GetMasterPassword.masterPwd = {{ var_masterPwd }} 
+---
+> NW_GetMasterPassword.masterPwd = S4hanapoc2@2023 
+200c200
+< NW_GetSidNoProfiles.sid = {{ var_GetSidNoProfiles_sid }}
+---
+> NW_GetSidNoProfiles.sid = SW4
+209c209
+< NW_HDB_DB.abapSchemaName = {{ var_HDB_abapSchemaName }}
+---
+> NW_HDB_DB.abapSchemaName = SAPHANADB
+212c212
+< NW_HDB_DB.abapSchemaPassword = {{ var_HDB_abapSchemaPassword }} 
+---
+> NW_HDB_DB.abapSchemaPassword = S4hanapoc2@2023 
+215c215
+< NW_HDB_DB.dbacockpitPassword = {{ var_dbacockpitPassword }}
+---
+> NW_HDB_DB.dbacockpitPassword = S4hanapoc2@2023 
+248c248
+< NW_HDB_getDBInfo.dbhost = {{ var_HDB_getdbhostname }}
+---
+> NW_HDB_getDBInfo.dbhost = A81SL010SHAN0
+251c251
+< NW_HDB_getDBInfo.dbsid = {{ var_HDB_getdbsid }}
+---
+> NW_HDB_getDBInfo.dbsid = SW4
+254c254
+< NW_HDB_getDBInfo.instanceNumber = {{ var_HDB_getinstanceNumber }}
+---
+> NW_HDB_getDBInfo.instanceNumber = 20
+257c257
+< NW_HDB_getDBInfo.systemDbPassword = {{ var_HDB_getDBsystemPassword }} 
+---
+> NW_HDB_getDBInfo.systemDbPassword = S4hanapoc2@2023 
+260c260
+< NW_HDB_getDBInfo.systemPassword = {{ var_HDB_admindbsystempassword }}
+---
+> NW_HDB_getDBInfo.systemPassword = S4hanapoc2@2023 
+266c266
+< NW_HDB_getDBInfo.systemid = {{ var_HDB_getDBsystemid }}
+---
+> NW_HDB_getDBInfo.systemid = SW4
+281c281
+< NW_IcmAuth.webadmPassword = {{ var_ICM_webadmPassword }}
+---
+> NW_IcmAuth.webadmPassword = S4hanapoc2@2023 
+302c302
+< NW_Recovery_Install_HDB.extractLocation = {{ var_HDB_extractLocation }}
+---
+> NW_Recovery_Install_HDB.extractLocation = /usr/sap/SW4/HDB20/backup/data/DB_SW4
+311c311
+< NW_Recovery_Install_HDB.sidAdmName = {{ var_HDB_DBsiduser }}
+---
+> NW_Recovery_Install_HDB.sidAdmName = sw4adm
+314c314
+< NW_Recovery_Install_HDB.sidAdmPassword = {{ var_HDB_DBsiduser_password }} 
+---
+> NW_Recovery_Install_HDB.sidAdmPassword = S4hanapoc2@2023 
+317c317
+< NW_SAPCrypto.SAPCryptoFile = {{ var_SAPCrypto_sapexepath }}
+---
+> NW_SAPCrypto.SAPCryptoFile = /tempfs/Soft/S4HANA_2022/SAPEXE_74-70006642.SAR
+344c344
+< NW_Unpack.igsExeSar = {{ var_igsExeSarpath }}
+---
+> NW_Unpack.igsExeSar = /tempfs/Soft/S4HANA_2022/igsexe_2-70005417.sar
+347c347
+< NW_Unpack.igsHelperSar = {{ var_igsHelperSarpath }}
+---
+> NW_Unpack.igsHelperSar = /tempfs/Soft/S4HANA_2022/igshelper_17-10010245.sar
+350c350
+< NW_Unpack.sapExeDbSar = {{ var_sapExeDbSarpath }}
+---
+> NW_Unpack.sapExeDbSar = /tempfs/Soft/S4HANA_2022/SAPEXEDB_74-70006641.SAR
+353c353
+< NW_Unpack.sapExeSar = {{ var_sapExeSarpath }}
+---
+> NW_Unpack.sapExeSar = /tempfs/Soft/S4HANA_2022/SAPEXE_74-70006642.SAR
+374c374
+< NW_getFQDN.FQDN = {{ var_NW_getFQDN }}
+---
+> NW_getFQDN.FQDN = pcz.ec.saint-gobain.net
+393c393
+< archives.downloadBasket = {{ var_archives_downloadBasket }}
+---
+> archives.downloadBasket = /tempfs/Soft/S4HANA_2022 
+402c402
+< hostAgent.sapAdmPassword = {{ var_hostagent_sapadm_password }}
+---
+> hostAgent.sapAdmPassword = S4hanapoc2test@2023 
+422c422
+< nwUsers.sidadmPassword = {{ var_sap_sidadmPassword }}
+---
+> nwUsers.sidadmPassword = S4hanapoc2test@2023 
