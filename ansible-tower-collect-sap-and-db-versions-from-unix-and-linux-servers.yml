@@ -594,9 +594,9 @@
         body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
         from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Monthly SAP JAVA and DB version Report <ANS_DB_.edh6g777bvz7zb9w@u.box.com>
+        - Kalaikannan.Anbarasan@kyndryl.com
         cc: 
-        - Kalaikannan.Anbarasan@kyndryl.com       
+        - ionut.silion@kyndryl.com     
         attach:
         - "/ansible/reports/sap-db-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:

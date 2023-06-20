@@ -309,4 +309,4 @@
         dest: "{{ report_file_with_date }}"
         remote_src: yes
     - name: Send report to IBM Box folder
-      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
+      win_shell: "Send-MailMessage -From 'ampsw010saba0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)' -To 'Kalaikannan.Anbarasan@kyndryl.com' -Cc 'ionut.silion@kyndryl.com' -Subject 'Ansible Report - SAP,Oracle and Ms-SQL versions' -Body 'Hello Team, Please find the attached SAP, JAVA and Ms-SQL versions report from Ms-SQL servers.' -Attachments {{ report_file_with_date }} -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.mail.saint-gobain.net'"
