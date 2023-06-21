@@ -31,7 +31,25 @@
     b=$a"adm"
     su - $b -c '/tmp/oradb_version.sh'
     done
+
+    rm /tmp/ora_all_version.log
+    for l in `ls  /tmp/ora_version_*`
+    do 
+      a=`echo cat $l`
+      $a >> /tmp/ora_all_version.log
+    done   
+    cat /tmp/ora_all_version.log 
   register: oraversion_result
 
+- name: Demo set_facts final output
+  set_fact:
+    oraversion_result: "{{ oraversion_result['stdout'] }}"
+    
 - debug:
-    msg:  "{{ oraversion_result }}"
+    msg: "{{ oraversion_result }}"
+
+- name: "Delegate output to bld0d server"
+  lineinfile:
+    path: "/oracle/DAE/ora_version_collect.csv"
+    line: "{{ oraversion_result }}"
+  delegate_to: xmpsa010secc0
