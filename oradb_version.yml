@@ -1,0 +1,8 @@
+---
+- name: Add the title content in to report file
+  hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  roles:
+  - role: etc_resolvconf_aix_linux
