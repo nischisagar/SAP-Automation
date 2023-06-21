@@ -38,7 +38,11 @@
       a=`echo cat $l`
       $a >> /tmp/ora_all_version.log
     done   
-    cat /tmp/ora_all_version.log 
+  register: oraversion_result1
+
+- name: To Find the database version
+  shell:  |
+    cat /tmp/ora_all_version.log
   register: oraversion_result
 
 - name: Demo set_facts final output
