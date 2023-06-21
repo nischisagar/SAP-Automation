@@ -1,0 +1,37 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Copy the oradb_version.sh file
+  copy:
+    src: "{{ item.src }}" 
+    dest: "/tmp/"
+    mode: "0775"
+    group: "dba"
+  with_items:
+    - { src: 'files/oradb_version.sh' }
+  register: filecopystatus
+
+- name: To Find the database version
+  shell:  |
+    for i in `cat /etc/oratab |grep "^[^#;]" |cut -d: -f1`
+    do
+    a=`echo $i |tr '[:upper:]' '[:lower:]'`
+    b=$a"adm"
+    su - $b -c '/tmp/oradb_version.sh'
+    done
+  register: oraversion_result
+
+- debug:
+    msg:  "{{ oraversion_result }}"
