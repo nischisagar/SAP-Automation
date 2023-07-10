@@ -47,7 +47,7 @@
     msg: "{{ register_name }}"
 
 - name: Move if csr_openssl already exist
-  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_firstrenew
+  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_firstrenew_`date +%d+%M%Y`
   when: register_name.stat.exists
 
 - name: mkdir csr_openssl
