@@ -24,6 +24,7 @@
         commandB () { schedo -L |grep -e NAME -e vpm_throughput_mode |sed 1d ; }
         x="$(commandA)   $(commandB)" 
         echo "$x" > /tmp/newinfo.txt
+        echo ""
         cat /tmp/newinfo.txt
       register: hdiskstatus
 
