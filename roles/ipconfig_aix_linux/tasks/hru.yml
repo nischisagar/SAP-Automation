@@ -20,6 +20,6 @@
  
 - name: "Delegate output to bld0d server"
   lineinfile:
-    path: "/data/ifconfout.txt"
+    path: "/data/ifconfout_1807.txt"
     line: "{{ outputfinal }}"
   delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
