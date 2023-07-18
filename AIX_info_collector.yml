@@ -1,0 +1,64 @@
+---
+- name: Add the title content in to Hard Disk Version Report
+  hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Add the title content in Report File
+      copy:
+        content: 'Hostname  NAME   CUR    DEF    BOOT   MIN    MAX    UNIT           TYPE'
+        dest: "/oracle/DAE/aix_info.csv"
+      run_once: yes
+
+- name: AIX Harddisk info collection
+  hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+    - name: AIX Harddisk info collection execution
+      shell: |
+        #!/bin/ksh
+        rm -f /tmp/newhinfo.txt
+		    commandA () { hostname; }
+        commandB () { schedo -L |grep -e NAME -e vpm_throughput_mode |sed 1d ; }
+        x="$(commandA)   $(commandB)" 
+        echo "$x" > /tmp/newinfo.txt
+        cat /tmp/newinfo.txt
+      register: hdiskstatus
+
+    - name: Demo set_facts final output
+      set_fact:
+        hdiskstatus: "{{ hdiskstatus['stdout'] }}"
+      
+    - debug:
+        msg: "{{ hdiskstatus }}"
+    
+    - name: "Delegate output to bld0d server"
+      lineinfile:
+        path: "/oracle/DAE/aix_info.csv"
+        line: "{{ hdiskstatus }}"
+      delegate_to: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+
+- name: Send e-mail
+  hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Send e-mail to a bunch of users, attaching files
+      mail:
+        host: smtp.mail.saint-gobain.net
+        port: 25
+        subject: Ansible Report - AIX Harddisk info collection
+        body: Hello Team, Please find the attached AIX Harddisk info collection
+        from: xmpsa010secc0.dtc2.cf.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        to:
+        - Kalaikannan.Anbarasan@kyndryl.com
+        cc: 
+        - satish.abraham@kyndryl.com       
+        attach:
+        - "/oracle/DAE/aix_info.csv"
+        headers:
+        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
+        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
+        charset: us-ascii
