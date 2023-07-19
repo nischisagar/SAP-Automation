@@ -1,9 +1,39 @@
 ---
-- name: SAP Connection test
-  hosts: "{{ hname1 }}"
+- name: Add the title content in to SAP Version Details Report
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
-  gather_facts: false
   tasks:
-  - name : Test Run
-    shell: "df -m > /tmp/mntcheck.txt"
+    - name: Add the title content in to SAP,JAVA,ABAP,DB2 and Oracle DB Version Details Report File
+      copy:
+        content: 'Entity Name,Host Name,SID,OS Name,OS Version,Application Type,SAP/Java Version,SAP Kernel Base,SAP Kernel Patch Version,DB Name,DB Version,DB Size (in GB)'
+        dest: "{{ report_file }}"
+      run_once: yes
+
+- name: Get the SAP version from the SAP-OracleDB-ABAP and Application Servers (Single SID)
+  hosts: ampsv03340pjt.ux1.ibmfr.bluecare.ibm.com
+  become: yes
+  become_method: sudo
+  vars: 
+    ansible_python_interpreter: "/usr/bin/python"
+    app_type: "ABAP"
+  roles:
+  - role: get-the-sap-version-oradb-abap-with-appserver_withsdmhost
+  tasks:
+    - name: Add the server details in to the SAP, DB2, Oracle, HANA and MAX DB Report File.
+      lineinfile:
+        dest: "{{ report_file }}"
+        line: '{{ entity_name }},{{ ansible_nodename.split(".")[0] | lower }},{{ item.get_sid }},{{ ansible_distribution }},{{ ansible_distribution_version }},{{ app_type }},{{ item.get_sap }},{{ item.get_kmv }},{{ item.get_kpn }},{{ item.get_dbn }},{{ item.get_dbv }},{{ item.get_dbs }},{{ item.get_hmv }},{{ item.get_hpv }},{{ item.get_smv }}'
+      throttle: 1
+      loop:
+        - get_sid: "{{ get_sid_output.results[0].stdout }}"
+          get_sap: "{{ get_sap_version_output.results[0].stdout }}"
+          get_kmv: "{{ get_kernel_make_variant_output.results[0].stdout }}"
+          get_kpn: "{{ get_patch_number_output.results[0].stdout }}"
+          get_dbn: "{{ get_db_name_output.results[0].stdout }}"
+          get_dbv: "{{ get_db_version_output.results[0].stdout }}"
+          get_dbs: "{{ get_db_size_output.results[0].stdout }}"
+          get_hmv: "{{ get_make_value.results[0].stdout }}"
+          get_hpv: "{{ get_patch_level.results[0].stdout }}"
+          get_smv: "{{ get_smd_version.results[0].stdout }}" 
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com

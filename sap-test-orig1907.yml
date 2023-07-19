@@ -1,0 +1,9 @@
+---
+- name: SAP Connection test
+  hosts: "{{ hname1 }}"
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  tasks:
+  - name : Test Run
+    shell: "df -m > /tmp/mntcheck.txt"
