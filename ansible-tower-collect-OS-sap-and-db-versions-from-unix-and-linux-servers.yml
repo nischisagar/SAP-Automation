@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to SAP Version Details Report
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.p1.saint-gobain.net
   become: yes
   become_method: sudo
   tasks:
@@ -30,7 +30,7 @@
         - "{{ get_dbn_output.stdout_lines }}"
         - "{{ get_dbv_output.stdout_lines }}"
         - "{{ get_dbs_output.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the version from the standalone HANA Servers
   hosts: nonsap_standalone_hanadb
@@ -52,7 +52,7 @@
           get_dbn: "{{ get_dbn_output.results[0].stdout }}"
           get_dbv: "{{ get_dbv_output.results[0].stdout }}"
           get_dbs: "{{ get_dbs_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get Agile S4HANA multi tenant db
   hosts: s4hana_multitenantdb
@@ -91,7 +91,7 @@
           get_dbn: "{{ get_db_name_output.results[2].stdout }}"
           get_dbv: "{{ get_db_version_output.results[2].stdout }}"
           get_dbs: "{{ get_db_size_output.results[2].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get MAXDB Java servers version detail
   hosts: sap_maxdb_java_ads_solman_dec2022
@@ -116,7 +116,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get MAXDB SCM servers version detail
   hosts: sap_maxdb_SCM_servers_single_sid_new
@@ -137,7 +137,7 @@
         - get_sid: "{{ get_sid_output.results[0].stdout }}"
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get MAXDB Content servers version detail 2 Sid
   hosts: sap_maxdb_content_server_sid2
@@ -161,7 +161,7 @@
         - get_sid: "{{ get_sid_output.results[1].stdout }}"
           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
           get_dbv: "{{ get_db_version_output.results[1].stdout }}"        
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Single SID)
   hosts: sap_oradb_abap_host_name_single_sid1_2311
@@ -186,7 +186,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Two SIDs)
   hosts: sap_oradb_abap_host_name_two_sid2_2311
@@ -218,7 +218,7 @@
           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
           get_dbv: "{{ get_db_version_output.results[1].stdout }}"
           get_dbs: "{{ get_db_size_output.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Three SIDs)
   hosts: sap_oradb_abap_host_name_three_sid3
@@ -257,7 +257,7 @@
           get_dbn: "{{ get_db_name_output.results[2].stdout }}"
           get_dbv: "{{ get_db_version_output.results[2].stdout }}"
           get_dbs: "{{ get_db_size_output.results[2].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP Servers (Five SIDs)
   hosts: sap_oradb_abap_host_name_five_sid
@@ -310,7 +310,7 @@
         #   get_dbn: "{{ get_db_name_output.results[4].stdout }}"
         #   get_dbv: "{{ get_db_version_output.results[4].stdout }}"
         #   get_dbs: "{{ get_db_size_output.results[4].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Single SID)
   hosts: sap_oradb_java_host_name_single_sid_2311
@@ -335,7 +335,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-JAVA Servers (Two SIDs)
   hosts: sap_oradb_java_host_name_two_sid2_2311
@@ -367,7 +367,7 @@
           get_dbn: "{{ get_db_name_output.results[1].stdout }}"
           get_dbv: "{{ get_db_version_output.results[1].stdout }}"
           get_dbs: "{{ get_db_size_output.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the version from the standalone Oracle DB Servers
   hosts: standalone_oracle_db1 
@@ -390,7 +390,7 @@
         - "{{ get_dbn_output.stdout_lines }}"
         - "{{ get_dbv_output.stdout_lines }}"
         - "{{ get_dbs_output.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-OracleDB-ABAP and Application Servers (Single SID)
   hosts: sap_oradb_abap_with_app_one_sid1
@@ -415,7 +415,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the Application Servers (Single SID)
   hosts: sap_abap_with_app_one_sid1 
@@ -440,7 +440,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the JAVA version from the SAP-OracleDB-JAVA and Application Servers (Single SID)
   hosts: sap_oradb_java_with_app_one_sid1 
@@ -465,7 +465,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the JAVA version from the Application Servers (Single SID)
   hosts: sap_java_with_app_one_sid1 
@@ -490,7 +490,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-HANA-ABAP Servers (Single SID)
   hosts: sap_hanadb_abap_host_name_single_sid1_0308
@@ -515,7 +515,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-HANA-ABAP2 Servers (Single SID)
   hosts: sap_hanadb_abap2_host_name_single_sid
@@ -540,7 +540,7 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Get the SAP version from the SAP-MAXDB-ABAP Servers (Single SID)
   hosts: sap_maxdb_abap_host_name_single_sid1_dec2022
@@ -565,10 +565,10 @@
           get_dbn: "{{ get_db_name_output.results[0].stdout }}"
           get_dbv: "{{ get_db_version_output.results[0].stdout }}"
           get_dbs: "{{ get_db_size_output.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.p1.saint-gobain.net
 
 - name: Extract DB2HANA Application Servers Details
-  hosts: ampsv010bld0d 
+  hosts: ampsv010bld0d.p1.saint-gobain.net 
   become: yes
   become_method: sudo
   vars:
@@ -577,7 +577,7 @@
     - role: get-sap-db2hana-app-version
 
 - name: Send e-mail
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.p1.saint-gobain.net
   become: yes
   become_method: sudo
   tasks:
