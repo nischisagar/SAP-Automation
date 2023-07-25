@@ -1,6 +1,6 @@
 ---
 - name: Create the Global report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: no
@@ -58,10 +58,10 @@
           get_crypt: "{{ get_color.results[5].stdout }}"
           get_expdt: "{{ get_expdate.results[5].stdout }}"
           get_ctype: "{{ get_cert_type.results[5].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Shell Examples
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   tasks:
     - name: Check Date with Shell command
       shell:
@@ -72,7 +72,7 @@
     - debug: msg="{{dummymv.stdout}}"
 
 - name: Create the windows csr report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -83,7 +83,7 @@
         state: touch
 
 - name: Collect CSR Certificates Expiry report
-  hosts: xmpsa010secc0
+  hosts: xmpsa010secc0.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -279,10 +279,10 @@
           get_crypt: "{{ get_color.results[29].stdout }}"
           get_expdt: "{{ get_expdate.results[29].stdout }}"
           get_ctype: "{{ get_cert_type.results[29].stdout }}"             
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Shell Examples
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   tasks:
     - name: Remove dummy entries
       shell:
@@ -293,7 +293,7 @@
     - debug: msg="{{dummymv1.stdout}}"
 
 - name: Send e-mail
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: yes
