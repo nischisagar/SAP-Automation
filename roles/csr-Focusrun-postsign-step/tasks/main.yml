@@ -25,7 +25,7 @@
   - Saint_Gobain_Server_CA.cer
   - SG-RootCA-G2.cer
   - SG-ServersCA-G2.cer
-  - "{{ hname }}.p1.saint-gobain.net.cer"
+  - "{{ hname }}.saint-gobain.com.cer"
 
 - name: Create PKCS12 file
   shell: |
