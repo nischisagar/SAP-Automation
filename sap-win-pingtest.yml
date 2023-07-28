@@ -1,0 +1,39 @@
+---
+- name: Role ensures that the socks tunnel is setup
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    acc_id: "{{ blueid_shortcode }}"
+    transaction_id: "{{ tower_job_id }}"
+  roles:
+    - role: ansible-role-event-socks-tunnel
+
+- hosts: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com
+  tasks:
+    - name: Get a list of servers from a text file
+      raw: cat K:\servers.txt
+      register: servers 
+
+    - name: Create a new CSV file to store the ping results
+      file:
+        path: K:\ping_results.csv
+        state: touch 
+
+    - name: Add headers to the CSV file
+      lineinfile:
+        path: K:\ping_results.csv
+        line: "Server,Status" 
+
+    - name: Ping all servers
+      ping:
+        hosts: "{{ servers.stdout_lines }}"
+      register: ping_results 
+
+    - name: Save ping results to CSV file
+      copy:
+        content: |
+          {{ ping_results['stdout'] | to_csv }}
+          {{ ping_results['status'] | to_csv }}
+        dest: "ping_results.csv"
+
