@@ -15,16 +15,6 @@
       raw: cat K:\servers.txt
       register: servers 
 
-    - name: Create a new CSV file to store the ping results
-      file:
-        path: K:\ping_results.csv
-        state: touch 
-
-    - name: Add headers to the CSV file
-      lineinfile:
-        path: K:\ping_results.csv
-        line: "Server,Status" 
-
     - name: Ping all servers
       ping:
         hosts: "{{ servers.stdout_lines }}"
@@ -35,5 +25,5 @@
         content: |
           {{ ping_results['stdout'] | to_csv }}
           {{ ping_results['status'] | to_csv }}
-        dest: "ping_results.csv"
+        dest: "K:\ping_results.csv"
 
