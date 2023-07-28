@@ -1,12 +1,4 @@
 ---
-- name: Focus RUN CSR Certificate Post sign step and host restart
-  hosts: "{{ hostname_csr }}"
-  become: yes
-  become_method: sudo
-  gather_facts: yes
-  roles:
-  - role: csr-Focusrun-postsign-step
-  
 - name: Transfer signed certificate to usr path
   hosts: "{{ hostname_csr }}"
   become: yes
