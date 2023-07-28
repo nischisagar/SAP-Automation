@@ -25,5 +25,5 @@
         content: |
           {{ ping_results['stdout'] | to_csv }}
           {{ ping_results['status'] | to_csv }}
-        dest: "K:\ping_results.csv"
+        dest: K:\ping_results.csv
 
