@@ -16,12 +16,12 @@
       register: servers 
 
     - name: Ping all servers
-      ping:
+      win_ping:
         hosts: "{{ servers.stdout_lines }}"
       register: ping_results 
 
     - name: Save ping results to CSV file
-      copy:
+      win_copy:
         content: |
           {{ ping_results['stdout'] | to_csv }}
           {{ ping_results['status'] | to_csv }}
