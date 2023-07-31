@@ -50,9 +50,9 @@
       win_package:
         path: C:\Temp\Qualys\QualysCloudAgent_5.1.0.18.exe
         arguments:
-        - CustomerId="'{'{{916bf283-cd05-411a-83f8-4c97f7f364fa}}'}'"
-        - ActivationId="'{'{{8f6e7ea4-09ce-4fec-ac2f-2f4f2bdf5755}}'}'"
-        - WebServiceUri="{{https://qagpublic.qg1.apps.qualys.eu/CloudAgent/}}"
+        - CustomerId="916bf283-cd05-411a-83f8-4c97f7f364fa"
+        - ActivationId="8f6e7ea4-09ce-4fec-ac2f-2f4f2bdf5755"
+        - WebServiceUri="https://qagpublic.qg1.apps.qualys.eu/CloudAgent/"
         - /install
         - /passive
         - /norestart
