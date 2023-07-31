@@ -25,7 +25,7 @@
 - name: "Copy signed certificate to /usr/sap/csr_cert/"
   shell:  |
     hn=`hostname`
-    cp -rpf /usr/sap/hostctrl/exe/csr_openssl/"$hn".saint-gobain.com.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
+    cp -rpf /usr/sap/hostctrl/exe/csr_openssl/"$hn".dtc2.cf.saint-gobain.net.cer /usr/sap/csr_cert/"$hn"_fruncsr.cer
   register: copycert
   when: register_name2.stat.exists
 
