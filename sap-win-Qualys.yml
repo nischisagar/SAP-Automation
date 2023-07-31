@@ -47,17 +47,7 @@
         ansible_remote_tmp: 'c:\temp'
 
     - name: Install Qualys agent
-      win_package:
-        path: C:\Temp\Qualys\QualysCloudAgent_5.1.0.18.exe
-        arguments:
-        - CustomerId="916bf283-cd05-411a-83f8-4c97f7f364fa"
-        - ActivationId="8f6e7ea4-09ce-4fec-ac2f-2f4f2bdf5755"
-        - WebServiceUri="https://qagpublic.qg1.apps.qualys.eu/CloudAgent/"
-        - /install
-        - /passive
-        - /norestart
-        - /S
-        state: present
+      win_shell: Invoke-Command -ScriptBlock {& cmd /c C:\\_Temp\\Qualys\\QualysCloudAgent_4.6.1.6.exe CustomerId="'{916bf283-cd05-411a-83f8-4c97f7f364fa}'" ActivationId="'{8f6e7ea4-09ce-4fec-ac2f-2f4f2bdf5755}'" WebServiceUri="https://qagpublic.qg1.apps.qualys.eu/CloudAgent/"}
       become: True
       become_method: runas
       become_flags: logon_type=new_credentials logon_flags=netcredentials_only
