@@ -1,0 +1,67 @@
+---
+- name: Ensure Socks tunnel setup
+  hosts: "{{ list_hosts }}"
+  gather_facts: no
+  roles:
+  - role: socks-tunnel
+    run_once: true
+    delegate_to: localhost
+    vars:
+      acc_id: "sgi"
+      transaction_id: "{{ tower_job_id }}"
+
+- name: Qualys agent installation on windows servers
+  hosts: "{{ list_hosts }}"
+  # become: yes
+  # become_method: runas
+  # become_user: system
+  vars:
+    list_hosts: host.domain.com
+  gather_facts: no
+
+  tasks:
+
+    - name: Load user and password variables
+      set_fact:
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        separator: '\'
+      no_log: yes
+
+    - name: Create a folder to download the Qualys agent on C:\temp
+      win_file:
+        path: C:\Temp\Qualys
+        state: directory
+
+    - name: Copy Qualys agen installation setup from Repository server
+      win_copy:
+        src: '\\ampsv010rep0d\d$\Qualys_setup\QualysCloudAgent_5.1.0.18.exe'
+        dest: 'C:\Temp\Qualys\'
+        remote_src: yes
+      become: True
+      become_method: runas
+      become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ password }}"
+        ansible_remote_tmp: 'c:\temp'
+
+    - name: Install Qualys agent
+      win_package:
+        path: C:\Temp\Qualys\QualysCloudAgent_5.1.0.18.exe
+        arguments:
+        - CustomerId="'{'{{916bf283-cd05-411a-83f8-4c97f7f364fa}}'}'"
+        - ActivationId="'{'{{8f6e7ea4-09ce-4fec-ac2f-2f4f2bdf5755}}'}'"
+        - WebServiceUri="{{https://qagpublic.qg1.apps.qualys.eu/CloudAgent/}}"
+        - /install
+        - /passive
+        - /norestart
+        - /S
+        state: present
+      become: True
+      become_method: runas
+      become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+      vars:
+        ansible_become_user: "{{ user }}"
+        ansible_become_password: "{{ password }}"
+        ansible_remote_tmp: 'c:\temp'
