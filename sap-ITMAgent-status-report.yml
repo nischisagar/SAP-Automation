@@ -1,6 +1,6 @@
 ---
 - name: Create the ITM Report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: yes
@@ -47,10 +47,10 @@
           get_ssid1: "{{ get_valid.results[4].stdout }}"
           get_crypt: "{{ get_color.results[4].stdout }}"
           get_expdt: "{{ get_expdate.results[4].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Shell Examples
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -64,7 +64,7 @@
     - debug: msg="{{dummymv.stdout}}"
 
 - name: Create the HANA ITM report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -91,7 +91,7 @@
       with_together:
         - "{{ get_SID.stdout_lines }}"
         - "{{ get_uflag.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Get multitenant hana db sap and unix agent status (Two SIDs)
   hosts: sap_hanadb_abap2_host_name_single_sid
@@ -113,10 +113,10 @@
           get_sap: "{{ get_uflag.results[0].stdout }}"
         - get_sid: "{{ get_SID.results[1].stdout }}"
           get_sap: "{{ get_uflag.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Create the HANA CI ITM report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -143,7 +143,7 @@
       with_together:
         - "{{ get_su_status.stdout_lines }}"
         - "{{ get_ux_status.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Get multitenant hana db sap and unix agent status (Two SIDs)
   hosts: "{{ sap_server45 }}"
@@ -165,10 +165,10 @@
           get_sap: "{{ get_uflag.results[0].stdout }}"
         - get_sid: "{{ get_SID.results[1].stdout }}"
           get_sap: "{{ get_uflag.results[1].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Create the Maxdb report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -197,10 +197,10 @@
         - "{{ get_uflag.stdout_lines }}"
         - "{{ get_sa.stdout_lines }}"
         - "{{ get_ux.stdout_lines }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Join all outputs
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -214,7 +214,7 @@
     - debug: msg="{{joinout.stdout}}"
 
 - name: Send e-mail
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
