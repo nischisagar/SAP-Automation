@@ -50,7 +50,7 @@
 
     - name: Copy HostAgent Dump to C:\saphostagent\ Location
       win_copy:
-        src: '\\ampsv010rep0d\Ansible_repo\hostagent_win\'
+        src: '\\ampsw010saba0\Ansible_repo_sap\hostagent_win\'
         dest: 'C:\saphostagent\'
         remote_src: yes
       become: True
