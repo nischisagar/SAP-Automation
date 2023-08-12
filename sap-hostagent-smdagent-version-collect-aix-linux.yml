@@ -1,6 +1,6 @@
 ---
 - name: Add the title content in to report file
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -26,10 +26,10 @@
           get_make: "{{ get_make_value.results[0].stdout }}"
           get_patch: "{{ get_patch_level.results[0].stdout }}"
           get_smdvalue: "{{ get_smd_version.results[0].stdout }}"
-      delegate_to: ampsv010bld0d
+      delegate_to: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
 
 - name: Send e-mail
-  hosts: ampsv010bld0d
+  hosts: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com
   become: yes
   become_method: sudo
   gather_facts: false
@@ -40,7 +40,7 @@
         port: 25
         subject: Ansible Report - HOST AGENT Version1
         body: Hello Team, Please find the attached sap host agent version details for AIX Servers
-        from: ampsv010bld0d.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
+        from: ampsv010bld0d.ux1.ibmfr.bluecare.ibm.com.p1.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
         - Kalaikannan.Anbarasan@kyndryl.com
         cc: 
