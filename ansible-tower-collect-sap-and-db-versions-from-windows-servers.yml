@@ -21,15 +21,15 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
-  hosts: sap_oradb_abap_host_name_win_single_sid_1_june032222
+- name: Get the Oracle DB version from JAVA Windows Servers (Single SID)
+  hosts: sap_oradb_java_host_name_win_single_sid_june032222
   become: yes
   become_method: runas
   become_user: system
   vars:
-    app_type: "ABAP"
+    app_type: "Java"
   roles:
-  - role: get-the-sap-version-oradb-win-abap
+  - role: get-the-sap-version-oradb-win-java
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
