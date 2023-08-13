@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_windows_servers_check_2106
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: runas
   become_user: system

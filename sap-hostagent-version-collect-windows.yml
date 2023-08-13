@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_csr_postsign_29062
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: runas
   become_user: system
