@@ -21,16 +21,15 @@
         dest: "{{ report_file }}"
       run_once: yes
 
-- name: Get the MS-SQL version from ABAP Windows Servers (SID)
-  hosts: sap_mssql_host_name_sid
+- name: Get the Oracle DB version from ABAP Windows Servers (Single SID)
+  hosts: sap_oradb_abap_host_name_win_single_sid_1_june032222
   become: yes
   become_method: runas
   become_user: system
   vars:
     app_type: "ABAP"
   roles:
-  - role: get-the-sap-version-mssql-win-abap-sid
-    delegate_to: 	ampsw010saba0.ux1.ibmfr.bluecare.ibm.com
+  - role: get-the-sap-version-oradb-win-abap
   tasks:
     - name: Add the details to global report file
       win_lineinfile:
