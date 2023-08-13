@@ -42,6 +42,6 @@
         - get_hname: "{{ thostname.results[0].stdout | trim }}"
           get_hbase: "{{ hostbase.results[0].stdout | trim }}"
           get_patch: "{{ hostpatch.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0 
+      delegate_to: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com 
       
 
