@@ -23,7 +23,7 @@
       run_once: yes
 
 - name: Prepare output file for saphost agent version details
-  hosts: target_csr_postsign_29062
+  hosts: "{{ hname1 }}"
   become: yes
   become_method: runas
   become_user: system
@@ -42,6 +42,6 @@
         - get_hname: "{{ thostname.results[0].stdout | trim }}"
           get_hbase: "{{ hostbase.results[0].stdout | trim }}"
           get_patch: "{{ hostpatch.results[0].stdout | trim }}"
-      delegate_to: ampsw010saba0 
+      delegate_to: ampsw010saba0.ux1.ibmfr.bluecare.ibm.com 
       
 
