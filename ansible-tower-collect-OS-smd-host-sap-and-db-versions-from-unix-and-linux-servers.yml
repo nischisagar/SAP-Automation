@@ -677,12 +677,12 @@
         body: Hello Team, Please find the attached SAP, Java, DB2, Oracle, HANA and Max DB versions report from DB2, Oracle, HANA and MAX DB servers.
         from: ampsv010bld0d.saint-gobain.net@saint-gobain.com (Ansible Tower)
         to:
-        - Kalaikannan.Anbarasan@kyndryl.com
+        - satish.abraham@kyndryl.com
         cc: 
         - ionut.silion@kyndryl.com       
         attach:
         - "/ansible/reports/sap-db-OS-smd-host-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
-        - Reply-To=Kalaikannan.Anbarasan@kyndryl.com
-        - X-Special="Please contact Kalaikannan Anbarasan if any issues are in this report."
+        - Reply-To=satish.abraham@kyndryl.com
+        - X-Special="Please contact TAA if any issues are in this report."
         charset: us-ascii
