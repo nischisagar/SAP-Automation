@@ -679,7 +679,7 @@
         to:
         - satish.abraham@kyndryl.com
         cc: 
-        - ionut.silion@kyndryl.com       
+        - ionut.silion@kyndryl.com      
         attach:
         - "/ansible/reports/sap-db-OS-smd-host-versions-unix-linux-{{ ansible_date_time.date }}.csv"
         headers:
