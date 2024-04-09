@@ -1,0 +1,110 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: "Find FQDN"
+  shell: |
+    #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -dm -f2`
+    #ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1`
+    ip1=`ping -c 1 {{ hname }}|grep from|cut -d: -f1|cut -d'(' -f2|cut -d')' -f1|awk '{print $NF}'`
+    cnt1=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'|wc -l`
+    if [ $cnt1 == 1 ]
+    then
+    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i dtc2|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'`
+    else
+    wfqdn=`nslookup $ip1|grep -i "name ="|grep -i {{ hname }}|tail -1|awk '{print $4}'|sed 's/.$//'`
+    fi
+    echo $wfqdn
+  register: fqdnh
+
+- debug:
+    msg: "{{ fqdnh }}"
+
+- name: Setting facts - fqdnh
+  set_fact:
+    fqdnh: "{{ fqdnh['stdout'] }}"
+
+- debug:
+    msg: "{{ fqdnh }}"
+
+- name: check csr_openssl presense 
+  stat:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+  register: register_name
+
+- debug:
+    msg: "{{ register_name }}"
+
+- name: Move if csr_openssl already exist
+  shell:  mv /usr/sap/hostctrl/exe/csr_openssl /usr/sap/hostctrl/exe/csr_openssl_firstrenew_`date +%d+%M%Y`
+  when: register_name.stat.exists
+
+- name: mkdir csr_openssl
+  file:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+    state: directory
+    owner: root
+    group: sapsys
+    mode: '0755'
+
+- name: check csr_openssl presense 
+  stat:
+    path: "/usr/sap/hostctrl/exe/csr_openssl"
+  register: register_name1
+
+- debug:
+    msg: "{{ register_name1 }}"
+
+- name: "Generate CSR Using openssl"
+  shell: |
+    cd {{ install_path }};
+    cd {{ install_path }};openssl genrsa -des3 -out {{ install_path }}/{{ keyname }} -passout pass:{{ password1 }} 2048
+    cat {{ install_path }}/{{ keyname }}
+  register: csroutput
+  when: register_name1.stat.exists
+
+- debug:
+    msg: "{{ csroutput }}"
+  when: register_name1.stat.exists
+
+- name: "Process Input param file"
+  template:
+    src: "{{ role_path }}/templates/{{ item }}"
+    dest: "{{ install_path }}/"
+    owner: root
+    group: sapsys
+    mode: '0777'
+  with_items:
+  - FRUN_configuration_file.conf
+  register: copyconffile
+  when: register_name1.stat.exists
+
+- debug:
+    msg: "{{ copyconffile }}"
+  when: register_name1.stat.exists
+
+- name: "Create CSR from key file and conf"
+  shell: |
+    cd {{ install_path }};
+    openssl req -new -key {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -config {{ install_path }}/FRUN_configuration_file.conf -out {{ install_path }}/{{ cername }}
+    cat {{ install_path }}/{{ cername }}
+    cp -p {{ install_path }}/{{ cername }} /tmp/{{ cername }}_`date +%d%m%y`
+    #cp -p {{ install_path }}/{{ cername }} {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
+    #echo {{ hname }} >> {{ install_path }}/FRUN_AIX_P1_SAINT_GOBAIN_NET.csr
+  register: csroutput1
+  when: register_name1.stat.exists
+
+- debug:
+    msg: "{{ csroutput1 }}"
+  when: register_name1.stat.exists
