@@ -1,0 +1,10 @@
+---
+hostname1: "{{ hname }}"
+install_path: "/usr/sap/hostctrl/exe/csr_openssl"
+exe_path: "/usr/sap/hostctrl/exe"
+keyname: "FRUN_AIX_private_{{ hostname1 }}.key"
+hostnamewithfqdn: "{{ fqdnh }}"
+password1: "frun_sg"
+password2: "frun_sg"
+cername: "FRUN_{{ hostname1 }}_AIX_P1_SAINT_GOBAIN_NET.csr"
+signfile: "{{ hostname1 }}_net.cer"

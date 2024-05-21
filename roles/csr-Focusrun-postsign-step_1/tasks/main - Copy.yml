@@ -1,0 +1,84 @@
+---
+- name: Getting current host info
+  shell: hostname
+  register: hname
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Setting facts - hname
+  set_fact:
+    hname: "{{ hname['stdout'] }}"
+
+- debug:
+    msg: "{{ hname }}"
+
+- name: Copy script to /usr/sap/hostctrl/exe/csr_openssl
+  copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: /usr/sap/hostctrl/exe/csr_openssl/
+    owner: root
+    group: sapsys
+    mode: '0775'
+  with_items:
+  - Saint_Gobain_Root_CA.cer
+  - Saint_Gobain_Server_CA.cer
+  - SG-RootCA-G2.cer
+  - SG-ServersCA-G2.cer
+  - "{{ hname }}_net.cer"
+
+- name: Create PKCS12 file
+  shell: |
+    cd {{ install_path }};
+    cat {{ install_path }}/SG-ServersCA-G2.cer {{ install_path }}/SG-RootCA-G2.cer > {{ install_path }}/root_inter.cer
+    openssl pkcs12 -export -out {{ install_path }}/certificate.pfx -passout pass:{{ password2 }} -inkey {{ install_path }}/{{ keyname }} -passin pass:{{ password1 }} -in {{ install_path }}/{{ signfile }} -certfile {{ install_path }}/root_inter.cer
+    {{ exe_path }}/sapgenpse import_p12 -r {{ install_path }}/SG-ServersCA-G2.cer -r {{ install_path }}/SG-RootCA-G2.cer -p {{ install_path }}/SAPSSLS.pse -x {{ password2 }} -z {{ password2 }} {{ install_path }}/certificate.pfx
+  register: pkcsout
+
+- debug:
+    msg: "{{ pkcsout }}"
+
+- name: Check SAPSSLS got created or not
+  stat:
+    path: "{{ install_path }}/SAPSSLS.pse"
+  register: file_data
+
+- name: Copy files hostctrl sec path and update SAPSSLS
+  shell: |
+    cp -rpf {{ exe_path }}/sec {{ exe_path }}/sec_`date +%d%m`
+    rm -f {{ exe_path }}/sec/*
+    cp -pf {{ install_path }}/* {{ exe_path }}/sec/
+    chmod 775 {{ exe_path }}/sec/*
+    chown root:sapsys {{ exe_path }}/sec/*
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/Saint_Gobain_Root_CA.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
+    {{ exe_path }}/sapgenpse maintain_pk -a {{ install_path }}/SG-RootCA-G2.cer -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }}
+  register: sapssl_out
+  when: file_data.stat.exists
+
+- debug:
+    msg: "{{ sapssl_out }}"
+
+- name: Final SSL process, updating env on .profile and setting sapadm
+  shell: |
+    cp -pf /home/root/.profile /home/root/.profile_`date +%d%m`
+    echo "export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe" >> /home/root/.profile
+    echo "export SECUDIR=/usr/sap/hostctrl/exe/sec" >> /home/root/.profile
+    export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse seclogin -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -O sapadm
+    export LD_LIBRARY_PATH=/usr/sap/hostctrl/exe;export SECUDIR=/usr/sap/hostctrl/exe/sec;{{ exe_path }}/sapgenpse get_my_name -p {{ exe_path }}/sec/SAPSSLS.pse -x {{ password2 }} -v
+    chmod 775 {{ exe_path }}/sec/*
+    ls -lrt {{ exe_path }}/sec/
+  register: ssllast
+  when: file_data.stat.exists
+
+- debug:
+    msg: "{{ ssllast }}"
+
+- name: Restart sap hostctrl
+  shell: |
+    /usr/sap/hostctrl/exe/saphostexec -stop
+    /usr/sap/hostctrl/exe/saphostexec -restart
+  register: hostctrl_restart
+
+- debug:
+    msg: "{{ hostctrl_restart }}"
+
